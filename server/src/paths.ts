@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { mkdirSync } from 'fs';
+import { currentOs } from './services/os-triple.js';
 
 // Defaults: cwd for dev mode. Overridden by CLI flags in packaged mode.
 let dataDir = process.cwd();
@@ -37,6 +38,13 @@ export const paths = {
   get seedDataDir() { return join(resourcesDir, 'server', 'src', 'seeds', 'data'); },
   get referenceDataDir() { return join(resourcesDir, 'server', 'src', 'data'); },
   get flagsDir() { return join(resourcesDir, 'server', 'src', 'data', 'flags'); },
+
+  get binBsdtar() {
+    const triple = currentOs();
+    const filename =
+      triple === 'windows-x64' ? 'bsdtar-windows-x64.exe' : `bsdtar-${triple}`;
+    return join(resourcesDir, 'bin', filename);
+  },
 
   // ── Tool binaries ──────────────────────────────────────────
   get mgba() { return join(resourcesDir, 'tools', 'mgba-stream', 'mgba-stream'); },
