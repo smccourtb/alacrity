@@ -98,6 +98,9 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GitHub runners don't have FUSE kernel module — make AppImages
+          # extract instead of self-mount.
+          APPIMAGE_EXTRACT_AND_RUN: 1
         with:
           tagName: ${{ github.ref_name }}
           releaseName: 'Alacrity ${{ github.ref_name }}'
