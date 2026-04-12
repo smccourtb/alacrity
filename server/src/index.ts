@@ -20,6 +20,11 @@ setLogJson(LOG_JSON);
 // Initialize paths BEFORE any module that reads them (db.ts, routes, services)
 initPaths({ dataDir: args['data-dir'], resourcesDir: args['resources-dir'] });
 
+// Initialize config service — creates config.json with defaults if missing.
+// Loaded dynamically so it only evaluates after initPaths has set the data dir.
+const { initConfig } = await import('./services/config.js');
+initConfig();
+
 // ── Dynamic imports (must come after initPaths) ─────────────────
 const { default: db } = await import('./db.js');
 const { default: express } = await import('express');
