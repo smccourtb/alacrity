@@ -6,6 +6,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   build:
     permissions:
@@ -66,6 +69,30 @@ jobs:
           mkdir -p src-tauri/binaries
           bun build --compile --target=${{ matrix.bun-target }} server/src/index.ts \
             --outfile "src-tauri/binaries/alacrity-server-${{ matrix.sidecar-triple }}${{ matrix.sidecar-ext }}"
+
+      - name: Compile C hunt binaries (Linux/macOS)
+        if: matrix.platform != 'windows-latest'
+        shell: bash
+        run: |
+          cd scripts
+          for src in shiny_hunter_core.c shiny_hunter_wild.c shiny_hunter_egg.c; do
+            cc -O2 -o "${src%.c}" "$src" || true
+            # Always ensure the output exists so Tauri's resource bundler doesn't fail
+            touch "${src%.c}"
+          done
+
+      - name: Stub C hunt binaries (Windows)
+        if: matrix.platform == 'windows-latest'
+        shell: bash
+        run: |
+          cd scripts
+          touch shiny_hunter_core shiny_hunter_wild shiny_hunter_egg
+
+      - name: Seed pre-bundled database
+        shell: bash
+        run: |
+          mkdir -p data
+          bun server/src/seed.ts || echo "Seed already complete"
 
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0

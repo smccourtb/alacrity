@@ -62,7 +62,7 @@ router.post('/rebuild-snapshots', (_req, res) => {
 // POST /api/collection/scan/all — scan all opted-in checkpoints
 router.post('/scan/all', (_req, res) => {
   try {
-    const checkpoints = db.prepare<[], { id: number }>(`
+    const checkpoints = db.prepare<{ id: number }, []>(`
       SELECT c.id
       FROM checkpoints c
       JOIN playthroughs pt ON pt.id = c.playthrough_id

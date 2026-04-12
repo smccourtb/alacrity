@@ -144,26 +144,26 @@ export function computeFingerprint(gen: number, mon: FingerprintInput): string {
 
 // ── Prepared statements ────────────────────────────────────────────────────────
 
-const stmtFindIdentity = db.prepare<[string], IdentityRecord>(
+const stmtFindIdentity = db.prepare<IdentityRecord, [string]>(
   'SELECT * FROM pokemon_identity WHERE fingerprint = ?'
 );
 
-const stmtInsertIdentity = db.prepare<[string, number, number | null]>(
+const stmtInsertIdentity = db.prepare(
   `INSERT INTO pokemon_identity (fingerprint, gen, first_seen_checkpoint_id)
    VALUES (?, ?, ?)`
 );
 
-const stmtInsertSave = db.prepare<[number, number, number, string | null, number | null, string | null]>(
+const stmtInsertSave = db.prepare(
   `INSERT INTO collection_saves (identity_id, checkpoint_id, species_id, box_slot, level, snapshot_data)
    VALUES (?, ?, ?, ?, ?, ?)`
 );
 
-const stmtInsertBank = db.prepare<[number, number, number, string | null, number | null, string | null]>(
+const stmtInsertBank = db.prepare(
   `INSERT INTO collection_bank (identity_id, bank_file_id, species_id, box_slot, level, snapshot_data)
    VALUES (?, ?, ?, ?, ?, ?)`
 );
 
-const stmtDeleteSightingsByCheckpoint = db.prepare<[number]>(
+const stmtDeleteSightingsByCheckpoint = db.prepare(
   'DELETE FROM collection_saves WHERE checkpoint_id = ?'
 );
 
@@ -217,7 +217,7 @@ interface CheckpointRow {
   game: string;
 }
 
-const stmtLoadCheckpoint = db.prepare<[number], CheckpointRow>(`
+const stmtLoadCheckpoint = db.prepare<CheckpointRow, [number]>(`
   SELECT c.id, c.snapshot, p.game
   FROM checkpoints c
   JOIN playthroughs p ON p.id = c.playthrough_id

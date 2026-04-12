@@ -229,7 +229,7 @@ router.get('/orphans', (req: Request, res: Response) => {
     LEFT JOIN checkpoints c ON c.save_file_id = sf.id
     WHERE c.id IS NULL
   `;
-  const params: unknown[] = [];
+  const params: (string | number)[] = [];
 
   if (game) {
     query += ' AND LOWER(sf.game) = ?';
@@ -261,7 +261,7 @@ router.get('/orphans', (req: Request, res: Response) => {
     LEFT JOIN checkpoints c ON c.save_file_id = sf.id
     WHERE c.id IS NULL AND (sf.file_path LIKE '%/library/%' OR sf.file_path LIKE '%/catches/%')
   `;
-  const countParams: unknown[] = [];
+  const countParams: (string | number)[] = [];
   if (game) {
     countQuery += ' AND LOWER(sf.game) = ?';
     countParams.push(game.toLowerCase());
@@ -375,7 +375,7 @@ router.post('/scan', async (req: Request, res: Response) => {
       AND sf.game IS NOT NULL
       AND (sf.file_path LIKE '%/library/%' OR sf.file_path LIKE '%/catches/%')
   `;
-  const params: unknown[] = [];
+  const params: (string | number)[] = [];
 
   if (save_file_id) {
     // Link a single specific save

@@ -23,7 +23,7 @@ router.get('/balls', (req, res) => {
 
 // GET /api/reference/forms?species_id=1
 router.get('/forms', (req, res) => {
-  const { species_id } = req.query;
+  const species_id = typeof req.query.species_id === 'string' ? req.query.species_id : undefined;
   if (species_id) {
     const forms = db.prepare('SELECT * FROM forms_resolved WHERE species_id = ? ORDER BY form_order').all(species_id);
     res.json(forms);
@@ -35,7 +35,7 @@ router.get('/forms', (req, res) => {
 
 // GET /api/reference/shiny-methods?species_id=1
 router.get('/shiny-methods', (req, res) => {
-  const { species_id } = req.query;
+  const species_id = typeof req.query.species_id === 'string' ? req.query.species_id : undefined;
   if (species_id) {
     const methods = db.prepare('SELECT * FROM shiny_methods WHERE species_id = ?').all(species_id);
     res.json(methods);

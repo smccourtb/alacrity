@@ -34,12 +34,12 @@
       "icons/icon.ico"
     ],
     "externalBin": ["binaries/alacrity-server"],
-    "resources": [
-      { "path": "../data/pokemon.db", "target": "data/pokemon.db" },
-      { "path": "../scripts/lua/", "target": "scripts/lua/" },
-      { "path": "../scripts/shiny_hunter_core", "target": "scripts/shiny_hunter_core" },
-      { "path": "../scripts/shiny_hunter_wild", "target": "scripts/shiny_hunter_wild" },
-      { "path": "../scripts/shiny_hunter_egg", "target": "scripts/shiny_hunter_egg" }
-    ]
+    "resources": {
+      "../data/pokemon.db": "data/pokemon.db",
+      "../scripts/lua": "scripts/lua",
+      "../scripts/shiny_hunter_core": "scripts/shiny_hunter_core",
+      "../scripts/shiny_hunter_wild": "scripts/shiny_hunter_wild",
+      "../scripts/shiny_hunter_egg": "scripts/shiny_hunter_egg"
+    }
   }
 }
