@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { mkdirSync } from 'fs';
+import { mkdirSync, existsSync } from 'fs';
 import { currentOs } from './services/os-triple.js';
 import { getConfig } from './services/config.js';
 
@@ -49,11 +49,21 @@ export const paths = {
   get referenceDataDir() { return join(resourcesDir, 'server', 'src', 'data'); },
   get flagsDir() { return join(resourcesDir, 'server', 'src', 'data', 'flags'); },
 
+  // macOS and Windows both ship libarchive's bsdtar in the base install
+  // (macOS 10.15+ at /usr/bin/tar, Windows 10 build 17063+ at System32\tar.exe).
+  // Trusting the system tool here is consistent with how we already rely on
+  // hdiutil, cp, wine, and which. Linux needs a bundled copy because the
+  // system tar there is GNU tar — it can't extract zip or 7z archives.
   get binBsdtar() {
     const triple = currentOs();
-    const filename =
-      triple === 'windows-x64' ? 'bsdtar-windows-x64.exe' : `bsdtar-${triple}`;
-    return join(resourcesDir, 'bin', filename);
+    if (triple === 'macos-arm64') return '/usr/bin/tar';
+    if (triple === 'windows-x64') return 'C:\\Windows\\System32\\tar.exe';
+    // Linux: packaged bundle puts it at <resourcesDir>/bin/, dev mode has it
+    // at <repoRoot>/src-tauri/resources/bin/ because the file lives there
+    // in source and Tauri copies it in the release bundle.
+    const packaged = join(resourcesDir, 'bin', `bsdtar-${triple}`);
+    if (existsSync(packaged)) return packaged;
+    return join(resourcesDir, 'src-tauri', 'resources', 'bin', `bsdtar-${triple}`);
   },
 
   // ── Tool binaries ──────────────────────────────────────────
