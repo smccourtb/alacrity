@@ -34,20 +34,15 @@ build_from_source() {
   tar -xzf libarchive.tar.gz
   cd "libarchive-${LIBARCHIVE_VERSION}"
 
-  echo "==> Configuring libarchive (bsdtar only, static, no compression deps beyond liblzma)"
+  echo "==> Configuring libarchive (bsdtar only, static, with zlib+lzma+zstd+bz2 compression)"
   ./configure \
     --disable-shared \
     --enable-static \
     --disable-bsdcat \
     --disable-bsdcpio \
     --disable-bsdunzip \
-    --without-zlib \
-    --without-bz2lib \
     --without-libb2 \
     --without-iconv \
-    --without-lz4 \
-    --without-zstd \
-    --without-lzma \
     --without-cng \
     --without-openssl \
     --without-xml2 \
