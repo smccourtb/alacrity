@@ -1,4 +1,6 @@
 import { getServerBase } from '../lib/tauri.js';
+import { dependenciesApi } from './dependencies.js';
+import { configApi } from './config.js';
 
 function getBase() {
   const server = getServerBase();
@@ -668,4 +670,6 @@ export const api = {
     },
   },
   clientInfo: () => request<{ isLocal: boolean }>('/client-info'),
+  dependencies: dependenciesApi,
+  config: configApi,
 };
