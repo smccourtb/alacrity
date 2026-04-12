@@ -75,6 +75,13 @@ app.use(express.json());
 
 runMigrations(db);
 
+// Initialize dependency service — requires DB schema from runMigrations.
+// Eager loadManifest fails fast on missing/malformed manifest JSON.
+const { cleanupTempInstalls, loadManifest, detectMismatches } = await import('./services/dependencies.js');
+cleanupTempInstalls();
+loadManifest();
+detectMismatches();
+
 // Disable FK checks during seeding — species table populated async from PokeAPI
 db.exec('PRAGMA foreign_keys = OFF');
 seedShinyAvailability();
