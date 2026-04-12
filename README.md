@@ -38,6 +38,12 @@ You provide your own:
 
 Alacrity is not affiliated with, endorsed by, or connected to Nintendo, Game Freak, or The Pokémon Company. "Pokémon" and Pokémon character names are trademarks of Nintendo. This project is provided for personal use with legally owned game files.
 
+## Support
+
+Alacrity is free and open source. If you find it useful, you can support development:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/smccourtb)
+
 ## License
 
 GPL-3.0 — see [LICENSE](LICENSE)
