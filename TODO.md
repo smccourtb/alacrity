@@ -74,10 +74,12 @@ Shipped 2026-04-12 on `main` (merge `47872b7`). The auto-install feature works e
 - [ ] **Azahar manifest URLs** — populated for 2125.0.1 but URLs need re-verification at each Azahar release. The `coreAbiLock: false` (Azahar isn't hunt-ABI-locked) means you can bump it independently of the hunt binaries. `freeze-manifest.ts` handles the SHA256 update automatically.
 
 ## Portable / Offline App
-- [ ] **PWA support** — Add `vite-plugin-pwa`, service worker, and manifest.json for installable offline app (home screen icon, standalone window, no browser chrome)
-- [ ] **Pre-seeded database** — Ship pokemon.db with species table already populated so first launch doesn't need PokeAPI. Seed.ts becomes an optional "update species data" command.
-- [ ] **Bun migration** — Replace Node + better-sqlite3 with Bun (built-in SQLite, single binary, cross-platform). Eliminates native addon compilation per platform.
-- [ ] **Cross-platform hunt binaries** — CI pipeline (GitHub Actions) to cross-compile mGBA headless + C++ hunt binaries for x86_64-linux, aarch64-linux, darwin-arm64, darwin-x64, windows-x64.
-- [ ] **Tauri wrapper** — Native app shell using system webview. Launches Express server as sidecar, manages hunt binary lifecycle. Produces single distributable per platform (.AppImage, .dmg, .exe).
+
+### Done
+- [x] **Pre-seeded database** — `data/pokemon.db` bundled via `tauri.conf.json` resources; `src-tauri/src/main.rs` copies it to `<dataDir>/data/pokemon.db` on first launch if missing. Seed.ts still runs in CI to produce the bundled copy.
+- [x] **Bun migration** — `server/src/db.ts` and `server/src/migrate.ts` use `bun:sqlite`. No more `better-sqlite3` native addon.
+- [x] **Tauri wrapper** — `src-tauri/` shell with system webview, Bun sidecar spawn, tray icon, native notifications, portable-mode sentinel detection.
+- [x] **Cross-platform hunt binaries** — Linux CI builds real binaries via `scripts/build-hunters.sh`; macOS matrix leg added (untested); Windows stub deferred (see Dependency Auto-Install followups above).
+
+### Still Needed
 - [ ] **Offline update mechanism** — Version check on launch (skips silently if offline). Species/availability updates ship as .db patch files, applied via SQLite ATTACH DATABASE.
-- [ ] **Single-directory distribution** — Everything in one folder: server dist, client dist, platform binaries, pre-seeded DB, saves. One command (or double-click via Tauri) to run.
