@@ -20,6 +20,7 @@ import {
   GamepadIcon,
   PanelLeftCloseIcon,
   PanelLeftOpenIcon,
+  SettingsIcon,
   SmartphoneIcon,
   SparklesIcon,
 } from 'lucide-react';
@@ -28,6 +29,7 @@ import HuntDashboard from './pages/HuntDashboard';
 import PlayPage from './pages/PlayPage';
 import Guide from './pages/Guide';
 import CollectionDashboard from './pages/CollectionDashboard';
+import Settings from './pages/Settings';
 import SessionMonitor from './components/launcher/SessionMonitor';
 
 /** Pokeball nav icon — red top half, white bottom, black band + center button */
@@ -102,6 +104,17 @@ function AppSidebar() {
       <SidebarFooter className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
+            <NavLink to="/settings" style={{ textDecoration: 'none' }}>
+              <SidebarMenuButton
+                isActive={location.pathname === '/settings'}
+                tooltip="Settings"
+              >
+                <SettingsIcon />
+                <span>Settings</span>
+              </SidebarMenuButton>
+            </NavLink>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
             <SidebarMenuButton onClick={toggleSidebar} tooltip={open ? 'Collapse' : 'Expand'}>
               {open ? <PanelLeftCloseIcon /> : <PanelLeftOpenIcon />}
               <span>Collapse</span>
@@ -132,6 +145,7 @@ export default function App() {
                 <Route path="/saves" element={<Navigate to="/play" replace />} />
                 <Route path="/guide" element={<Guide />} />
                 <Route path="/collection" element={<CollectionDashboard />} />
+                <Route path="/settings" element={<Settings />} />
               </Routes>
             </main>
           </SidebarInset>
