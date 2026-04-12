@@ -13,6 +13,8 @@ import {
   cleanStaleSessions,
 } from '../services/sessionManager.js';
 import { buildSnapshot } from '../services/saveSnapshot.js';
+import { resolveEmulatorPath, EmulatorNotInstalledError } from '../services/dependencies.js';
+import { currentOs } from '../services/os-triple.js';
 const router = Router();
 
 // Clean stale sessions on module load
@@ -72,7 +74,7 @@ router.get('/saves/:id/preview', (req, res) => {
 // --- Emulators ---
 
 router.get('/emulators', (_req, res) => {
-  const emulators = db.prepare('SELECT * FROM emulator_configs').all();
+  const emulators = db.prepare('SELECT * FROM emulator_configs WHERE os = ?').all(currentOs());
   res.json(emulators);
 });
 
@@ -84,7 +86,7 @@ router.put('/emulators/:id', (req, res) => {
     WHERE id = ?
   `).run(name, path, launch_args, supports_link ? 1 : 0, link_listen_args || '', link_connect_args || '', is_default_gen1 ? 1 : 0, is_default_gen2 ? 1 : 0, req.params.id);
 
-  const updated = db.prepare('SELECT * FROM emulator_configs WHERE id = ?').get(req.params.id);
+  const updated = db.prepare('SELECT * FROM emulator_configs WHERE id = ? AND os = ?').get(req.params.id, currentOs());
   res.json(updated);
 });
 
@@ -92,8 +94,9 @@ router.put('/emulators/:id', (req, res) => {
 
 function getDefaultEmulator(gen: number): any {
   const col = gen >= 6 ? 'is_default_3ds' : gen === 2 ? 'is_default_gen2' : 'is_default_gen1';
-  return db.prepare(`SELECT * FROM emulator_configs WHERE ${col} = 1`).get()
-    || db.prepare('SELECT * FROM emulator_configs LIMIT 1').get();
+  const os = currentOs();
+  return db.prepare(`SELECT * FROM emulator_configs WHERE ${col} = 1 AND os = ?`).get(os)
+    || db.prepare('SELECT * FROM emulator_configs WHERE os = ? LIMIT 1').get(os);
 }
 
 router.post('/play', (req, res) => {
@@ -108,7 +111,7 @@ router.post('/play', (req, res) => {
   // Get emulator config
   let emulator: any;
   if (emulatorId) {
-    emulator = db.prepare('SELECT * FROM emulator_configs WHERE id = ?').get(emulatorId);
+    emulator = db.prepare('SELECT * FROM emulator_configs WHERE id = ? AND os = ?').get(emulatorId, currentOs());
   }
   if (!emulator) {
     emulator = getDefaultEmulator(save.generation || 1);
@@ -116,7 +119,18 @@ router.post('/play', (req, res) => {
   if (!emulator) return res.status(500).json({ error: 'No emulator configured' });
 
   try {
-    const session = createSession(save, emulator.path, emulator.launch_args, null, emulator.id);
+    let resolvedPath: string;
+    try {
+      resolvedPath = resolveEmulatorPath(emulator.path);
+    } catch (err) {
+      if (err instanceof EmulatorNotInstalledError) {
+        return res.status(400).json({
+          error: `${emulator.name} is not installed. Install it from Settings → Emulators.`,
+        });
+      }
+      throw err;
+    }
+    const session = createSession(save, resolvedPath, emulator.launch_args, null, emulator.id);
     res.json({
       sessionId: session.id,
       pid: session.pid,
@@ -150,21 +164,32 @@ router.post('/trade', (req, res) => {
   // Get trade emulator (prefer link-capable)
   let emulator: any;
   if (emulatorId) {
-    emulator = db.prepare('SELECT * FROM emulator_configs WHERE id = ?').get(emulatorId);
+    emulator = db.prepare('SELECT * FROM emulator_configs WHERE id = ? AND os = ?').get(emulatorId, currentOs());
   }
   if (!emulator) {
-    emulator = db.prepare('SELECT * FROM emulator_configs WHERE supports_link = 1 LIMIT 1').get();
+    emulator = db.prepare('SELECT * FROM emulator_configs WHERE supports_link = 1 AND os = ? LIMIT 1').get(currentOs());
   }
   if (!emulator) return res.status(500).json({ error: 'No link-capable emulator configured' });
 
   try {
+    let resolvedPath: string;
+    try {
+      resolvedPath = resolveEmulatorPath(emulator.path);
+    } catch (err) {
+      if (err instanceof EmulatorNotInstalledError) {
+        return res.status(400).json({
+          error: `${emulator.name} is not installed. Install it from Settings → Emulators.`,
+        });
+      }
+      throw err;
+    }
     // Launch instance 1 with listen args
     const listenArgs = `${emulator.launch_args} ${emulator.link_listen_args}`.trim();
-    const session1 = createSession(save1, emulator.path, listenArgs, null, emulator.id);
+    const session1 = createSession(save1, resolvedPath, listenArgs, null, emulator.id);
 
     // Launch instance 2 with connect args, linked to session 1
     const connectArgs = `${emulator.launch_args} ${emulator.link_connect_args}`.trim();
-    const session2 = createSession(save2, emulator.path, connectArgs, session1.id, emulator.id);
+    const session2 = createSession(save2, resolvedPath, connectArgs, session1.id, emulator.id);
 
     // Link session 1 back to session 2
     session1.linkedSessionId = session2.id;
