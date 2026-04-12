@@ -7,6 +7,8 @@ import { basename, extname } from 'path';
 import db from '../db.js';
 import { paths } from '../paths.js';
 import { getConfig } from '../services/config.js';
+import { resolveEmulatorPath, EmulatorNotInstalledError } from '../services/dependencies.js';
+import { currentOs } from '../services/os-triple.js';
 import { pushTo3DS } from '../services/ftpSync.js';
 import { RNGHuntOrchestrator, type RNGHuntConfig, type HuntProgress } from "../services/rngHuntOrchestrator.js";
 import { NDSRNGHuntOrchestrator, type NDSRNGHuntConfig, type HuntProgress as NDSHuntProgress } from "../services/ndsRngHuntOrchestrator.js";
@@ -22,10 +24,25 @@ const activeRNGHunts = new Map<number, RNGHuntOrchestrator | NDSRNGHuntOrchestra
 
 const HUNTS_DIR = paths.huntsDir;
 const SCRIPTS_DIR = paths.scriptsDir;
-const MGBA = join(process.env.HOME || '', 'mgba', 'build', 'qt', 'mgba-qt');
 const CORE_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_core');
 const WILD_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_wild');
 const EGG_HUNTER  = join(SCRIPTS_DIR, 'shiny_hunter_egg');
+
+/**
+ * Resolve the mGBA binary from emulator_configs at call time. Hunts can't
+ * start without it — throws EmulatorNotInstalledError if not configured.
+ */
+function getMgbaBinary(): string {
+  const row = db.prepare(
+    'SELECT path FROM emulator_configs WHERE id = ? AND os = ?'
+  ).get('mgba', currentOs()) as { path: string } | undefined;
+
+  if (!row || !row.path) {
+    throw new EmulatorNotInstalledError();
+  }
+
+  return resolveEmulatorPath(row.path);
+}
 
 function getNtfyUrl(): string {
   const c = getConfig();
@@ -521,6 +538,10 @@ function spawnHuntProcesses(huntId: number, hunt: any) {
   const logDir = join(huntDir, 'logs');
   const instances = num_instances;
 
+  // Resolve the mGBA binary once per hunt start. Core-engine hunts don't need
+  // it; qt-engine hunts do. Throws EmulatorNotInstalledError — caller handles.
+  const mgbaBinary = useCore ? null : getMgbaBinary();
+
   // Compute gender DV threshold from species data
   let genderThreshold = -2; // default: no gender check
   if (hunt.target_species_id) {
@@ -558,7 +579,7 @@ function spawnHuntProcesses(huntId: number, hunt: any) {
       });
       registerProcess(child, `Hunt-core[${huntId}:${i}]`);
     } else {
-      const child = spawn(MGBA, [
+      const child = spawn(mgbaBinary!, [
         join(instDir, 'rom.gbc'),
         '--script', lua_script,
         '-C', 'fpsTarget=600000'
@@ -737,7 +758,14 @@ router.post('/', (req, res) => {
   }
 
   const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId) as any;
-  spawnHuntProcesses(huntId, hunt);
+  try {
+    spawnHuntProcesses(huntId, hunt);
+  } catch (err) {
+    if (err instanceof EmulatorNotInstalledError) {
+      return res.status(400).json({ error: 'mGBA is not installed. Install it from Settings → Emulators.' });
+    }
+    throw err;
+  }
   startHuntWatcher(huntId, target_name, hunt);
 
   ntfyPush(
@@ -798,7 +826,15 @@ router.post('/:id/resume', (req, res) => {
 
   db.prepare(`UPDATE hunts SET status = 'running', ended_at = NULL, started_at = datetime('now') WHERE id = ?`).run(hunt.id);
 
-  spawnHuntProcesses(hunt.id, hunt);
+  try {
+    spawnHuntProcesses(hunt.id, hunt);
+  } catch (err) {
+    if (err instanceof EmulatorNotInstalledError) {
+      db.prepare(`UPDATE hunts SET status = 'stopped' WHERE id = ?`).run(hunt.id);
+      return res.status(400).json({ error: 'mGBA is not installed. Install it from Settings → Emulators.' });
+    }
+    throw err;
+  }
   startHuntWatcher(hunt.id, hunt.target_name, hunt);
 
   ntfyPush(
@@ -1171,7 +1207,17 @@ router.post('/:id/open', (req, res) => {
     mgbaArgs.push('-t', ssDst);
   }
 
-  const child = spawn(MGBA, mgbaArgs, {
+  let mgbaBinary: string;
+  try {
+    mgbaBinary = getMgbaBinary();
+  } catch (err) {
+    if (err instanceof EmulatorNotInstalledError) {
+      return res.status(400).json({ error: 'mGBA is not installed. Install it from Settings → Emulators.' });
+    }
+    throw err;
+  }
+
+  const child = spawn(mgbaBinary, mgbaArgs, {
     env: { ...process.env, DISPLAY: process.env.DISPLAY || ':0' },
     stdio: 'ignore',
     detached: true,
