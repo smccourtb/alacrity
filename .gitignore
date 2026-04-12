@@ -16,7 +16,7 @@ saves/
 # Hunt instance data is per-user runtime state
 hunts/
 # Local SQLite database is a build artifact
-data/
+/data/
 server/data/
 server/pokemon.db
 
