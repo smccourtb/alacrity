@@ -49,6 +49,18 @@ Network discovery scans local subnet for FTP (ports 5000/5001/21). Syncs Checkpo
 
 No test framework is set up. TypeScript + ESLint are the only checks.
 
+## Git Workflow
+
+Prefer **feature branches on the main checkout** over `git worktree`. Alacrity's data directories (`saves/`, `roms/`, `hunts/`, `data/pokemon.db`, `config.json`, `node_modules/`) are all gitignored and per-checkout. Worktrees isolate code but split your 9 GB ROM library and active DB across checkouts, which is almost always more pain than parallel isolation is worth. Only reach for a worktree when you actually need two Alacrity dev sessions running simultaneously or genuinely parallel features.
+
+Default workflow:
+```bash
+git checkout -b feature/whatever  # from main
+# work, iterate — saves/ROMs/DB are right there
+git commit -am "..."
+git checkout main && git merge feature/whatever
+```
+
 ## Documentation
 
 - `notes/shiny-hunt-guide.md` — Full reference for the hunt system: how shiny detection works, engine comparison (mGBA vs core), all hunt scripts, how to set up/test/run hunts, post-shiny workflow, writing new Lua scripts, and troubleshooting.
