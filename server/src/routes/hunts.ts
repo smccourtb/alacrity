@@ -1,0 +1,1295 @@
+import { Router } from 'express';
+import { spawn, execSync } from 'child_process';
+import { registerProcess } from '../services/processRegistry.js';
+import { join } from 'path';
+import { readdirSync, readFileSync, watchFile, unwatchFile, existsSync, mkdirSync, symlinkSync, copyFileSync, statSync, rmSync, writeFileSync } from 'fs';
+import { basename, extname } from 'path';
+import { hostname, userInfo } from 'os';
+import db from '../db.js';
+import { paths } from '../paths.js';
+import { pushTo3DS } from '../services/ftpSync.js';
+import { RNGHuntOrchestrator, type RNGHuntConfig, type HuntProgress } from "../services/rngHuntOrchestrator.js";
+import { NDSRNGHuntOrchestrator, type NDSRNGHuntConfig, type HuntProgress as NDSHuntProgress } from "../services/ndsRngHuntOrchestrator.js";
+import { getMemoryMap, getEncounterTypes, type EncounterType } from "../services/rng/memoryMap.js";
+import { extractTSVFromSave } from "../services/rng/tsvCalculator.js";
+import { NATURE_NAMES } from "../services/rng/pokemon.js";
+import type { SearchFilters } from "../services/rng/frameSearcher.js";
+import { parseGen2Save } from '../services/gen2Parser.js';
+import { buildSnapshot } from '../services/saveSnapshot.js';
+
+// Track active RNG hunt orchestrators
+const activeRNGHunts = new Map<number, RNGHuntOrchestrator | NDSRNGHuntOrchestrator>();
+
+const HUNTS_DIR = paths.huntsDir;
+const SCRIPTS_DIR = paths.scriptsDir;
+const MGBA = join(process.env.HOME || '', 'mgba', 'build', 'qt', 'mgba-qt');
+const CORE_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_core');
+const WILD_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_wild');
+const EGG_HUNTER  = join(SCRIPTS_DIR, 'shiny_hunter_egg');
+const NTFY_TOPIC = `shiny-farm-${userInfo().username}-${hostname()}`;
+
+/** Build a human-readable hunt directory name: Game-Target-YYYY-MM-DD[-N] */
+function generateHuntDirName(game: string, target: string): string {
+  const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  const base = `${game}-${target}-${date}`.replace(/\s+/g, '_');
+  let name = base;
+  let counter = 2;
+  while (existsSync(join(HUNTS_DIR, name))) {
+    name = `${base}-${counter}`;
+    counter++;
+  }
+  return name;
+}
+
+/** Resolve the on-disk hunt directory. Uses hunt_dir column if set, falls back to hunt_N for legacy hunts. */
+function getHuntDir(hunt: any): string {
+  return join(HUNTS_DIR, hunt.hunt_dir || `hunt_${hunt.id}`);
+}
+
+// Game configuration metadata for hunt form auto-population
+// Method → hunt mode mapping for shiny_availability methods
+const METHOD_TO_MODE: Record<string, string> = {
+  'Gift': 'gift',
+  'Stationary': 'battle',
+  'Fishing': 'wild',
+  'Game Corner': 'gift',    // closest match — receive Pokemon
+  'In-Game Trade': 'gift',  // closest match — receive Pokemon
+};
+
+const GAME_METADATA: Record<string, { gen: number; romPattern: RegExp }> = {
+  Yellow: { gen: 1, romPattern: /\byellow\b/i },
+  Red:    { gen: 1, romPattern: /\bred\b/i },
+  Blue:   { gen: 1, romPattern: /\bblue\b/i },
+  Gold:   { gen: 2, romPattern: /\bgold\b/i },
+  Silver: { gen: 2, romPattern: /\bsilver\b/i },
+  Crystal:{ gen: 2, romPattern: /\bcrystal\b/i },
+  // Gen 4 — NDS
+  'Pokemon Diamond':    { gen: 4, romPattern: /\bdiamond\b/i },
+  'Pokemon Pearl':      { gen: 4, romPattern: /\bpearl\b/i },
+  'Pokemon Platinum':   { gen: 4, romPattern: /\bplatinum\b/i },
+  'Pokemon HeartGold':  { gen: 4, romPattern: /\bheartgold\b/i },
+  'Pokemon SoulSilver': { gen: 4, romPattern: /\bsoulsilver\b/i },
+  // Gen 5 — NDS
+  'Pokemon Black':      { gen: 5, romPattern: /\bblack\b(?!\s*2)/i },
+  'Pokemon White':      { gen: 5, romPattern: /\bwhite\b(?!\s*2)/i },
+  'Pokemon Black 2':    { gen: 5, romPattern: /\bblack\s*2\b/i },
+  'Pokemon White 2':    { gen: 5, romPattern: /\bwhite\s*2\b/i },
+  'Pokemon X':              { gen: 6, romPattern: /\bpokemon\s*x\b/i },
+  'Pokemon Y':              { gen: 6, romPattern: /\bpokemon\s*y\b/i },
+  'Pokemon Omega Ruby':     { gen: 6, romPattern: /\bomega\s*ruby\b/i },
+  'Pokemon Alpha Sapphire': { gen: 6, romPattern: /\balpha\s*sapphire\b/i },
+  'Pokemon Sun':            { gen: 7, romPattern: /\bpokemon\s*sun\b(?!\s*moon)/i },
+  'Pokemon Moon':           { gen: 7, romPattern: /\bpokemon\s*moon\b/i },
+  'Pokemon Ultra Sun':      { gen: 7, romPattern: /\bultra\s*sun\b/i },
+  'Pokemon Ultra Moon':     { gen: 7, romPattern: /\bultra\s*moon\b/i },
+};
+
+function getTargetsForGame(game: string, gen: number) {
+  if (gen >= 6) {
+    // Gen 6/7: all species up to that gen's national dex limit are available
+    const maxGen = gen === 6 ? 6 : 7;
+    const species = db.prepare('SELECT id, name, gender_rate FROM species WHERE generation <= ? ORDER BY id').all(maxGen) as any[];
+    return species.map(s => ({
+      species_id: s.id,
+      name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
+      method: 'Wild',
+      defaultMode: 'stationary' as string,
+      gender_rate: s.gender_rate,
+    }));
+  }
+
+  if (gen === 2) {
+    // All Gen 1+2 Pokemon are shiny-available in Gen 2 games
+    const species = db.prepare('SELECT id, name, gender_rate FROM species WHERE generation <= 2 ORDER BY id').all() as any[];
+    return species.map(s => ({
+      species_id: s.id,
+      name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
+      method: 'Wild',
+      defaultMode: 'wild' as string,
+      gender_rate: s.gender_rate,
+    }));
+  }
+
+  // Gen 1: pull from shiny_availability table (BlueMoonFalls data)
+  const rows = db.prepare(`
+    SELECT sa.species_id, s.name, s.gender_rate, sa.method
+    FROM shiny_availability sa
+    JOIN species s ON s.id = sa.species_id
+    WHERE sa.game = ?
+    ORDER BY sa.method, s.name
+  `).all(game) as any[];
+
+  // Dedupe by species (a species may appear under multiple methods — pick the most huntable one)
+  const seen = new Map<number, any>();
+  const methodPriority = ['Gift', 'Stationary', 'Fishing', 'Game Corner', 'In-Game Trade'];
+  for (const r of rows) {
+    const existing = seen.get(r.species_id);
+    if (!existing || methodPriority.indexOf(r.method) < methodPriority.indexOf(existing.method)) {
+      seen.set(r.species_id, {
+        species_id: r.species_id,
+        name: r.name.charAt(0).toUpperCase() + r.name.slice(1).replace(/-/g, ' '),
+        method: r.method,
+        defaultMode: METHOD_TO_MODE[r.method] || 'gift',
+        gender_rate: r.gender_rate,
+      });
+    }
+  }
+
+  return Array.from(seen.values());
+}
+
+// Gen 1/2 gender is determined by Attack DV vs a species-specific threshold.
+// If Atk DV <= threshold, the Pokemon is female.
+// gender_rate from PokeAPI: -1=genderless, 0=always male, 1=12.5%F, 2=25%F, 4=50%F, 6=75%F, 7=87.5%F, 8=always female
+function genderDvThreshold(genderRate: number): number {
+  const thresholds: Record<number, number> = {
+    [-1]: -2,  // genderless — no gender check possible
+    0: -1,     // always male — no females possible
+    1: 1,      // 12.5% female: Atk 0-1
+    2: 3,      // 25% female: Atk 0-3
+    4: 7,      // 50% female: Atk 0-7
+    6: 11,     // 75% female: Atk 0-11
+    7: 13,     // 87.5% female: Atk 0-13
+    8: 16,     // always female — no males possible
+  };
+  return thresholds[genderRate] ?? -2;
+}
+
+const notifiedHits = new Set<string>();
+const activeWatchers = new Map<number, string[]>(); // huntId → watched file paths
+
+function killHuntProcesses(huntId: number) {
+  const hunt = db.prepare('SELECT hunt_dir FROM hunts WHERE id = ?').get(huntId) as any;
+  const dirName = hunt?.hunt_dir || `hunt_${huntId}`;
+  try { execSync(`pkill -f "mgba.*${dirName}"`, { stdio: 'ignore' }); } catch {}
+  try { execSync(`pkill -f "shiny_hunter_core.*/${dirName}/"`, { stdio: 'ignore' }); } catch {}
+  try { execSync(`pkill -f "shiny_hunter_wild.*/${dirName}/"`, { stdio: 'ignore' }); } catch {}
+  try { execSync(`pkill -f "shiny_hunter_egg.*/${dirName}/"`, { stdio: 'ignore' }); } catch {}
+}
+
+function cleanupNonHitInstances(hunt: any, hitInstances: Set<string>) {
+  const huntDir = getHuntDir(hunt);
+  if (!existsSync(huntDir)) return;
+  const entries = readdirSync(huntDir).filter(e => e.startsWith('instance_'));
+  for (const entry of entries) {
+    const instNum = entry.replace('instance_', '');
+    if (!hitInstances.has(instNum)) {
+      rmSync(join(huntDir, entry), { recursive: true, force: true });
+    }
+  }
+}
+
+function stopHuntWatcher(huntId: number) {
+  const paths = activeWatchers.get(huntId);
+  if (paths) {
+    for (const p of paths) unwatchFile(p);
+    activeWatchers.delete(huntId);
+  }
+}
+
+function handleHuntHit(huntId: number, targetName: string, hits: { instance: string; attempts: number; details: string }[]) {
+  killHuntProcesses(huntId);
+  stopHuntWatcher(huntId);
+
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId) as any;
+  const prevAttempts = hunt?.previous_attempts || 0;
+
+  // Accumulate elapsed time from this session
+  const sessionSeconds = hunt?.started_at
+    ? Math.floor((Date.now() - new Date(hunt.started_at + 'Z').getTime()) / 1000)
+    : 0;
+  const totalElapsed = (hunt?.elapsed_seconds || 0) + Math.max(0, sessionSeconds);
+
+  db.prepare(`UPDATE hunts SET status = 'hit', hit_details = ?, elapsed_seconds = ?, ended_at = datetime('now') WHERE id = ?`)
+    .run(JSON.stringify(hits), totalElapsed, huntId);
+
+  for (const hit of hits) {
+    const hitKey = `hunt_${huntId}_${hit.instance}`;
+    if (!notifiedHits.has(hitKey)) {
+      notifiedHits.add(hitKey);
+      const totalForNotification = prevAttempts + hit.attempts;
+      ntfyPush(
+        `SHINY HIT: ${targetName}! (${hit.instance})`,
+        `${hit.details}\nInstance ${hit.instance}: ${totalForNotification} total attempts`,
+        'urgent',
+        'sparkles,pokemon',
+      );
+    }
+  }
+
+  const hitInstanceNums = new Set(hits.map(h => h.instance.replace('#', '')));
+  cleanupNonHitInstances(hunt, hitInstanceNums);
+}
+
+function scanLogsForHits(hunt: any): { instances: { file: string; attempts: number; hit: boolean }[]; totalAttempts: number; hits: { instance: string; attempts: number; details: string }[] } {
+  const logDir = join(getHuntDir(hunt), 'logs');
+  if (!existsSync(logDir)) return { instances: [], totalAttempts: 0, hits: [] };
+
+  const logFiles = readdirSync(logDir).filter(f => f.endsWith('.log'));
+  let totalAttempts = 0;
+  const hits: { instance: string; attempts: number; details: string }[] = [];
+  const instances = logFiles.map(f => {
+    const content = readFileSync(join(logDir, f), 'utf-8');
+    const lines = content.split('\n').filter(l => l.includes('Attempt') || l.match(/^[\d:]+ Egg \d+:/));
+    const hitLines = content.split('\n').filter(l => l.includes('!!!'));
+    const instAttempts = lines.length;
+    totalAttempts += instAttempts;
+    for (const h of hitLines) {
+      if (h.trim()) hits.push({ instance: f.replace('.log', '').replace('instance_', '#'), attempts: instAttempts, details: h.trim() });
+    }
+    return { file: f, attempts: instAttempts, hit: hitLines.length > 0 };
+  });
+
+  return { instances, totalAttempts, hits };
+}
+
+function startHuntWatcher(huntId: number, targetName: string, hunt: any) {
+  const logDir = join(getHuntDir(hunt), 'logs');
+  if (!existsSync(logDir)) return;
+
+  stopHuntWatcher(huntId);
+
+  const logFiles = readdirSync(logDir).filter(f => f.endsWith('.log'));
+  const watchedPaths: string[] = [];
+
+  for (const f of logFiles) {
+    const filePath = join(logDir, f);
+    let lastSize = existsSync(filePath) ? readFileSync(filePath, 'utf-8').length : 0;
+
+    watchFile(filePath, { interval: 2000 }, () => {
+      try {
+        const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId) as any;
+        if (!hunt || hunt.status !== 'running') {
+          stopHuntWatcher(huntId);
+          return;
+        }
+
+        const content = readFileSync(filePath, 'utf-8');
+        const newContent = content.slice(lastSize);
+        lastSize = content.length;
+
+        if (newContent.includes('!!!')) {
+          const { hits, totalAttempts } = scanLogsForHits(hunt);
+          db.prepare('UPDATE hunts SET total_attempts = ? WHERE id = ?').run(totalAttempts, huntId);
+          if (hits.length > 0) {
+            handleHuntHit(huntId, targetName, hits);
+          }
+        }
+      } catch {}
+    });
+    watchedPaths.push(filePath);
+  }
+
+  activeWatchers.set(huntId, watchedPaths);
+  console.log(`[hunt ${huntId}] Watching ${watchedPaths.length} log files for shiny hits`);
+}
+
+async function ntfyPush(title: string, message: string, priority = 'default', tags = 'pokemon') {
+  try {
+    await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+      method: 'POST',
+      headers: { Title: title, Priority: priority, Tags: tags },
+      body: message,
+    });
+  } catch {}
+}
+
+// Re-attach watchers for any hunts still marked 'running' (handles server restart)
+const runningHunts = db.prepare(`SELECT * FROM hunts WHERE status = 'running'`).all() as any[];
+for (const hunt of runningHunts) {
+  startHuntWatcher(hunt.id, hunt.target_name, hunt);
+}
+
+const router = Router();
+
+router.get('/', (req, res) => {
+  const includeArchived = req.query.archived === 'true';
+  const hunts = includeArchived
+    ? db.prepare('SELECT * FROM hunts ORDER BY created_at DESC').all()
+    : db.prepare('SELECT * FROM hunts WHERE is_archived = 0 ORDER BY created_at DESC').all();
+  res.json(hunts);
+});
+
+// Scan for available ROMs, saves, and lua scripts
+const HOME = process.env.HOME || '';
+const ROM_DIRS = [
+  join(HOME, 'pokemon', 'roms'),
+  join(HOME, 'pokemon', 'saves'),
+  join(HOME, 'pokemon', 'saves', 'catches'),
+];
+const ROM_EXTS = ['.gbc', '.gb', '.gba', '.3ds', '.cia', '.cxi'];
+const SAV_EXTS = ['.sav'];
+
+function scanFiles(dirs: string[], exts: string[]) {
+  const results: { path: string; name: string; modified: string }[] = [];
+  for (const dir of dirs) {
+    if (!existsSync(dir)) continue;
+    try {
+      for (const file of readdirSync(dir)) {
+        if (exts.includes(extname(file).toLowerCase())) {
+          const fullPath = join(dir, file);
+          const stat = statSync(fullPath);
+          results.push({ path: fullPath, name: file, modified: stat.mtime.toISOString() });
+        }
+      }
+    } catch {}
+  }
+  return results.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function scanLuaScripts() {
+  const luaDir = join(SCRIPTS_DIR, 'lua');
+  if (!existsSync(luaDir)) return [];
+  return readdirSync(luaDir)
+    .filter(f => f.endsWith('.lua') && f.includes('shiny_hunt'))
+    .map(f => {
+      const path = join(luaDir, f);
+      const gen = f.includes('gen1') ? 'Gen 1 (R/B/Y)' : f.includes('gen2') ? 'Gen 2 (G/S/C)' : 'Unknown';
+      return { path, name: f, gen };
+    });
+}
+
+router.get('/browse', (req, res) => {
+  const dir = (req.query.path as string) || HOME;
+  const exts = (req.query.exts as string)?.split(',') || [];
+  if (!existsSync(dir)) return res.status(404).json({ error: 'Directory not found' });
+
+  try {
+    const entries = readdirSync(dir, { withFileTypes: true })
+      .filter(e => !e.name.startsWith('.'))
+      .map(e => ({
+        name: e.name,
+        path: join(dir, e.name),
+        isDir: e.isDirectory(),
+      }))
+      .filter(e => e.isDir || exts.length === 0 || exts.some(ext => e.name.toLowerCase().endsWith(ext)))
+      .sort((a, b) => {
+        if (a.isDir !== b.isDir) return a.isDir ? -1 : 1;
+        return a.name.localeCompare(b.name);
+      });
+    res.json({ path: dir, parent: join(dir, '..'), entries });
+  } catch {
+    res.status(403).json({ error: 'Cannot read directory' });
+  }
+});
+
+router.get('/files', (_req, res) => {
+  res.json({
+    roms: scanFiles(ROM_DIRS, ROM_EXTS),
+    saves: scanFiles(ROM_DIRS, SAV_EXTS),
+    scripts: scanLuaScripts(),
+  });
+});
+
+router.get('/presets', (_req, res) => {
+  res.json([
+    {
+      label: 'Yellow — Pikachu',
+      target_name: 'Pikachu',
+      game: 'Yellow',
+      rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Yellow.gbc'),
+      sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Yellow.sav'),
+      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen1.lua'),
+      hunt_mode: 'gift',
+    },
+    {
+      label: 'Crystal — Lugia',
+      target_name: 'Lugia',
+      game: 'Crystal',
+      rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
+      sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.sav'),
+      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen2.lua'),
+      hunt_mode: 'battle',
+    },
+    {
+      label: 'Crystal — Wild',
+      target_name: 'Ditto',
+      game: 'Crystal',
+      rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
+      sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.sav'),
+      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen2_wild.lua'),
+      hunt_mode: 'wild',
+      walk_dir: 'ns',
+    },
+    {
+      label: 'Crystal — Egg (Shiny Ditto)',
+      target_name: 'Charmander',
+      game: 'Crystal',
+      rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
+      sav_path: join(HOME, 'pokemon', 'saves', 'library', 'Crystal', 'egg-hunt-base.sav'),
+      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen2_egg.lua'),
+      hunt_mode: 'egg',
+    },
+  ]);
+});
+
+router.get('/game-configs', (_req, res) => {
+  const roms = scanFiles(ROM_DIRS, ROM_EXTS);
+  const saves = scanFiles(ROM_DIRS, SAV_EXTS);
+  const scripts = scanLuaScripts();
+
+  const configs = Object.entries(GAME_METADATA).map(([game, meta]) => {
+    const rom = roms.find(r => meta.romPattern.test(r.name)) || null;
+    const romBase = rom?.name.replace(/\.(gbc|gb|gba|3ds|cia|cxi)$/i, '');
+    const gameSaves = romBase
+      ? saves.filter(s => s.name.replace(/\.sav$/i, '') === romBase)
+      : [];
+
+    // Map hunt modes to lua scripts based on gen
+    const gameScripts: Record<string, string> = {};
+    for (const s of scripts) {
+      if (meta.gen === 1 && s.name.includes('gen1')) {
+        gameScripts['gift'] = s.path;
+      } else if (meta.gen === 2 && s.name.includes('gen2')) {
+        if (s.name.includes('egg')) {
+          gameScripts['egg'] = s.path;
+        } else if (s.name.includes('wild')) {
+          gameScripts['wild'] = s.path;
+        } else {
+          gameScripts['gift'] = s.path;
+          gameScripts['battle'] = s.path;
+        }
+      }
+    }
+
+    const targets = getTargetsForGame(game, meta.gen);
+
+    return {
+      game,
+      gen: meta.gen,
+      rom: rom ? { path: rom.path, name: rom.name } : null,
+      saves: gameSaves.map(s => ({ path: s.path, name: s.name })),
+      targets,
+      scripts: gameScripts,
+    };
+  });
+
+  res.json(configs);
+});
+
+// Parse daycare info from a save file for egg hunt setup
+router.post('/daycare-info', (req, res) => {
+  const { sav_path, game } = req.body;
+  if (!sav_path || !game) return res.status(400).json({ error: 'sav_path and game required' });
+
+  try {
+    const meta = GAME_METADATA[game];
+    if (!meta || meta.gen !== 2) return res.json({ active: false });
+
+    const result = parseGen2Save(sav_path, game);
+    const dc = result.daycare;
+    if (!dc || !dc.active) return res.json({ active: false });
+
+    // Enrich with species names
+    const speciesStmt = db.prepare('SELECT name, sprite_url FROM species WHERE id = ?');
+    const enrichMon = (m: any) => {
+      const species = speciesStmt.get(m.species_id) as any;
+      return { ...m, name: species?.name || `#${m.species_id}`, sprite: species?.sprite_url || null };
+    };
+    const offspring = dc.offspringSpeciesId ? speciesStmt.get(dc.offspringSpeciesId) as any : null;
+
+    res.json({
+      ...dc,
+      mon1: dc.mon1 ? enrichMon(dc.mon1) : null,
+      mon2: dc.mon2 ? enrichMon(dc.mon2) : null,
+      offspringName: offspring?.name || null,
+      offspringSprite: offspring?.sprite_url || null,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get("/encounter-types/:game", (req, res) => {
+  try {
+    const types = getEncounterTypes(req.params.game);
+    res.json(types);
+  } catch (error) {
+    res.status(400).json({ error: (error as Error).message });
+  }
+});
+
+function spawnHuntProcesses(huntId: number, hunt: any) {
+  const { rom_path, sav_path, lua_script, num_instances, engine, hunt_mode, walk_dir, target_name } = hunt;
+  const useCore = engine === 'core';
+  const isWild = hunt_mode === 'wild';
+  const huntDir = getHuntDir(hunt);
+  const logDir = join(huntDir, 'logs');
+  const instances = num_instances;
+
+  // Compute gender DV threshold from species data
+  let genderThreshold = -2; // default: no gender check
+  if (hunt.target_species_id) {
+    const species = db.prepare('SELECT gender_rate FROM species WHERE id = ?').get(hunt.target_species_id) as any;
+    if (species) genderThreshold = genderDvThreshold(species.gender_rate);
+  }
+
+  // Condition env vars shared by both core and qt engines
+  const conditionEnv = {
+    TARGET_SHINY: String(hunt.target_shiny ?? 1),
+    TARGET_PERFECT: String(hunt.target_perfect ?? 0),
+    TARGET_GENDER: hunt.target_gender || 'any',
+    GENDER_THRESHOLD: String(genderThreshold),
+    MIN_ATK: String(hunt.min_atk ?? 0),
+    MIN_DEF: String(hunt.min_def ?? 0),
+    MIN_SPD: String(hunt.min_spd ?? 0),
+    MIN_SPC: String(hunt.min_spc ?? 0),
+  };
+
+  for (let i = 1; i <= instances; i++) {
+    const instDir = join(huntDir, `instance_${i}`);
+    const logFile = join(logDir, `instance_${i}.log`);
+
+    if (useCore) {
+      const isEgg = hunt_mode === 'egg';
+      const binary = isEgg ? EGG_HUNTER : isWild ? WILD_HUNTER : CORE_HUNTER;
+      const args = isWild
+        ? [String(i), rom_path, sav_path, logFile, instDir, target_name, walk_dir || 'ns']
+        : [String(i), rom_path, sav_path, logFile, instDir];
+
+      const child = spawn(binary, args, {
+        env: { ...process.env, ...conditionEnv },
+        stdio: 'ignore',
+        detached: true,
+      });
+      registerProcess(child, `Hunt-core[${huntId}:${i}]`);
+    } else {
+      const child = spawn(MGBA, [
+        join(instDir, 'rom.gbc'),
+        '--script', lua_script,
+        '-C', 'fpsTarget=600000'
+      ], {
+        env: {
+          ...process.env,
+          QT_QPA_PLATFORM: 'offscreen',
+          MGBA_LOG_FILE: logFile,
+          INSTANCE_ID: String(i),
+          HUNT_MODE: hunt_mode || 'gift',
+          TARGET_SPECIES: target_name,
+          WALK_DIR: walk_dir || 'ns',
+          ...conditionEnv,
+        },
+        stdio: 'ignore',
+        detached: true,
+      });
+      registerProcess(child, `Hunt-mGBA[${huntId}:${i}]`);
+    }
+  }
+}
+
+router.post('/', (req, res) => {
+  const { target_name, target_species_id, game, rom_path, sav_path, lua_script, num_instances, hunt_mode, engine, walk_dir,
+    target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc,
+    encounter_type, target_nature, target_ability, target_ivs,
+    perfect_iv_count, is_shiny_locked, has_shiny_charm } = req.body;
+
+  if (engine === 'rng') {
+    // Validate encounter type against game
+    try {
+      const memMap = getMemoryMap(game);
+      if (encounter_type && !memMap.encounterTypes.includes(encounter_type)) {
+        return res.status(400).json({
+          error: `Encounter type '${encounter_type}' is not valid for ${game}. Valid: ${memMap.encounterTypes.join(", ")}`,
+        });
+      }
+    } catch (e) {
+      return res.status(400).json({ error: (e as Error).message });
+    }
+
+    const huntDirName = generateHuntDirName(game, target_name);
+
+    const result = db.prepare(`
+      INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path,
+        lua_script, num_instances, engine, hunt_mode, walk_dir,
+        target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc,
+        hunt_dir, status, started_at,
+        encounter_type, target_nature, target_ability, target_ivs,
+        perfect_iv_count, is_shiny_locked, has_shiny_charm)
+      VALUES (?, ?, ?, ?, ?,
+        '', 1, 'rng', ?, '',
+        ?, 0, ?, 0, 0, 0, 0,
+        ?, 'running', datetime('now'),
+        ?, ?, ?, ?,
+        ?, ?, ?)
+    `).run(
+      target_name, target_species_id || null, game, rom_path, sav_path,
+      encounter_type || 'stationary',
+      target_shiny ?? 1, target_gender || 'any',
+      huntDirName,
+      encounter_type || null, target_nature || null, target_ability || null,
+      target_ivs ? JSON.stringify(target_ivs) : null,
+      perfect_iv_count || 0, is_shiny_locked ? 1 : 0, has_shiny_charm ? 1 : 0
+    );
+
+    const huntId = result.lastInsertRowid as number;
+
+    // Build search filters
+    const filters: SearchFilters = {};
+    if (target_shiny) filters.shiny = true;
+    if (target_nature) {
+      const idx = (NATURE_NAMES as readonly string[]).indexOf(target_nature);
+      if (idx >= 0) filters.nature = idx;
+    }
+    if (target_ability === "hidden") filters.ability = 2;
+    else if (target_ability === "normal") filters.ability = 0;
+    if (target_gender === "male") filters.gender = 0;
+    else if (target_gender === "female") filters.gender = 1;
+    if (target_ivs) {
+      const ivs = typeof target_ivs === "string" ? JSON.parse(target_ivs) : target_ivs;
+      filters.minIVs = [ivs.hp ?? 0, ivs.atk ?? 0, ivs.def ?? 0, ivs.spa ?? 0, ivs.spd ?? 0, ivs.spe ?? 0];
+    }
+
+    // Determine generation to pick the right orchestrator
+    const memMap = getMemoryMap(game);
+    const isNDS = memMap.generation === 4 || memMap.generation === 5;
+
+    let orchestrator: RNGHuntOrchestrator | NDSRNGHuntOrchestrator;
+
+    if (isNDS) {
+      // Gen 4/5: extract TID/SID from save for shiny checking
+      const saveBuffer = readFileSync(sav_path);
+      const { tid, sid, tsv } = extractTSVFromSave(saveBuffer, game);
+
+      orchestrator = new NDSRNGHuntOrchestrator({
+        huntId,
+        game,
+        romPath: rom_path,
+        savePath: sav_path,
+        encounterType: encounter_type || "stationary",
+        targetSpeciesId: target_species_id || null,
+        targetName: target_name,
+        filters,
+        perfectIVCount: perfect_iv_count || 0,
+        isShinyLocked: !!is_shiny_locked,
+        hasShinyCharm: !!has_shiny_charm,
+        genderRatio: 127,
+        tid,
+        sid,
+        tsv,
+      });
+    } else {
+      // Gen 6/7: 3DS orchestrator
+      orchestrator = new RNGHuntOrchestrator({
+        huntId,
+        game,
+        romPath: rom_path,
+        savePath: sav_path,
+        encounterType: encounter_type || "stationary",
+        targetSpeciesId: target_species_id || null,
+        targetName: target_name,
+        filters,
+        perfectIVCount: perfect_iv_count || 0,
+        isShinyLocked: !!is_shiny_locked,
+        hasShinyCharm: !!has_shiny_charm,
+        genderRatio: 127,
+      });
+    }
+
+    activeRNGHunts.set(huntId, orchestrator);
+
+    orchestrator.on("progress", (progress: HuntProgress) => {
+      db.prepare("UPDATE hunts SET current_frame = ?, target_frame = ? WHERE id = ?")
+        .run(progress.currentFrame, progress.targetFrame, huntId);
+    });
+
+    orchestrator.on("hit", () => {
+      db.prepare("UPDATE hunts SET status = 'hit', ended_at = datetime('now') WHERE id = ?").run(huntId);
+      activeRNGHunts.delete(huntId);
+    });
+
+    orchestrator.on("error", () => {
+      db.prepare("UPDATE hunts SET status = 'stopped', ended_at = datetime('now') WHERE id = ?").run(huntId);
+      activeRNGHunts.delete(huntId);
+    });
+
+    orchestrator.start();
+
+    const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId);
+    return res.status(201).json(hunt);
+  }
+
+  const useCore = engine === 'core';
+  const instances = num_instances || (useCore ? 16 : 30);
+
+  const huntDirName = generateHuntDirName(game, target_name);
+
+  const result = db.prepare(`
+    INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path, lua_script, num_instances, engine, hunt_mode, walk_dir,
+      target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc, hunt_dir, status, started_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', datetime('now'))
+  `).run(target_name, target_species_id || null, game, rom_path, sav_path, lua_script, instances, engine || 'core', hunt_mode || 'gift', walk_dir || 'ns',
+    target_shiny ?? 1, target_perfect ?? 0, target_gender || 'any', min_atk ?? 0, min_def ?? 0, min_spd ?? 0, min_spc ?? 0, huntDirName);
+
+  const huntId = result.lastInsertRowid as number;
+  const huntDir = join(HUNTS_DIR, huntDirName);
+  const logDir = join(huntDir, 'logs');
+  mkdirSync(logDir, { recursive: true });
+
+  for (let i = 1; i <= instances; i++) {
+    const instDir = join(huntDir, `instance_${i}`);
+    mkdirSync(instDir, { recursive: true });
+    copyFileSync(rom_path, join(instDir, 'rom.gbc'));
+    copyFileSync(sav_path, join(instDir, 'rom.sav'));
+  }
+
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId) as any;
+  spawnHuntProcesses(huntId, hunt);
+  startHuntWatcher(huntId, target_name, hunt);
+
+  ntfyPush(
+    `Hunt started: ${target_name}`,
+    `${game} — ${instances} instances (${hunt_mode || 'gift'} mode)`,
+    'default',
+    'pokeball',
+  );
+
+  res.status(201).json(hunt);
+});
+
+router.post('/:id/stop', async (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+
+  const orchestrator = activeRNGHunts.get(hunt.id);
+  if (orchestrator) {
+    await orchestrator.stop();
+    activeRNGHunts.delete(hunt.id);
+  }
+
+  // Scan logs to preserve attempt count before killing processes
+  const { totalAttempts } = scanLogsForHits(hunt);
+  const cumulativeAttempts = (hunt.previous_attempts || 0) + totalAttempts;
+
+  killHuntProcesses(hunt.id);
+  stopHuntWatcher(hunt.id);
+
+  // Accumulate elapsed time from this session
+  const sessionSeconds = hunt.started_at
+    ? Math.floor((Date.now() - new Date(hunt.started_at + 'Z').getTime()) / 1000)
+    : 0;
+  const totalElapsed = (hunt.elapsed_seconds || 0) + Math.max(0, sessionSeconds);
+
+  db.prepare(`UPDATE hunts SET status = 'stopped', total_attempts = ?, previous_attempts = ?, elapsed_seconds = ?, ended_at = datetime('now') WHERE id = ?`)
+    .run(cumulativeAttempts, cumulativeAttempts, totalElapsed, hunt.id);
+  const updated = db.prepare('SELECT * FROM hunts WHERE id = ?').get(hunt.id);
+  res.json(updated);
+});
+
+router.post('/:id/resume', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+  if (hunt.status !== 'stopped') return res.status(400).json({ error: 'Only stopped hunts can be resumed' });
+
+  const huntDir = getHuntDir(hunt);
+  const logDir = join(huntDir, 'logs');
+  mkdirSync(logDir, { recursive: true });
+
+  // Ensure instance directories exist with ROM/SAV copies
+  for (let i = 1; i <= hunt.num_instances; i++) {
+    const instDir = join(huntDir, `instance_${i}`);
+    mkdirSync(instDir, { recursive: true });
+    if (!existsSync(join(instDir, 'rom.gbc'))) copyFileSync(hunt.rom_path, join(instDir, 'rom.gbc'));
+    if (!existsSync(join(instDir, 'rom.sav'))) copyFileSync(hunt.sav_path, join(instDir, 'rom.sav'));
+  }
+
+  db.prepare(`UPDATE hunts SET status = 'running', ended_at = NULL, started_at = datetime('now') WHERE id = ?`).run(hunt.id);
+
+  spawnHuntProcesses(hunt.id, hunt);
+  startHuntWatcher(hunt.id, hunt.target_name, hunt);
+
+  ntfyPush(
+    `Hunt resumed: ${hunt.target_name}`,
+    `${hunt.game} — ${hunt.num_instances} instances, ${hunt.previous_attempts || 0} previous attempts`,
+    'default',
+    'pokeball',
+  );
+
+  const updated = db.prepare('SELECT * FROM hunts WHERE id = ?').get(hunt.id);
+  res.json(updated);
+});
+
+router.post('/:id/archive', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+  if (hunt.status === 'running') return res.status(400).json({ error: 'Cannot archive a running hunt' });
+
+  db.prepare('UPDATE hunts SET is_archived = 1 WHERE id = ?').run(hunt.id);
+  const updated = db.prepare('SELECT * FROM hunts WHERE id = ?').get(hunt.id);
+  res.json(updated);
+});
+
+router.post('/:id/unarchive', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+
+  db.prepare('UPDATE hunts SET is_archived = 0 WHERE id = ?').run(hunt.id);
+  const updated = db.prepare('SELECT * FROM hunts WHERE id = ?').get(hunt.id);
+  res.json(updated);
+});
+
+router.get('/:id/status', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+
+  const { instances, totalAttempts: logAttempts, hits } = scanLogsForHits(hunt);
+  const totalAttempts = (hunt.previous_attempts || 0) + logAttempts;
+
+  db.prepare('UPDATE hunts SET total_attempts = ? WHERE id = ?').run(totalAttempts, hunt.id);
+
+  // Fallback detection in case the watcher missed it
+  if (hits.length > 0 && hunt.status === 'running') {
+    handleHuntHit(hunt.id, hunt.target_name, hits);
+  }
+
+  // Compute elapsed time: accumulated + current session if running
+  let elapsedSeconds = hunt.elapsed_seconds || 0;
+  if (hunt.status === 'running' && hunt.started_at) {
+    elapsedSeconds += Math.floor((Date.now() - new Date(hunt.started_at + 'Z').getTime()) / 1000);
+  }
+
+  const secondsPerAttempt = totalAttempts > 0 ? elapsedSeconds / totalAttempts : 0;
+  const remainingAttempts = Math.max(0, 8192 - totalAttempts);
+  const estimatedRemainingSeconds = totalAttempts > 0 ? Math.round(secondsPerAttempt * remainingAttempts) : null;
+
+  res.json({ instances, totalAttempts, hits, elapsedSeconds, secondsPerAttempt, estimatedRemainingSeconds });
+});
+
+router.get('/:id/hit-info', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+  if (hunt.status !== 'hit') return res.json({ hits: [] });
+
+  const hits: any[] = hunt.hit_details ? JSON.parse(hunt.hit_details) : [];
+  const huntDir = getHuntDir(hunt);
+
+  const enriched = hits.map(hit => {
+    const instNum = hit.instance.replace('#', '');
+    const instDir = join(huntDir, `instance_${instNum}`);
+    const openDir = join(huntDir, `open_${instNum}`);
+
+    // Find state file + parse DVs
+    let stateFile = '';
+    let dvs: { atk: number; def: number; spd: number; spc: number } | null = null;
+    let isShiny = false;
+    if (existsSync(instDir)) {
+      const files = readdirSync(instDir);
+      stateFile = files.find(f => f.endsWith('.ss1') && f !== 'rom.ss1') || files.find(f => f === 'rom.ss1') || '';
+      isShiny = stateFile.includes('SHINY');
+      const dvMatch = stateFile.match(/A(\d+)_D(\d+)_Sp(\d+)_Sc(\d+)/);
+      if (dvMatch) dvs = { atk: +dvMatch[1], def: +dvMatch[2], spd: +dvMatch[3], spc: +dvMatch[4] };
+    }
+
+    // Workflow state
+    const opened = existsSync(openDir);
+    const openSavPath = join(openDir, 'rom.sav');
+    const instSavPath = join(instDir, 'rom.sav');
+    let saveModified = false;
+    if (opened && existsSync(openSavPath) && existsSync(instSavPath)) {
+      saveModified = statSync(openSavPath).mtimeMs > statSync(instSavPath).mtimeMs;
+    }
+
+    // Check if already saved to catches (new bundled folder structure)
+    const catchesGameDir = paths.catchGameDir(hunt.game || '');
+    const catchPattern = `${hunt.target_name}_hunt${hunt.id}`;
+    let savedToCatches = false;
+    let catchSavePath = '';
+    if (existsSync(catchesGameDir)) {
+      const catchFolder = readdirSync(catchesGameDir).find(f => f.includes(catchPattern));
+      if (catchFolder) {
+        const catchFile = join(catchesGameDir, catchFolder, 'catch.sav');
+        if (existsSync(catchFile)) {
+          savedToCatches = true;
+          catchSavePath = catchFile;
+        }
+      }
+    }
+
+    return {
+      instance: hit.instance,
+      attempts: hit.attempts,
+      details: hit.details,
+      stateFile,
+      isShiny,
+      dvs,
+      paths: {
+        instanceDir: instDir,
+        openDir: opened ? openDir : null,
+        savePath: opened ? openSavPath : instSavPath,
+        catchSavePath: savedToCatches ? catchSavePath : null,
+      },
+      workflow: {
+        opened,
+        saveModified,
+        savedToCatches,
+      },
+    };
+  });
+
+  res.json({
+    huntId: hunt.id,
+    target: hunt.target_name,
+    game: hunt.game,
+    totalAttempts: hunt.total_attempts,
+    hits: enriched,
+  });
+});
+
+router.post('/:id/save-catch', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+
+  const { instance } = req.body;
+  if (!instance) return res.status(400).json({ error: 'instance required' });
+
+  const huntDir = getHuntDir(hunt);
+  const openDir = join(huntDir, `open_${instance}`);
+  const savPath = join(openDir, 'rom.sav');
+  if (!existsSync(savPath)) return res.status(404).json({ error: 'No save file found. Open in mGBA and save in-game first.' });
+
+  // Derive DVs from shiny save state filename
+  const instDir = join(huntDir, `instance_${instance}`);
+  const allStateFiles = existsSync(instDir) ? readdirSync(instDir).filter(f => f.endsWith('.ss1') && f !== 'rom.ss1') : [];
+  const stateFile = allStateFiles[0] || '';
+  const dvMatch = stateFile.match(/A(\d+)_D(\d+)_Sp(\d+)_Sc(\d+)/);
+  const dvStr = dvMatch ? `A${dvMatch[1]}_D${dvMatch[2]}_Sp${dvMatch[3]}_Sc${dvMatch[4]}` : '';
+
+  // Build catch bundle directory
+  const game = hunt.game || 'Unknown';
+  const folderName = [hunt.target_name, `hunt${hunt.id}`, dvStr].filter(Boolean).join('_');
+  const catchGameDir = paths.catchGameDir(game);
+  const catchDir = join(catchGameDir, folderName);
+  mkdirSync(catchDir, { recursive: true });
+
+  // Copy catch save (the one with the shiny caught)
+  const catchDest = join(catchDir, 'catch.sav');
+  copyFileSync(savPath, catchDest);
+
+  // Copy base save (the one the hunt ran from)
+  const baseSavPath = join(instDir, 'rom.sav');
+  if (existsSync(baseSavPath)) {
+    copyFileSync(baseSavPath, join(catchDir, 'base.sav'));
+  }
+
+  // Copy save state
+  const stateFiles = readdirSync(instDir).filter((f: string) => f.endsWith('.ss1'));
+  if (stateFiles.length > 0) {
+    copyFileSync(join(instDir, stateFiles[0]), join(catchDir, 'shiny.ss1'));
+  }
+
+  // Write manifest
+  const manifest = {
+    game: hunt.game,
+    species: hunt.target_name,
+    species_id: hunt.target_species_id,
+    dvs: dvStr,
+    hunt_id: hunt.id,
+    emulator: hunt.engine,
+    caught_at: new Date().toISOString(),
+    files: {
+      base_save: existsSync(baseSavPath) ? 'base.sav' : null,
+      catch_save: 'catch.sav',
+      save_state: stateFiles.length > 0 ? 'shiny.ss1' : null,
+    },
+  };
+  writeFileSync(join(catchDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
+
+  // Also register in save_files table
+  const filename = `${folderName}/catch.sav`;
+  const fileSize = statSync(catchDest).size;
+  const insertResult = db.prepare(`
+    INSERT INTO save_files (filename, file_path, game, file_size, source, notes)
+    VALUES (?, ?, ?, ?, 'catch', ?)
+    ON CONFLICT(file_path) DO UPDATE SET
+      file_size = excluded.file_size,
+      notes = excluded.notes
+  `).run(filename, catchDest, hunt.game, fileSize, `Shiny ${hunt.target_name} catch from hunt #${hunt.id}${dvStr ? ` (DVs: ${dvStr})` : ''}`);
+
+  // Get the save_file id whether we just inserted or updated
+  const saveRow = db.prepare('SELECT id FROM save_files WHERE file_path = ?').get(catchDest) as any;
+  const newSaveFileId = saveRow.id;
+
+  // Create a checkpoint linked to the hunt's source save checkpoint
+  let checkpointId: number | null = null;
+  try {
+    // Check if checkpoint already exists for this save
+    const existingCheckpoint = db.prepare(
+      'SELECT id FROM checkpoints WHERE save_file_id = ?'
+    ).get(newSaveFileId) as { id: number } | undefined;
+
+    if (existingCheckpoint) {
+      checkpointId = existingCheckpoint.id;
+    } else if (hunt.sav_path) {
+      const sourceSave = db.prepare('SELECT id FROM save_files WHERE file_path = ?').get(hunt.sav_path) as { id: number } | undefined;
+      if (sourceSave) {
+        const sourceCheckpoint = db.prepare(
+          'SELECT id, playthrough_id FROM checkpoints WHERE save_file_id = ? ORDER BY created_at DESC LIMIT 1'
+        ).get(sourceSave.id) as { id: number; playthrough_id: number } | undefined;
+        if (sourceCheckpoint) {
+          const label = dvStr
+            ? `Shiny ${hunt.target_name} (${dvStr})`
+            : `Shiny ${hunt.target_name}`;
+          let snapshot: string | null = null;
+          try {
+            snapshot = JSON.stringify(buildSnapshot(catchDest, hunt.game));
+          } catch {
+            // snapshot is optional — don't fail the whole endpoint if parsing fails
+          }
+          const cpResult = db.prepare(`
+            INSERT INTO checkpoints (playthrough_id, save_file_id, parent_checkpoint_id, label, needs_confirmation, snapshot)
+            VALUES (?, ?, ?, ?, 0, ?)
+          `).run(sourceCheckpoint.playthrough_id, newSaveFileId, sourceCheckpoint.id, label, snapshot);
+          checkpointId = Number(cpResult.lastInsertRowid);
+        }
+      }
+    }
+  } catch (err) {
+    // Checkpoint creation is best-effort; log but don't fail the response
+    console.error('[save-catch] checkpoint creation failed:', err);
+  }
+
+  // Mark hunt as archived — the catch is safely saved
+  db.prepare('UPDATE hunts SET is_archived = 1 WHERE id = ?').run(hunt.id);
+
+  res.json({ status: 'success', filename, path: catchDest, catchDir, checkpointId });
+});
+
+router.post('/:id/save-to-library', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+
+  const { instance, name } = req.body;
+  if (!instance) return res.status(400).json({ error: 'instance required' });
+
+  const huntDir = getHuntDir(hunt);
+  const openDir = join(huntDir, `open_${instance}`);
+  const savPath = join(openDir, 'rom.sav');
+  if (!existsSync(savPath)) return res.status(404).json({ error: 'No save file found in open directory' });
+
+  const game = hunt.game || 'Unknown';
+  const destDir = paths.libraryGameDir(game);
+  mkdirSync(destDir, { recursive: true });
+
+  const saveName = name || `egg-hunt-${hunt.target_name.toLowerCase()}`;
+  const destPath = join(destDir, `${saveName}.sav`);
+  copyFileSync(savPath, destPath);
+
+  // Register in save_files
+  db.prepare(`
+    INSERT OR IGNORE INTO save_files (filename, file_path, game, source, label)
+    VALUES (?, ?, ?, 'library', ?)
+  `).run(`${saveName}.sav`, destPath, game, saveName);
+
+  // Get the save_file id whether we just inserted or it already existed
+  const saveRow = db.prepare('SELECT id FROM save_files WHERE file_path = ?').get(destPath) as any;
+  const newSaveId = saveRow?.id;
+
+  // Find playthrough via the hunt's source save and advance its HEAD
+  if (newSaveId) {
+    // Find the checkpoint that was the source of this hunt
+    const sourceCheckpoint = db.prepare(`
+      SELECT c.id, c.playthrough_id FROM checkpoints c
+      JOIN save_files sf ON c.save_file_id = sf.id
+      WHERE sf.file_path = ?
+      ORDER BY c.created_at DESC LIMIT 1
+    `).get(hunt.sav_path) as any;
+
+    if (sourceCheckpoint) {
+      const newCp = db.prepare(`
+        INSERT INTO checkpoints (playthrough_id, save_file_id, parent_checkpoint_id, label)
+        VALUES (?, ?, ?, ?)
+      `).run(sourceCheckpoint.playthrough_id, newSaveId, sourceCheckpoint.id, saveName);
+
+      db.prepare('UPDATE playthroughs SET active_checkpoint_id = ?, updated_at = datetime(?) WHERE id = ?')
+        .run(newCp.lastInsertRowid, new Date().toISOString(), sourceCheckpoint.playthrough_id);
+    }
+  }
+
+  res.json({ status: 'success', path: destPath, name: `${saveName}.sav` });
+});
+
+router.post('/:id/cleanup', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+  if (hunt.status !== 'hit') return res.status(400).json({ error: 'Can only clean up completed hunts' });
+
+  const huntDirPath = hunt.hunt_dir
+    ? paths.huntDir(hunt.hunt_dir)
+    : null;
+
+  if (huntDirPath && existsSync(huntDirPath)) {
+    for (const entry of readdirSync(huntDirPath)) {
+      if (entry.startsWith('instance_') || entry.startsWith('open_')) {
+        rmSync(join(huntDirPath, entry), { recursive: true, force: true });
+      }
+    }
+  }
+
+  db.prepare('UPDATE hunts SET is_archived = 1 WHERE id = ?').run(hunt.id);
+  res.json({ success: true, archived: true });
+});
+
+router.post('/:id/open', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+
+  const { instance } = req.body;
+  if (!instance) return res.status(400).json({ error: 'instance required' });
+
+  const huntDir = getHuntDir(hunt);
+  const instDir = join(huntDir, `instance_${instance}`);
+  if (!existsSync(instDir)) return res.status(404).json({ error: 'Instance not found' });
+
+  // Find the .ss1 state file (SHINY_*, BEST_*, or rom.ss1)
+  const files = readdirSync(instDir);
+  const stateFile = files.find(f => f.endsWith('.ss1') && f !== 'rom.ss1') || files.find(f => f === 'rom.ss1');
+
+  // Must have at least a .sav to open
+  const hasSav = existsSync(join(instDir, 'rom.sav'));
+  if (!stateFile && !hasSav) return res.status(404).json({ error: 'No save state or save file found' });
+
+  // Set up a temp dir with copies so originals stay intact
+  const openDir = join(huntDir, `open_${instance}`);
+  mkdirSync(openDir, { recursive: true });
+
+  // Symlink ROM (never modified), copy save + state (save will be written to)
+  const romSrc = existsSync(join(instDir, 'rom.gbc')) ? join(instDir, 'rom.gbc') : hunt.rom_path;
+  const romDst = join(openDir, 'rom.gbc');
+  const savDst = join(openDir, 'rom.sav');
+
+  if (!existsSync(romDst)) symlinkSync(romSrc, romDst);
+  copyFileSync(join(instDir, 'rom.sav'), savDst);
+
+  // Launch with save state if available, otherwise just ROM+sav
+  const mgbaArgs = [romDst];
+  if (stateFile) {
+    const ssDst = join(openDir, 'rom.ss1');
+    copyFileSync(join(instDir, stateFile), ssDst);
+    mgbaArgs.push('-t', ssDst);
+  }
+
+  const child = spawn(MGBA, mgbaArgs, {
+    env: { ...process.env, DISPLAY: process.env.DISPLAY || ':0' },
+    stdio: 'ignore',
+    detached: true,
+  });
+  registerProcess(child, 'Hunt-open-shiny');
+
+  res.json({ ok: true, state_file: stateFile || null, pid: child.pid });
+});
+
+// Map game names to Checkpoint folder names on 3DS
+const CHECKPOINT_FOLDERS: Record<string, string> = {
+  'Red': '0x01710 Pokémon Red',
+  'Blue': '0x01711 Pokémon Blue',
+  'Yellow': '0x01712 Pokémon Yellow',
+  'Gold': '0x01726 Pokémon Gold',
+  'Silver': '0x01727 Pokémon Silver',
+  'Crystal': '0x01728 Pokémon Crystal',
+};
+
+const THREE_DS_IP = '192.168.40.36';
+const THREE_DS_PORT = 5000;
+
+router.post('/:id/push-3ds', async (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+
+  const { instance } = req.body;
+  if (!instance) return res.status(400).json({ error: 'instance required' });
+
+  const huntDir = getHuntDir(hunt);
+  const openDir = join(huntDir, `open_${instance}`);
+  const savPath = join(openDir, 'rom.sav');
+  if (!existsSync(savPath)) return res.status(404).json({ error: 'No save file found. Open and save in-game first.' });
+
+  // Build backup name: "Yellow - Pikachu - Shiny - A14_D10_Sp10_Sc10"
+  const instDir = join(huntDir, `instance_${instance}`);
+  const stateFiles = existsSync(instDir) ? readdirSync(instDir).filter(f => f.endsWith('.ss1') && f !== 'rom.ss1') : [];
+  const stateFile = stateFiles[0] || '';
+
+  // Parse DVs from state filename (e.g. SHINY_Pikachu_A14_D10_Sp10_Sc10.ss1)
+  const dvMatch = stateFile.match(/A(\d+)_D(\d+)_Sp(\d+)_Sc(\d+)/);
+  const dvStr = dvMatch ? `A${dvMatch[1]}_D${dvMatch[2]}_Sp${dvMatch[3]}_Sc${dvMatch[4]}` : '';
+  const isShiny = stateFile.includes('SHINY');
+  const backupName = [hunt.game, hunt.target_name, isShiny ? 'Shiny' : '', dvStr].filter(Boolean).join(' - ');
+
+  const checkpointFolder = CHECKPOINT_FOLDERS[hunt.game];
+  if (!checkpointFolder) return res.status(400).json({ error: `Unknown game: ${hunt.game}. Known: ${Object.keys(CHECKPOINT_FOLDERS).join(', ')}` });
+
+  const result = await pushTo3DS(THREE_DS_IP, THREE_DS_PORT, savPath, checkpointFolder, backupName);
+  res.json({ ...result, backupName });
+});
+
+router.get('/:id/stream', (req, res) => {
+  const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(req.params.id) as any;
+  if (!hunt) return res.status(404).json({ error: 'Hunt not found' });
+
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
+  });
+
+  const watchers: string[] = [];
+  const logDir = join(getHuntDir(hunt), 'logs');
+
+  // RNG hunts don't use log files — skip straight to orchestrator listener
+  if (hunt.engine === 'rng') {
+    const orchestrator = activeRNGHunts.get(hunt.id);
+    if (orchestrator) {
+      const onProgress = (progress: HuntProgress) => {
+        res.write(`data: ${JSON.stringify({ type: "rng_progress", ...progress })}\n\n`);
+      };
+      orchestrator.on("progress", onProgress);
+      req.on("close", () => {
+        orchestrator.removeListener("progress", onProgress);
+      });
+    }
+    return;
+  }
+
+  if (!existsSync(logDir)) { res.end(); return; }
+
+  const logFiles = readdirSync(logDir).filter(f => f.endsWith('.log'));
+
+  // Send recent logs on connect (last 5 lines per instance)
+  for (const f of logFiles) {
+    const filePath = join(logDir, f);
+    if (!existsSync(filePath)) continue;
+    try {
+      const content = readFileSync(filePath, 'utf-8');
+      const lines = content.trim().split('\n').slice(-5);
+      const inst = f.replace('.log', '').replace('instance_', '#');
+      for (const line of lines) {
+        if (line) res.write(`data: ${JSON.stringify({ instance: f, message: `[${inst}] ${line}` })}\n\n`);
+      }
+    } catch {}
+  }
+
+  for (const f of logFiles) {
+    const filePath = join(logDir, f);
+    let lastSize = existsSync(filePath) ? readFileSync(filePath, 'utf-8').length : 0;
+    const inst = f.replace('.log', '').replace('instance_', '#');
+
+    watchFile(filePath, { interval: 1000 }, () => {
+      try {
+        const content = readFileSync(filePath, 'utf-8');
+        const newContent = content.slice(lastSize);
+        lastSize = content.length;
+        if (newContent.trim()) {
+          const lines = newContent.trim().split('\n');
+          for (const line of lines) {
+            res.write(`data: ${JSON.stringify({ instance: f, message: `[${inst}] ${line}` })}\n\n`);
+          }
+        }
+      } catch {}
+    });
+    watchers.push(filePath);
+  }
+
+  req.on('close', () => {
+    for (const f of watchers) unwatchFile(f);
+  });
+});
+
+export default router;

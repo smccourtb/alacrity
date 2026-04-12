@@ -1,0 +1,45 @@
+{
+  "productName": "Alacrity",
+  "version": "0.1.0",
+  "identifier": "com.alacrity.app",
+  "build": {
+    "beforeDevCommand": "bun run --cwd client dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "bun run --cwd client build",
+    "frontendDist": "client/dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Alacrity",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 900,
+        "minHeight": 600,
+        "visible": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' http://localhost:* https://tauri.localhost; img-src 'self' http://localhost:* data: blob:; media-src 'self' http://localhost:*; script-src 'self' 'unsafe-inline'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "externalBin": ["binaries/alacrity-server"],
+    "resources": [
+      { "path": "../data/pokemon.db", "target": "data/pokemon.db" },
+      { "path": "../scripts/lua/", "target": "scripts/lua/" },
+      { "path": "../scripts/shiny_hunter_core", "target": "scripts/shiny_hunter_core" },
+      { "path": "../scripts/shiny_hunter_wild", "target": "scripts/shiny_hunter_wild" },
+      { "path": "../scripts/shiny_hunter_egg", "target": "scripts/shiny_hunter_egg" }
+    ]
+  }
+}

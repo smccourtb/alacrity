@@ -1,0 +1,52 @@
+# ─── Dependencies ────────────────────────────────
+node_modules/
+.superpowers/
+.worktrees/
+.claude/
+.playwright-mcp/
+
+# ─── Internal planning docs (kept local) ─────────
+docs/superpowers/
+
+# ─── User data (never commit) ────────────────────
+# ROMs are copyrighted — users provide their own
+roms/
+# Save files contain personal game data
+saves/
+# Hunt instance data is per-user runtime state
+hunts/
+# Local SQLite database is a build artifact
+data/
+server/data/
+server/pokemon.db
+
+# ─── Third-party tools (not our code) ────────────
+# Emulators, BIOS files, native binaries — users download separately
+tools/
+
+# ─── Build artifacts ─────────────────────────────
+src-tauri/target/
+src-tauri/gen/
+client/dist/
+client/node_modules/.vite/
+server/src/scripts/.cache/
+
+# ─── Compiled sidecar (huge, built by CI) ────────
+src-tauri/binaries/alacrity-server-*-*
+!src-tauri/binaries/alacrity-server-dev-wrapper
+
+# ─── Compiled C hunt binaries (built on each platform) ───
+scripts/shiny_hunter_core
+scripts/shiny_hunter_wild
+scripts/shiny_hunter_egg
+
+# ─── Secrets / local config ──────────────────────
+.env
+.env.local
+config.json
+
+# ─── OS cruft ────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*~

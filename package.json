@@ -1,0 +1,9 @@
+{
+  "name": "alacrity",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["client", "server"],
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.10.1"
+  }
+}
