@@ -1,5 +1,4 @@
 import { Database } from 'bun:sqlite';
-import { paths } from './paths.js';
 import { currentOs } from './services/os-triple.js';
 
 export function runMigrations(db: Database) {
@@ -148,28 +147,89 @@ export function runMigrations(db: Database) {
     db.exec('ALTER TABLE emulator_configs_new RENAME TO emulator_configs');
   }
 
-  // Seed default emulators if table is empty
-  const emulatorCount = (db.prepare('SELECT COUNT(*) as c FROM emulator_configs').get() as any).c;
-  if (emulatorCount === 0) {
-    const home = process.env.HOME || '';
-    db.prepare(`
-      INSERT INTO emulator_configs (id, name, path, launch_args, supports_link, link_listen_args, link_connect_args, is_default_gen1, is_default_gen2, is_default_3ds)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run('mgba', 'mGBA', `${home}/mgba/build/qt/mgba-qt`, '{rom}', 0, '', '', 1, 1, 0);
+  // ─────────────────────────────────────────────────────────────────
+  // Seed the four emulators for the current OS if rows don't exist.
+  // Unlike the pre-migration seeding, we do NOT hardcode fallback paths
+  // (~/mgba/build/qt/mgba-qt, etc.) — managed installs populate path
+  // at install time, and custom installs let the user edit it in Settings.
+  // ─────────────────────────────────────────────────────────────────
+  const seedOs = currentOs();
 
-    db.prepare(`
-      INSERT INTO emulator_configs (id, name, path, launch_args, supports_link, link_listen_args, link_connect_args, is_default_gen1, is_default_gen2, is_default_3ds)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run('bgb', 'BGB', `${process.cwd()}/tools/bgb/bgb.exe`, '{rom}', 1, '--listen', '--connect 127.0.0.1', 0, 0, 0);
+  interface EmulatorSeed {
+    id: string;
+    name: string;
+    launch_args: string;
+    supports_link: 0 | 1;
+    link_listen_args: string;
+    link_connect_args: string;
+    is_default_gen1: 0 | 1;
+    is_default_gen2: 0 | 1;
+    is_default_3ds: 0 | 1;
   }
 
-  // Seed Azahar if not present
-  const hasAzahar = db.prepare('SELECT 1 FROM emulator_configs WHERE id = ?').get('azahar');
-  if (!hasAzahar) {
-    const projectRoot = paths.resourcesDir;
-    db.prepare(`
-      INSERT INTO emulator_configs (id, name, path, launch_args, supports_link, link_listen_args, link_connect_args, is_default_gen1, is_default_gen2, is_default_3ds)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run('azahar', 'Azahar (3DS)', `${projectRoot}/tools/azahar/azahar.AppImage`, '{rom}', 0, '', '', 0, 0, 1);
+  const SEEDS: EmulatorSeed[] = [
+    {
+      id: 'mgba',
+      name: 'mGBA',
+      launch_args: '{rom}',
+      supports_link: 0,
+      link_listen_args: '',
+      link_connect_args: '',
+      is_default_gen1: 1,
+      is_default_gen2: 1,
+      is_default_3ds: 0,
+    },
+    {
+      id: 'bgb',
+      name: 'BGB',
+      launch_args: '{rom}',
+      supports_link: 1,
+      link_listen_args: '--listen',
+      link_connect_args: '--connect 127.0.0.1',
+      is_default_gen1: 0,
+      is_default_gen2: 0,
+      is_default_3ds: 0,
+    },
+    {
+      id: 'melonds',
+      name: 'melonDS',
+      launch_args: '{rom}',
+      supports_link: 0,
+      link_listen_args: '',
+      link_connect_args: '',
+      is_default_gen1: 0,
+      is_default_gen2: 0,
+      is_default_3ds: 0,
+    },
+    {
+      id: 'azahar',
+      name: 'Azahar (3DS)',
+      launch_args: '{rom}',
+      supports_link: 0,
+      link_listen_args: '',
+      link_connect_args: '',
+      is_default_gen1: 0,
+      is_default_gen2: 0,
+      is_default_3ds: 1,
+    },
+  ];
+
+  const existsStmt = db.prepare('SELECT 1 FROM emulator_configs WHERE id = ? AND os = ?');
+  const insertStmt = db.prepare(`
+    INSERT INTO emulator_configs
+      (id, os, name, path, launch_args, supports_link, link_listen_args,
+       link_connect_args, is_default_gen1, is_default_gen2, is_default_3ds,
+       installed_version, managed_install)
+    VALUES (?, ?, ?, '', ?, ?, ?, ?, ?, ?, ?, NULL, 0)
+  `);
+
+  for (const s of SEEDS) {
+    if (!existsStmt.get(s.id, seedOs)) {
+      insertStmt.run(
+        s.id, seedOs, s.name, s.launch_args, s.supports_link,
+        s.link_listen_args, s.link_connect_args,
+        s.is_default_gen1, s.is_default_gen2, s.is_default_3ds
+      );
+    }
   }
 }
