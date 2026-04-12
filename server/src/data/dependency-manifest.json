@@ -97,31 +97,30 @@
     },
     "azahar": {
       "displayName": "Azahar",
-      "version": "PLACEHOLDER_TBD_AT_RELEASE",
+      "version": "2125.0.1",
       "license": "GPL-2.0",
       "licenseUrl": "https://github.com/azahar-emu/azahar/blob/master/license.txt",
       "homepageUrl": "https://github.com/azahar-emu/azahar",
-      "description": "Nintendo 3DS emulator (Citra fork). Required for Gen 6–7 play and hunts.",
+      "description": "Nintendo 3DS emulator (Citra fork). Required for Gen 6–7 play and hunts. Linux AppImage is Wayland-only — X11 users may need XWayland.",
       "platforms": {
         "linux-x64": {
-          "downloadUrl": "https://github.com/azahar-emu/azahar/releases/download/PLACEHOLDER/azahar-linux-x86_64.AppImage",
+          "downloadUrl": "https://github.com/azahar-emu/azahar/releases/download/2125.0.1/azahar-wayland.AppImage",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
           "archive": "appimage",
-          "binaryRelPath": "azahar.AppImage",
+          "binaryRelPath": "azahar-wayland.AppImage",
           "chmod": true
         },
         "macos-arm64": {
-          "downloadUrl": "https://github.com/azahar-emu/azahar/releases/download/PLACEHOLDER/azahar-macos.dmg",
+          "downloadUrl": "https://github.com/azahar-emu/azahar/releases/download/2125.0.1/azahar-macos-arm64-2125.0.1.zip",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
-          "archive": "dmg",
-          "dmgVolumeName": "Azahar",
-          "binaryRelPath": "azahar.app/Contents/MacOS/azahar"
+          "archive": "zip",
+          "binaryRelPath": "azahar-macos-arm64-2125.0.1/Azahar.app/Contents/MacOS/azahar"
         },
         "windows-x64": {
-          "downloadUrl": "https://github.com/azahar-emu/azahar/releases/download/PLACEHOLDER/azahar-windows-x86_64.7z",
+          "downloadUrl": "https://github.com/azahar-emu/azahar/releases/download/2125.0.1/azahar-windows-msvc-2125.0.1.zip",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
-          "archive": "7z",
-          "binaryRelPath": "azahar/azahar.exe"
+          "archive": "zip",
+          "binaryRelPath": "azahar-windows-msvc-2125.0.1/azahar.exe"
         }
       }
     }
