@@ -44,7 +44,8 @@ jobs:
             libayatana-appindicator3-dev \
             librsvg2-dev \
             patchelf \
-            libssl-dev
+            libssl-dev \
+            libfuse2t64
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
