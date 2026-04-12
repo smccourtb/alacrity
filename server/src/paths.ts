@@ -12,7 +12,7 @@ export function initPaths(opts: { dataDir?: string; resourcesDir?: string }) {
   if (opts.resourcesDir) resourcesDir = opts.resourcesDir;
 
   // Ensure user-writable directories exist
-  for (const sub of ['data', 'saves', 'saves/library', 'saves/catches', 'hunts', 'roms', 'backups']) {
+  for (const sub of ['data', 'saves', 'saves/library', 'saves/catches', 'hunts', 'roms', 'backups', 'emulators', 'emulators/.tmp']) {
     mkdirSync(join(dataDir, sub), { recursive: true });
   }
 }
@@ -27,6 +27,7 @@ export const paths = {
   get huntsDir() { return join(dataDir, 'hunts'); },
   get romsDir() { return join(dataDir, 'roms'); },
   get backupsDir() { return join(dataDir, 'backups'); },
+  get emulatorsDir() { return join(dataDir, 'emulators'); },
   get configFile() { return join(dataDir, 'config.json'); },
 
   // ── Bundled resource paths (read-only in packaged mode) ─────
