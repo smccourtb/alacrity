@@ -1,5 +1,6 @@
-import { execSync } from 'child_process';
-import { paths } from '../paths.js';
+import db from '../db.js';
+import { resolveEmulatorPath, EmulatorNotInstalledError } from './dependencies.js';
+import { currentOs } from './os-triple.js';
 
 export type GameButton =
   | 'up' | 'down' | 'left' | 'right'
@@ -23,7 +24,8 @@ export interface EmulatorConfig {
   resolutionScale?: number;    // internal rendering scale (e.g. 2 = 2x native)
 }
 
-const MGBA_BINARY = `${process.env.HOME}/mgba/build/qt/mgba-qt`;
+// Internal: metadata only, no binary path — that's resolved at call time.
+type BaseEmulatorConfig = Omit<EmulatorConfig, 'binary'>;
 
 const MGBA_KEY_MAP: Partial<Record<GameButton, string>> = {
   up: 'Up',
@@ -73,10 +75,9 @@ const GB_SOFT_RESET: string[] = ['x', 'z', 'Return', 'BackSpace'];  // A+B+Start
 const DS_SOFT_RESET: string[] = ['a', 's', 'Return', 'BackSpace'];  // L+R+Start+Select (mGBA/melonDS keys)
 const _3DS_SOFT_RESET: string[] = ['a', 'd', 'Return'];  // L+R+Start (LIME3DS key map)
 
-const EMULATOR_CONFIGS: Record<string, EmulatorConfig> = {
+const BASE_EMULATOR_CONFIGS: Record<string, BaseEmulatorConfig> = {
   'mgba-gb': {
     name: 'mGBA (GB/GBC)',
-    binary: MGBA_BINARY,
     args: (rom: string, _save: string) => ['-f', rom],
     windowSize: { width: 480, height: 432 },  // 160x144 * 3
     keyMap: MGBA_KEY_MAP,
@@ -86,7 +87,6 @@ const EMULATOR_CONFIGS: Record<string, EmulatorConfig> = {
   },
   'mgba': {
     name: 'mGBA (GBA)',
-    binary: MGBA_BINARY,
     args: (rom: string, _save: string) => ['-f', rom],
     windowSize: { width: 720, height: 480 },  // 240x160 * 3
     keyMap: MGBA_KEY_MAP,
@@ -96,7 +96,6 @@ const EMULATOR_CONFIGS: Record<string, EmulatorConfig> = {
   },
   'melonds': {
     name: 'melonDS (NDS)',
-    binary: paths.melonds,
     args: (rom: string, _save: string) => [rom],
     windowSize: { width: 256, height: 384 },
     keyMap: MELONDS_KEY_MAP,
@@ -106,7 +105,6 @@ const EMULATOR_CONFIGS: Record<string, EmulatorConfig> = {
   },
   'azahar': {
     name: 'Azahar (3DS)',
-    binary: paths.azahar,
     args: (rom: string, _save: string) => [rom],
     windowSize: { width: 400, height: 480 },  // base size at 1x — scaled by resolutionScale
     keyMap: LIME3DS_KEY_MAP,
@@ -164,13 +162,46 @@ const GAME_TO_SYSTEM: Record<string, SystemType> = {
   'Pokemon Ultra Moon': '3ds',
 };
 
+// Map the internal config keys to the canonical emulator IDs in the DB.
+// Two config keys (mgba-gb, mgba) share a single DB row because they're
+// both served by the same mGBA binary.
+const CONFIG_KEY_TO_EMULATOR_ID: Record<string, 'mgba' | 'bgb' | 'melonds' | 'azahar'> = {
+  'mgba-gb': 'mgba',
+  'mgba': 'mgba',
+  'melonds': 'melonds',
+  'azahar': 'azahar',
+};
+
+function resolveBinaryForKey(key: string): string {
+  const emulatorId = CONFIG_KEY_TO_EMULATOR_ID[key];
+  if (!emulatorId) {
+    throw new Error(`No emulator ID mapping for config key: ${key}`);
+  }
+
+  const row = db.prepare(
+    'SELECT path FROM emulator_configs WHERE id = ? AND os = ?'
+  ).get(emulatorId, currentOs()) as { path: string } | undefined;
+
+  if (!row || !row.path) {
+    throw new EmulatorNotInstalledError();
+  }
+
+  return resolveEmulatorPath(row.path);
+}
+
 export function getEmulatorConfig(system: SystemType): EmulatorConfig {
   const key = SYSTEM_TO_EMULATOR[system];
-  const config = EMULATOR_CONFIGS[key];
-  if (!config) {
+  const baseConfig = BASE_EMULATOR_CONFIGS[key];
+  if (!baseConfig) {
     throw new Error(`No emulator config found for system: ${system}`);
   }
-  return config;
+
+  const binary = resolveBinaryForKey(key);
+
+  return {
+    ...baseConfig,
+    binary,
+  };
 }
 
 export function getSystemForGame(game: string): SystemType {
@@ -188,14 +219,18 @@ export function supportsDirectStream(system: SystemType): boolean {
 }
 
 export function detectInstalledEmulators(): Record<string, boolean> {
+  const os = currentOs();
+  const rows = db.prepare('SELECT id, path FROM emulator_configs WHERE os = ?').all(os) as Array<{ id: string; path: string }>;
+  const installed = new Map(rows.map(r => [r.id, r.path !== '']));
+
   const results: Record<string, boolean> = {};
-  for (const [key, config] of Object.entries(EMULATOR_CONFIGS)) {
-    try {
-      execSync(`which ${config.binary} 2>/dev/null || test -f ${config.binary}`, { stdio: 'ignore' });
-      results[key] = true;
-    } catch {
-      results[key] = false;
+  for (const configKey of Object.keys(BASE_EMULATOR_CONFIGS)) {
+    const emulatorId = CONFIG_KEY_TO_EMULATOR_ID[configKey];
+    if (!emulatorId) {
+      results[configKey] = false;
+      continue;
     }
+    results[configKey] = installed.get(emulatorId) ?? false;
   }
   return results;
 }
