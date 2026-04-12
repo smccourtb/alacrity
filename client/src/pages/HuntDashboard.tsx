@@ -6,6 +6,7 @@ import { Switch } from '@/components/ui/switch';
 import HuntPanel from '@/components/HuntPanel';
 import HuntForm from '@/components/HuntForm';
 import HuntHistoryList from '@/components/HuntHistoryList';
+import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
 
 interface HuntFormValues {
   target_name: string;
@@ -414,6 +415,10 @@ export default function HuntDashboard() {
         <div className="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
           {/* Left: Form (sticky on desktop) */}
           <div className="lg:self-start lg:sticky lg:top-6">
+            <InlineEmulatorWarning
+              emulatorId="mgba"
+              coreAbiLockMessage="This version of Alacrity's hunt engine requires a specific version of mGBA. The currently installed version may produce incorrect results."
+            />
             <HuntForm
               control={control}
               watch={watch}

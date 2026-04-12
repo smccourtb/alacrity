@@ -1,0 +1,8107 @@
+[
+  {
+    "index": 1,
+    "name": "FLAG_TEMP_1",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 2,
+    "name": "FLAG_TEMP_2",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 3,
+    "name": "FLAG_TEMP_3",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 4,
+    "name": "FLAG_TEMP_4",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 5,
+    "name": "FLAG_TEMP_5",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 6,
+    "name": "FLAG_TEMP_6",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 7,
+    "name": "FLAG_TEMP_7",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 8,
+    "name": "FLAG_TEMP_8",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 9,
+    "name": "FLAG_TEMP_9",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 10,
+    "name": "FLAG_TEMP_A",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 11,
+    "name": "FLAG_TEMP_B",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 12,
+    "name": "FLAG_TEMP_C",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 13,
+    "name": "FLAG_TEMP_D",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 14,
+    "name": "FLAG_TEMP_E",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 15,
+    "name": "FLAG_TEMP_F",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 16,
+    "name": "FLAG_TEMP_10",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 17,
+    "name": "FLAG_TEMP_11",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 18,
+    "name": "FLAG_TEMP_12",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 19,
+    "name": "FLAG_TEMP_13",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 20,
+    "name": "FLAG_TEMP_14",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 21,
+    "name": "FLAG_TEMP_15",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 22,
+    "name": "FLAG_TEMP_16",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 23,
+    "name": "FLAG_TEMP_17",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 24,
+    "name": "FLAG_TEMP_18",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 25,
+    "name": "FLAG_TEMP_19",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 26,
+    "name": "FLAG_TEMP_1A",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 27,
+    "name": "FLAG_TEMP_1B",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 28,
+    "name": "FLAG_TEMP_1C",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 29,
+    "name": "FLAG_TEMP_1D",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 30,
+    "name": "FLAG_TEMP_1E",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 31,
+    "name": "FLAG_TEMP_1F",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 32,
+    "name": "FLAG_0x020",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 33,
+    "name": "FLAG_0x021",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 34,
+    "name": "FLAG_0x022",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 35,
+    "name": "FLAG_0x023",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 36,
+    "name": "FLAG_0x024",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 37,
+    "name": "FLAG_0x025",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 38,
+    "name": "FLAG_0x026",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 39,
+    "name": "FLAG_0x027",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 40,
+    "name": "FLAG_HIDE_BULBASAUR_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 41,
+    "name": "FLAG_HIDE_SQUIRTLE_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 42,
+    "name": "FLAG_HIDE_CHARMANDER_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 43,
+    "name": "FLAG_HIDE_OAK_IN_HIS_LAB",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 44,
+    "name": "FLAG_HIDE_OAK_IN_PALLET_TOWN",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 45,
+    "name": "FLAG_HIDE_RIVAL_IN_LAB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 46,
+    "name": "FLAG_HIDE_PEWTER_CITY_GYM_GUIDE",
+    "category": "event",
+    "location_key": "pewter-city",
+    "source": "event"
+  },
+  {
+    "index": 47,
+    "name": "FLAG_HIDE_DOME_FOSSIL",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 48,
+    "name": "FLAG_HIDE_HELIX_FOSSIL",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 49,
+    "name": "FLAG_HIDE_NUGGET_BRIDGE_ROCKET",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 50,
+    "name": "FLAG_HIDE_BILL_CLEFAIRY",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 51,
+    "name": "FLAG_HIDE_BILL_HUMAN_SEA_COTTAGE",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 52,
+    "name": "FLAG_HIDE_TOWER_FUJI",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 53,
+    "name": "FLAG_HIDE_POKEHOUSE_FUJI",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 54,
+    "name": "FLAG_HIDE_LIFT_KEY",
+    "category": "event",
+    "location_key": "rocket-hideout",
+    "source": "event"
+  },
+  {
+    "index": 55,
+    "name": "FLAG_HIDE_SILPH_SCOPE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 56,
+    "name": "FLAG_HIDE_HIDEOUT_GIOVANNI",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 57,
+    "name": "FLAG_HIDE_TOWN_MAP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 58,
+    "name": "FLAG_HIDE_POKEDEX",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 59,
+    "name": "FLAG_HIDE_CERULEAN_ROCKET",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 60,
+    "name": "FLAG_HIDE_CERULEAN_RIVAL",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 61,
+    "name": "FLAG_HIDE_SS_ANNE_RIVAL",
+    "category": "event",
+    "location_key": "ss-anne",
+    "source": "event"
+  },
+  {
+    "index": 62,
+    "name": "FLAG_HIDE_SAFFRON_ROCKETS",
+    "category": "event",
+    "location_key": "saffron-city",
+    "source": "event"
+  },
+  {
+    "index": 63,
+    "name": "FLAG_HIDE_SAFFRON_CIVILIANS",
+    "category": "event",
+    "location_key": "saffron-city",
+    "source": "event"
+  },
+  {
+    "index": 64,
+    "name": "FLAG_HIDE_SEAFOAM_1F_BOULDER_1",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 65,
+    "name": "FLAG_HIDE_SEAFOAM_1F_BOULDER_2",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 66,
+    "name": "FLAG_HIDE_SEAFOAM_B1F_BOULDER_1",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 67,
+    "name": "FLAG_HIDE_SEAFOAM_B1F_BOULDER_2",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 68,
+    "name": "FLAG_HIDE_SEAFOAM_B2F_BOULDER_1",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 69,
+    "name": "FLAG_HIDE_SEAFOAM_B2F_BOULDER_2",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 70,
+    "name": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_1",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 71,
+    "name": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_2",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 72,
+    "name": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_3",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 73,
+    "name": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_4",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 74,
+    "name": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_5",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 75,
+    "name": "FLAG_HIDE_SEAFOAM_B3F_BOULDER_6",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 76,
+    "name": "FLAG_HIDE_SEAFOAM_B4F_BOULDER_1",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 77,
+    "name": "FLAG_HIDE_SEAFOAM_B4F_BOULDER_2",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 78,
+    "name": "FLAG_HIDE_SILPH_RIVAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 79,
+    "name": "FLAG_HIDE_ROUTE_22_RIVAL",
+    "category": "event",
+    "location_key": "route-22",
+    "source": "event"
+  },
+  {
+    "index": 80,
+    "name": "FLAG_HIDE_PEWTER_MUSEUM_GUIDE",
+    "category": "event",
+    "location_key": "pewter-city",
+    "source": "event"
+  },
+  {
+    "index": 81,
+    "name": "FLAG_HIDE_TOWER_RIVAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 82,
+    "name": "FLAG_HIDE_MOLTRES",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 83,
+    "name": "FLAG_HIDE_SILPH_ROCKETS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 84,
+    "name": "FLAG_HIDE_ROUTE_12_SNORLAX",
+    "category": "event",
+    "location_key": "route-12",
+    "source": "event"
+  },
+  {
+    "index": 85,
+    "name": "FLAG_HIDE_VIRIDIAN_GIOVANNI",
+    "category": "event",
+    "location_key": "viridian-city",
+    "source": "event"
+  },
+  {
+    "index": 86,
+    "name": "FLAG_HIDE_OLD_AMBER",
+    "category": "event",
+    "location_key": "pewter-city",
+    "source": "event"
+  },
+  {
+    "index": 87,
+    "name": "FLAG_HIDE_EEVEE_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 88,
+    "name": "FLAG_HIDE_VICTORY_ROAD_2F_BOULDER",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 89,
+    "name": "FLAG_HIDE_VICTORY_ROAD_3F_BOULDER",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 90,
+    "name": "FLAG_HIDE_OAK_IN_CHAMP_ROOM",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 91,
+    "name": "FLAG_HIDE_GAME_CORNER_ROCKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 92,
+    "name": "FLAG_HIDE_CERULEAN_CAVE_GUARD",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 93,
+    "name": "FLAG_HIDE_ZAPDOS",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 94,
+    "name": "FLAG_HIDE_TOWER_ROCKET_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 95,
+    "name": "FLAG_HIDE_CELADON_ROCKETS",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 96,
+    "name": "FLAG_HIDE_DOJO_HITMONLEE_BALL",
+    "category": "event",
+    "location_key": "fighting-dojo",
+    "source": "event"
+  },
+  {
+    "index": 97,
+    "name": "FLAG_HIDE_DOJO_HITMONCHAN_BALL",
+    "category": "event",
+    "location_key": "fighting-dojo",
+    "source": "event"
+  },
+  {
+    "index": 98,
+    "name": "FLAG_HIDE_CINNABAR_BILL",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 99,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 100,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 101,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 102,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 103,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 104,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 105,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 106,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 107,
+    "name": "FLAG_HIDE_CINNABAR_SEAGALLOP",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 108,
+    "name": "FLAG_HIDE_SAFFRON_FAN_CLUB_BLACK_BELT",
+    "category": "event",
+    "location_key": "saffron-city",
+    "source": "event"
+  },
+  {
+    "index": 109,
+    "name": "FLAG_HIDE_SAFFRON_FAN_CLUB_ROCKER",
+    "category": "event",
+    "location_key": "saffron-city",
+    "source": "event"
+  },
+  {
+    "index": 110,
+    "name": "FLAG_HIDE_SAFFRON_FAN_CLUB_WOMAN",
+    "category": "event",
+    "location_key": "saffron-city",
+    "source": "event"
+  },
+  {
+    "index": 111,
+    "name": "FLAG_HIDE_SAFFRON_FAN_CLUB_BEAUTY",
+    "category": "event",
+    "location_key": "saffron-city",
+    "source": "event"
+  },
+  {
+    "index": 112,
+    "name": "FLAG_HIDE_MG_DELIVERYMEN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 113,
+    "name": "FLAG_HIDE_ONE_ISLAND_BILL",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 114,
+    "name": "FLAG_HIDE_ONE_ISLAND_POKECENTER_BILL",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 115,
+    "name": "FLAG_HIDE_ONE_ISLAND_POKECENTER_CELIO",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 116,
+    "name": "FLAG_HIDE_TWO_ISLAND_GAME_CORNER_BIKER",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 117,
+    "name": "FLAG_HIDE_TWO_ISLAND_GAME_CORNER_LOSTELLE",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 118,
+    "name": "FLAG_HIDE_LOSTELLE_IN_HER_HOME",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 119,
+    "name": "FLAG_0x077",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 120,
+    "name": "FLAG_0x078",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 121,
+    "name": "FLAG_HIDE_THREE_ISLAND_BIKERS",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 122,
+    "name": "FLAG_HIDE_LOSTELLE_IN_BERRY_FOREST",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 123,
+    "name": "FLAG_HIDE_TWO_ISLAND_WOMAN",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 124,
+    "name": "FLAG_HIDE_TWO_ISLAND_BEAUTY",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 125,
+    "name": "FLAG_HIDE_TWO_ISLAND_POKE_MANIAC",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 126,
+    "name": "FLAG_HIDE_THREE_ISLAND_ANTIBIKERS",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 127,
+    "name": "FLAG_0x07F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 128,
+    "name": "FLAG_HIDE_ROUTE_16_SNORLAX",
+    "category": "event",
+    "location_key": "route-16",
+    "source": "event"
+  },
+  {
+    "index": 129,
+    "name": "FLAG_HIDE_MEWTWO",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 130,
+    "name": "FLAG_HIDE_ARTICUNO",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 131,
+    "name": "FLAG_HIDE_TOWER_ROCKET_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 132,
+    "name": "FLAG_HIDE_TOWER_ROCKET_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 133,
+    "name": "FLAG_HIDE_POWER_PLANT_ELECTRODE_1",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 134,
+    "name": "FLAG_HIDE_POWER_PLANT_ELECTRODE_2",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 135,
+    "name": "FLAG_HIDE_SS_ANNE",
+    "category": "event",
+    "location_key": "ss-anne",
+    "source": "event"
+  },
+  {
+    "index": 136,
+    "name": "FLAG_HIDE_FIVE_ISLAND_ROCKETS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 137,
+    "name": "FLAG_HIDE_MT_EMBER_EXTERIOR_ROCKETS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 138,
+    "name": "FLAG_HIDE_RUBY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 139,
+    "name": "FLAG_HIDE_ICEFALL_CAVE_LORELEI",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 140,
+    "name": "FLAG_HIDE_LORELEI_IN_HER_HOUSE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 141,
+    "name": "FLAG_HIDE_ICEFALL_CAVE_ROCKETS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 142,
+    "name": "FLAG_HIDE_RUIN_VALLEY_SCIENTIST",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 143,
+    "name": "FLAG_HIDE_SAPPHIRE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 144,
+    "name": "FLAG_HIDE_DOTTED_HOLE_SCIENTIST",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 145,
+    "name": "FLAG_HIDE_THREE_ISLAND_LONE_BIKER",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 146,
+    "name": "FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY",
+    "category": "event",
+    "location_key": "pewter-city",
+    "source": "event"
+  },
+  {
+    "index": 147,
+    "name": "FLAG_HIDE_LOST_CAVE_SELPHY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 148,
+    "name": "FLAG_HIDE_RESORT_GORGEOUS_SELPHY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 149,
+    "name": "FLAG_HIDE_RESORT_GORGEOUS_INSIDE_SELPHY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 150,
+    "name": "FLAG_HIDE_SELPHYS_BUTLER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 151,
+    "name": "FLAG_HIDE_FOUR_ISLAND_RIVAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 152,
+    "name": "FLAG_HIDE_SIX_ISLAND_POKECENTER_RIVAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 153,
+    "name": "FLAG_HIDE_DEOXYS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 154,
+    "name": "FLAG_HIDE_BIRTH_ISLAND_METEORITE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 155,
+    "name": "FLAG_HIDE_LUGIA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 156,
+    "name": "FLAG_HIDE_HO_OH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 157,
+    "name": "FLAG_HIDE_POSTGAME_GOSSIPERS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 158,
+    "name": "FLAG_HIDE_FAME_CHECKER_ERIKA_JOURNALS",
+    "category": "event",
+    "location_key": "celadon-gym",
+    "source": "event"
+  },
+  {
+    "index": 159,
+    "name": "FLAG_HIDE_FAME_CHECKER_KOGA_JOURNAL",
+    "category": "event",
+    "location_key": "fuchsia-gym",
+    "source": "event"
+  },
+  {
+    "index": 160,
+    "name": "FLAG_HIDE_FAME_CHECKER_LT_SURGE_JOURNAL",
+    "category": "event",
+    "location_key": "vermilion-gym",
+    "source": "event"
+  },
+  {
+    "index": 161,
+    "name": "FLAG_HIDE_VERMILION_CITY_OAKS_AIDE",
+    "category": "event",
+    "location_key": "vermilion-city",
+    "source": "event"
+  },
+  {
+    "index": 162,
+    "name": "FLAG_HIDE_CINNABAR_POKECENTER_BILL",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 163,
+    "name": "FLAG_HIDE_CREDITS_RIVAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 164,
+    "name": "FLAG_HIDE_CREDITS_OAK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 165,
+    "name": "FLAG_HIDE_LORELEI_HOUSE_MEOWTH_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 166,
+    "name": "FLAG_HIDE_LORELEI_HOUSE_CHANSEY_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 167,
+    "name": "FLAG_HIDE_LORELEIS_HOUSE_NIDORAN_F_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 168,
+    "name": "FLAG_HIDE_LORELEI_HOUSE_JIGGLYPUFF_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 169,
+    "name": "FLAG_HIDE_LORELEIS_HOUSE_NIDORAN_M_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 170,
+    "name": "FLAG_HIDE_LORELEIS_HOUSE_FEAROW_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 171,
+    "name": "FLAG_HIDE_LORELEIS_HOUSE_PIDGEOT_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 172,
+    "name": "FLAG_HIDE_LORELEIS_HOUSE_LAPRAS_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 173,
+    "name": "FLAG_HIDE_MISC_KANTO_ROCKETS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 174,
+    "name": "FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS",
+    "category": "event",
+    "location_key": "saffron-city",
+    "source": "event"
+  },
+  {
+    "index": 175,
+    "name": "FLAG_0x0AF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 176,
+    "name": "FLAG_0x0B0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 177,
+    "name": "FLAG_0x0B1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 178,
+    "name": "FLAG_0x0B2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 179,
+    "name": "FLAG_0x0B3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 180,
+    "name": "FLAG_0x0B4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 181,
+    "name": "FLAG_0x0B5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 182,
+    "name": "FLAG_0x0B6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 183,
+    "name": "FLAG_0x0B7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 184,
+    "name": "FLAG_0x0B8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 185,
+    "name": "FLAG_0x0B9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 186,
+    "name": "FLAG_0x0BA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 187,
+    "name": "FLAG_0x0BB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 188,
+    "name": "FLAG_0x0BC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 189,
+    "name": "FLAG_0x0BD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 190,
+    "name": "FLAG_0x0BE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 191,
+    "name": "FLAG_0x0BF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 192,
+    "name": "FLAG_0x0C0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 193,
+    "name": "FLAG_0x0C1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 194,
+    "name": "FLAG_0x0C2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 195,
+    "name": "FLAG_0x0C3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 196,
+    "name": "FLAG_0x0C4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 197,
+    "name": "FLAG_0x0C5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 198,
+    "name": "FLAG_0x0C6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 199,
+    "name": "FLAG_0x0C7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 200,
+    "name": "FLAG_0x0C8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 201,
+    "name": "FLAG_0x0C9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 202,
+    "name": "FLAG_0x0CA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 203,
+    "name": "FLAG_0x0CB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 204,
+    "name": "FLAG_0x0CC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 205,
+    "name": "FLAG_0x0CD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 206,
+    "name": "FLAG_0x0CE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 207,
+    "name": "FLAG_0x0CF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 208,
+    "name": "FLAG_0x0D0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 209,
+    "name": "FLAG_0x0D1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 210,
+    "name": "FLAG_0x0D2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 211,
+    "name": "FLAG_0x0D3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 212,
+    "name": "FLAG_0x0D4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 213,
+    "name": "FLAG_0x0D5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 214,
+    "name": "FLAG_0x0D6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 215,
+    "name": "FLAG_0x0D7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 216,
+    "name": "FLAG_0x0D8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 217,
+    "name": "FLAG_0x0D9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 218,
+    "name": "FLAG_0x0DA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 219,
+    "name": "FLAG_0x0DB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 220,
+    "name": "FLAG_0x0DC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 221,
+    "name": "FLAG_0x0DD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 222,
+    "name": "FLAG_0x0DE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 223,
+    "name": "FLAG_0x0DF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 224,
+    "name": "FLAG_0x0E0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 225,
+    "name": "FLAG_0x0E1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 226,
+    "name": "FLAG_0x0E2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 227,
+    "name": "FLAG_0x0E3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 228,
+    "name": "FLAG_0x0E4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 229,
+    "name": "FLAG_0x0E5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 230,
+    "name": "FLAG_0x0E6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 231,
+    "name": "FLAG_0x0E7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 232,
+    "name": "FLAG_0x0E8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 233,
+    "name": "FLAG_0x0E9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 234,
+    "name": "FLAG_0x0EA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 235,
+    "name": "FLAG_0x0EB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 236,
+    "name": "FLAG_0x0EC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 237,
+    "name": "FLAG_0x0ED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 238,
+    "name": "FLAG_0x0EE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 239,
+    "name": "FLAG_0x0EF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 240,
+    "name": "FLAG_0x0F0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 241,
+    "name": "FLAG_0x0F1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 242,
+    "name": "FLAG_0x0F2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 243,
+    "name": "FLAG_0x0F3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 244,
+    "name": "FLAG_0x0F4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 245,
+    "name": "FLAG_0x0F5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 246,
+    "name": "FLAG_0x0F6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 247,
+    "name": "FLAG_0x0F7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 248,
+    "name": "FLAG_0x0F8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 249,
+    "name": "FLAG_0x0F9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 250,
+    "name": "FLAG_0x0FA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 251,
+    "name": "FLAG_0x0FB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 252,
+    "name": "FLAG_0x0FC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 253,
+    "name": "FLAG_0x0FD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 254,
+    "name": "FLAG_0x0FE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 255,
+    "name": "FLAG_0x0FF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 256,
+    "name": "FLAG_0x100",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 257,
+    "name": "FLAG_0x101",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 258,
+    "name": "FLAG_0x102",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 259,
+    "name": "FLAG_0x103",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 260,
+    "name": "FLAG_0x104",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 261,
+    "name": "FLAG_0x105",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 262,
+    "name": "FLAG_0x106",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 263,
+    "name": "FLAG_0x107",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 264,
+    "name": "FLAG_0x108",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 265,
+    "name": "FLAG_0x109",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 266,
+    "name": "FLAG_0x10A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 267,
+    "name": "FLAG_0x10B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 268,
+    "name": "FLAG_0x10C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 269,
+    "name": "FLAG_0x10D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 270,
+    "name": "FLAG_0x10E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 271,
+    "name": "FLAG_0x10F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 272,
+    "name": "FLAG_0x110",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 273,
+    "name": "FLAG_0x111",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 274,
+    "name": "FLAG_0x112",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 275,
+    "name": "FLAG_0x113",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 276,
+    "name": "FLAG_0x114",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 277,
+    "name": "FLAG_0x115",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 278,
+    "name": "FLAG_0x116",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 279,
+    "name": "FLAG_0x117",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 280,
+    "name": "FLAG_0x118",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 281,
+    "name": "FLAG_0x119",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 282,
+    "name": "FLAG_0x11A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 283,
+    "name": "FLAG_0x11B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 284,
+    "name": "FLAG_0x11C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 285,
+    "name": "FLAG_0x11D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 286,
+    "name": "FLAG_0x11E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 287,
+    "name": "FLAG_0x11F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 288,
+    "name": "FLAG_0x120",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 289,
+    "name": "FLAG_0x121",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 290,
+    "name": "FLAG_0x122",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 291,
+    "name": "FLAG_0x123",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 292,
+    "name": "FLAG_0x124",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 293,
+    "name": "FLAG_0x125",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 294,
+    "name": "FLAG_0x126",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 295,
+    "name": "FLAG_0x127",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 296,
+    "name": "FLAG_0x128",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 297,
+    "name": "FLAG_0x129",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 298,
+    "name": "FLAG_0x12A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 299,
+    "name": "FLAG_0x12B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 300,
+    "name": "FLAG_0x12C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 301,
+    "name": "FLAG_0x12D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 302,
+    "name": "FLAG_0x12E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 303,
+    "name": "FLAG_0x12F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 304,
+    "name": "FLAG_0x130",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 305,
+    "name": "FLAG_0x131",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 306,
+    "name": "FLAG_0x132",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 307,
+    "name": "FLAG_0x133",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 308,
+    "name": "FLAG_0x134",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 309,
+    "name": "FLAG_0x135",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 310,
+    "name": "FLAG_0x136",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 311,
+    "name": "FLAG_0x137",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 312,
+    "name": "FLAG_0x138",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 313,
+    "name": "FLAG_0x139",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 314,
+    "name": "FLAG_0x13A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 315,
+    "name": "FLAG_0x13B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 316,
+    "name": "FLAG_0x13C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 317,
+    "name": "FLAG_0x13D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 318,
+    "name": "FLAG_0x13E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 319,
+    "name": "FLAG_0x13F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 320,
+    "name": "FLAG_0x140",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 321,
+    "name": "FLAG_0x141",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 322,
+    "name": "FLAG_0x142",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 323,
+    "name": "FLAG_0x143",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 324,
+    "name": "FLAG_0x144",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 325,
+    "name": "FLAG_0x145",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 326,
+    "name": "FLAG_0x146",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 327,
+    "name": "FLAG_0x147",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 328,
+    "name": "FLAG_0x148",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 329,
+    "name": "FLAG_0x149",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 330,
+    "name": "FLAG_0x14A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 331,
+    "name": "FLAG_0x14B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 332,
+    "name": "FLAG_0x14C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 333,
+    "name": "FLAG_0x14D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 334,
+    "name": "FLAG_0x14E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 335,
+    "name": "FLAG_0x14F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 336,
+    "name": "FLAG_0x150",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 337,
+    "name": "FLAG_0x151",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 338,
+    "name": "FLAG_0x152",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 339,
+    "name": "FLAG_0x153",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 340,
+    "name": "FLAG_HIDE_ROUTE2_ETHER",
+    "category": "event",
+    "location_key": "route-2",
+    "source": "event"
+  },
+  {
+    "index": 341,
+    "name": "FLAG_HIDE_ROUTE2_PARALYZE_HEAL",
+    "category": "event",
+    "location_key": "route-2",
+    "source": "event"
+  },
+  {
+    "index": 342,
+    "name": "FLAG_HIDE_VIRIDIAN_FOREST_POKE_BALL",
+    "category": "event",
+    "location_key": "viridian-city",
+    "source": "event"
+  },
+  {
+    "index": 343,
+    "name": "FLAG_HIDE_VIRIDIAN_FOREST_ANTIDOTE",
+    "category": "event",
+    "location_key": "viridian-city",
+    "source": "event"
+  },
+  {
+    "index": 344,
+    "name": "FLAG_HIDE_VIRIDIAN_FOREST_POTION",
+    "category": "event",
+    "location_key": "viridian-city",
+    "source": "event"
+  },
+  {
+    "index": 345,
+    "name": "FLAG_HIDE_MT_MOON_1F_PARALYZE_HEAL",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 346,
+    "name": "FLAG_HIDE_MT_MOON_1F_TM09",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 347,
+    "name": "FLAG_HIDE_MT_MOON_1F_POTION",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 348,
+    "name": "FLAG_HIDE_MT_MOON_1F_RARE_CANDY",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 349,
+    "name": "FLAG_HIDE_MT_MOON_1F_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 350,
+    "name": "FLAG_HIDE_MT_MOON_1F_MOON_STONE",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 351,
+    "name": "FLAG_HIDE_MT_MOON_B2F_STAR_PIECE",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 352,
+    "name": "FLAG_HIDE_MT_MOON_B2F_TM46",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 353,
+    "name": "FLAG_HIDE_ROUTE4_TM05",
+    "category": "event",
+    "location_key": "route-4",
+    "source": "event"
+  },
+  {
+    "index": 354,
+    "name": "FLAG_HIDE_ROUTE24_TM45",
+    "category": "event",
+    "location_key": "route-24",
+    "source": "event"
+  },
+  {
+    "index": 355,
+    "name": "FLAG_HIDE_ROUTE25_TM43",
+    "category": "event",
+    "location_key": "route-25",
+    "source": "event"
+  },
+  {
+    "index": 356,
+    "name": "FLAG_HIDE_SSANNE_1F_ROOM2_TM31",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 357,
+    "name": "FLAG_HIDE_SSANNE_2F_ROOM2_STARDUST",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 358,
+    "name": "FLAG_HIDE_SSANNE_2F_ROOM4_X_ATTACK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 359,
+    "name": "FLAG_HIDE_SSANNE_B1F_ROOM2_TM44",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 360,
+    "name": "FLAG_HIDE_SSANNE_B1F_ROOM3_ETHER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 361,
+    "name": "FLAG_HIDE_SSANNE_B1F_ROOM5_SUPER_POTION",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 362,
+    "name": "FLAG_HIDE_SSANNE_KITCHEN_GREAT_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 363,
+    "name": "FLAG_HIDE_ROUTE9_TM40",
+    "category": "event",
+    "location_key": "route-9",
+    "source": "event"
+  },
+  {
+    "index": 364,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B1F_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 365,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B1F_HYPER_POTION",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 366,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B2F_X_SPEED",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 367,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B2F_MOON_STONE",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 368,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B2F_TM12",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 369,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B2F_SUPER_POTION",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 370,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B3F_RARE_CANDY",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 371,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B3F_TM21",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 372,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B4F_TM49",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 373,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B4F_MAX_ETHER",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 374,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B4F_CALCIUM",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 375,
+    "name": "FLAG_HIDE_POKEMON_TOWER_3F_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 376,
+    "name": "FLAG_HIDE_POKEMON_TOWER_4F_ELIXIR",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 377,
+    "name": "FLAG_HIDE_POKEMON_TOWER_4F_AWAKENING",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 378,
+    "name": "FLAG_HIDE_POKEMON_TOWER_4F_GREAT_BALL",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 379,
+    "name": "FLAG_HIDE_POKEMON_TOWER_5F_NUGGET",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 380,
+    "name": "FLAG_HIDE_POKEMON_TOWER_6F_RARE_CANDY",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 381,
+    "name": "FLAG_HIDE_POKEMON_TOWER_6F_X_ACCURACY",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 382,
+    "name": "FLAG_HIDE_ROUTE12_TM48",
+    "category": "event",
+    "location_key": "route-12",
+    "source": "event"
+  },
+  {
+    "index": 383,
+    "name": "FLAG_HIDE_ROUTE12_IRON",
+    "category": "event",
+    "location_key": "route-12",
+    "source": "event"
+  },
+  {
+    "index": 384,
+    "name": "FLAG_HIDE_ROUTE15_TM18",
+    "category": "event",
+    "location_key": "route-15",
+    "source": "event"
+  },
+  {
+    "index": 385,
+    "name": "FLAG_HIDE_SAFARI_ZONE_CENTER_NUGGET",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 386,
+    "name": "FLAG_HIDE_SAFARI_ZONE_EAST_MAX_POTION",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 387,
+    "name": "FLAG_HIDE_SAFARI_ZONE_EAST_FULL_RESTORE",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 388,
+    "name": "FLAG_HIDE_SAFARI_ZONE_EAST_TM11",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 389,
+    "name": "FLAG_HIDE_SAFARI_ZONE_EAST_LEAF_STONE",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 390,
+    "name": "FLAG_HIDE_SAFARI_ZONE_NORTH_PROTEIN",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 391,
+    "name": "FLAG_HIDE_SAFARI_ZONE_NORTH_TM47",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 392,
+    "name": "FLAG_HIDE_SAFARI_ZONE_WEST_TM32",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 393,
+    "name": "FLAG_HIDE_SAFARI_ZONE_WEST_GOLD_TEETH",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 394,
+    "name": "FLAG_HIDE_SAFARI_ZONE_WEST_MAX_POTION",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 395,
+    "name": "FLAG_HIDE_SAFARI_ZONE_WEST_MAX_REVIVE",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 396,
+    "name": "FLAG_HIDE_SILPH_CO_3F_HYPER_POTION",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 397,
+    "name": "FLAG_HIDE_SILPH_CO_4F_MAX_REVIVE",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 398,
+    "name": "FLAG_HIDE_SILPH_CO_4F_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 399,
+    "name": "FLAG_HIDE_SILPH_CO_4F_FULL_HEAL",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 400,
+    "name": "FLAG_HIDE_SILPH_CO_5F_PROTEIN",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 401,
+    "name": "FLAG_HIDE_SILPH_CO_5F_TM01",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 402,
+    "name": "FLAG_HIDE_SILPH_CO_5F_CARD_KEY",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 403,
+    "name": "FLAG_HIDE_SILPH_CO_6F_HP_UP",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 404,
+    "name": "FLAG_HIDE_SILPH_CO_6F_X_SPECIAL",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 405,
+    "name": "FLAG_HIDE_SILPH_CO_7F_CALCIUM",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 406,
+    "name": "FLAG_HIDE_SILPH_CO_7F_TM08",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 407,
+    "name": "FLAG_HIDE_SILPH_CO_10F_CARBOS",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 408,
+    "name": "FLAG_HIDE_SILPH_CO_10F_ULTRA_BALL",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 409,
+    "name": "FLAG_HIDE_SILPH_CO_10F_RARE_CANDY",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 410,
+    "name": "FLAG_HIDE_POWER_PLANT_MAX_POTION",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 411,
+    "name": "FLAG_HIDE_POWER_PLANT_TM17",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 412,
+    "name": "FLAG_HIDE_POWER_PLANT_TM25",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 413,
+    "name": "FLAG_HIDE_POWER_PLANT_THUNDER_STONE",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 414,
+    "name": "FLAG_HIDE_POWER_PLANT_ELIXIR",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 415,
+    "name": "FLAG_HIDE_POKEMON_MANSION_1F_CARBOS",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 416,
+    "name": "FLAG_HIDE_POKEMON_MANSION_1F_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 417,
+    "name": "FLAG_HIDE_POKEMON_MANSION_2F_CALCIUM",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 418,
+    "name": "FLAG_HIDE_POKEMON_MANSION_3F_MAX_POTION",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 419,
+    "name": "FLAG_HIDE_POKEMON_MANSION_3F_IRON",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 420,
+    "name": "FLAG_HIDE_POKEMON_MANSION_B1F_TM14",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 421,
+    "name": "FLAG_HIDE_POKEMON_MANSION_B1F_FULL_RESTORE",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 422,
+    "name": "FLAG_0x1A6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 423,
+    "name": "FLAG_HIDE_POKEMON_MANSION_B1F_TM22",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 424,
+    "name": "FLAG_HIDE_POKEMON_MANSION_B1F_SECRET_KEY",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 425,
+    "name": "FLAG_HIDE_VICTORY_ROAD_1F_RARE_CANDY",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 426,
+    "name": "FLAG_HIDE_VICTORY_ROAD_1F_TM02",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 427,
+    "name": "FLAG_HIDE_VICTORY_ROAD_2F_GUARD_SPEC",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 428,
+    "name": "FLAG_HIDE_VICTORY_ROAD_2F_TM07",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 429,
+    "name": "FLAG_HIDE_VICTORY_ROAD_2F_FULL_HEAL",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 430,
+    "name": "FLAG_HIDE_VICTORY_ROAD_2F_TM37",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 431,
+    "name": "FLAG_HIDE_VICTORY_ROAD_3F_MAX_REVIVE",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 432,
+    "name": "FLAG_HIDE_VICTORY_ROAD_3F_TM50",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 433,
+    "name": "FLAG_HIDE_CERULEAN_CAVE_1F_MAX_ELIXIR",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 434,
+    "name": "FLAG_HIDE_CERULEAN_CAVE_1F_NUGGET",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 435,
+    "name": "FLAG_HIDE_CERULEAN_CAVE_1F_FULL_RESTORE",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 436,
+    "name": "FLAG_HIDE_CERULEAN_CAVE_2F_FULL_RESTORE",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 437,
+    "name": "FLAG_HIDE_CERULEAN_CAVE_2F_PP_UP",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 438,
+    "name": "FLAG_HIDE_CERULEAN_CAVE_2F_ULTRA_BALL",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 439,
+    "name": "FLAG_HIDE_CERULEAN_CAVE_B1F_MAX_REVIVE",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 440,
+    "name": "FLAG_HIDE_CERULEAN_CAVE_B1F_ULTRA_BALL",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 441,
+    "name": "FLAG_HIDE_FUCHSIA_CITY_WARDENS_HOUSE_RARE_CANDY",
+    "category": "event",
+    "location_key": "fuchsia-city",
+    "source": "event"
+  },
+  {
+    "index": 442,
+    "name": "FLAG_HIDE_TWO_ISLAND_REVIVE",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 443,
+    "name": "FLAG_HIDE_THREE_ISLAND_ZINC",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 444,
+    "name": "FLAG_0x1BC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 445,
+    "name": "FLAG_0x1BD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 446,
+    "name": "FLAG_HIDE_VIRIDIAN_FOREST_POTION_2",
+    "category": "event",
+    "location_key": "viridian-city",
+    "source": "event"
+  },
+  {
+    "index": 447,
+    "name": "FLAG_HIDE_MT_MOON_B2F_REVIVE",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 448,
+    "name": "FLAG_HIDE_MT_MOON_B2F_ANTIDOTE",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 449,
+    "name": "FLAG_HIDE_ROUTE11_X_DEFEND",
+    "category": "event",
+    "location_key": "route-11",
+    "source": "event"
+  },
+  {
+    "index": 450,
+    "name": "FLAG_HIDE_ROUTE9_BURN_HEAL",
+    "category": "event",
+    "location_key": "route-9",
+    "source": "event"
+  },
+  {
+    "index": 451,
+    "name": "FLAG_HIDE_ROCK_TUNNEL_1F_REPEL",
+    "category": "event",
+    "location_key": "rock-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 452,
+    "name": "FLAG_HIDE_ROCK_TUNNEL_1F_PEARL",
+    "category": "event",
+    "location_key": "rock-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 453,
+    "name": "FLAG_HIDE_ROCK_TUNNEL_1F_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "rock-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 454,
+    "name": "FLAG_HIDE_ROCK_TUNNEL_B1F_REVIVE",
+    "category": "event",
+    "location_key": "rock-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 455,
+    "name": "FLAG_HIDE_ROCK_TUNNEL_B1F_MAX_ETHER",
+    "category": "event",
+    "location_key": "rock-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 456,
+    "name": "FLAG_HIDE_SILPH_CO_8F_IRON",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 457,
+    "name": "FLAG_HIDE_SILPH_CO_11F_ZINC",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 458,
+    "name": "FLAG_HIDE_POKEMON_MANSION_1F_PROTEIN",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 459,
+    "name": "FLAG_HIDE_POKEMON_MANSION_2F_ZINC",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 460,
+    "name": "FLAG_HIDE_POKEMON_MANSION_2F_HP_UP",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 461,
+    "name": "FLAG_HIDE_VIRIDIAN_CITY_POTION",
+    "category": "event",
+    "location_key": "viridian-city",
+    "source": "event"
+  },
+  {
+    "index": 462,
+    "name": "FLAG_HIDE_ROUTE11_GREAT_BALL",
+    "category": "event",
+    "location_key": "route-11",
+    "source": "event"
+  },
+  {
+    "index": 463,
+    "name": "FLAG_HIDE_ROUTE11_AWAKENING",
+    "category": "event",
+    "location_key": "route-11",
+    "source": "event"
+  },
+  {
+    "index": 464,
+    "name": "FLAG_HIDE_POKEMON_TOWER_5F_CLEANSE_TAG",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 465,
+    "name": "FLAG_HIDE_CELADON_CITY_ETHER",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 466,
+    "name": "FLAG_HIDE_ROCKET_HIDEOUT_B3F_BLACK_GLASSES",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 467,
+    "name": "FLAG_HIDE_SAFARI_ZONE_NORTH_QUICK_CLAW",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 468,
+    "name": "FLAG_HIDE_SEAFOAM_ISLANDS_1F_ICE_HEAL",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 469,
+    "name": "FLAG_HIDE_SEAFOAM_ISLANDS_B1F_WATER_STONE",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 470,
+    "name": "FLAG_HIDE_SEAFOAM_ISLANDS_B1F_REVIVE",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 471,
+    "name": "FLAG_HIDE_SEAFOAM_ISLANDS_B2F_BIG_PEARL",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 472,
+    "name": "FLAG_HIDE_SEAFOAM_ISLANDS_B4F_ULTRA_BALL",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 473,
+    "name": "FLAG_HIDE_FOUR_ISLAND_STAR_PIECE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 474,
+    "name": "FLAG_HIDE_FOUR_ISLAND_STARDUST",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 475,
+    "name": "FLAG_HIDE_ONE_ISLAND_KINDLE_ROAD_ETHER",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 476,
+    "name": "FLAG_HIDE_ONE_ISLAND_KINDLE_ROAD_MAX_REPEL",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 477,
+    "name": "FLAG_HIDE_ONE_ISLAND_KINDLE_ROAD_CARBOS",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 478,
+    "name": "FLAG_HIDE_FIVE_ISLAND_MEADOW_MAX_POTION",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 479,
+    "name": "FLAG_HIDE_FIVE_ISLAND_MEADOW_PP_UP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 480,
+    "name": "FLAG_HIDE_FIVE_ISLAND_MEMORIAL_PILLAR_METAL_COAT",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 481,
+    "name": "FLAG_HIDE_SIX_ISLAND_OUTCAST_ISLAND_PP_UP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 482,
+    "name": "FLAG_HIDE_SIX_ISLAND_WATER_PATH_ELIXIR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 483,
+    "name": "FLAG_HIDE_SIX_ISLAND_WATER_PATH_DRAGON_SCALE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 484,
+    "name": "FLAG_HIDE_SIX_ISLAND_RUIN_VALLEY_FULL_RESTORE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 485,
+    "name": "FLAG_HIDE_SIX_ISLAND_RUIN_VALLEY_HP_UP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 486,
+    "name": "FLAG_HIDE_SIX_ISLAND_RUIN_VALLEY_SUN_STONE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 487,
+    "name": "FLAG_HIDE_SEVEN_ISLAND_SEVAULT_CANYON_KINGS_ROCK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 488,
+    "name": "FLAG_HIDE_SEVEN_ISLAND_SEVAULT_CANYON_MAX_ELIXIR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 489,
+    "name": "FLAG_HIDE_SEVEN_ISLAND_SEVAULT_CANYON_NUGGET",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 490,
+    "name": "FLAG_HIDE_THREE_ISLAND_BERRY_FOREST_MAX_ETHER",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 491,
+    "name": "FLAG_HIDE_THREE_ISLAND_BERRY_FOREST_FULL_HEAL",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 492,
+    "name": "FLAG_HIDE_THREE_ISLAND_BERRY_FOREST_MAX_ELIXIR",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 493,
+    "name": "FLAG_HIDE_MT_EMBER_EXTERIOR_ULTRA_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 494,
+    "name": "FLAG_HIDE_MT_EMBER_EXTERIOR_FIRE_STONE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 495,
+    "name": "FLAG_HIDE_MT_EMBER_EXTERIOR_DIRE_HIT",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 496,
+    "name": "FLAG_HIDE_FOUR_ISLAND_ICEFALL_CAVE_1F_ULTRA_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 497,
+    "name": "FLAG_HIDE_FOUR_ISLAND_ICEFALL_CAVE_1F_HM07",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 498,
+    "name": "FLAG_HIDE_FOUR_ISLAND_ICEFALL_CAVE_B1F_FULL_RESTORE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 499,
+    "name": "FLAG_HIDE_FOUR_ISLAND_ICEFALL_CAVE_B1F_NEVER_MELT_ICE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 500,
+    "name": "FLAG_HIDE_FIVE_ISLAND_ROCKET_WAREHOUSE_BIG_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 501,
+    "name": "FLAG_HIDE_FIVE_ISLAND_ROCKET_WAREHOUSE_TM36",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 502,
+    "name": "FLAG_HIDE_FIVE_ISLAND_ROCKET_WAREHOUSE_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 503,
+    "name": "FLAG_HIDE_FIVE_ISLAND_ROCKET_WAREHOUSE_UP_GRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 504,
+    "name": "FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM10_SILK_SCARF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 505,
+    "name": "FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM11_LAX_INCENSE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 506,
+    "name": "FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM12_SEA_INCENSE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 507,
+    "name": "FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM13_MAX_REVIVE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 508,
+    "name": "FLAG_HIDE_FIVE_ISLAND_LOST_CAVE_ROOM14_RARE_CANDY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 509,
+    "name": "FLAG_HIDE_SEVEN_ISLAND_SEVAULT_CANYON_HOUSE_LUCKY_PUNCH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 510,
+    "name": "FLAG_HIDE_SILPH_CO_4F_TM41",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 511,
+    "name": "FLAG_0x1FF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 512,
+    "name": "FLAG_0x200",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 513,
+    "name": "FLAG_0x201",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 514,
+    "name": "FLAG_0x202",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 515,
+    "name": "FLAG_0x203",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 516,
+    "name": "FLAG_0x204",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 517,
+    "name": "FLAG_0x205",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 518,
+    "name": "FLAG_0x206",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 519,
+    "name": "FLAG_0x207",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 520,
+    "name": "FLAG_0x208",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 521,
+    "name": "FLAG_0x209",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 522,
+    "name": "FLAG_0x20A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 523,
+    "name": "FLAG_0x20B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 524,
+    "name": "FLAG_0x20C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 525,
+    "name": "FLAG_0x20D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 526,
+    "name": "FLAG_0x20E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 527,
+    "name": "FLAG_0x20F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 528,
+    "name": "FLAG_0x210",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 529,
+    "name": "FLAG_0x211",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 530,
+    "name": "FLAG_0x212",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 531,
+    "name": "FLAG_0x213",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 532,
+    "name": "FLAG_0x214",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 533,
+    "name": "FLAG_0x215",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 534,
+    "name": "FLAG_0x216",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 535,
+    "name": "FLAG_0x217",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 536,
+    "name": "FLAG_0x218",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 537,
+    "name": "FLAG_0x219",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 538,
+    "name": "FLAG_0x21A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 539,
+    "name": "FLAG_0x21B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 540,
+    "name": "FLAG_0x21C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 541,
+    "name": "FLAG_0x21D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 542,
+    "name": "FLAG_0x21E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 543,
+    "name": "FLAG_0x21F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 544,
+    "name": "FLAG_0x220",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 545,
+    "name": "FLAG_0x221",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 546,
+    "name": "FLAG_0x222",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 547,
+    "name": "FLAG_0x223",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 548,
+    "name": "FLAG_0x224",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 549,
+    "name": "FLAG_0x225",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 550,
+    "name": "FLAG_0x226",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 551,
+    "name": "FLAG_0x227",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 552,
+    "name": "FLAG_0x228",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 553,
+    "name": "FLAG_0x229",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 554,
+    "name": "FLAG_0x22A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 555,
+    "name": "FLAG_0x22B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 556,
+    "name": "FLAG_0x22C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 557,
+    "name": "FLAG_0x22D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 558,
+    "name": "FLAG_0x22E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 559,
+    "name": "FLAG_0x22F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 560,
+    "name": "FLAG_GOT_POTION_ON_ROUTE_1",
+    "category": "event",
+    "location_key": "route-1",
+    "source": "event"
+  },
+  {
+    "index": 561,
+    "name": "FLAG_GOT_TM34_FROM_SURGE",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 562,
+    "name": "FLAG_GOT_FOSSIL_FROM_MT_MOON",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 563,
+    "name": "FLAG_HELPED_BILL_IN_SEA_COTTAGE",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 564,
+    "name": "FLAG_GOT_SS_TICKET",
+    "category": "event",
+    "location_key": "vermilion-city",
+    "source": "event"
+  },
+  {
+    "index": 565,
+    "name": "FLAG_GOT_SS_TICKET_DUP",
+    "category": "event",
+    "location_key": "vermilion-city",
+    "source": "event"
+  },
+  {
+    "index": 566,
+    "name": "FLAG_GOT_TM42_AT_MEMORIAL_PILLAR",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 567,
+    "name": "FLAG_GOT_HM01",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 568,
+    "name": "FLAG_GOT_HM02",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 569,
+    "name": "FLAG_GOT_HM03",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 570,
+    "name": "FLAG_GOT_HM04",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 571,
+    "name": "FLAG_GOT_HM05",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 572,
+    "name": "FLAG_RESCUED_MR_FUJI",
+    "category": "event",
+    "location_key": "lavender-town",
+    "source": "event"
+  },
+  {
+    "index": 573,
+    "name": "FLAG_GOT_POKE_FLUTE",
+    "category": "event",
+    "location_key": "lavender-town",
+    "source": "event"
+  },
+  {
+    "index": 574,
+    "name": "FLAG_0x23E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 575,
+    "name": "FLAG_GOT_TM28_FROM_ROCKET",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 576,
+    "name": "FLAG_GOT_OLD_ROD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 577,
+    "name": "FLAG_GOT_BIKE_VOUCHER",
+    "category": "event",
+    "location_key": "vermilion-city",
+    "source": "event"
+  },
+  {
+    "index": 578,
+    "name": "FLAG_0x242",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 579,
+    "name": "FLAG_GOT_COIN_CASE",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 580,
+    "name": "FLAG_GOT_GOOD_ROD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 581,
+    "name": "FLAG_GOT_TM29_FROM_MR_PSYCHIC",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 582,
+    "name": "FLAG_GOT_LAPRAS_FROM_SILPH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 583,
+    "name": "FLAG_GOT_POKEBALLS_FROM_OAK_AFTER_22_RIVAL",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 584,
+    "name": "FLAG_DID_MIMIEN_TRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 585,
+    "name": "FLAG_BOUGHT_MAGIKARP",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 586,
+    "name": "FLAG_DID_ZYNX_TRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 587,
+    "name": "FLAG_DID_MS_NIDO_TRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 588,
+    "name": "FLAG_0x24C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 589,
+    "name": "FLAG_DID_CH_DING_TRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 590,
+    "name": "FLAG_GOT_TM38_FROM_BLAINE",
+    "category": "tm",
+    "location_key": "cinnabar-gym",
+    "source": "event"
+  },
+  {
+    "index": 591,
+    "name": "FLAG_OAK_SKIP_22_RIVAL_CHECK",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 592,
+    "name": "FLAG_GOT_MASTER_BALL_FROM_SILPH",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 593,
+    "name": "FLAG_DID_NINA_TRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 594,
+    "name": "FLAG_GOT_ITEMFINDER",
+    "category": "event",
+    "location_key": "lavender-town",
+    "source": "event"
+  },
+  {
+    "index": 595,
+    "name": "FLAG_WOKE_UP_ROUTE_12_SNORLAX",
+    "category": "event",
+    "location_key": "route-12",
+    "source": "event"
+  },
+  {
+    "index": 596,
+    "name": "FLAG_GOT_TM39_FROM_BROCK",
+    "category": "tm",
+    "location_key": "pewter-gym",
+    "source": "event"
+  },
+  {
+    "index": 597,
+    "name": "FLAG_GOT_SUPER_ROD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 598,
+    "name": "FLAG_GOT_EXP_SHARE_FROM_OAKS_AIDE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 599,
+    "name": "FLAG_DID_MARC_TRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 600,
+    "name": "FLAG_BEAT_RIVAL_IN_OAKS_LAB",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 601,
+    "name": "FLAG_GOT_TM06_FROM_KOGA",
+    "category": "tm",
+    "location_key": "fuchsia-gym",
+    "source": "event"
+  },
+  {
+    "index": 602,
+    "name": "FLAG_0x25A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 603,
+    "name": "FLAG_GOT_TM27",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 604,
+    "name": "FLAG_0x25C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 605,
+    "name": "FLAG_0x25D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 606,
+    "name": "FLAG_GOT_OLD_AMBER",
+    "category": "event",
+    "location_key": "pewter-city",
+    "source": "event"
+  },
+  {
+    "index": 607,
+    "name": "FLAG_0x25F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 608,
+    "name": "FLAG_0x260",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 609,
+    "name": "FLAG_0x261",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 610,
+    "name": "FLAG_0x262",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 611,
+    "name": "FLAG_GOT_EEVEE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 612,
+    "name": "FLAG_FOUND_BOTH_VERMILION_GYM_SWITCHES",
+    "category": "event",
+    "location_key": "vermilion-gym",
+    "source": "event"
+  },
+  {
+    "index": 613,
+    "name": "FLAG_CINNABAR_GYM_QUIZ_1",
+    "category": "event",
+    "location_key": "cinnabar-gym",
+    "source": "event"
+  },
+  {
+    "index": 614,
+    "name": "FLAG_PENDING_DAYCARE_EGG",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 615,
+    "name": "FLAG_CINNABAR_GYM_QUIZ_2",
+    "category": "event",
+    "location_key": "cinnabar-gym",
+    "source": "event"
+  },
+  {
+    "index": 616,
+    "name": "FLAG_CINNABAR_GYM_QUIZ_3",
+    "category": "event",
+    "location_key": "cinnabar-gym",
+    "source": "event"
+  },
+  {
+    "index": 617,
+    "name": "FLAG_CINNABAR_GYM_QUIZ_4",
+    "category": "event",
+    "location_key": "cinnabar-gym",
+    "source": "event"
+  },
+  {
+    "index": 618,
+    "name": "FLAG_CINNABAR_GYM_QUIZ_5",
+    "category": "event",
+    "location_key": "cinnabar-gym",
+    "source": "event"
+  },
+  {
+    "index": 619,
+    "name": "FLAG_CINNABAR_GYM_QUIZ_6",
+    "category": "event",
+    "location_key": "cinnabar-gym",
+    "source": "event"
+  },
+  {
+    "index": 620,
+    "name": "FLAG_POKEMON_MANSION_SWITCH_STATE",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 621,
+    "name": "FLAG_OPENED_ROCKET_HIDEOUT",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 622,
+    "name": "FLAG_GOT_10_COINS_FROM_GAMBLER",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 623,
+    "name": "FLAG_GOT_20_COINS_FROM_GAMBLER",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 624,
+    "name": "FLAG_GOT_20_COINS_FROM_GAMBLER_2",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 625,
+    "name": "FLAG_GOT_BICYCLE",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 626,
+    "name": "FLAG_GOT_DOME_FOSSIL",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 627,
+    "name": "FLAG_GOT_HELIX_FOSSIL",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 628,
+    "name": "FLAG_DID_ESPHERE_TRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 629,
+    "name": "FLAG_DID_TANGENY_TRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 630,
+    "name": "FLAG_DID_SEELOR_TRADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 631,
+    "name": "FLAG_0x277",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 632,
+    "name": "FLAG_GOT_HITMON_FROM_DOJO",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 633,
+    "name": "FLAG_0x279",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 634,
+    "name": "FLAG_SILPH_2F_DOOR_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 635,
+    "name": "FLAG_SILPH_2F_DOOR_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 636,
+    "name": "FLAG_SILPH_3F_DOOR_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 637,
+    "name": "FLAG_SILPH_3F_DOOR_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 638,
+    "name": "FLAG_SILPH_4F_DOOR_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 639,
+    "name": "FLAG_SILPH_4F_DOOR_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 640,
+    "name": "FLAG_SILPH_5F_DOOR_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 641,
+    "name": "FLAG_SILPH_5F_DOOR_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 642,
+    "name": "FLAG_SILPH_5F_DOOR_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 643,
+    "name": "FLAG_SILPH_6F_DOOR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 644,
+    "name": "FLAG_SILPH_7F_DOOR_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 645,
+    "name": "FLAG_SILPH_7F_DOOR_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 646,
+    "name": "FLAG_SILPH_7F_DOOR_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 647,
+    "name": "FLAG_SILPH_8F_DOOR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 648,
+    "name": "FLAG_SILPH_9F_DOOR_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 649,
+    "name": "FLAG_SILPH_9F_DOOR_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 650,
+    "name": "FLAG_SILPH_9F_DOOR_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 651,
+    "name": "FLAG_SILPH_9F_DOOR_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 652,
+    "name": "FLAG_SILPH_10F_DOOR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 653,
+    "name": "FLAG_SILPH_11F_DOOR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 654,
+    "name": "FLAG_0x28E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 655,
+    "name": "FLAG_0x28F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 656,
+    "name": "FLAG_MET_STICKER_MAN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 657,
+    "name": "FLAG_PALLET_LADY_NOT_BLOCKING_SIGN",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 658,
+    "name": "FLAG_GOT_VS_SEEKER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 659,
+    "name": "FLAG_GOT_TM19_FROM_ERIKA",
+    "category": "tm",
+    "location_key": "celadon-gym",
+    "source": "event"
+  },
+  {
+    "index": 660,
+    "name": "FLAG_GOT_TM33_FROM_THIRSTY_GIRL",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 661,
+    "name": "FLAG_GOT_TM20_FROM_THIRSTY_GIRL",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 662,
+    "name": "FLAG_GOT_TM16_FROM_THIRSTY_GIRL",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 663,
+    "name": "FLAG_GOT_TM03_FROM_MISTY",
+    "category": "tm",
+    "location_key": "cerulean-gym",
+    "source": "event"
+  },
+  {
+    "index": 664,
+    "name": "FLAG_GOT_TM26_FROM_GIOVANNI",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 665,
+    "name": "FLAG_0x299",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 666,
+    "name": "FLAG_GOT_TM04_FROM_SABRINA",
+    "category": "tm",
+    "location_key": "saffron-gym",
+    "source": "event"
+  },
+  {
+    "index": 667,
+    "name": "FLAG_GOT_FAME_CHECKER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 668,
+    "name": "FLAG_GOT_RECORD_SETTING_MAGIKARP",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 669,
+    "name": "FLAG_TWO_ISLAND_SHOP_INTRODUCED",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 670,
+    "name": "FLAG_TWO_ISLAND_SHOP_EXPANDED_1",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 671,
+    "name": "FLAG_TWO_ISLAND_SHOP_EXPANDED_2",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 672,
+    "name": "FLAG_TWO_ISLAND_SHOP_EXPANDED_3",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 673,
+    "name": "FLAG_SEVII_DETOUR_FINISHED",
+    "category": "event",
+    "location_key": "sevii-islands",
+    "source": "event"
+  },
+  {
+    "index": 674,
+    "name": "FLAG_VISITED_TWO_ISLAND",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 675,
+    "name": "FLAG_RESCUED_LOSTELLE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 676,
+    "name": "FLAG_0x2A4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 677,
+    "name": "FLAG_CAN_USE_ROCKET_HIDEOUT_LIFT",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 678,
+    "name": "FLAG_GOT_TEA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 679,
+    "name": "FLAG_RECEIVED_AURORA_TICKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 680,
+    "name": "FLAG_RECEIVED_MYSTIC_TICKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 681,
+    "name": "FLAG_RECEIVED_OLD_SEA_MAP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 682,
+    "name": "FLAG_WONDER_CARD_UNUSED_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 683,
+    "name": "FLAG_WONDER_CARD_UNUSED_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 684,
+    "name": "FLAG_WONDER_CARD_UNUSED_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 685,
+    "name": "FLAG_WONDER_CARD_UNUSED_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 686,
+    "name": "FLAG_WONDER_CARD_UNUSED_5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 687,
+    "name": "FLAG_WONDER_CARD_UNUSED_6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 688,
+    "name": "FLAG_WONDER_CARD_UNUSED_7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 689,
+    "name": "FLAG_WONDER_CARD_UNUSED_8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 690,
+    "name": "FLAG_WONDER_CARD_UNUSED_9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 691,
+    "name": "FLAG_WONDER_CARD_UNUSED_10",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 692,
+    "name": "FLAG_WONDER_CARD_UNUSED_11",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 693,
+    "name": "FLAG_WONDER_CARD_UNUSED_12",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 694,
+    "name": "FLAG_WONDER_CARD_UNUSED_13",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 695,
+    "name": "FLAG_WONDER_CARD_UNUSED_14",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 696,
+    "name": "FLAG_WONDER_CARD_UNUSED_15",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 697,
+    "name": "FLAG_WONDER_CARD_UNUSED_16",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 698,
+    "name": "FLAG_WONDER_CARD_UNUSED_17",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 699,
+    "name": "FLAG_GOT_POWDER_JAR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 700,
+    "name": "FLAG_FOUGHT_MEWTWO",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 701,
+    "name": "FLAG_FOUGHT_MOLTRES",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 702,
+    "name": "FLAG_FOUGHT_ARTICUNO",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 703,
+    "name": "FLAG_FOUGHT_ZAPDOS",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 704,
+    "name": "FLAG_TUTOR_DOUBLE_EDGE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 705,
+    "name": "FLAG_TUTOR_THUNDER_WAVE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 706,
+    "name": "FLAG_TUTOR_ROCK_SLIDE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 707,
+    "name": "FLAG_TUTOR_EXPLOSION",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 708,
+    "name": "FLAG_TUTOR_MEGA_PUNCH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 709,
+    "name": "FLAG_TUTOR_MEGA_KICK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 710,
+    "name": "FLAG_TUTOR_DREAM_EATER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 711,
+    "name": "FLAG_TUTOR_SOFT_BOILED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 712,
+    "name": "FLAG_TUTOR_SUBSTITUTE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 713,
+    "name": "FLAG_TUTOR_SWORDS_DANCE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 714,
+    "name": "FLAG_TUTOR_SEISMIC_TOSS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 715,
+    "name": "FLAG_TUTOR_COUNTER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 716,
+    "name": "FLAG_TUTOR_METRONOME",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 717,
+    "name": "FLAG_TUTOR_MIMIC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 718,
+    "name": "FLAG_TUTOR_BODY_SLAM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 719,
+    "name": "FLAG_VISITED_OAKS_LAB",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 720,
+    "name": "FLAG_FOUGHT_POWER_PLANT_ELECTRODE_1",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 721,
+    "name": "FLAG_FOUGHT_POWER_PLANT_ELECTRODE_2",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 722,
+    "name": "FLAG_STOPPED_SEAFOAM_B3F_CURRENT",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 723,
+    "name": "FLAG_STOPPED_SEAFOAM_B4F_CURRENT",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 724,
+    "name": "FLAG_TALKED_TO_LORELEI_AFTER_WAREHOUSE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 725,
+    "name": "FLAG_DEFEATED_ROCKETS_IN_WAREHOUSE",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 726,
+    "name": "FLAG_UNLOCKED_ROCKET_WAREHOUSE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 727,
+    "name": "FLAG_NO_ROOM_FOR_TM42_AT_MEMORIAL_PILLAR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 728,
+    "name": "FLAG_LEARNED_YES_NAH_CHANSEY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 729,
+    "name": "FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 730,
+    "name": "FLAG_GOT_TOGEPI_EGG",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 731,
+    "name": "FLAG_NO_ROOM_FOR_TOGEPI_EGG",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 732,
+    "name": "FLAG_RECOVERED_SAPPHIRE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 733,
+    "name": "FLAG_GOT_RUBY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 734,
+    "name": "FLAG_TUTOR_FRENZY_PLANT",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 735,
+    "name": "FLAG_TUTOR_BLAST_BURN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 736,
+    "name": "FLAG_TUTOR_HYDRO_CANNON",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 737,
+    "name": "FLAG_LEARNED_ALL_MOVES_AT_CAPE_BRINK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 738,
+    "name": "FLAG_GOT_NUGGET_FROM_DUNSPARCE_TUNNEL",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 739,
+    "name": "FLAG_USED_CUT_ON_RUIN_VALLEY_BRAILLE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 740,
+    "name": "FLAG_FOUGHT_DEOXYS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 741,
+    "name": "FLAG_0x2E5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 742,
+    "name": "FLAG_0x2E6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 743,
+    "name": "FLAG_0x2E7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 744,
+    "name": "FLAG_0x2E8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 745,
+    "name": "FLAG_0x2E9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 746,
+    "name": "FLAG_0x2EA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 747,
+    "name": "FLAG_0x2EB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 748,
+    "name": "FLAG_REVIVED_DOME",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 749,
+    "name": "FLAG_REVIVED_HELIX",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 750,
+    "name": "FLAG_REVIVED_AMBER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 751,
+    "name": "FLAG_GOT_HM06",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 752,
+    "name": "FLAG_SHOWN_MYSTIC_TICKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 753,
+    "name": "FLAG_SHOWN_AURORA_TICKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 754,
+    "name": "FLAG_FOUGHT_LUGIA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 755,
+    "name": "FLAG_FOUGHT_HO_OH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 756,
+    "name": "FLAG_OAK_SAW_DEX_COMPLETION",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 757,
+    "name": "FLAG_LUGIA_FLEW_AWAY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 758,
+    "name": "FLAG_HO_OH_FLEW_AWAY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 759,
+    "name": "FLAG_DEOXYS_FLEW_AWAY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 760,
+    "name": "FLAG_TALKED_TO_TEA_LADY_AFTER_HOF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 761,
+    "name": "FLAG_TALKED_TO_OAKS_AIDE_IN_VERMILION",
+    "category": "event",
+    "location_key": "vermilion-city",
+    "source": "event"
+  },
+  {
+    "index": 762,
+    "name": "FLAG_GOT_EVERSTONE_FROM_OAKS_AIDE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 763,
+    "name": "FLAG_GOT_MOON_STONE_FROM_JOYFUL_GAME_CORNER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 764,
+    "name": "FLAG_GOT_FULL_RESTORE_FROM_THREE_ISLAND_DEFENDER",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 765,
+    "name": "FLAG_GOT_AMULET_COIN_FROM_OAKS_AIDE",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 766,
+    "name": "FLAG_NO_ROOM_FOR_JOYFUL_GAME_CORNER_MOON_STONE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 767,
+    "name": "FLAG_OAKS_RATING_IS_VIA_PC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 768,
+    "name": "FLAG_0x300",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 769,
+    "name": "FLAG_0x301",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 770,
+    "name": "FLAG_0x302",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 771,
+    "name": "FLAG_0x303",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 772,
+    "name": "FLAG_0x304",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 773,
+    "name": "FLAG_0x305",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 774,
+    "name": "FLAG_0x306",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 775,
+    "name": "FLAG_0x307",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 776,
+    "name": "FLAG_0x308",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 777,
+    "name": "FLAG_0x309",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 778,
+    "name": "FLAG_0x30A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 779,
+    "name": "FLAG_0x30B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 780,
+    "name": "FLAG_0x30C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 781,
+    "name": "FLAG_0x30D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 782,
+    "name": "FLAG_0x30E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 783,
+    "name": "FLAG_0x30F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 784,
+    "name": "FLAG_0x310",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 785,
+    "name": "FLAG_0x311",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 786,
+    "name": "FLAG_0x312",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 787,
+    "name": "FLAG_0x313",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 788,
+    "name": "FLAG_0x314",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 789,
+    "name": "FLAG_0x315",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 790,
+    "name": "FLAG_0x316",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 791,
+    "name": "FLAG_0x317",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 792,
+    "name": "FLAG_0x318",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 793,
+    "name": "FLAG_0x319",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 794,
+    "name": "FLAG_0x31A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 795,
+    "name": "FLAG_0x31B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 796,
+    "name": "FLAG_0x31C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 797,
+    "name": "FLAG_0x31D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 798,
+    "name": "FLAG_0x31E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 799,
+    "name": "FLAG_0x31F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 800,
+    "name": "FLAG_0x320",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 801,
+    "name": "FLAG_0x321",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 802,
+    "name": "FLAG_0x322",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 803,
+    "name": "FLAG_0x323",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 804,
+    "name": "FLAG_0x324",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 805,
+    "name": "FLAG_0x325",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 806,
+    "name": "FLAG_0x326",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 807,
+    "name": "FLAG_0x327",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 808,
+    "name": "FLAG_0x328",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 809,
+    "name": "FLAG_0x329",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 810,
+    "name": "FLAG_0x32A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 811,
+    "name": "FLAG_0x32B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 812,
+    "name": "FLAG_0x32C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 813,
+    "name": "FLAG_0x32D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 814,
+    "name": "FLAG_0x32E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 815,
+    "name": "FLAG_0x32F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 816,
+    "name": "FLAG_0x330",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 817,
+    "name": "FLAG_0x331",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 818,
+    "name": "FLAG_0x332",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 819,
+    "name": "FLAG_0x333",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 820,
+    "name": "FLAG_0x334",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 821,
+    "name": "FLAG_0x335",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 822,
+    "name": "FLAG_0x336",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 823,
+    "name": "FLAG_0x337",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 824,
+    "name": "FLAG_0x338",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 825,
+    "name": "FLAG_0x339",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 826,
+    "name": "FLAG_0x33A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 827,
+    "name": "FLAG_0x33B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 828,
+    "name": "FLAG_0x33C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 829,
+    "name": "FLAG_0x33D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 830,
+    "name": "FLAG_0x33E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 831,
+    "name": "FLAG_0x33F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 832,
+    "name": "FLAG_0x340",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 833,
+    "name": "FLAG_0x341",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 834,
+    "name": "FLAG_0x342",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 835,
+    "name": "FLAG_0x343",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 836,
+    "name": "FLAG_0x344",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 837,
+    "name": "FLAG_0x345",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 838,
+    "name": "FLAG_0x346",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 839,
+    "name": "FLAG_0x347",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 840,
+    "name": "FLAG_0x348",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 841,
+    "name": "FLAG_0x349",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 842,
+    "name": "FLAG_0x34A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 843,
+    "name": "FLAG_0x34B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 844,
+    "name": "FLAG_0x34C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 845,
+    "name": "FLAG_0x34D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 846,
+    "name": "FLAG_0x34E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 847,
+    "name": "FLAG_0x34F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 848,
+    "name": "FLAG_0x350",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 849,
+    "name": "FLAG_0x351",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 850,
+    "name": "FLAG_0x352",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 851,
+    "name": "FLAG_0x353",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 852,
+    "name": "FLAG_0x354",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 853,
+    "name": "FLAG_0x355",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 854,
+    "name": "FLAG_0x356",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 855,
+    "name": "FLAG_0x357",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 856,
+    "name": "FLAG_0x358",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 857,
+    "name": "FLAG_0x359",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 858,
+    "name": "FLAG_0x35A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 859,
+    "name": "FLAG_0x35B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 860,
+    "name": "FLAG_0x35C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 861,
+    "name": "FLAG_0x35D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 862,
+    "name": "FLAG_0x35E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 863,
+    "name": "FLAG_0x35F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 864,
+    "name": "FLAG_0x360",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 865,
+    "name": "FLAG_0x361",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 866,
+    "name": "FLAG_0x362",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 867,
+    "name": "FLAG_0x363",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 868,
+    "name": "FLAG_0x364",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 869,
+    "name": "FLAG_0x365",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 870,
+    "name": "FLAG_0x366",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 871,
+    "name": "FLAG_0x367",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 872,
+    "name": "FLAG_0x368",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 873,
+    "name": "FLAG_0x369",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 874,
+    "name": "FLAG_0x36A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 875,
+    "name": "FLAG_0x36B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 876,
+    "name": "FLAG_0x36C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 877,
+    "name": "FLAG_0x36D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 878,
+    "name": "FLAG_0x36E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 879,
+    "name": "FLAG_0x36F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 880,
+    "name": "FLAG_0x370",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 881,
+    "name": "FLAG_0x371",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 882,
+    "name": "FLAG_0x372",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 883,
+    "name": "FLAG_0x373",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 884,
+    "name": "FLAG_0x374",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 885,
+    "name": "FLAG_0x375",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 886,
+    "name": "FLAG_0x376",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 887,
+    "name": "FLAG_0x377",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 888,
+    "name": "FLAG_0x378",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 889,
+    "name": "FLAG_0x379",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 890,
+    "name": "FLAG_0x37A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 891,
+    "name": "FLAG_0x37B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 892,
+    "name": "FLAG_0x37C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 893,
+    "name": "FLAG_0x37D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 894,
+    "name": "FLAG_0x37E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 895,
+    "name": "FLAG_0x37F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 896,
+    "name": "FLAG_0x380",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 897,
+    "name": "FLAG_0x381",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 898,
+    "name": "FLAG_0x382",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 899,
+    "name": "FLAG_0x383",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 900,
+    "name": "FLAG_0x384",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 901,
+    "name": "FLAG_0x385",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 902,
+    "name": "FLAG_0x386",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 903,
+    "name": "FLAG_0x387",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 904,
+    "name": "FLAG_0x388",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 905,
+    "name": "FLAG_0x389",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 906,
+    "name": "FLAG_0x38A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 907,
+    "name": "FLAG_0x38B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 908,
+    "name": "FLAG_0x38C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 909,
+    "name": "FLAG_0x38D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 910,
+    "name": "FLAG_0x38E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 911,
+    "name": "FLAG_0x38F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 912,
+    "name": "FLAG_0x390",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 913,
+    "name": "FLAG_0x391",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 914,
+    "name": "FLAG_0x392",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 915,
+    "name": "FLAG_0x393",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 916,
+    "name": "FLAG_0x394",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 917,
+    "name": "FLAG_0x395",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 918,
+    "name": "FLAG_0x396",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 919,
+    "name": "FLAG_0x397",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 920,
+    "name": "FLAG_0x398",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 921,
+    "name": "FLAG_0x399",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 922,
+    "name": "FLAG_0x39A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 923,
+    "name": "FLAG_0x39B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 924,
+    "name": "FLAG_0x39C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 925,
+    "name": "FLAG_0x39D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 926,
+    "name": "FLAG_0x39E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 927,
+    "name": "FLAG_0x39F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 928,
+    "name": "FLAG_0x3A0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 929,
+    "name": "FLAG_0x3A1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 930,
+    "name": "FLAG_0x3A2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 931,
+    "name": "FLAG_0x3A3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 932,
+    "name": "FLAG_0x3A4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 933,
+    "name": "FLAG_0x3A5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 934,
+    "name": "FLAG_0x3A6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 935,
+    "name": "FLAG_0x3A7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 936,
+    "name": "FLAG_0x3A8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 937,
+    "name": "FLAG_0x3A9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 938,
+    "name": "FLAG_0x3AA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 939,
+    "name": "FLAG_0x3AB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 940,
+    "name": "FLAG_0x3AC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 941,
+    "name": "FLAG_0x3AD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 942,
+    "name": "FLAG_0x3AE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 943,
+    "name": "FLAG_0x3AF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 944,
+    "name": "FLAG_0x3B0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 945,
+    "name": "FLAG_0x3B1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 946,
+    "name": "FLAG_0x3B2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 947,
+    "name": "FLAG_0x3B3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 948,
+    "name": "FLAG_0x3B4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 949,
+    "name": "FLAG_0x3B5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 950,
+    "name": "FLAG_0x3B6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 951,
+    "name": "FLAG_0x3B7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 952,
+    "name": "FLAG_0x3B8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 953,
+    "name": "FLAG_0x3B9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 954,
+    "name": "FLAG_0x3BA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 955,
+    "name": "FLAG_0x3BB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 956,
+    "name": "FLAG_0x3BC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 957,
+    "name": "FLAG_0x3BD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 958,
+    "name": "FLAG_0x3BE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 959,
+    "name": "FLAG_0x3BF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 960,
+    "name": "FLAG_0x3C0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 961,
+    "name": "FLAG_0x3C1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 962,
+    "name": "FLAG_0x3C2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 963,
+    "name": "FLAG_0x3C3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 964,
+    "name": "FLAG_0x3C4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 965,
+    "name": "FLAG_0x3C5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 966,
+    "name": "FLAG_0x3C6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 967,
+    "name": "FLAG_0x3C7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 968,
+    "name": "FLAG_0x3C8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 969,
+    "name": "FLAG_0x3C9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 970,
+    "name": "FLAG_0x3CA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 971,
+    "name": "FLAG_0x3CB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 972,
+    "name": "FLAG_0x3CC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 973,
+    "name": "FLAG_0x3CD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 974,
+    "name": "FLAG_0x3CE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 975,
+    "name": "FLAG_0x3CF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 976,
+    "name": "FLAG_0x3D0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 977,
+    "name": "FLAG_0x3D1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 978,
+    "name": "FLAG_0x3D2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 979,
+    "name": "FLAG_0x3D3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 980,
+    "name": "FLAG_0x3D4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 981,
+    "name": "FLAG_0x3D5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 982,
+    "name": "FLAG_0x3D6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 983,
+    "name": "FLAG_0x3D7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 984,
+    "name": "FLAG_MYSTERY_GIFT_DONE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 985,
+    "name": "FLAG_MYSTERY_GIFT_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 986,
+    "name": "FLAG_MYSTERY_GIFT_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 987,
+    "name": "FLAG_MYSTERY_GIFT_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 988,
+    "name": "FLAG_MYSTERY_GIFT_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 989,
+    "name": "FLAG_MYSTERY_GIFT_5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 990,
+    "name": "FLAG_MYSTERY_GIFT_6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 991,
+    "name": "FLAG_MYSTERY_GIFT_7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 992,
+    "name": "FLAG_MYSTERY_GIFT_8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 993,
+    "name": "FLAG_MYSTERY_GIFT_9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 994,
+    "name": "FLAG_MYSTERY_GIFT_10",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 995,
+    "name": "FLAG_MYSTERY_GIFT_11",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 996,
+    "name": "FLAG_MYSTERY_GIFT_12",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 997,
+    "name": "FLAG_MYSTERY_GIFT_13",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 998,
+    "name": "FLAG_MYSTERY_GIFT_14",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 999,
+    "name": "FLAG_MYSTERY_GIFT_15",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1000,
+    "name": "FLAG_HIDDEN_ITEMS_START",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1001,
+    "name": "FLAG_HIDDEN_ITEM_VIRIDIAN_FOREST_ANTIDOTE",
+    "category": "event",
+    "location_key": "viridian-city",
+    "source": "event"
+  },
+  {
+    "index": 1002,
+    "name": "FLAG_HIDDEN_ITEM_MT_MOON_B2F_MOON_STONE",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 1003,
+    "name": "FLAG_HIDDEN_ITEM_MT_MOON_B2F_ETHER",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 1004,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE25_ELIXIR",
+    "category": "event",
+    "location_key": "route-25",
+    "source": "event"
+  },
+  {
+    "index": 1005,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE25_ETHER",
+    "category": "event",
+    "location_key": "route-25",
+    "source": "event"
+  },
+  {
+    "index": 1006,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE9_ETHER",
+    "category": "event",
+    "location_key": "route-9",
+    "source": "event"
+  },
+  {
+    "index": 1007,
+    "name": "FLAG_HIDDEN_ITEM_UNUSED_0x07",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1008,
+    "name": "FLAG_HIDDEN_ITEM_SSANNE_B1F_CORRIDOR_HYPER_POTION",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1009,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE10_SUPER_POTION",
+    "category": "event",
+    "location_key": "route-10",
+    "source": "event"
+  },
+  {
+    "index": 1010,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE10_MAX_ETHER",
+    "category": "event",
+    "location_key": "route-10",
+    "source": "event"
+  },
+  {
+    "index": 1011,
+    "name": "FLAG_HIDDEN_ITEM_ROCKET_HIDEOUT_B1F_PP_UP",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 1012,
+    "name": "FLAG_HIDDEN_ITEM_ROCKET_HIDEOUT_B3F_NUGGET",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 1013,
+    "name": "FLAG_HIDDEN_ITEM_ROCKET_HIDEOUT_B4F_NEST_BALL",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 1014,
+    "name": "FLAG_HIDDEN_ITEM_POKEMON_TOWER_5F_BIG_MUSHROOM",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 1015,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE13_PP_UP",
+    "category": "event",
+    "location_key": "route-13",
+    "source": "event"
+  },
+  {
+    "index": 1016,
+    "name": "FLAG_HIDDEN_ITEM_UNUSED_0x10",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1017,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE17_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-17",
+    "source": "event"
+  },
+  {
+    "index": 1018,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE17_FULL_RESTORE",
+    "category": "event",
+    "location_key": "route-17",
+    "source": "event"
+  },
+  {
+    "index": 1019,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE17_PP_UP",
+    "category": "event",
+    "location_key": "route-17",
+    "source": "event"
+  },
+  {
+    "index": 1020,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE17_MAX_REVIVE",
+    "category": "event",
+    "location_key": "route-17",
+    "source": "event"
+  },
+  {
+    "index": 1021,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE17_MAX_ELIXIR",
+    "category": "event",
+    "location_key": "route-17",
+    "source": "event"
+  },
+  {
+    "index": 1022,
+    "name": "FLAG_HIDDEN_ITEM_SAFARI_ZONE_CENTER_LEAF_STONE",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 1023,
+    "name": "FLAG_HIDDEN_ITEM_SAFARI_ZONE_WEST_REVIVE",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 1024,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_5F_ELIXIR",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1025,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_9F_MAX_POTION",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1026,
+    "name": "FLAG_HIDDEN_ITEM_SAFFRON_CITY_COPYCATS_HOUSE_2F_NUGGET",
+    "category": "event",
+    "location_key": "saffron-city",
+    "source": "event"
+  },
+  {
+    "index": 1027,
+    "name": "FLAG_HIDDEN_ITEM_POWER_PLANT_MAX_ELIXIR",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 1028,
+    "name": "FLAG_HIDDEN_ITEM_POWER_PLANT_THUNDER_STONE",
+    "category": "event",
+    "location_key": "power-plant",
+    "source": "event"
+  },
+  {
+    "index": 1029,
+    "name": "FLAG_HIDDEN_ITEM_SEAFOAM_ISLANDS_B3F_NUGGET",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 1030,
+    "name": "FLAG_HIDDEN_ITEM_SEAFOAM_ISLANDS_B4F_WATER_STONE",
+    "category": "event",
+    "location_key": "seafoam-islands",
+    "source": "event"
+  },
+  {
+    "index": 1031,
+    "name": "FLAG_HIDDEN_ITEM_POKEMON_MANSION_1F_MOON_STONE",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 1032,
+    "name": "FLAG_HIDDEN_ITEM_POKEMON_MANSION_3F_RARE_CANDY",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 1033,
+    "name": "FLAG_HIDDEN_ITEM_POKEMON_MANSION_B1F_ELIXIR",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 1034,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE23_FULL_RESTORE",
+    "category": "event",
+    "location_key": "route-23",
+    "source": "event"
+  },
+  {
+    "index": 1035,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE23_ULTRA_BALL",
+    "category": "event",
+    "location_key": "route-23",
+    "source": "event"
+  },
+  {
+    "index": 1036,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE23_MAX_ETHER",
+    "category": "event",
+    "location_key": "route-23",
+    "source": "event"
+  },
+  {
+    "index": 1037,
+    "name": "FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 1038,
+    "name": "FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_FULL_RESTORE",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 1039,
+    "name": "FLAG_HIDDEN_ITEM_CERULEAN_CAVE_1F_ULTRA_BALL",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 1040,
+    "name": "FLAG_HIDDEN_ITEM_UNUSED_0x28",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1041,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE11_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "route-11",
+    "source": "event"
+  },
+  {
+    "index": 1042,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE12_HYPER_POTION",
+    "category": "event",
+    "location_key": "route-12",
+    "source": "event"
+  },
+  {
+    "index": 1043,
+    "name": "FLAG_HIDDEN_ITEM_UNUSED_0x2B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1044,
+    "name": "FLAG_HIDDEN_ITEM_UNUSED_0x2C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1045,
+    "name": "FLAG_HIDDEN_ITEM_UNUSED_0x2D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1046,
+    "name": "FLAG_HIDDEN_ITEM_UNUSED_0x2E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1047,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_PP_UP",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1048,
+    "name": "FLAG_HIDDEN_ITEM_VERMILION_CITY_MAX_ETHER",
+    "category": "event",
+    "location_key": "vermilion-city",
+    "source": "event"
+  },
+  {
+    "index": 1049,
+    "name": "FLAG_HIDDEN_ITEM_CERULEAN_CITY_RARE_CANDY",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 1050,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE4_GREAT_BALL",
+    "category": "event",
+    "location_key": "route-4",
+    "source": "event"
+  },
+  {
+    "index": 1051,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1052,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_2",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1053,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_3",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1054,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_4",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1055,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_5",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1056,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_6",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1057,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_7",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1058,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_8",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1059,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_9",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1060,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_10",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1061,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_11",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1062,
+    "name": "FLAG_HIDDEN_ITEM_CELADON_CITY_GAME_CORNER_COINS_12",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 1063,
+    "name": "FLAG_HIDDEN_ITEM_SEVEN_ISLAND_SEVAULT_CANYON_CHERI_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1064,
+    "name": "FLAG_HIDDEN_ITEM_SEVEN_ISLAND_TANOBY_RUINS_HEART_SCALE_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1065,
+    "name": "FLAG_HIDDEN_ITEM_SEVEN_ISLAND_TANOBY_RUINS_HEART_SCALE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1066,
+    "name": "FLAG_HIDDEN_ITEM_SEVEN_ISLAND_TANOBY_RUINS_HEART_SCALE_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1067,
+    "name": "FLAG_HIDDEN_ITEM_SEVEN_ISLAND_TANOBY_RUINS_HEART_SCALE_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1068,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_ROCKET_WAREHOUSE_NEST_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1069,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_ROCKET_WAREHOUSE_NET_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1070,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_NORTH_SOUTH_TUNNEL_POTION",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1071,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_NORTH_SOUTH_TUNNEL_ANTIDOTE",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1072,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_NORTH_SOUTH_TUNNEL_PARALYZE_HEAL",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1073,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_NORTH_SOUTH_TUNNEL_AWAKENING",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1074,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_NORTH_SOUTH_TUNNEL_BURN_HEAL",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1075,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_NORTH_SOUTH_TUNNEL_ICE_HEAL",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1076,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_NORTH_SOUTH_TUNNEL_ETHER",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1077,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_EAST_WEST_TUNNEL_POTION",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1078,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_EAST_WEST_TUNNEL_ANTIDOTE",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1079,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_EAST_WEST_TUNNEL_PARALYZE_HEAL",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1080,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_EAST_WEST_TUNNEL_AWAKENING",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1081,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_EAST_WEST_TUNNEL_BURN_HEAL",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1082,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_EAST_WEST_TUNNEL_ICE_HEAL",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1083,
+    "name": "FLAG_HIDDEN_ITEM_UNDERGROUND_PATH_EAST_WEST_TUNNEL_ETHER",
+    "category": "event",
+    "location_key": "goldenrod-city",
+    "source": "event"
+  },
+  {
+    "index": 1084,
+    "name": "FLAG_HIDDEN_ITEM_MT_MOON_B1F_TINY_MUSHROOM",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 1085,
+    "name": "FLAG_HIDDEN_ITEM_MT_MOON_B1F_TINY_MUSHROOM_2",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 1086,
+    "name": "FLAG_HIDDEN_ITEM_MT_MOON_B1F_TINY_MUSHROOM_3",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 1087,
+    "name": "FLAG_HIDDEN_ITEM_MT_MOON_B1F_BIG_MUSHROOM",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 1088,
+    "name": "FLAG_HIDDEN_ITEM_MT_MOON_B1F_BIG_MUSHROOM_2",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 1089,
+    "name": "FLAG_HIDDEN_ITEM_MT_MOON_B1F_BIG_MUSHROOM_3",
+    "category": "event",
+    "location_key": "mt-moon",
+    "source": "event"
+  },
+  {
+    "index": 1090,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_RAZZ_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1091,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_BLUK_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1092,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_NANAB_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1093,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_WEPEAR_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1094,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_ORAN_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1095,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_CHERI_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1096,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_CHESTO_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1097,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_PECHA_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1098,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_RAWST_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1099,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_ASPEAR_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1100,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_PERSIM_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1101,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_PINAP_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1102,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BERRY_FOREST_LUM_BERRY",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1103,
+    "name": "FLAG_HIDDEN_ITEM_ONE_ISLAND_TREASURE_BEACH_STARDUST",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 1104,
+    "name": "FLAG_HIDDEN_ITEM_ONE_ISLAND_TREASURE_BEACH_STARDUST_2",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 1105,
+    "name": "FLAG_HIDDEN_ITEM_ONE_ISLAND_TREASURE_BEACH_PEARL",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 1106,
+    "name": "FLAG_HIDDEN_ITEM_ONE_ISLAND_TREASURE_BEACH_PEARL_2",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 1107,
+    "name": "FLAG_HIDDEN_ITEM_ONE_ISLAND_TREASURE_BEACH_ULTRA_BALL",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 1108,
+    "name": "FLAG_HIDDEN_ITEM_ONE_ISLAND_TREASURE_BEACH_ULTRA_BALL_2",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 1109,
+    "name": "FLAG_HIDDEN_ITEM_ONE_ISLAND_TREASURE_BEACH_STAR_PIECE",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 1110,
+    "name": "FLAG_HIDDEN_ITEM_ONE_ISLAND_TREASURE_BEACH_BIG_PEARL",
+    "category": "event",
+    "location_key": "one-island",
+    "source": "event"
+  },
+  {
+    "index": 1111,
+    "name": "FLAG_HIDDEN_ITEM_TWO_ISLAND_CAPE_BRINK_RARE_CANDY",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 1112,
+    "name": "FLAG_HIDDEN_ITEM_PEWTER_CITY_POKE_BALL",
+    "category": "event",
+    "location_key": "pewter-city",
+    "source": "event"
+  },
+  {
+    "index": 1113,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE3_ORAN_BERRY",
+    "category": "event",
+    "location_key": "route-3",
+    "source": "event"
+  },
+  {
+    "index": 1114,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE4_PERSIM_BERRY",
+    "category": "event",
+    "location_key": "route-4",
+    "source": "event"
+  },
+  {
+    "index": 1115,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE24_PECHA_BERRY",
+    "category": "event",
+    "location_key": "route-24",
+    "source": "event"
+  },
+  {
+    "index": 1116,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE25_ORAN_BERRY",
+    "category": "event",
+    "location_key": "route-25",
+    "source": "event"
+  },
+  {
+    "index": 1117,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE25_BLUK_BERRY",
+    "category": "event",
+    "location_key": "route-25",
+    "source": "event"
+  },
+  {
+    "index": 1118,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE6_SITRUS_BERRY",
+    "category": "event",
+    "location_key": "route-6",
+    "source": "event"
+  },
+  {
+    "index": 1119,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE6_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-6",
+    "source": "event"
+  },
+  {
+    "index": 1120,
+    "name": "FLAG_HIDDEN_ITEM_SSANNE_KITCHEN_PECHA_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1121,
+    "name": "FLAG_HIDDEN_ITEM_SSANNE_KITCHEN_CHERI_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1122,
+    "name": "FLAG_HIDDEN_ITEM_SSANNE_KITCHEN_CHESTO_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1123,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE9_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-9",
+    "source": "event"
+  },
+  {
+    "index": 1124,
+    "name": "FLAG_HIDDEN_ITEM_UNUSED_0x7C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1125,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE10_PERSIM_BERRY",
+    "category": "event",
+    "location_key": "route-10",
+    "source": "event"
+  },
+  {
+    "index": 1126,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE10_CHERI_BERRY",
+    "category": "event",
+    "location_key": "route-10",
+    "source": "event"
+  },
+  {
+    "index": 1127,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE8_RAWST_BERRY",
+    "category": "event",
+    "location_key": "route-8",
+    "source": "event"
+  },
+  {
+    "index": 1128,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE8_LUM_BERRY",
+    "category": "event",
+    "location_key": "route-8",
+    "source": "event"
+  },
+  {
+    "index": 1129,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE8_LEPPA_BERRY",
+    "category": "event",
+    "location_key": "route-8",
+    "source": "event"
+  },
+  {
+    "index": 1130,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE12_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-12",
+    "source": "event"
+  },
+  {
+    "index": 1131,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE12_LEFTOVERS",
+    "category": "event",
+    "location_key": "route-12",
+    "source": "event"
+  },
+  {
+    "index": 1132,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE16_LEFTOVERS",
+    "category": "event",
+    "location_key": "route-16",
+    "source": "event"
+  },
+  {
+    "index": 1133,
+    "name": "FLAG_HIDDEN_ITEM_FUCHSIA_CITY_MAX_REVIVE",
+    "category": "event",
+    "location_key": "fuchsia-city",
+    "source": "event"
+  },
+  {
+    "index": 1134,
+    "name": "FLAG_HIDDEN_ITEM_ROCKET_HIDEOUT_B4F_NET_BALL",
+    "category": "event",
+    "location_key": "mahogany-town",
+    "source": "event"
+  },
+  {
+    "index": 1135,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_2F_ULTRA_BALL",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1136,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_3F_PROTEIN",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1137,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_4F_IRON",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1138,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_5F_PP_UP",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1139,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_6F_CARBOS",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1140,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_7F_ZINC",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1141,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_8F_NUGGET",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1142,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_9F_CALCIUM",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1143,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_10F_HP_UP",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1144,
+    "name": "FLAG_HIDDEN_ITEM_SILPH_CO_11F_REVIVE",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1145,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE23_LUM_BERRY",
+    "category": "event",
+    "location_key": "route-23",
+    "source": "event"
+  },
+  {
+    "index": 1146,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE23_SITRUS_BERRY",
+    "category": "event",
+    "location_key": "route-23",
+    "source": "event"
+  },
+  {
+    "index": 1147,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE23_ASPEAR_BERRY",
+    "category": "event",
+    "location_key": "route-23",
+    "source": "event"
+  },
+  {
+    "index": 1148,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE23_LEPPA_BERRY",
+    "category": "event",
+    "location_key": "route-23",
+    "source": "event"
+  },
+  {
+    "index": 1149,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE14_ZINC",
+    "category": "event",
+    "location_key": "route-14",
+    "source": "event"
+  },
+  {
+    "index": 1150,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE9_CHESTO_BERRY",
+    "category": "event",
+    "location_key": "route-9",
+    "source": "event"
+  },
+  {
+    "index": 1151,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE10_NANAB_BERRY",
+    "category": "event",
+    "location_key": "route-10",
+    "source": "event"
+  },
+  {
+    "index": 1152,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE7_WEPEAR_BERRY",
+    "category": "event",
+    "location_key": "route-7",
+    "source": "event"
+  },
+  {
+    "index": 1153,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE20_STARDUST",
+    "category": "event",
+    "location_key": "route-20",
+    "source": "event"
+  },
+  {
+    "index": 1154,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE21_NORTH_PEARL",
+    "category": "event",
+    "location_key": "route-21",
+    "source": "event"
+  },
+  {
+    "index": 1155,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE23_MAX_ELIXIR",
+    "category": "event",
+    "location_key": "route-23",
+    "source": "event"
+  },
+  {
+    "index": 1156,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE4_RAZZ_BERRY",
+    "category": "event",
+    "location_key": "route-4",
+    "source": "event"
+  },
+  {
+    "index": 1157,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE14_PINAP_BERRY",
+    "category": "event",
+    "location_key": "route-14",
+    "source": "event"
+  },
+  {
+    "index": 1158,
+    "name": "FLAG_HIDDEN_ITEM_MT_EMBER_EXTERIOR_FIRE_STONE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1159,
+    "name": "FLAG_HIDDEN_ITEM_POKEMON_TOWER_7F_SOOTHE_BELL",
+    "category": "event",
+    "location_key": "pokemon-tower",
+    "source": "event"
+  },
+  {
+    "index": 1160,
+    "name": "FLAG_HIDDEN_ITEM_NAVEL_ROCK_SUMMIT_SACRED_ASH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1161,
+    "name": "FLAG_HIDDEN_ITEM_TWO_ISLAND_CAPE_BRINK_PP_MAX",
+    "category": "event",
+    "location_key": "two-island",
+    "source": "event"
+  },
+  {
+    "index": 1162,
+    "name": "FLAG_HIDDEN_ITEM_MT_EMBER_EXTERIOR_ULTRA_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1163,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_DUNSPARCE_TUNNEL_NUGGET",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 1164,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_PP_UP",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1165,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BOND_BRIDGE_MAX_REPEL",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1166,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BOND_BRIDGE_PEARL",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1167,
+    "name": "FLAG_HIDDEN_ITEM_THREE_ISLAND_BOND_BRIDGE_STARDUST",
+    "category": "event",
+    "location_key": "three-island",
+    "source": "event"
+  },
+  {
+    "index": 1168,
+    "name": "FLAG_HIDDEN_ITEM_FOUR_ISLAND_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1169,
+    "name": "FLAG_HIDDEN_ITEM_FOUR_ISLAND_ULTRA_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1170,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_MEMORIAL_PILLAR_BIG_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1171,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_MEMORIAL_PILLAR_RAZZ_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1172,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_MEMORIAL_PILLAR_SITRUS_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1173,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_MEMORIAL_PILLAR_BLUK_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1174,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_RESORT_GORGEOUS_NEST_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1175,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_RESORT_GORGEOUS_STARDUST",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1176,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_RESORT_GORGEOUS_STAR_PIECE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1177,
+    "name": "FLAG_HIDDEN_ITEM_FIVE_ISLAND_RESORT_GORGEOUS_STARDUST_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1178,
+    "name": "FLAG_HIDDEN_ITEM_SIX_ISLAND_OUTCAST_ISLAND_STAR_PIECE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1179,
+    "name": "FLAG_HIDDEN_ITEM_SIX_ISLAND_OUTCAST_ISLAND_NET_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1180,
+    "name": "FLAG_HIDDEN_ITEM_SIX_ISLAND_GREEN_PATH_ULTRA_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1181,
+    "name": "FLAG_HIDDEN_ITEM_SIX_ISLAND_WATER_PATH_ASPEAR_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1182,
+    "name": "FLAG_HIDDEN_ITEM_SIX_ISLAND_WATER_PATH_ORAN_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1183,
+    "name": "FLAG_HIDDEN_ITEM_SIX_ISLAND_WATER_PATH_PINAP_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1184,
+    "name": "FLAG_HIDDEN_ITEM_SIX_ISLAND_LEPPA_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1185,
+    "name": "FLAG_HIDDEN_ITEM_SEVEN_ISLAND_TRAINER_TOWER_BIG_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1186,
+    "name": "FLAG_HIDDEN_ITEM_SEVEN_ISLAND_TRAINER_TOWER_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1187,
+    "name": "FLAG_HIDDEN_ITEM_SEVEN_ISLAND_TRAINER_TOWER_NANAB_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1188,
+    "name": "FLAG_HIDDEN_ITEM_SEVEN_ISLAND_SEVAULT_CANYON_ENTRANCE_RAWST_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1189,
+    "name": "FLAG_HIDDEN_ITEM_VIRIDIAN_CITY_GYM_MACHO_BRACE",
+    "category": "event",
+    "location_key": "viridian-city",
+    "source": "event"
+  },
+  {
+    "index": 1190,
+    "name": "FLAG_HIDDEN_ITEM_SSANNE_EXTERIOR_LAVA_COOKIE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1191,
+    "name": "FLAG_UNUSED_0x4A7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1192,
+    "name": "FLAG_UNUSED_0x4A8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1193,
+    "name": "FLAG_UNUSED_0x4A9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1194,
+    "name": "FLAG_UNUSED_0x4AA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1195,
+    "name": "FLAG_UNUSED_0x4AB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1196,
+    "name": "FLAG_UNUSED_0x4AC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1197,
+    "name": "FLAG_UNUSED_0x4AD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1198,
+    "name": "FLAG_UNUSED_0x4AE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1199,
+    "name": "FLAG_UNUSED_0x4AF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1200,
+    "name": "FLAG_DEFEATED_BROCK",
+    "category": "trainer",
+    "location_key": "pewter-gym",
+    "source": "event"
+  },
+  {
+    "index": 1201,
+    "name": "FLAG_DEFEATED_MISTY",
+    "category": "trainer",
+    "location_key": "cerulean-gym",
+    "source": "event"
+  },
+  {
+    "index": 1202,
+    "name": "FLAG_DEFEATED_LT_SURGE",
+    "category": "trainer",
+    "location_key": "vermilion-gym",
+    "source": "event"
+  },
+  {
+    "index": 1203,
+    "name": "FLAG_DEFEATED_ERIKA",
+    "category": "trainer",
+    "location_key": "celadon-gym",
+    "source": "event"
+  },
+  {
+    "index": 1204,
+    "name": "FLAG_DEFEATED_KOGA",
+    "category": "trainer",
+    "location_key": "fuchsia-gym",
+    "source": "event"
+  },
+  {
+    "index": 1205,
+    "name": "FLAG_DEFEATED_SABRINA",
+    "category": "trainer",
+    "location_key": "saffron-gym",
+    "source": "event"
+  },
+  {
+    "index": 1206,
+    "name": "FLAG_DEFEATED_BLAINE",
+    "category": "trainer",
+    "location_key": "cinnabar-gym",
+    "source": "event"
+  },
+  {
+    "index": 1207,
+    "name": "FLAG_DEFEATED_LEADER_GIOVANNI",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 1208,
+    "name": "FLAG_DEFEATED_LORELEI",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 1209,
+    "name": "FLAG_DEFEATED_BRUNO",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 1210,
+    "name": "FLAG_DEFEATED_AGATHA",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 1211,
+    "name": "FLAG_DEFEATED_LANCE",
+    "category": "trainer",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 1212,
+    "name": "FLAG_DEFEATED_CHAMP",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 1213,
+    "name": "FLAG_0x4BD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1214,
+    "name": "FLAG_0x4BE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1215,
+    "name": "FLAG_0x4BF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1216,
+    "name": "FLAG_0x4C0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1217,
+    "name": "FLAG_0x4C1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1218,
+    "name": "FLAG_0x4C2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1219,
+    "name": "FLAG_0x4C3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1220,
+    "name": "FLAG_0x4C4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1221,
+    "name": "FLAG_0x4C5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1222,
+    "name": "FLAG_0x4C6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1223,
+    "name": "FLAG_0x4C7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1224,
+    "name": "FLAG_0x4C8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1225,
+    "name": "FLAG_0x4C9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1226,
+    "name": "FLAG_0x4CA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1227,
+    "name": "FLAG_0x4CB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1228,
+    "name": "FLAG_0x4CC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1229,
+    "name": "FLAG_0x4CD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1230,
+    "name": "FLAG_0x4CE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1231,
+    "name": "FLAG_0x4CF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1232,
+    "name": "FLAG_0x4D0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1233,
+    "name": "FLAG_0x4D1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1234,
+    "name": "FLAG_0x4D2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1235,
+    "name": "FLAG_0x4D3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1236,
+    "name": "FLAG_0x4D4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1237,
+    "name": "FLAG_0x4D5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1238,
+    "name": "FLAG_0x4D6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1239,
+    "name": "FLAG_0x4D7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1240,
+    "name": "FLAG_0x4D8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1241,
+    "name": "FLAG_0x4D9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1242,
+    "name": "FLAG_0x4DA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1243,
+    "name": "FLAG_0x4DB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1244,
+    "name": "FLAG_0x4DC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1245,
+    "name": "FLAG_0x4DD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1246,
+    "name": "FLAG_0x4DE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1247,
+    "name": "FLAG_0x4DF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1248,
+    "name": "FLAG_0x4E0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1249,
+    "name": "FLAG_0x4E1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1250,
+    "name": "FLAG_0x4E2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1251,
+    "name": "FLAG_0x4E3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1252,
+    "name": "FLAG_0x4E4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1253,
+    "name": "FLAG_0x4E5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1254,
+    "name": "FLAG_0x4E6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1255,
+    "name": "FLAG_0x4E7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1256,
+    "name": "FLAG_0x4E8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1257,
+    "name": "FLAG_0x4E9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1258,
+    "name": "FLAG_0x4EA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1259,
+    "name": "FLAG_0x4EB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1260,
+    "name": "FLAG_0x4EC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1261,
+    "name": "FLAG_0x4ED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1262,
+    "name": "FLAG_0x4EE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1263,
+    "name": "FLAG_0x4EF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1264,
+    "name": "FLAG_0x4F0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1265,
+    "name": "FLAG_0x4F1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1266,
+    "name": "FLAG_0x4F2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1267,
+    "name": "FLAG_0x4F3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1268,
+    "name": "FLAG_0x4F4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1269,
+    "name": "FLAG_0x4F5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1270,
+    "name": "FLAG_0x4F6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1271,
+    "name": "FLAG_0x4F7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1272,
+    "name": "FLAG_0x4F8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1273,
+    "name": "FLAG_0x4F9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1274,
+    "name": "FLAG_0x4FA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1275,
+    "name": "FLAG_0x4FB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1276,
+    "name": "FLAG_0x4FC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1277,
+    "name": "FLAG_0x4FD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1278,
+    "name": "FLAG_0x4FE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1279,
+    "name": "FLAG_0x4FF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 16384,
+    "name": "FLAG_DONT_SHOW_MAP_NAME_POPUP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 16385,
+    "name": "FLAG_DONT_TRANSITION_MUSIC",
+    "category": "event",
+    "source": "event"
+  }
+]

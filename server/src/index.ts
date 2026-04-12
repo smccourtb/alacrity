@@ -20,6 +20,11 @@ setLogJson(LOG_JSON);
 // Initialize paths BEFORE any module that reads them (db.ts, routes, services)
 initPaths({ dataDir: args['data-dir'], resourcesDir: args['resources-dir'] });
 
+// Initialize config service — creates config.json with defaults if missing.
+// Loaded dynamically so it only evaluates after initPaths has set the data dir.
+const { initConfig } = await import('./services/config.js');
+initConfig();
+
 // ── Dynamic imports (must come after initPaths) ─────────────────
 const { default: db } = await import('./db.js');
 const { default: express } = await import('express');
@@ -42,6 +47,9 @@ const { default: launcherRouter } = await import('./routes/launcher.js');
 const { default: streamRouter } = await import('./routes/stream.js');
 const { default: flagRoutes } = await import('./routes/flags.js');
 const { default: timelineRouter } = await import('./routes/timeline.js');
+const { default: configRouter } = await import('./routes/config.js');
+const { default: dependenciesRouter } = await import('./routes/dependencies.js');
+const { default: systemRouter } = await import('./routes/system.js');
 const { seedShinyAvailability } = await import('./shiny-availability.js');
 const { seedGuide } = await import('./seeds/seedGuide.js');
 const { seedRibbons, seedMarks, seedBalls, seedForms, seedShinyMethods, seedLegality } = await import('./seed-reference.js');
@@ -68,6 +76,13 @@ app.use(cors({
 app.use(express.json());
 
 runMigrations(db);
+
+// Initialize dependency service — requires DB schema from runMigrations.
+// Eager loadManifest fails fast on missing/malformed manifest JSON.
+const { cleanupTempInstalls, loadManifest, detectMismatches } = await import('./services/dependencies.js');
+cleanupTempInstalls();
+loadManifest();
+detectMismatches();
 
 // Disable FK checks during seeding — species table populated async from PokeAPI
 db.exec('PRAGMA foreign_keys = OFF');
@@ -130,6 +145,9 @@ app.use('/api/launcher', launcherRouter);
 app.use('/api/stream', streamRouter);
 app.use('/api/flags', flagRoutes);
 app.use('/api/timeline', timelineRouter);
+app.use('/api/config', configRouter);
+app.use('/api/dependencies', dependenciesRouter);
+app.use('/api/system', systemRouter);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });

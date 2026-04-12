@@ -60,6 +60,15 @@ jobs:
         with:
           workspaces: src-tauri
 
+      - name: Verify dependency manifest is frozen
+        shell: bash
+        run: |
+          if grep -q 'PLACEHOLDER_FROZEN_AT_RELEASE\|PLACEHOLDER_TBD_AT_RELEASE' server/src/data/dependency-manifest.json; then
+            echo "::error::Manifest contains placeholders. Run 'bun scripts/freeze-manifest.ts' before tagging."
+            exit 1
+          fi
+          echo "Manifest is frozen."
+
       - name: Install frontend dependencies
         run: bun install
 
@@ -70,23 +79,117 @@ jobs:
           bun build --compile --target=${{ matrix.bun-target }} server/src/index.ts \
             --outfile "src-tauri/binaries/alacrity-server-${{ matrix.sidecar-triple }}${{ matrix.sidecar-ext }}"
 
-      - name: Compile C hunt binaries (Linux/macOS)
-        if: matrix.platform != 'windows-latest'
+      # mGBA commit pinned to the exact state the dev environment's hunt
+      # binaries were built against. This is 0.10.0-599-gc80f3afd7 on
+      # master, not a release tag — the hunters' C sources were tested
+      # against this specific state of the internal gb/input.h header.
+      # Bumping this requires verifying the 3 .c files still compile AND
+      # that runtime behavior is unchanged (memory reads, signal handling).
+      - name: Build mGBA core library (Linux)
+        if: matrix.platform == 'ubuntu-latest'
+        shell: bash
+        env:
+          MGBA_COMMIT: c80f3afd7708e2e7d2f0f5175ba21fa2b70a424c
+        run: |
+          sudo apt-get install -y \
+            liblua5.4-dev \
+            libzip-dev \
+            libpng-dev
+          git clone https://github.com/mgba-emu/mgba.git /tmp/mgba
+          git -C /tmp/mgba checkout "$MGBA_COMMIT"
+          cmake -S /tmp/mgba -B /tmp/mgba/build \
+            -DBUILD_QT=OFF \
+            -DBUILD_SDL=OFF \
+            -DBUILD_LIBRETRO=OFF \
+            -DUSE_FFMPEG=OFF \
+            -DUSE_SQLITE3=OFF \
+            -DUSE_EDITLINE=OFF \
+            -DUSE_ELF=OFF \
+            -DUSE_DISCORD_RPC=OFF \
+            -DUSE_DEBUGGERS=OFF \
+            -DCMAKE_BUILD_TYPE=Release
+          cmake --build /tmp/mgba/build --target mgba -j "$(nproc)"
+
+      - name: Compile hunt binaries and bundle libmgba (Linux)
+        if: matrix.platform == 'ubuntu-latest'
         shell: bash
         run: |
-          cd scripts
-          for src in shiny_hunter_core.c shiny_hunter_wild.c shiny_hunter_egg.c; do
-            cc -O2 -o "${src%.c}" "$src" || true
-            # Always ensure the output exists so Tauri's resource bundler doesn't fail
-            touch "${src%.c}"
+          MGBA_SRC=/tmp/mgba MGBA_BUILD=/tmp/mgba/build ./scripts/build-hunters.sh
+          # Stub the non-Linux libmgba names so tauri.conf.json resources bundler succeeds
+          touch scripts/libmgba.0.11.dylib
+          ls -la scripts/shiny_hunter_* scripts/libmgba*
+
+      - name: Build mGBA core library (macOS)
+        if: matrix.platform == 'macos-latest'
+        shell: bash
+        env:
+          MGBA_COMMIT: c80f3afd7708e2e7d2f0f5175ba21fa2b70a424c
+        run: |
+          brew install lua libzip libpng cmake
+          git clone https://github.com/mgba-emu/mgba.git /tmp/mgba
+          git -C /tmp/mgba checkout "$MGBA_COMMIT"
+          cmake -S /tmp/mgba -B /tmp/mgba/build \
+            -DBUILD_QT=OFF \
+            -DBUILD_SDL=OFF \
+            -DBUILD_LIBRETRO=OFF \
+            -DUSE_FFMPEG=OFF \
+            -DUSE_SQLITE3=OFF \
+            -DUSE_EDITLINE=OFF \
+            -DUSE_ELF=OFF \
+            -DUSE_DISCORD_RPC=OFF \
+            -DUSE_DEBUGGERS=OFF \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_MACOSX_RPATH=ON \
+            -DCMAKE_INSTALL_NAME_DIR=@rpath
+          cmake --build /tmp/mgba/build --target mgba -j "$(sysctl -n hw.ncpu)"
+
+      - name: Compile hunt binaries and bundle libmgba (macOS)
+        if: matrix.platform == 'macos-latest'
+        shell: bash
+        run: |
+          MGBA_SRC=/tmp/mgba
+          MGBA_BUILD=/tmp/mgba/build
+          DYLIB_REAL="$(find "$MGBA_BUILD" -maxdepth 1 -name 'libmgba.*.dylib' -type f | head -n 1)"
+          if [[ -z "$DYLIB_REAL" ]]; then
+            echo "::error::No libmgba.*.dylib in $MGBA_BUILD"
+            find "$MGBA_BUILD" -name 'libmgba*'
+            exit 1
+          fi
+          echo "Using $(basename "$DYLIB_REAL")"
+
+          for src in shiny_hunter_core shiny_hunter_wild shiny_hunter_egg; do
+            cc -O2 -o "scripts/$src" "scripts/${src}.c" \
+              -I"$MGBA_SRC/include" \
+              -L"$MGBA_BUILD" \
+              -Wl,-rpath,@loader_path \
+              -lmgba
           done
 
-      - name: Stub C hunt binaries (Windows)
+          cp "$DYLIB_REAL" "scripts/libmgba.0.11.dylib"
+          # Rewrite the binaries' install-name reference to match the bundled dylib name
+          for bin in scripts/shiny_hunter_core scripts/shiny_hunter_wild scripts/shiny_hunter_egg; do
+            OLD_INSTALL="$(otool -L "$bin" | awk '/libmgba/ { print $1; exit }')"
+            if [[ -n "$OLD_INSTALL" ]]; then
+              install_name_tool -change "$OLD_INSTALL" "@rpath/libmgba.0.11.dylib" "$bin"
+            fi
+          done
+          # Stub the Linux libmgba name so tauri.conf.json resources bundler succeeds
+          touch scripts/libmgba.so.0.11
+          ls -la scripts/shiny_hunter_* scripts/libmgba*
+          otool -L scripts/shiny_hunter_core | head -5
+
+      - name: Stub hunt binaries (Windows)
         if: matrix.platform == 'windows-latest'
         shell: bash
         run: |
+          # Windows hunt binaries are deferred. MSYS2 + mingw-w64 + pacman
+          # cross-compile of libmgba is doable but adds 10+ min to CI and
+          # the C sources include POSIX headers (<unistd.h>, <strings.h>)
+          # that only work under mingw, not MSVC. Stub for now; track as
+          # a follow-up PR.
           cd scripts
-          touch shiny_hunter_core shiny_hunter_wild shiny_hunter_egg
+          touch shiny_hunter_core shiny_hunter_wild shiny_hunter_egg \
+                libmgba.so.0.11 libmgba.0.11.dylib
 
       - name: Seed pre-bundled database
         shell: bash
