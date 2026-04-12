@@ -60,6 +60,15 @@ jobs:
         with:
           workspaces: src-tauri
 
+      - name: Verify dependency manifest is frozen
+        shell: bash
+        run: |
+          if grep -q 'PLACEHOLDER_FROZEN_AT_RELEASE\|PLACEHOLDER_TBD_AT_RELEASE' server/src/data/dependency-manifest.json; then
+            echo "::error::Manifest contains placeholders. Run 'bun scripts/freeze-manifest.ts' before tagging."
+            exit 1
+          fi
+          echo "Manifest is frozen."
+
       - name: Install frontend dependencies
         run: bun install
 
