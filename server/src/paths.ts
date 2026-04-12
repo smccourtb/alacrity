@@ -49,8 +49,6 @@ export const paths = {
 
   // ── Tool binaries ──────────────────────────────────────────
   get mgba() { return join(resourcesDir, 'tools', 'mgba-stream', 'mgba-stream'); },
-  get melonds() { return join(resourcesDir, 'tools', 'melonds', 'melonDS.AppImage'); },
-  get azahar() { return join(resourcesDir, 'tools', 'azahar', 'azahar.AppImage'); },
   get rtcRelay() { return join(resourcesDir, 'tools', 'rtc-relay', 'rtc-relay'); },
   get mediamtx() { return join(resourcesDir, 'tools', 'mediamtx', 'mediamtx'); },
 
