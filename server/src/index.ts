@@ -48,6 +48,7 @@ const { default: streamRouter } = await import('./routes/stream.js');
 const { default: flagRoutes } = await import('./routes/flags.js');
 const { default: timelineRouter } = await import('./routes/timeline.js');
 const { default: configRouter } = await import('./routes/config.js');
+const { default: dependenciesRouter } = await import('./routes/dependencies.js');
 const { seedShinyAvailability } = await import('./shiny-availability.js');
 const { seedGuide } = await import('./seeds/seedGuide.js');
 const { seedRibbons, seedMarks, seedBalls, seedForms, seedShinyMethods, seedLegality } = await import('./seed-reference.js');
@@ -144,6 +145,7 @@ app.use('/api/stream', streamRouter);
 app.use('/api/flags', flagRoutes);
 app.use('/api/timeline', timelineRouter);
 app.use('/api/config', configRouter);
+app.use('/api/dependencies', dependenciesRouter);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
