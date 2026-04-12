@@ -4,9 +4,9 @@ import { registerProcess } from '../services/processRegistry.js';
 import { join } from 'path';
 import { readdirSync, readFileSync, watchFile, unwatchFile, existsSync, mkdirSync, symlinkSync, copyFileSync, statSync, rmSync, writeFileSync } from 'fs';
 import { basename, extname } from 'path';
-import { hostname, userInfo } from 'os';
 import db from '../db.js';
 import { paths } from '../paths.js';
+import { getConfig } from '../services/config.js';
 import { pushTo3DS } from '../services/ftpSync.js';
 import { RNGHuntOrchestrator, type RNGHuntConfig, type HuntProgress } from "../services/rngHuntOrchestrator.js";
 import { NDSRNGHuntOrchestrator, type NDSRNGHuntConfig, type HuntProgress as NDSHuntProgress } from "../services/ndsRngHuntOrchestrator.js";
@@ -26,7 +26,11 @@ const MGBA = join(process.env.HOME || '', 'mgba', 'build', 'qt', 'mgba-qt');
 const CORE_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_core');
 const WILD_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_wild');
 const EGG_HUNTER  = join(SCRIPTS_DIR, 'shiny_hunter_egg');
-const NTFY_TOPIC = `shiny-farm-${userInfo().username}-${hostname()}`;
+
+function getNtfyUrl(): string {
+  const c = getConfig();
+  return `${c.ntfyServer}/${c.ntfyTopic}`;
+}
 
 /** Build a human-readable hunt directory name: Game-Target-YYYY-MM-DD[-N] */
 function generateHuntDirName(game: string, target: string): string {
@@ -286,7 +290,7 @@ function startHuntWatcher(huntId: number, targetName: string, hunt: any) {
 
 async function ntfyPush(title: string, message: string, priority = 'default', tags = 'pokemon') {
   try {
-    await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+    await fetch(getNtfyUrl(), {
       method: 'POST',
       headers: { Title: title, Priority: priority, Tags: tags },
       body: message,
