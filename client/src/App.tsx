@@ -31,6 +31,7 @@ import Guide from './pages/Guide';
 import CollectionDashboard from './pages/CollectionDashboard';
 import Settings from './pages/Settings';
 import SessionMonitor from './components/launcher/SessionMonitor';
+import { WelcomeDialog } from '@/components/onboarding/WelcomeDialog';
 
 /** Pokeball nav icon — red top half, white bottom, black band + center button */
 function PokeballIcon({ className }: { className?: string }) {
@@ -150,6 +151,7 @@ export default function App() {
             </main>
           </SidebarInset>
           <SessionMonitor />
+          <WelcomeDialog />
         </SidebarProvider>
       </BrowserRouter>
     </TooltipProvider>

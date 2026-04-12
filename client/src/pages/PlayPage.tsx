@@ -27,6 +27,14 @@ import WebEmulator from '@/components/launcher/WebEmulator';
 import { StreamPlayer } from '@/components/launcher/StreamPlayer';
 import type { DiscoveredSave } from '@/lib/game-constants';
 import { getSystemForGame, normalizeGameName } from '@/lib/game-constants';
+import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
+
+function getEmulatorIdForGeneration(gen: number): string | null {
+  if (gen <= 3) return 'mgba';
+  if (gen <= 5) return 'melonds';
+  if (gen <= 7) return 'azahar';
+  return null;
+}
 
 export default function PlayPage() {
   // --- Timeline state ---
@@ -350,11 +358,22 @@ export default function PlayPage() {
     );
   }
 
+  // --- Derive emulator for the selected playthrough (or default to mgba) ---
+  const playEmulatorId = (() => {
+    const gen = selectedPlaythrough?.game
+      ? saves.find(s => normalizeGameName(s.game) === normalizeGameName(selectedPlaythrough.game))?.generation ?? null
+      : null;
+    return (gen ? getEmulatorIdForGeneration(gen) : null) ?? 'mgba';
+  })();
+
   // --- Main layout ---
   return (
     <div className="max-w-7xl mx-auto space-y-5">
       {/* Session bar */}
       <SessionBar sessions={sessions} />
+
+      {/* Emulator readiness warning */}
+      <InlineEmulatorWarning emulatorId={playEmulatorId} />
 
       {/* Play header with game selector + playthrough tabs */}
       <PlayHeader
