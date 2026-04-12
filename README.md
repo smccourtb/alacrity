@@ -1,8 +1,16 @@
+<div align="center">
+
 # Alacrity
 
-> A self-hosted shiny hunting automation platform and living dex tracker for Pokémon emulators.
+**A self-hosted shiny hunting automation platform and living dex tracker for Pokémon emulators.**
 
-**Status:** Early alpha — under heavy development. Expect breaking changes.
+*Early alpha — under heavy development. Expect breaking changes.*
+
+<a href="https://buymeacoffee.com/smccourtb" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60" width="217"></a>
+
+</div>
+
+---
 
 Alacrity is a desktop application that automates Pokémon shiny hunting across multiple emulator instances while tracking your collection, saves, and playthroughs in one unified dashboard. It runs entirely on your machine — no cloud, no telemetry, no account required.
 
@@ -37,12 +45,6 @@ You provide your own:
 ## Disclaimer
 
 Alacrity is not affiliated with, endorsed by, or connected to Nintendo, Game Freak, or The Pokémon Company. "Pokémon" and Pokémon character names are trademarks of Nintendo. This project is provided for personal use with legally owned game files.
-
-## Support
-
-Alacrity is free and open source. If you find it useful, you can support development:
-
-<a href="https://buymeacoffee.com/smccourtb" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60" width="217"></a>
 
 ## License
 
