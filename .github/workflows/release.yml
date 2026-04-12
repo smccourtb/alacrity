@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: ubuntu-latest
+            bun-target: bun-linux-x64
+            sidecar-triple: x86_64-unknown-linux-gnu
+            sidecar-ext: ''
+          - platform: macos-latest
+            bun-target: bun-darwin-arm64
+            sidecar-triple: aarch64-apple-darwin
+            sidecar-ext: ''
+          - platform: windows-latest
+            bun-target: bun-windows-x64
+            sidecar-triple: x86_64-pc-windows-msvc
+            sidecar-ext: '.exe'
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            libssl-dev \
+            libayatana-appindicator3-dev
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - name: Install frontend dependencies
+        run: bun install
+
+      - name: Build server sidecar
+        shell: bash
+        run: |
+          mkdir -p src-tauri/binaries
+          bun build --compile --target=${{ matrix.bun-target }} server/src/index.ts \
+            --outfile "src-tauri/binaries/alacrity-server-${{ matrix.sidecar-triple }}${{ matrix.sidecar-ext }}"
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'Alacrity ${{ github.ref_name }}'
+          releaseBody: |
+            See the [changelog](https://github.com/smccourtb/alacrity/blob/main/CHANGELOG.md) for details.
+
+            **⚠️ Alpha software** — expect breaking changes.
+          releaseDraft: true
+          prerelease: true
