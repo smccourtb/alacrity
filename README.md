@@ -42,7 +42,7 @@ Alacrity is not affiliated with, endorsed by, or connected to Nintendo, Game Fre
 
 Alacrity is free and open source. If you find it useful, you can support development:
 
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/smccourtb)
+<a href="https://buymeacoffee.com/smccourtb" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60" width="217"></a>
 
 ## License
 
