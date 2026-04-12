@@ -54,6 +54,25 @@
   - Route encounter table on grass/cave/surf entry — show available Pokemon with rates, levels, and collection status (caught/need) by cross-referencing PokeAPI encounter data with the player's current pokedex flags in memory
 - [ ] **Auto-journal** — Save-level diffing exists via `diffSnapshots()` (badges, shinies, party, location). Still need live memory polling to detect events between saves for continuous journaling.
 
+## Dependency Auto-Install — Followups
+
+Shipped 2026-04-12 on `main` (merge `47872b7`). The auto-install feature works end-to-end on Linux; these are the open items that landed either partially, deferred, or were discovered during implementation.
+
+- [ ] **BGB trade-route rewire** — `server/src/routes/launcher.ts` `/trade` endpoint currently spawns mGBA even in link-capable mode. Needs rewiring to spawn BGB (`bgb.exe` under Wine on Linux/macOS, native on Windows) with its listen/connect link args, plus a 2-instance orchestration for Gen 1↔2 trades. Deferred per original spec. Memory: `project_bgb_trade_rewire.md`.
+- [ ] **Windows hunt-binary CI build** — `release.yml` still stubs `shiny_hunter_{core,wild,egg}` + `libmgba.dll` to empty files on the windows-latest matrix leg. Core-engine hunts are non-functional on packaged Windows releases until fixed. Plan:
+  - Set up MSYS2 via `msys2/setup-msys2@v2` GitHub action
+  - `pacman -S mingw-w64-x86_64-{gcc,cmake,make,lua,libzip,libpng}`
+  - Clone mGBA at pinned commit `c80f3afd7708e2e7d2f0f5175ba21fa2b70a424c`, cmake + build
+  - Compile hunt binaries with mingw-w64 gcc → `.exe` output
+  - Copy `libmgba.dll` next to `shiny_hunter_*.exe` (Windows searches exe dir first, no rpath needed)
+  - Update `hunts.ts` so `CORE_HUNTER` / `WILD_HUNTER` / `EGG_HUNTER` append `.exe` on `process.platform === 'win32'`
+  - Add third resource mapping in `tauri.conf.json` for `.exe` + `.dll` filenames
+- [ ] **macOS hunt-binary CI validation** — `release.yml` has a full macOS matrix build (brew + cmake + `@loader_path` rpath + `install_name_tool -change`), but it's untested — never run in actual GitHub Actions. First release tag will tell us if the yaml is right. Track the first run and iterate if it fails.
+- [ ] **Previously-installed versions cleanup UI** — When the user updates mGBA from 0.10.3 → 0.10.5, the spec calls for keeping the old version on disk side-by-side (already supported at the filesystem level via versioned subdirs). The v1 `DependencyCard` doesn't surface this — needs a "Previously installed versions" disclosure with per-version delete buttons.
+- [ ] **Runtime BIOS file validation** — `BiosSection` currently shows a static "Expected files by emulator" list. Backend should actually `statSync` the expected files in `paths.biosDir` and return `{ found: [], missing: [] }` per emulator. Small v1.1 polish.
+- [ ] **`freeze-manifest.ts` at release time** — `scripts/freeze-manifest.ts` exists but isn't wired into the release workflow. Before tagging a release, manually run `bun scripts/freeze-manifest.ts` to populate real SHA256s and `sizeBytes` in `server/src/data/dependency-manifest.json`, then commit. CI has a check (`release.yml` "Verify dependency manifest is frozen" step) that fails if any `PLACEHOLDER_*` strings remain, so a forgotten freeze will fail the release build instead of silently shipping broken hashes.
+- [ ] **Azahar manifest URLs** — populated for 2125.0.1 but URLs need re-verification at each Azahar release. The `coreAbiLock: false` (Azahar isn't hunt-ABI-locked) means you can bump it independently of the hunt binaries. `freeze-manifest.ts` handles the SHA256 update automatically.
+
 ## Portable / Offline App
 - [ ] **PWA support** — Add `vite-plugin-pwa`, service worker, and manifest.json for installable offline app (home screen icon, standalone window, no browser chrome)
 - [ ] **Pre-seeded database** — Ship pokemon.db with species table already populated so first launch doesn't need PokeAPI. Seed.ts becomes an optional "update species data" command.
