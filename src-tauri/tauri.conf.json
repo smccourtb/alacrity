@@ -39,7 +39,10 @@
       "../scripts/lua": "scripts/lua",
       "../scripts/shiny_hunter_core": "scripts/shiny_hunter_core",
       "../scripts/shiny_hunter_wild": "scripts/shiny_hunter_wild",
-      "../scripts/shiny_hunter_egg": "scripts/shiny_hunter_egg"
+      "../scripts/shiny_hunter_egg": "scripts/shiny_hunter_egg",
+      "../server/src/data/dependency-manifest.json": "server/src/data/dependency-manifest.json",
+      "resources/bin/bsdtar-linux-x64": "bin/bsdtar-linux-x64",
+      "resources/data/libarchive-LICENSE.txt": "data/libarchive-LICENSE.txt"
     }
   }
 }
