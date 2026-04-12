@@ -22,6 +22,44 @@ fn get_server_port(state: State<'_, ServerPort>) -> Result<u16, String> {
     state.0.lock().unwrap().ok_or_else(|| "Server not ready".into())
 }
 
+fn current_exe_directory() -> Option<std::path::PathBuf> {
+    // Linux AppImage: APPIMAGE env var holds the path to the .AppImage file.
+    // current_exe() during AppImage execution returns the temporary AppRun path
+    // inside the mounted squashfs, which is not what we want.
+    if let Ok(appimage) = std::env::var("APPIMAGE") {
+        return std::path::PathBuf::from(appimage).parent().map(std::path::PathBuf::from);
+    }
+
+    // macOS: current_exe() is inside .app/Contents/MacOS/. Walk up three
+    // levels to get the directory containing the .app bundle itself.
+    #[cfg(target_os = "macos")]
+    {
+        let exe = std::env::current_exe().ok()?;
+        return exe
+            .parent()? // MacOS
+            .parent()? // Contents
+            .parent()? // Alacrity.app
+            .parent() // containing directory
+            .map(std::path::PathBuf::from);
+    }
+
+    // Linux (non-AppImage) and Windows
+    #[allow(unreachable_code)]
+    std::env::current_exe().ok()?.parent().map(std::path::PathBuf::from)
+}
+
+fn detect_portable_data_dir() -> Option<std::path::PathBuf> {
+    let exe_dir = current_exe_directory()?;
+    let sentinel = exe_dir.join("portable.txt");
+    if sentinel.is_file() {
+        let data = exe_dir.join("data");
+        std::fs::create_dir_all(&data).ok();
+        Some(data)
+    } else {
+        None
+    }
+}
+
 fn main() {
     #[cfg(target_os = "linux")]
     configure_webkitgtk();
@@ -43,8 +81,14 @@ fn main() {
                 let project_root = cwd.parent().unwrap_or(&cwd).to_path_buf();
                 (project_root.clone(), project_root)
             } else {
-                let data = app.path().app_data_dir().expect("no app data dir");
                 let res = app.path().resource_dir().expect("no resource dir");
+                let data = match detect_portable_data_dir() {
+                    Some(portable) => {
+                        eprintln!("[alacrity] Portable mode: using {}", portable.display());
+                        portable
+                    }
+                    None => app.path().app_data_dir().expect("no app data dir"),
+                };
                 (data, res)
             };
             std::fs::create_dir_all(&data_dir).ok();
