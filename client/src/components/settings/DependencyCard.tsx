@@ -7,6 +7,19 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import type { DependencyDescriptor, InstallProgressEvent } from '@/api/dependencies';
 import { api } from '@/api/client';
 
+const inTauri = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
+
+async function browseForEmulatorBinary(displayName: string): Promise<string | null> {
+  if (!inTauri) return null;
+  const { open } = await import('@tauri-apps/plugin-dialog');
+  const result = await open({
+    multiple: false,
+    directory: false,
+    title: `Select ${displayName} binary`,
+  });
+  return typeof result === 'string' ? result : null;
+}
+
 interface DependencyCardProps {
   descriptor: DependencyDescriptor;
   wineDetected: boolean | null;
@@ -103,6 +116,11 @@ export function DependencyCard({ descriptor, wineDetected, onRefresh }: Dependen
     }
   };
 
+  const handleBrowseBinary = async () => {
+    const picked = await browseForEmulatorBinary(descriptor.displayName);
+    if (picked) setCustomPath(picked);
+  };
+
   const needsWine = descriptor.platform?.requiresWine ?? false;
 
   return (
@@ -172,6 +190,9 @@ export function DependencyCard({ descriptor, wineDetected, onRefresh }: Dependen
               placeholder="/path/to/your/emulator/binary"
               className="text-xs"
             />
+            {inTauri && (
+              <Button size="sm" variant="outline" onClick={handleBrowseBinary}>Browse</Button>
+            )}
             <Button size="sm" onClick={saveCustom}>Save</Button>
           </div>
         )}
