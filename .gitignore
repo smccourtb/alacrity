@@ -35,10 +35,13 @@ server/src/scripts/.cache/
 src-tauri/binaries/alacrity-server-*-*
 !src-tauri/binaries/alacrity-server-dev-wrapper
 
-# ─── Compiled C hunt binaries (built on each platform) ───
+# ─── Compiled C hunt binaries + bundled libmgba (built on each platform) ───
 scripts/shiny_hunter_core
 scripts/shiny_hunter_wild
 scripts/shiny_hunter_egg
+scripts/libmgba.so*
+scripts/libmgba*.dylib
+scripts/mgba*.dll
 
 # ─── Secrets / local config ──────────────────────
 .env

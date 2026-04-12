@@ -79,23 +79,44 @@ jobs:
           bun build --compile --target=${{ matrix.bun-target }} server/src/index.ts \
             --outfile "src-tauri/binaries/alacrity-server-${{ matrix.sidecar-triple }}${{ matrix.sidecar-ext }}"
 
-      - name: Compile C hunt binaries (Linux/macOS)
-        if: matrix.platform != 'windows-latest'
+      - name: Build mGBA core library (Linux)
+        if: matrix.platform == 'ubuntu-latest'
         shell: bash
         run: |
-          cd scripts
-          for src in shiny_hunter_core.c shiny_hunter_wild.c shiny_hunter_egg.c; do
-            cc -O2 -o "${src%.c}" "$src" || true
-            # Always ensure the output exists so Tauri's resource bundler doesn't fail
-            touch "${src%.c}"
-          done
+          sudo apt-get install -y \
+            liblua5.4-dev \
+            libzip-dev \
+            libpng-dev
+          git clone --depth 1 --branch 0.11.0 https://github.com/mgba-emu/mgba.git /tmp/mgba
+          cmake -S /tmp/mgba -B /tmp/mgba/build \
+            -DBUILD_QT=OFF \
+            -DBUILD_SDL=OFF \
+            -DBUILD_LIBRETRO=OFF \
+            -DUSE_FFMPEG=OFF \
+            -DUSE_SQLITE3=OFF \
+            -DUSE_EDITLINE=OFF \
+            -DUSE_ELF=OFF \
+            -DUSE_DISCORD_RPC=OFF \
+            -DUSE_DEBUGGERS=OFF \
+            -DCMAKE_BUILD_TYPE=Release
+          cmake --build /tmp/mgba/build --target mgba -j "$(nproc)"
 
-      - name: Stub C hunt binaries (Windows)
-        if: matrix.platform == 'windows-latest'
+      - name: Compile hunt binaries and bundle libmgba (Linux)
+        if: matrix.platform == 'ubuntu-latest'
         shell: bash
         run: |
+          MGBA_SRC=/tmp/mgba MGBA_BUILD=/tmp/mgba/build ./scripts/build-hunters.sh
+          ls -la scripts/shiny_hunter_* scripts/libmgba.so*
+
+      - name: Stub hunt binaries and libmgba (non-Linux)
+        if: matrix.platform != 'ubuntu-latest'
+        shell: bash
+        run: |
+          # TODO: real mGBA build + linking on macOS/Windows. For now, empty
+          # stubs so Tauri's resource bundler succeeds, but core-engine hunts
+          # will be non-functional on packaged macOS/Windows releases.
           cd scripts
-          touch shiny_hunter_core shiny_hunter_wild shiny_hunter_egg
+          touch shiny_hunter_core shiny_hunter_wild shiny_hunter_egg libmgba.so.0.11
 
       - name: Seed pre-bundled database
         shell: bash
