@@ -7,6 +7,7 @@
 
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import db from '../db.js';
 import { paths } from '../paths.js';
 import { currentOs, type OsTriple } from './os-triple.js';
 
@@ -105,4 +106,84 @@ export function getManifestEntry(
   if (!platform) return null;
 
   return { entry, platform };
+}
+
+export type MismatchState =
+  | { kind: 'ok'; installedVersion: string; pinnedVersion: string }
+  | { kind: 'not-installed' }
+  | { kind: 'out-of-date'; installed: string; pinned: string }
+  | { kind: 'custom'; path: string }
+  | { kind: 'unavailable' };
+
+interface EmulatorConfigRow {
+  id: string;
+  os: string;
+  name: string;
+  path: string;
+  installed_version: string | null;
+  managed_install: 0 | 1;
+}
+
+let cachedMismatches: Map<string, MismatchState> | null = null;
+
+/**
+ * Rebuild the mismatch state cache for all four emulators on the current OS.
+ * Call after any install/uninstall/config change.
+ */
+export function detectMismatches(): Map<string, MismatchState> {
+  const manifest = loadManifest();
+  const os = currentOs();
+  const result = new Map<string, MismatchState>();
+
+  for (const emulatorId of Object.keys(manifest.emulators)) {
+    const entry = manifest.emulators[emulatorId];
+    const platform = entry.platforms[os];
+
+    if (!platform) {
+      result.set(emulatorId, { kind: 'unavailable' });
+      continue;
+    }
+
+    const row = db.prepare(
+      'SELECT * FROM emulator_configs WHERE id = ? AND os = ?'
+    ).get(emulatorId, os) as EmulatorConfigRow | undefined;
+
+    if (!row || !row.path) {
+      result.set(emulatorId, { kind: 'not-installed' });
+      continue;
+    }
+
+    if (!row.managed_install) {
+      result.set(emulatorId, { kind: 'custom', path: row.path });
+      continue;
+    }
+
+    const installed = row.installed_version ?? '';
+    const pinned = entry.version;
+
+    if (installed === pinned) {
+      result.set(emulatorId, {
+        kind: 'ok',
+        installedVersion: installed,
+        pinnedVersion: pinned,
+      });
+    } else {
+      result.set(emulatorId, {
+        kind: 'out-of-date',
+        installed,
+        pinned,
+      });
+    }
+  }
+
+  cachedMismatches = result;
+  return result;
+}
+
+/**
+ * Get the cached mismatch state. Calls detectMismatches() on first access.
+ */
+export function getMismatches(): Map<string, MismatchState> {
+  if (cachedMismatches === null) return detectMismatches();
+  return cachedMismatches;
 }
