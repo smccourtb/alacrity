@@ -80,7 +80,7 @@ export default function WebEmulator({ saveId, game, label, onClose }: WebEmulato
     initializedRef.current = true;
 
     const romUrl = api.launcher.romUrl(game);
-    const saveUrl = api.launcher.saveFile(saveId);
+    const saveUrl = api.launcher.saveFile(String(saveId));
 
     fetch(saveUrl)
       .then(r => r.arrayBuffer())

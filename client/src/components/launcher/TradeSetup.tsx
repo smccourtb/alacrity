@@ -46,7 +46,7 @@ export default function TradeSetup({ saves, firstSave, onClose, onStarted }: Tra
     setLaunching(true);
     setError(null);
     try {
-      await api.launcher.trade(firstSave.id, selected.id);
+      await api.launcher.trade(String(firstSave.id), String(selected.id));
       onStarted();
     } catch (err: any) {
       setError(err.message);

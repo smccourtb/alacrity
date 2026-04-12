@@ -44,7 +44,7 @@ function MoveSlot({ move, moveData, onSelect }: {
     <Combobox
       open={open}
       onOpenChange={setOpen}
-      value={move ? [move] : []}
+      value={move ?? ''}
       onValueChange={(val: any) => {
         const selected = Array.isArray(val) ? val[0] : val;
         if (selected) {
@@ -70,7 +70,7 @@ function MoveSlot({ move, moveData, onSelect }: {
       <ComboboxContent side="bottom" align="start" className="w-72">
         <ComboboxInput
           placeholder="Search moves..."
-          onValueChange={handleSearch}
+          onChange={(e) => handleSearch((e.target as HTMLInputElement).value)}
           showTrigger={false}
         />
         <ComboboxList>

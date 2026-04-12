@@ -3,12 +3,24 @@ import { api } from '@/api/client';
 
 export type ConnectionStatus = 'idle' | 'connecting' | 'connected' | 'reconnecting' | 'disconnected';
 
+interface StreamStats {
+  jitterBufferDelay?: number;
+  jitterBufferEmittedCount?: number;
+  framesDecoded?: number;
+  framesDropped?: number;
+  framesReceived?: number;
+  packetsLost?: number;
+  jitter?: number;
+  avgJitterBufferMs?: number;
+}
+
 interface UseStreamConnectionReturn {
   status: ConnectionStatus;
   stream: MediaStream | null;
   start: (sessionId: string) => Promise<void>;
   stop: () => Promise<void>;
   sendInput: (data: Record<string, unknown>) => void;
+  getStats: () => Promise<StreamStats | null>;
 }
 
 export function useStreamConnection(): UseStreamConnectionReturn {
@@ -132,11 +144,11 @@ export function useStreamConnection(): UseStreamConnectionReturn {
   }, []);
 
   // Expose pc for diagnostics
-  const getStats = useCallback(async () => {
+  const getStats = useCallback(async (): Promise<StreamStats | null> => {
     const pc = pcRef.current;
     if (!pc) return null;
     const stats = await pc.getStats();
-    const result: Record<string, any> = {};
+    const result: StreamStats = {};
     stats.forEach((report) => {
       if (report.type === 'inbound-rtp' && report.kind === 'video') {
         result.jitterBufferDelay = report.jitterBufferDelay;

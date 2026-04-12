@@ -69,16 +69,18 @@ export function GoalManager({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className={`gap-1.5 h-8 text-xs font-medium ${activeGoal ? 'border-red-300 text-red-600 bg-red-50 hover:bg-red-100 hover:border-red-400' : 'text-muted-foreground'}`}
-        >
-          <Target className="h-3.5 w-3.5" />
-          {activeGoal ? activeGoal.name : 'Goals'}
-        </Button>
-      </PopoverTrigger>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            className={`gap-1.5 h-8 text-xs font-medium ${activeGoal ? 'border-red-300 text-red-600 bg-red-50 hover:bg-red-100 hover:border-red-400' : 'text-muted-foreground'}`}
+          >
+            <Target className="h-3.5 w-3.5" />
+            {activeGoal ? activeGoal.name : 'Goals'}
+          </Button>
+        }
+      />
       <PopoverContent className="w-64 p-2" align="start">
         <div className="space-y-1">
           {/* No goal option */}

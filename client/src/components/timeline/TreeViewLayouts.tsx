@@ -100,7 +100,7 @@ export function TreeView({
   onTrade,
 }: TreeViewProps) {
   const [expandedGroups, setExpandedGroups] = useState<Set<number>>(new Set());
-  const hasFilter = searchQuery.trim() || activeFilters.size > 0;
+  const hasFilter = searchQuery.trim().length > 0 || activeFilters.size > 0;
   const filteredIds = new Set(filteredNodes.map((n) => n.id));
   const { nodes, activePathIds, deadEndIds, rowHeight } = layout;
 

@@ -159,8 +159,8 @@ function PokemonSlot({
   }
 
   return (
-    <Tooltip hoverable={false}>
-      <TooltipTrigger asChild>{slot}</TooltipTrigger>
+    <Tooltip>
+      <TooltipTrigger render={slot} />
       <TooltipContent className="text-sm">
         <SlotTooltip pokemon={pokemon} level={tooltip} />
       </TooltipContent>

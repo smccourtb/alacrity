@@ -24,7 +24,7 @@ jobs:
         run: bun install
 
       - name: Typecheck client
-        run: bun run --cwd client tsc --noEmit
+        run: bun run --cwd client tsc -b
 
       - name: Typecheck server
         run: bun run --cwd server tsc --noEmit

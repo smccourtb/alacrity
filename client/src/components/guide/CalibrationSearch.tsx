@@ -18,7 +18,7 @@ interface CalibrationSearchProps {
 }
 
 export default function CalibrationSearch({ markers, onSelect }: CalibrationSearchProps) {
-  const [value, setValue] = useState<string[]>([]);
+  const [value, setValue] = useState<string>('');
   const [search, setSearch] = useState('');
 
   const { visible, total } = useMemo(() => {
@@ -32,11 +32,10 @@ export default function CalibrationSearch({ markers, onSelect }: CalibrationSear
   return (
     <Combobox
       value={value}
-      onValueChange={(newVal) => {
-        setValue(newVal);
-        const id = newVal[0];
-        if (id) {
-          const [type, idStr] = id.split(':');
+      onValueChange={(newVal: string | null) => {
+        setValue(newVal ?? '');
+        if (newVal) {
+          const [type, idStr] = newVal.split(':');
           const marker = markers.find(m => m.type === type && m.id === Number(idStr));
           if (marker) onSelect(marker);
         }
@@ -54,7 +53,6 @@ export default function CalibrationSearch({ markers, onSelect }: CalibrationSear
             <ComboboxItem
               key={`${m.type}:${m.id}`}
               value={`${m.type}:${m.id}`}
-              textValue={m.name}
             >
               <span
                 className="inline-block w-4 text-center text-xs"

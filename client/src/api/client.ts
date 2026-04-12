@@ -566,10 +566,6 @@ export const api = {
       return request<any[]>(`/specimens/summary${qs}`);
     },
   },
-  collection: {
-    dashboard: (params?: { leg?: string }) =>
-      request<any>(`/collection/dashboard${params?.leg ? `?leg=${params.leg}` : ''}`),
-  },
   stream: {
     start: (savePath: string | undefined, game: string) =>
       request<{ sessionId: string; system: string }>('/stream/start', {
@@ -635,6 +631,8 @@ export const api = {
     },
   },
   collection: {
+    dashboard: (params?: { leg?: string }) =>
+      request<any>(`/collection/dashboard${params?.leg ? `?leg=${params.leg}` : ''}`),
     scanAll: () => request<any>('/collection/scan/all', { method: 'POST' }),
     scanCheckpoint: (id: number) => request<any>(`/collection/scan/checkpoint/${id}`, { method: 'POST' }),
     list: (params?: { playthrough_id?: number; game?: string }) => {
