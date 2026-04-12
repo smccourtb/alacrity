@@ -6,6 +6,10 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [react(), tailwindcss(), tsconfigPaths()],
   server: {
+    // Bun hardlinks workspace packages across worktrees, so realpath()
+    // resolves dependencies to paths outside the current worktree. The
+    // dev server only binds localhost, so relaxing the fs guard is fine.
+    fs: { strict: false },
     proxy: {
       '/api': {
         target: 'http://localhost:3001',
