@@ -6,7 +6,7 @@
     "beforeDevCommand": "bun run --cwd client dev",
     "devUrl": "http://localhost:5173",
     "beforeBuildCommand": "bun run --cwd client build",
-    "frontendDist": "client/dist"
+    "frontendDist": "../client/dist"
   },
   "app": {
     "windows": [
