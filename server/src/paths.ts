@@ -1,10 +1,18 @@
 import { join } from 'path';
 import { mkdirSync } from 'fs';
 import { currentOs } from './services/os-triple.js';
+import { getConfig } from './services/config.js';
 
 // Defaults: cwd for dev mode. Overridden by CLI flags in packaged mode.
 let dataDir = process.cwd();
 let resourcesDir = process.cwd();
+
+function expandDataSentinel(stored: string): string {
+  if (stored.startsWith('$DATA/')) {
+    return join(dataDir, stored.slice('$DATA/'.length));
+  }
+  return stored;
+}
 
 /** Call once at startup with parsed CLI flags */
 export function initPaths(opts: { dataDir?: string; resourcesDir?: string }) {
@@ -25,7 +33,8 @@ export const paths = {
   get libraryDir() { return join(dataDir, 'saves', 'library'); },
   get catchesDir() { return join(dataDir, 'saves', 'catches'); },
   get huntsDir() { return join(dataDir, 'hunts'); },
-  get romsDir() { return join(dataDir, 'roms'); },
+  get romsDir() { return expandDataSentinel(getConfig().romsDir); },
+  get biosDir() { return expandDataSentinel(getConfig().biosDir); },
   get backupsDir() { return join(dataDir, 'backups'); },
   get emulatorsDir() { return join(dataDir, 'emulators'); },
   get configFile() { return join(dataDir, 'config.json'); },
