@@ -1,5 +1,6 @@
 import { Database } from 'bun:sqlite';
 import { paths } from './paths.js';
+import { currentOs } from './services/os-triple.js';
 
 export function runMigrations(db: Database) {
   const columns = (db.prepare('PRAGMA table_info(pokemon)').all() as any[]).map((c: any) => c.name);
@@ -98,6 +99,54 @@ export function runMigrations(db: Database) {
 
   // Add is_default_3ds column if missing (migration for existing DBs)
   try { db.exec('ALTER TABLE emulator_configs ADD COLUMN is_default_3ds INTEGER NOT NULL DEFAULT 0'); } catch {}
+
+  // ─────────────────────────────────────────────────────────────────
+  // Migration: rebuild emulator_configs with (id, os) primary key
+  // ─────────────────────────────────────────────────────────────────
+  const emulatorTableInfo = db.prepare("PRAGMA table_info('emulator_configs')").all() as Array<{ name: string }>;
+  const hasOsColumn = emulatorTableInfo.some(col => col.name === 'os');
+
+  if (!hasOsColumn) {
+    // Rebuild the table with the new shape. SQLite doesn't allow changing a primary
+    // key in place, so we use the standard create-new/copy/drop/rename pattern.
+    const triple = currentOs();
+
+    db.exec(`
+      CREATE TABLE emulator_configs_new (
+        id TEXT NOT NULL,
+        os TEXT NOT NULL,
+        name TEXT NOT NULL,
+        path TEXT NOT NULL,
+        launch_args TEXT NOT NULL DEFAULT '{rom}',
+        supports_link INTEGER NOT NULL DEFAULT 0,
+        link_listen_args TEXT NOT NULL DEFAULT '',
+        link_connect_args TEXT NOT NULL DEFAULT '',
+        is_default_gen1 INTEGER NOT NULL DEFAULT 0,
+        is_default_gen2 INTEGER NOT NULL DEFAULT 0,
+        is_default_3ds INTEGER NOT NULL DEFAULT 0,
+        installed_version TEXT,
+        managed_install INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (id, os)
+      );
+    `);
+
+    // Copy existing rows, tagging them with the current OS triple as a best guess.
+    // (v1 doesn't have production users, so this is fine — pre-v1 dev DBs get
+    // tagged with whatever OS the developer is running.)
+    db.prepare(`
+      INSERT INTO emulator_configs_new
+        (id, os, name, path, launch_args, supports_link, link_listen_args,
+         link_connect_args, is_default_gen1, is_default_gen2, is_default_3ds,
+         installed_version, managed_install)
+      SELECT id, ?, name, path, launch_args, supports_link, link_listen_args,
+             link_connect_args, is_default_gen1, is_default_gen2, is_default_3ds,
+             NULL, 0
+      FROM emulator_configs
+    `).run(triple);
+
+    db.exec('DROP TABLE emulator_configs');
+    db.exec('ALTER TABLE emulator_configs_new RENAME TO emulator_configs');
+  }
 
   // Seed default emulators if table is empty
   const emulatorCount = (db.prepare('SELECT COUNT(*) as c FROM emulator_configs').get() as any).c;
