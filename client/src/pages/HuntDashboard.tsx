@@ -14,11 +14,10 @@ interface HuntFormValues {
   game: string;
   rom_path: string;
   sav_path: string;
-  lua_script: string;
   hunt_mode: string;
   walk_dir: string;
   num_instances: number;
-  engine: 'core' | 'qt' | 'rng';
+  engine: 'core' | 'rng';
   target_shiny: number;
   target_perfect: number;
   target_gender: string;
@@ -144,7 +143,6 @@ export default function HuntDashboard() {
       game: '',
       rom_path: '',
       sav_path: '',
-      lua_script: '',
       hunt_mode: 'gift',
       walk_dir: 'ns',
       num_instances: 16,
@@ -209,11 +207,9 @@ export default function HuntDashboard() {
     if (!config) return;
     const firstTarget = config.targets[0];
     const mode = firstTarget?.defaultMode || 'gift';
-    const script = config.scripts[mode] || Object.values(config.scripts)[0] || '';
     setValue('game', game);
     setValue('rom_path', config.rom?.path || '');
     setValue('sav_path', config.saves[0]?.path || '');
-    setValue('lua_script', script as string);
     setValue('target_name', firstTarget?.name || '');
     setValue('target_species_id', firstTarget?.species_id || null);
     setValue('hunt_mode', mode);
@@ -233,21 +229,14 @@ export default function HuntDashboard() {
     setCustomTarget(false);
     const targetMeta = gameConfig?.targets.find((t: any) => t.name === target);
     const mode = targetMeta?.defaultMode || getValues('hunt_mode');
-    const script = gameConfig?.scripts[mode] || getValues('lua_script');
     setValue('target_name', target);
     setValue('target_species_id', targetMeta?.species_id || null);
     setValue('hunt_mode', mode);
-    setValue('lua_script', script);
     setValue('target_gender', 'any');
   };
 
   const handleModeChange = (mode: string) => {
-    const script = gameConfig?.scripts[mode] || getValues('lua_script');
     setValue('hunt_mode', mode);
-    setValue('lua_script', script);
-    // The old comment said "Egg hunts require mGBA/Lua — no Core binary
-    // exists" but that hasn't been true since shiny_hunter_egg landed. All
-    // hunt modes run through the core C binaries now.
   };
 
   // --- Data fetching ---
@@ -279,8 +268,6 @@ export default function HuntDashboard() {
           }
           if (paramMode) {
             setValue('hunt_mode', paramMode);
-            const script = config.scripts[paramMode];
-            if (script) setValue('lua_script', script);
           }
         }
         // Clear params so they don't re-apply on refresh

@@ -86,9 +86,8 @@ CREATE TABLE IF NOT EXISTS hunts (
   game TEXT NOT NULL,
   rom_path TEXT NOT NULL,
   sav_path TEXT NOT NULL,
-  lua_script TEXT NOT NULL,
   num_instances INTEGER NOT NULL DEFAULT 30,
-  engine TEXT NOT NULL DEFAULT 'core', -- 'core', 'wild', or 'rng'
+  engine TEXT NOT NULL DEFAULT 'core', -- 'core' or 'rng'
   hunt_mode TEXT NOT NULL DEFAULT 'gift',
   walk_dir TEXT NOT NULL DEFAULT 'ns',
   target_shiny INTEGER NOT NULL DEFAULT 1,

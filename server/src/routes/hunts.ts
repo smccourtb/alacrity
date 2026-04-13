@@ -426,18 +426,6 @@ function scanFiles(dirs: string[], exts: string[]) {
   return results.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-function scanLuaScripts() {
-  const luaDir = join(SCRIPTS_DIR, 'lua');
-  if (!existsSync(luaDir)) return [];
-  return readdirSync(luaDir)
-    .filter(f => f.endsWith('.lua') && f.includes('shiny_hunt'))
-    .map(f => {
-      const path = join(luaDir, f);
-      const gen = f.includes('gen1') ? 'Gen 1 (R/B/Y)' : f.includes('gen2') ? 'Gen 2 (G/S/C)' : 'Unknown';
-      return { path, name: f, gen };
-    });
-}
-
 router.get('/browse', (req, res) => {
   const dir = (req.query.path as string) || HOME;
   const exts = (req.query.exts as string)?.split(',') || [];
@@ -467,7 +455,6 @@ router.get('/files', (_req, res) => {
   res.json({
     roms: scanFiles(scanDirs, ROM_EXTS),
     saves: scanFiles(scanDirs, SAV_EXTS),
-    scripts: scanLuaScripts(),
   });
 });
 
@@ -479,7 +466,6 @@ router.get('/presets', (_req, res) => {
       game: 'Yellow',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Yellow.gbc'),
       sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Yellow.sav'),
-      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen1.lua'),
       hunt_mode: 'gift',
     },
     {
@@ -488,7 +474,6 @@ router.get('/presets', (_req, res) => {
       game: 'Crystal',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
       sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.sav'),
-      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen2.lua'),
       hunt_mode: 'battle',
     },
     {
@@ -497,7 +482,6 @@ router.get('/presets', (_req, res) => {
       game: 'Crystal',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
       sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.sav'),
-      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen2_wild.lua'),
       hunt_mode: 'wild',
       walk_dir: 'ns',
     },
@@ -507,7 +491,6 @@ router.get('/presets', (_req, res) => {
       game: 'Crystal',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
       sav_path: join(HOME, 'pokemon', 'saves', 'library', 'Crystal', 'egg-hunt-base.sav'),
-      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen2_egg.lua'),
       hunt_mode: 'egg',
     },
   ]);
@@ -517,7 +500,6 @@ router.get('/game-configs', (_req, res) => {
   const scanDirs = getScanDirs();
   const roms = scanFiles(scanDirs, ROM_EXTS);
   const saves = scanFiles(scanDirs, SAV_EXTS);
-  const scripts = scanLuaScripts();
 
   const configs = Object.entries(GAME_METADATA).map(([game, meta]) => {
     const rom = roms.find(r => meta.romPattern.test(r.name)) || null;
@@ -525,23 +507,6 @@ router.get('/game-configs', (_req, res) => {
     const gameSaves = romBase
       ? saves.filter(s => s.name.replace(/\.sav$/i, '') === romBase)
       : [];
-
-    // Map hunt modes to lua scripts based on gen
-    const gameScripts: Record<string, string> = {};
-    for (const s of scripts) {
-      if (meta.gen === 1 && s.name.includes('gen1')) {
-        gameScripts['gift'] = s.path;
-      } else if (meta.gen === 2 && s.name.includes('gen2')) {
-        if (s.name.includes('egg')) {
-          gameScripts['egg'] = s.path;
-        } else if (s.name.includes('wild')) {
-          gameScripts['wild'] = s.path;
-        } else {
-          gameScripts['gift'] = s.path;
-          gameScripts['battle'] = s.path;
-        }
-      }
-    }
 
     const targets = getTargetsForGame(game, meta.gen);
 
@@ -551,7 +516,6 @@ router.get('/game-configs', (_req, res) => {
       rom: rom ? { path: rom.path, name: rom.name } : null,
       saves: gameSaves.map(s => ({ path: s.path, name: s.name })),
       targets,
-      scripts: gameScripts,
     };
   });
 
@@ -601,25 +565,19 @@ router.get("/encounter-types/:game", (req, res) => {
 });
 
 function spawnHuntProcesses(huntId: number, hunt: any) {
-  const { rom_path, sav_path, lua_script, num_instances, engine, hunt_mode, walk_dir, target_name } = hunt;
-  const useCore = engine === 'core';
+  const { rom_path, sav_path, num_instances, hunt_mode, walk_dir, target_name } = hunt;
   const isWild = hunt_mode === 'wild';
+  const isEgg = hunt_mode === 'egg';
   const huntDir = getHuntDir(hunt);
   const logDir = join(huntDir, 'logs');
   const instances = num_instances;
 
-  // Resolve the mGBA binary once per hunt start. Core-engine hunts don't need
-  // it; qt-engine hunts do. Throws EmulatorNotInstalledError — caller handles.
-  const mgbaBinary = useCore ? null : getMgbaBinary();
-
-  // Compute gender DV threshold from species data
-  let genderThreshold = -2; // default: no gender check
+  let genderThreshold = -2;
   if (hunt.target_species_id) {
     const species = db.prepare('SELECT gender_rate FROM species WHERE id = ?').get(hunt.target_species_id) as any;
     if (species) genderThreshold = genderDvThreshold(species.gender_rate);
   }
 
-  // Condition env vars shared by both core and qt engines
   const conditionEnv = {
     TARGET_SHINY: String(hunt.target_shiny ?? 1),
     TARGET_PERFECT: String(hunt.target_perfect ?? 0),
@@ -631,49 +589,26 @@ function spawnHuntProcesses(huntId: number, hunt: any) {
     MIN_SPC: String(hunt.min_spc ?? 0),
   };
 
+  const binary = isEgg ? EGG_HUNTER : isWild ? WILD_HUNTER : CORE_HUNTER;
+
   for (let i = 1; i <= instances; i++) {
     const instDir = join(huntDir, `instance_${i}`);
     const logFile = join(logDir, `instance_${i}.log`);
+    const args = isWild
+      ? [String(i), rom_path, sav_path, logFile, instDir, target_name, walk_dir || 'ns']
+      : [String(i), rom_path, sav_path, logFile, instDir];
 
-    if (useCore) {
-      const isEgg = hunt_mode === 'egg';
-      const binary = isEgg ? EGG_HUNTER : isWild ? WILD_HUNTER : CORE_HUNTER;
-      const args = isWild
-        ? [String(i), rom_path, sav_path, logFile, instDir, target_name, walk_dir || 'ns']
-        : [String(i), rom_path, sav_path, logFile, instDir];
-
-      const child = spawn(binary, args, {
-        env: { ...process.env, ...conditionEnv },
-        stdio: 'ignore',
-        detached: true,
-      });
-      registerProcess(child, `Hunt-core[${huntId}:${i}]`);
-    } else {
-      const child = spawn(mgbaBinary!, [
-        join(instDir, 'rom.gbc'),
-        '--script', lua_script,
-        '-C', 'fpsTarget=600000'
-      ], {
-        env: {
-          ...process.env,
-          QT_QPA_PLATFORM: 'offscreen',
-          MGBA_LOG_FILE: logFile,
-          INSTANCE_ID: String(i),
-          HUNT_MODE: hunt_mode || 'gift',
-          TARGET_SPECIES: target_name,
-          WALK_DIR: walk_dir || 'ns',
-          ...conditionEnv,
-        },
-        stdio: 'ignore',
-        detached: true,
-      });
-      registerProcess(child, `Hunt-mGBA[${huntId}:${i}]`);
-    }
+    const child = spawn(binary, args, {
+      env: { ...process.env, ...conditionEnv },
+      stdio: 'ignore',
+      detached: true,
+    });
+    registerProcess(child, `Hunt-core[${huntId}:${i}]`);
   }
 }
 
 router.post('/', (req, res) => {
-  const { target_name, target_species_id, game, rom_path, sav_path, lua_script, num_instances, hunt_mode, engine, walk_dir,
+  const { target_name, target_species_id, game, rom_path, sav_path, num_instances, hunt_mode, engine, walk_dir,
     target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc,
     encounter_type, target_nature, target_ability, target_ivs,
     perfect_iv_count, is_shiny_locked, has_shiny_charm } = req.body;
@@ -695,13 +630,13 @@ router.post('/', (req, res) => {
 
     const result = db.prepare(`
       INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path,
-        lua_script, num_instances, engine, hunt_mode, walk_dir,
+        num_instances, engine, hunt_mode, walk_dir,
         target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc,
         hunt_dir, status, started_at,
         encounter_type, target_nature, target_ability, target_ivs,
         perfect_iv_count, is_shiny_locked, has_shiny_charm)
       VALUES (?, ?, ?, ?, ?,
-        '', 1, 'rng', ?, '',
+        1, 'rng', ?, '',
         ?, 0, ?, 0, 0, 0, 0,
         ?, 'running', datetime('now'),
         ?, ?, ?, ?,
@@ -803,16 +738,15 @@ router.post('/', (req, res) => {
     return res.status(201).json(hunt);
   }
 
-  const useCore = engine === 'core';
-  const instances = num_instances || (useCore ? 16 : 30);
+  const instances = num_instances || 16;
 
   const huntDirName = generateHuntDirName(game, target_name);
 
   const result = db.prepare(`
-    INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path, lua_script, num_instances, engine, hunt_mode, walk_dir,
+    INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path, num_instances, engine, hunt_mode, walk_dir,
       target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc, hunt_dir, status, started_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', datetime('now'))
-  `).run(target_name, target_species_id || null, game, rom_path, sav_path, lua_script, instances, engine || 'core', hunt_mode || 'gift', walk_dir || 'ns',
+    VALUES (?, ?, ?, ?, ?, ?, 'core', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', datetime('now'))
+  `).run(target_name, target_species_id || null, game, rom_path, sav_path, instances, hunt_mode || 'gift', walk_dir || 'ns',
     target_shiny ?? 1, target_perfect ?? 0, target_gender || 'any', min_atk ?? 0, min_def ?? 0, min_spd ?? 0, min_spc ?? 0, huntDirName);
 
   const huntId = result.lastInsertRowid as number;

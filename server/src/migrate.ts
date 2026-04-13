@@ -2,6 +2,13 @@ import { Database } from 'bun:sqlite';
 import { currentOs } from './services/os-triple.js';
 
 export function runMigrations(db: Database) {
+  // Drop deprecated hunts.lua_script column (Qt/Lua engine removed 2026-04-13).
+  // SQLite 3.35+ supports DROP COLUMN; Bun's bundled SQLite is recent enough.
+  const huntsColumns = (db.prepare('PRAGMA table_info(hunts)').all() as any[]).map((c: any) => c.name);
+  if (huntsColumns.includes('lua_script')) {
+    try { db.exec('ALTER TABLE hunts DROP COLUMN lua_script'); } catch {}
+  }
+
   const columns = (db.prepare('PRAGMA table_info(pokemon)').all() as any[]).map((c: any) => c.name);
 
   const newCols: [string, string][] = [

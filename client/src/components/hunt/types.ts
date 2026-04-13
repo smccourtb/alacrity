@@ -6,11 +6,10 @@ export interface HuntFormValues {
   game: string;
   rom_path: string;
   sav_path: string;
-  lua_script: string;
   hunt_mode: string;
   walk_dir: string;
   num_instances: number;
-  engine: 'core' | 'qt' | 'rng';
+  engine: 'core' | 'rng';
   target_shiny: number;
   target_perfect: number;
   target_gender: string;

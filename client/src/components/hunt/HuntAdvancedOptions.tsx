@@ -6,7 +6,7 @@ import ItemPicker from '@/components/ItemPicker';
 import type { HuntFormControl } from './types';
 
 interface HuntAdvancedOptionsProps extends HuntFormControl {
-  huntFiles: { roms: any[]; scripts: any[] };
+  huntFiles: { roms: any[] };
   showAdvanced: boolean;
   setShowAdvanced: (v: boolean) => void;
 }
