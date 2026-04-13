@@ -7,7 +7,6 @@ import { readFileSync } from 'fs';
 import db from '../db.js';
 import { paths } from '../paths.js';
 import { autoLinkSave } from '../services/autoLinkage.js';
-import { importFromDirectory } from '../services/collectionImport.js';
 import { syncSaves } from '../services/syncSaves.js';
 
 const SAVES_DIR = paths.savesDir;
@@ -129,19 +128,6 @@ router.post('/:id/backup', (req, res) => {
 
   const backup = db.prepare('SELECT * FROM save_files WHERE id = ?').get(result.lastInsertRowid);
   res.status(201).json(backup);
-});
-
-// POST /api/saves/import-directory
-router.post('/import-directory', (req, res) => {
-  const { path: dirPath } = req.body;
-  if (!dirPath) return res.status(400).json({ error: 'path required' });
-
-  try {
-    const result = importFromDirectory(dirPath);
-    res.json(result);
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
-  }
 });
 
 router.get('/heads', (_req, res) => {

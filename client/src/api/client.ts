@@ -258,7 +258,6 @@ export const api = {
       invalidateCache('/saves');
       return request<void>(`/saves/${id}`, { method: 'DELETE' });
     },
-    importDirectory: (path: string) => request<any>('/saves/import-directory', { method: 'POST', body: JSON.stringify({ path }) }),
   },
   launcher: {
     preview: (id: string) => request<any>(`/launcher/saves/${id}/preview`),
