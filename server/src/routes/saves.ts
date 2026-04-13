@@ -8,6 +8,8 @@ import db from '../db.js';
 import { paths } from '../paths.js';
 import { autoLinkSave } from '../services/autoLinkage.js';
 import { syncSaves } from '../services/syncSaves.js';
+import { importSavesFromSource } from '../services/saveImport.js';
+import { getConfig, updateConfig } from '../services/config.js';
 
 const SAVES_DIR = paths.savesDir;
 const BACKUPS_DIR = paths.backupsDir;
@@ -167,5 +169,59 @@ router.delete('/:id', (req, res) => {
   res.json({ success: true });
 });
 
+
+// POST /api/saves/import-sources
+// Body: { path: string }
+// Adds the path to config.importSources and immediately scans it.
+router.post('/import-sources', async (req, res) => {
+  const { path: srcPath } = req.body || {};
+  if (!srcPath || typeof srcPath !== 'string') {
+    return res.status(400).json({ error: 'path required' });
+  }
+
+  const cfg = getConfig();
+  if (cfg.importSources.includes(srcPath)) {
+    return res.status(400).json({ error: 'This source is already configured' });
+  }
+
+  try {
+    const next = updateConfig({ importSources: [...cfg.importSources, srcPath] });
+    const index = next.importSources.length - 1;
+    const result = await importSavesFromSource(srcPath);
+    return res.json({ index, result });
+  } catch (err: any) {
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+// POST /api/saves/import-sources/:index/rescan
+router.post('/import-sources/:index/rescan', async (req, res) => {
+  const idx = Number(req.params.index);
+  const cfg = getConfig();
+  if (!Number.isInteger(idx) || idx < 0 || idx >= cfg.importSources.length) {
+    return res.status(404).json({ error: 'Source not found' });
+  }
+
+  try {
+    const result = await importSavesFromSource(cfg.importSources[idx]);
+    return res.json({ result });
+  } catch (err: any) {
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+// DELETE /api/saves/import-sources/:index
+// Removes the entry from config; does NOT touch any files on disk.
+router.delete('/import-sources/:index', (req, res) => {
+  const idx = Number(req.params.index);
+  const cfg = getConfig();
+  if (!Number.isInteger(idx) || idx < 0 || idx >= cfg.importSources.length) {
+    return res.status(404).json({ error: 'Source not found' });
+  }
+
+  const nextSources = cfg.importSources.filter((_, i) => i !== idx);
+  updateConfig({ importSources: nextSources });
+  return res.json({ success: true });
+});
 
 export default router;
