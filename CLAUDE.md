@@ -4,24 +4,22 @@ Pokemon shiny hunting automation platform + collection tracker. Combines multi-i
 
 ## Architecture
 
+- **Desktop shell** (`src-tauri/`): Tauri 2 (Rust). Bundles the client, spawns the server as a sidecar (`binaries/alacrity-server`), and ships seed data via `tauri.conf.json` resources. Product name is **Alacrity**; the folder is Tauri's default convention.
 - **Frontend** (`client/`): React 19 + TypeScript + Vite + Tailwind v4 + shadcn/ui. No state library — just hooks + an in-memory API cache (5-min TTL). Real-time hunt logs via SSE (EventSource).
-- **Backend** (`server/`): Express 5 + TypeScript + SQLite (better-sqlite3, WAL mode). Spawns emulator child processes, parses binary save files, handles 3DS FTP sync.
-- **Hunt Scripts** (`scripts/`): C++ binaries (`shiny_hunter_core`, `shiny_hunter_wild`) and Lua scripts for mGBA automation. Instances log to `hunts/hunt_N/logs/`.
+- **Backend** (`server/`): Express 5 + TypeScript + SQLite (`bun:sqlite`, WAL mode). Runs as a compiled Bun sidecar inside Tauri. Spawns emulator child processes, parses binary save files, handles 3DS FTP sync.
+- **Hunt Scripts** (`scripts/`): C++ binaries (`shiny_hunter_core`, `shiny_hunter_wild`, `shiny_hunter_egg`) and Lua scripts for mGBA automation. Instances log to `hunts/hunt_N/logs/`.
 - **Saves** (`saves/`): Library of save files organized by source (3ds/Checkpoint, pksm banks, manual uploads).
 
 ## Running
 
 ```bash
-# Server (port 3001)
-cd server && npx tsx src/index.ts
-
-# Client (port 5173, proxies /api → 3001)
-cd client && npm run dev
+# Full desktop dev loop (spawns client on 5173 + sidecar server on 3001)
+cd src-tauri && bun run tauri dev
 ```
 
 ## Database
 
-SQLite at `server/data/pokemon.db`. Schema in `server/src/schema.sql`.
+SQLite at `data/pokemon.db` (root). Schema in `server/src/schema.sql`. The Tauri bundle ships a seeded copy via the `../data/pokemon.db` → `data/pokemon.db` resource mapping in `tauri.conf.json`.
 
 Key tables: `species` (1025 Pokemon from PokeAPI), `pokemon` (caught/collected), `hunts` + `hunt_logs`, `save_files`, `shiny_availability`.
 

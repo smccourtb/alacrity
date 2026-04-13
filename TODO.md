@@ -1,5 +1,38 @@
 # Alacrity TODO
 
+## 🚨 Tauri Migration Regressions (priority)
+
+Discovered during first packaged-install smoke test on 2026-04-12. Smoke test itself passed (wiring, path resolution, AppData creation, DB seeding, sidecar arg plumbing — all correct after adding `schema.sql` + `seeds/data/` to `tauri.conf.json` resources), but uncovered four distinct issues:
+
+- [ ] **P1: Attempt counter not updating in UI** — Regression. Hunter log files are being written correctly to AppData (`hunts/<name>/logs/instance_N.log`), but the UI attempt counter stays at 0 and the in-UI log view is empty. Worked correctly in dev mode before the Tauri migration. Prime suspects: (a) `chokidar`/`fs.watch` not working inside the compiled Bun sidecar (file-watching libs often break when bundled), (b) SSE EventSource streaming through WebKitGTK misbehaving on long-lived connections, (c) log-tail path resolution wrong in packaged mode. Start by verifying logs are being tailed server-side (add a debug log to whatever watches `logs/*.log`), then work outward to SSE → client.
+
+- [ ] **P2: Lua egg hunt race condition — `!!!` logged before save state written** — `scripts/lua/shiny_hunt_gen2_egg.lua:296` logs the `!!!` marker the instant DVs match, *before* the "hatch" state runs and *before* any save state is written. The server's `!!!`-triggered kill fires first, mGBA dies, no `.ss1` ever exists, and "Open in mGBA" falls back to `.sav`-only — which is exactly what the user sees. The C binaries (`scripts/shiny_hunter_egg.c:413-434`) were explicitly fixed for this exact race with a two-phase log pattern (non-`!!!` "Shiny egg found!" → hatch → save state → `!!!` "HATCHED"); the Lua script needs the same fix. Verify by grepping `!!!` uses across all `scripts/lua/*.lua` — wild hunt scripts likely have the same pattern.
+
+- [ ] **P3: Bundled DB / first-launch path leakage — "found my roms/saves/emulators"** — On a fresh install with AppData nuked, UI showed pre-existing roms/saves/emulators even though AppData `roms/`, `emulators/`, `saves/library/`, `saves/catches/` were all empty. Source unknown. Hypotheses: (a) bundled `pokemon.db` has seeded `emulator_configs` / save / ROM records with absolute paths from the developer's dev machine (would break for every real user), (b) some code path uses CWD-relative access and the sidecar's CWD happens to be `~/pokemon/src-tauri` when launched from terminal (would break on app-menu launch where CWD = `/`). First step: `sqlite3 ~/.local/share/com.alacrity.app/data/pokemon.db "SELECT * FROM emulator_configs; SELECT path FROM save_files LIMIT 10;"` to check if the seed DB has dev-specific paths. Also relaunch via `gtk-launch alacrity` (not terminal) and see if the UI still "finds" anything.
+
+- [ ] **P4: Rendering lag — BLOCKING, must fix before ship** — App runs perceptibly laggy in the packaged Tauri window. **This is a regression** — the exact same client code ran perfectly smooth in Chrome via the Vite dev server before the migration. Same JS, different runtime = WebKitGTK is the variable under suspicion. "Unacceptable for shipping" per user — not a deferred optimization.
+
+  **Step 1 — Diagnose (do NOT start fixing before this):**
+  - [ ] **Chrome vs WebKit comparison test** (highest-value single action). Start the packaged sidecar manually: `/usr/lib/Alacrity/alacrity-server --data-dir ~/.local/share/com.alacrity.app --resources-dir /usr/lib/Alacrity --port 3001`. Open `http://localhost:3001` in system Chrome. Compare perceived perf against the Tauri window side-by-side on the same hunt dashboard. If Chrome is snappy → problem is 100% WebKitGTK, go to Step 2B. If Chrome is also laggy → problem is in the React code, go to Step 2A.
+  - [ ] **Enable Tauri devtools in release build** via Cargo feature flag, record a Chrome DevTools Performance trace of 10s of hunt-dashboard interaction. Identify whether frames drop during JS execution, layout/style, paint, or compositing.
+  - [ ] **Sidecar RTT sanity check**: `time curl http://localhost:<port>/api/hunts` — rules out server-side lag masquerading as UI lag.
+  - [ ] **GPU accel check**: `glxinfo | grep -i renderer`. On the game-server this may be software-only, which would tank WebKitGTK specifically (Chromium has better software-render fallbacks).
+
+  **Step 2A — Frontend fixes (if Chrome is also laggy):**
+  - [ ] Ship client bundle code-splitting (see existing item under "Portable / Offline App"). Current client is a single 1.4MB JS chunk with zero splits — first-paint loads everything. Route-level `React.lazy` on Pokedex/Guide/SaveManager/HuntDashboard should cut first-paint cost to ~300-400KB.
+  - [ ] Audit HuntDashboard SSE log rendering. 30 parallel hunt instances streaming log lines via SSE into an unmemoized list = classic re-render storm. Needs `React.memo` on log row, stable keys, and virtualized log list (not just the species grid).
+  - [ ] Audit PokemonGrid under React 19 concurrent mode. Some apps regressed vs React 18 because Suspense boundaries aren't tuned.
+  - [ ] Profile-and-measure before/after each change. "Feels better" isn't evidence.
+
+  **Step 2B — Architectural options (if Chrome is snappy, WebKit isn't):**
+  This is a real decision, not a knob-turn. No amount of React tuning fixes "the runtime is slow". Options in rough order of preference:
+  - [ ] **B1: CEF (Chromium) backend for Tauri on Linux.** Wry (Tauri's webview abstraction) has experimental CEF support. If it's stable enough, this is the "do it right" path — same Tauri shell, same APIs, just a faster runtime on Linux. Evaluate maturity before committing.
+  - [ ] **B2: Electron build for Linux specifically, keep Tauri for macOS/Windows.** Server is already a standalone sidecar and frontend is a static build; wrapping in Electron for Linux only is ~days of work. Bundle is bigger on Linux but performant. Keep the small Tauri bundle on macOS/Windows where WebKit (Safari's engine) is actually fast.
+  - [ ] **B3: "Open in browser" mode on Linux.** Ship sidecar + desktop launcher that opens `http://localhost:<port>` in user's real Chrome/Firefox. Loses native window/tray/notifications, but sidesteps the entire WebKit problem and keeps the bundle tiny. Reasonable for a dev-tool-like app where users already have Chrome open.
+  - [ ] **B4: Env var hacks** — `WEBKIT_DISABLE_DMABUF_RENDERER=1`, `WEBKIT_DISABLE_COMPOSITING_MODE=1`, forcing GPU accel via `WEBKIT_FORCE_SANDBOX=0`. These *sometimes* help marginally but are not a real fix; listed only for completeness / quick experiments during diagnosis.
+
+  **Gotcha for measurement**: "Before Tauri" the client was served by Vite dev server in Chrome with HMR + source maps + no minification. The production packaged build is minified + code-eliminated, which means *production code in Chrome should be even faster than dev code was*. If production-in-Chrome doesn't feel at least as smooth as dev-in-Chrome did, the regression is partly in the build config, not just the runtime.
+
 ## Collection System
 
 ### Done (2026-04-11)
@@ -83,3 +116,6 @@ Shipped 2026-04-12 on `main` (merge `47872b7`). The auto-install feature works e
 
 ### Still Needed
 - [ ] **Offline update mechanism** — Version check on launch (skips silently if offline). Species/availability updates ship as .db patch files, applied via SQLite ATTACH DATABASE.
+- [ ] **AppImage bundling (blocked: Bun + patchelf incompatibility)** — Adding `appimage` to `tauri.conf.json` targets fails with `linuxdeploy-plugin-gtk` aborting on `ldd` exit 1. Root cause: Tauri's AppImage path runs `patchelf` to set `rpath=$ORIGIN/../lib` on the bundled sidecar, which corrupts the Bun `--compile` binary (Bun appends a large bytecode archive after the ELF sections; patchelf's in-place section rewrite breaks parsing). Pre-patch `ldd` works, post-patch returns no output + exit 1. `.deb`/`.rpm` unaffected because they don't rpath-patch. Possible workarounds: (a) shell-script wrapper as externalBin that execs the real Bun binary shipped as a resource, (b) file upstream Tauri issue, (c) switch server away from `bun build --compile` to a different packaging strategy. Deferred — `.deb`+`.rpm` cover most Linux distros for v1.
+- [ ] **First packaged install smoke test** — Build + install a release bundle on a clean machine (nuke `~/.local/share/com.alacrity.app` first), verify Tauri's AppData wiring end-to-end: DB copy, sidecar `--data-dir` arg, hunt dir creation under AppData (not bundle), libmgba.so resolution for hunt binaries, config.json read/write. Run an actual hunt as the final check.
+- [ ] **Client bundle code-splitting** — Vite warns chunks exceed 500 kB after minification. Split heavy routes (Pokedex with virtualized grid, Guide, SaveManager) via dynamic `import()` / `React.lazy` so initial load isn't dragging the whole app. Affects first-launch perceived perf on the desktop app.
