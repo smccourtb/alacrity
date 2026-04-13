@@ -258,6 +258,30 @@ export const api = {
       invalidateCache('/saves');
       return request<void>(`/saves/${id}`, { method: 'DELETE' });
     },
+    importSources: {
+      add: (path: string) => {
+        invalidateCache('/saves');
+        invalidateCache('/config');
+        return request<{ index: number; result: { copied: number; skippedDuplicate: number; errors: { path: string; reason: string }[] } }>(
+          '/saves/import-sources',
+          { method: 'POST', body: JSON.stringify({ path }) },
+        );
+      },
+      rescan: (index: number) => {
+        invalidateCache('/saves');
+        return request<{ result: { copied: number; skippedDuplicate: number; errors: { path: string; reason: string }[] } }>(
+          `/saves/import-sources/${index}/rescan`,
+          { method: 'POST' },
+        );
+      },
+      remove: (index: number) => {
+        invalidateCache('/config');
+        return request<{ success: true }>(
+          `/saves/import-sources/${index}`,
+          { method: 'DELETE' },
+        );
+      },
+    },
   },
   launcher: {
     preview: (id: string) => request<any>(`/launcher/saves/${id}/preview`),
