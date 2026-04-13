@@ -87,6 +87,28 @@ Discovered during first packaged-install smoke test on 2026-04-12. Smoke test it
   - Route encounter table on grass/cave/surf entry — show available Pokemon with rates, levels, and collection status (caught/need) by cross-referencing PokeAPI encounter data with the player's current pokedex flags in memory
 - [ ] **Auto-journal** — Save-level diffing exists via `diffSnapshots()` (badges, shinies, party, location). Still need live memory polling to detect events between saves for continuous journaling.
 
+## Post-Shiny Workflow & Saves Structure — Followups
+
+Surfaced during the first mac smoke test (2026-04-13) after running the redesigned `PostShinyWorkflow.tsx`. These are open items from that UX pass.
+
+- [ ] **Saves page restructure: Play Saves vs Shiny Archive** — The merged Play/Saves page currently lumps archived shiny catches together with real playable library saves, but they are fundamentally different artifacts. Library saves are the real save files you pick up and continue from. Archived shiny catches are standalone transferable snapshots (share with a friend, import to another save, quick-in-quick-out trade to Bank/HOME) — not meant to be played from continuously. Split into two clearly-labeled sections with different iconography and affordances. Consider surfacing the archive's `manifest.json` data (species, DVs, hunt ID, date caught) as card metadata.
+- [ ] **Bring saves into the app: import flow** — When the Play/Saves pages merged, the old SaveManager's import-directory button was orphaned. The `POST /api/saves/import-directory` endpoint still exists but has no UI caller. Users currently have no in-app way to ingest external saves (Checkpoint backups, PKSM banks, USB transfers). Add a prominent "Import saves" action to the Play page that drives the existing endpoint and shows ingestion progress.
+- [ ] **3DS push as a standalone feature** — Removed from `PostShinyWorkflow.tsx` during the 2026-04-13 redesign because it was a niche action buried in the per-hit workflow. Should become a dedicated feature with a broader scope: "pick any save file → push it to a 3DS over FTP". Primary use case is shuttling files through Pokémon Transporter → Bank → HOME. Sits naturally in Settings or a new "3DS Sync" page. Check existing `server/src/services/ftpSync.ts` — core logic already exists.
+- [ ] **Future hunt modes: SOS, horde, chain** — Gen 6/7 introduce encounter patterns we don't model yet (SOS in S/M, horde in X/Y and ORAS, chain-style for some stationary legendaries). When these land, they slot into the `catch` vs `receive` dichotomy in `PostShinyWorkflow.tsx:deriveCatchMode()`. SOS and hordes are `catch`; chain-style radar encounters are `catch`. No `receive`-style Gen 6+ modes come to mind. Add hunt_mode enum values + update the `HuntGameSelector.tsx` PillToggle.
+- [ ] **Pokedex sync button 404s on `/saves/collection`** — Button on the Pokedex page calls a route that was renamed during the `/api/identity/*` → `/api/collection/*` rewrite. Hangs silently. Find the caller in the client, repoint at the new collection endpoints, verify.
+- [ ] **Missing Gen 3 entries in `GAME_METADATA`** — `server/src/routes/hunts.ts` has no Gen 3 entries at all (Ruby, Sapphire, Emerald, FireRed, LeafGreen). Add them with `romPattern` regexes that match typical filename conventions.
+- [ ] **`.nds` missing from `ROM_EXTS`** — `server/src/routes/hunts.ts` omits the `.nds` extension, so Gen 4/5 ROMs never get scanned even though `GAME_METADATA` has entries for them. One-line fix.
+
+### Qt/Lua engine removal — remaining cleanup
+
+Dropped the Qt/Lua hunt path on 2026-04-13 (client UI removed, engine toggle gone, egg → qt auto-switch killed). The server-side dead code was left in place to keep the diff surgical. Because nothing has been released yet and no users have saved hunts with `engine: 'qt'`, these can be cleaned up aggressively without compatibility concerns.
+
+- [ ] **Remove Lua script scanning from `/game-configs`** — `server/src/routes/hunts.ts` `/game-configs` endpoint still walks `scripts/lua/*.lua` and builds a `scripts` map per game. Client no longer reads the field. Delete `scanLuaScripts()`, remove the `scripts` field from the response, remove `lua_script` from the hunt create/insert paths.
+- [ ] **Delete `scripts/lua/*.lua` files** — dead content once the server stops scanning them. Keep a `scripts/lua/README.md` stub explaining the path was intentionally removed so future contributors don't accidentally recreate it, OR delete the directory entirely.
+- [ ] **Narrow `engine` type unions** — `client/src/components/hunt/types.ts` and `client/src/pages/HuntDashboard.tsx` still declare `engine: 'core' | 'qt' | 'rng'`. Drop `'qt'`. No released users have `'qt'` hunts to worry about.
+- [ ] **Remove `lua_script` column handling** — `server/src/routes/hunts.ts` still accepts and inserts `lua_script` on hunt create. Can be dropped from the insert + select paths, and eventually the DB column itself (migration).
+- [ ] **Remove unused `spawnHuntProcesses` qt branch** — the `useCore ? ... : ...` split in `spawnHuntProcesses` still has the mGBA-qt spawn code path even though `engine` is always `'core'`. Collapse to a single code path that spawns the C binary.
+
 ## Dependency Auto-Install — Followups
 
 Shipped 2026-04-12 on `main` (merge `47872b7`). The auto-install feature works end-to-end on Linux; these are the open items that landed either partially, deferred, or were discovered during implementation.

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { spawn, execSync } from 'child_process';
 import { registerProcess } from '../services/processRegistry.js';
 import { join } from 'path';
-import { readdirSync, readFileSync, watchFile, unwatchFile, existsSync, mkdirSync, symlinkSync, copyFileSync, statSync, rmSync, writeFileSync } from 'fs';
+import { readdirSync, readFileSync, watch, existsSync, mkdirSync, symlinkSync, copyFileSync, statSync, rmSync, writeFileSync, utimesSync, type FSWatcher } from 'fs';
 import { basename, extname } from 'path';
 import db from '../db.js';
 import { paths } from '../paths.js';
@@ -177,7 +177,7 @@ function genderDvThreshold(genderRate: number): number {
 }
 
 const notifiedHits = new Set<string>();
-const activeWatchers = new Map<number, string[]>(); // huntId → watched file paths
+const activeWatchers = new Map<number, FSWatcher[]>(); // huntId → FSWatcher instances
 
 function killHuntProcesses(huntId: number) {
   const hunt = db.prepare('SELECT hunt_dir FROM hunts WHERE id = ?').get(huntId) as any;
@@ -201,11 +201,63 @@ function cleanupNonHitInstances(hunt: any, hitInstances: Set<string>) {
 }
 
 function stopHuntWatcher(huntId: number) {
-  const paths = activeWatchers.get(huntId);
-  if (paths) {
-    for (const p of paths) unwatchFile(p);
+  const watchers = activeWatchers.get(huntId);
+  if (watchers) {
+    for (const w of watchers) {
+      try { w.close(); } catch {}
+    }
     activeWatchers.delete(huntId);
   }
+}
+
+// Write the archive bundle for a hit instance: base.sav + shiny.ss1 + manifest.json
+// to catches/<game>/<target_huntN_DVs>/. Does not copy catch.sav and does not
+// register in save_files or create a checkpoint — those belong to the user-driven
+// /save-catch and /save-to-library flows. Safe to call multiple times.
+function writeArchiveBundle(hunt: any, instance: string): { catchDir: string; folderName: string; dvStr: string } | null {
+  const huntDir = getHuntDir(hunt);
+  const instDir = join(huntDir, `instance_${instance}`);
+  if (!existsSync(instDir)) return null;
+
+  const stateFiles = readdirSync(instDir).filter((f: string) => f.endsWith('.ss1') && f !== 'rom.ss1');
+  const stateFile = stateFiles[0] || '';
+  const dvMatch = stateFile.match(/A(\d+)_D(\d+)_Sp(\d+)_Sc(\d+)/);
+  const dvStr = dvMatch ? `A${dvMatch[1]}_D${dvMatch[2]}_Sp${dvMatch[3]}_Sc${dvMatch[4]}` : '';
+
+  const game = hunt.game || 'Unknown';
+  const folderName = [hunt.target_name, `hunt${hunt.id}`, dvStr].filter(Boolean).join('_');
+  const catchGameDir = paths.catchGameDir(game);
+  const catchDir = join(catchGameDir, folderName);
+  mkdirSync(catchDir, { recursive: true });
+
+  const baseSavSrc = join(instDir, 'rom.sav');
+  if (existsSync(baseSavSrc)) {
+    copyFileSync(baseSavSrc, join(catchDir, 'base.sav'));
+  }
+  if (stateFile) {
+    copyFileSync(join(instDir, stateFile), join(catchDir, 'shiny.ss1'));
+  }
+
+  // Preserve any catch.sav that was already copied in by a prior run
+  const hasCatchSav = existsSync(join(catchDir, 'catch.sav'));
+
+  const manifest = {
+    game: hunt.game,
+    species: hunt.target_name,
+    species_id: hunt.target_species_id,
+    dvs: dvStr,
+    hunt_id: hunt.id,
+    emulator: hunt.engine,
+    archived_at: new Date().toISOString(),
+    files: {
+      base_save: existsSync(join(catchDir, 'base.sav')) ? 'base.sav' : null,
+      save_state: existsSync(join(catchDir, 'shiny.ss1')) ? 'shiny.ss1' : null,
+      catch_save: hasCatchSav ? 'catch.sav' : null,
+    },
+  };
+  writeFileSync(join(catchDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
+
+  return { catchDir, folderName, dvStr };
 }
 
 function handleHuntHit(huntId: number, targetName: string, hits: { instance: string; attempts: number; details: string }[]) {
@@ -239,6 +291,20 @@ function handleHuntHit(huntId: number, targetName: string, hits: { instance: str
   }
 
   const hitInstanceNums = new Set(hits.map(h => h.instance.replace('#', '')));
+
+  // Write the archive bundle for each hit instance before cleaning up. This is
+  // the system's permanent provenance record and should happen regardless of
+  // whether the user ever opens the workflow.
+  if (hunt) {
+    for (const instance of hitInstanceNums) {
+      try {
+        writeArchiveBundle(hunt, instance);
+      } catch (err) {
+        console.error(`[hunt ${huntId}] archive bundle failed for instance ${instance}:`, err);
+      }
+    }
+  }
+
   cleanupNonHitInstances(hunt, hitInstanceNums);
 }
 
@@ -271,13 +337,17 @@ function startHuntWatcher(huntId: number, targetName: string, hunt: any) {
   stopHuntWatcher(huntId);
 
   const logFiles = readdirSync(logDir).filter(f => f.endsWith('.log'));
-  const watchedPaths: string[] = [];
+  const watchers: FSWatcher[] = [];
 
   for (const f of logFiles) {
     const filePath = join(logDir, f);
     let lastSize = existsSync(filePath) ? readFileSync(filePath, 'utf-8').length : 0;
 
-    watchFile(filePath, { interval: 2000 }, () => {
+    // fs.watch is kqueue/inotify-backed — event-driven, no polling interval.
+    // Replaces an earlier watchFile(interval: 2000) that was lagging badly
+    // inside the compiled Bun sidecar, holding hit detection several seconds
+    // behind the actual log write.
+    const w = watch(filePath, () => {
       try {
         const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId) as any;
         if (!hunt || hunt.status !== 'running') {
@@ -298,11 +368,11 @@ function startHuntWatcher(huntId: number, targetName: string, hunt: any) {
         }
       } catch {}
     });
-    watchedPaths.push(filePath);
+    watchers.push(w);
   }
 
-  activeWatchers.set(huntId, watchedPaths);
-  console.log(`[hunt ${huntId}] Watching ${watchedPaths.length} log files for shiny hits`);
+  activeWatchers.set(huntId, watchers);
+  console.log(`[hunt ${huntId}] Watching ${watchers.length} log files for shiny hits`);
 }
 
 async function ntfyPush(title: string, message: string, priority = 'default', tags = 'pokemon') {
@@ -333,11 +403,9 @@ router.get('/', (req, res) => {
 
 // Scan for available ROMs, saves, and lua scripts
 const HOME = process.env.HOME || '';
-const ROM_DIRS = [
-  join(HOME, 'pokemon', 'roms'),
-  join(HOME, 'pokemon', 'saves'),
-  join(HOME, 'pokemon', 'saves', 'catches'),
-];
+function getScanDirs() {
+  return [paths.romsDir, paths.libraryDir, paths.catchesDir];
+}
 const ROM_EXTS = ['.gbc', '.gb', '.gba', '.3ds', '.cia', '.cxi'];
 const SAV_EXTS = ['.sav'];
 
@@ -395,9 +463,10 @@ router.get('/browse', (req, res) => {
 });
 
 router.get('/files', (_req, res) => {
+  const scanDirs = getScanDirs();
   res.json({
-    roms: scanFiles(ROM_DIRS, ROM_EXTS),
-    saves: scanFiles(ROM_DIRS, SAV_EXTS),
+    roms: scanFiles(scanDirs, ROM_EXTS),
+    saves: scanFiles(scanDirs, SAV_EXTS),
     scripts: scanLuaScripts(),
   });
 });
@@ -445,8 +514,9 @@ router.get('/presets', (_req, res) => {
 });
 
 router.get('/game-configs', (_req, res) => {
-  const roms = scanFiles(ROM_DIRS, ROM_EXTS);
-  const saves = scanFiles(ROM_DIRS, SAV_EXTS);
+  const scanDirs = getScanDirs();
+  const roms = scanFiles(scanDirs, ROM_EXTS);
+  const saves = scanFiles(scanDirs, SAV_EXTS);
   const scripts = scanLuaScripts();
 
   const configs = Object.entries(GAME_METADATA).map(([game, meta]) => {
@@ -928,15 +998,25 @@ router.get('/:id/hit-info', (req, res) => {
       saveModified = statSync(openSavPath).mtimeMs > statSync(instSavPath).mtimeMs;
     }
 
-    // Check if already saved to catches (new bundled folder structure)
+    // Archive bundle state. `archived` is true when the manifest.json exists
+    // (the full bundle — base.sav + shiny.ss1 + manifest — was written by
+    // handleHuntHit at detection time). `savedToCatches` is the narrower flag:
+    // catch.sav specifically exists (i.e. the user saved in-game and the catch
+    // save was copied into the bundle).
     const catchesGameDir = paths.catchGameDir(hunt.game || '');
     const catchPattern = `${hunt.target_name}_hunt${hunt.id}`;
+    let archived = false;
     let savedToCatches = false;
+    let catchDirPath = '';
     let catchSavePath = '';
     if (existsSync(catchesGameDir)) {
       const catchFolder = readdirSync(catchesGameDir).find(f => f.includes(catchPattern));
       if (catchFolder) {
-        const catchFile = join(catchesGameDir, catchFolder, 'catch.sav');
+        catchDirPath = join(catchesGameDir, catchFolder);
+        if (existsSync(join(catchDirPath, 'manifest.json'))) {
+          archived = true;
+        }
+        const catchFile = join(catchDirPath, 'catch.sav');
         if (existsSync(catchFile)) {
           savedToCatches = true;
           catchSavePath = catchFile;
@@ -955,11 +1035,13 @@ router.get('/:id/hit-info', (req, res) => {
         instanceDir: instDir,
         openDir: opened ? openDir : null,
         savePath: opened ? openSavPath : instSavPath,
+        catchDir: archived ? catchDirPath : null,
         catchSavePath: savedToCatches ? catchSavePath : null,
       },
       workflow: {
         opened,
         saveModified,
+        archived,
         savedToCatches,
       },
     };
@@ -969,6 +1051,8 @@ router.get('/:id/hit-info', (req, res) => {
     huntId: hunt.id,
     target: hunt.target_name,
     game: hunt.game,
+    huntMode: hunt.hunt_mode,
+    engine: hunt.engine,
     totalAttempts: hunt.total_attempts,
     hits: enriched,
   });
@@ -1197,7 +1281,16 @@ router.post('/:id/open', (req, res) => {
   const savDst = join(openDir, 'rom.sav');
 
   if (!existsSync(romDst)) symlinkSync(romSrc, romDst);
-  copyFileSync(join(instDir, 'rom.sav'), savDst);
+  const savSrc = join(instDir, 'rom.sav');
+  copyFileSync(savSrc, savDst);
+  // Preserve the source mtime on the destination. Without this, copyFileSync
+  // stamps the destination with the current time, which would cause the
+  // saveModified heuristic (open/rom.sav.mtime > instance/rom.sav.mtime) to
+  // return true the instant /open is called — before the user has done
+  // anything in mGBA. Backdating makes "user actually saved in-game" the
+  // only way for the open file to become newer than the source.
+  const savSrcStat = statSync(savSrc);
+  utimesSync(savDst, savSrcStat.atime, savSrcStat.mtime);
 
   // Launch with save state if available, otherwise just ROM+sav
   const mgbaArgs = [romDst];
@@ -1280,7 +1373,7 @@ router.get('/:id/stream', (req, res) => {
     Connection: 'keep-alive',
   });
 
-  const watchers: string[] = [];
+  const watchers: FSWatcher[] = [];
   const logDir = join(getHuntDir(hunt), 'logs');
 
   // RNG hunts don't use log files — skip straight to orchestrator listener
@@ -1321,7 +1414,9 @@ router.get('/:id/stream', (req, res) => {
     let lastSize = existsSync(filePath) ? readFileSync(filePath, 'utf-8').length : 0;
     const inst = f.replace('.log', '').replace('instance_', '#');
 
-    watchFile(filePath, { interval: 1000 }, () => {
+    // Event-driven fs.watch — replaces watchFile(interval: 1000) which was
+    // batching log lines for seconds at a time inside the compiled sidecar.
+    const w = watch(filePath, () => {
       try {
         const content = readFileSync(filePath, 'utf-8');
         const newContent = content.slice(lastSize);
@@ -1334,11 +1429,13 @@ router.get('/:id/stream', (req, res) => {
         }
       } catch {}
     });
-    watchers.push(filePath);
+    watchers.push(w);
   }
 
   req.on('close', () => {
-    for (const f of watchers) unwatchFile(f);
+    for (const w of watchers) {
+      try { w.close(); } catch {}
+    }
   });
 });
 

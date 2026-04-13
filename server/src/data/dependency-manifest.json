@@ -21,43 +21,43 @@
           "chmod": true
         },
         "macos-arm64": {
-          "downloadUrl": "https://github.com/mgba-emu/mgba/releases/download/0.10.3/mGBA-0.10.3-macos-universal.dmg",
+          "downloadUrl": "https://github.com/mgba-emu/mgba/releases/download/0.10.3/mGBA-0.10.3-macos.dmg",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
           "archive": "dmg",
-          "dmgVolumeName": "mGBA",
+          "dmgVolumeName": "mGBA 0.10.3",
           "binaryRelPath": "mGBA.app/Contents/MacOS/mGBA"
         },
         "windows-x64": {
-          "downloadUrl": "https://github.com/mgba-emu/mgba/releases/download/0.10.3/mGBA-0.10.3-win64.zip",
+          "downloadUrl": "https://github.com/mgba-emu/mgba/releases/download/0.10.3/mGBA-0.10.3-win64.7z",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
-          "archive": "zip",
+          "archive": "7z",
           "binaryRelPath": "mGBA-0.10.3-win64/mGBA.exe"
         }
       }
     },
     "bgb": {
       "displayName": "BGB",
-      "version": "1.6.0",
+      "version": "1.6.6",
       "license": "Freeware (proprietary)",
       "licenseUrl": "https://bgb.bircd.org",
       "homepageUrl": "https://bgb.bircd.org",
       "description": "Game Boy / Game Boy Color emulator with reliable link cable networking. Used for Gen 1↔2 trades.",
       "platforms": {
         "windows-x64": {
-          "downloadUrl": "https://bgb.bircd.org/bgb160.zip",
+          "downloadUrl": "https://bgb.bircd.org/bgb.zip",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
           "archive": "zip",
           "binaryRelPath": "bgb.exe"
         },
         "linux-x64": {
-          "downloadUrl": "https://bgb.bircd.org/bgb160.zip",
+          "downloadUrl": "https://bgb.bircd.org/bgb.zip",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
           "archive": "zip",
           "binaryRelPath": "bgb.exe",
           "requiresWine": true
         },
         "macos-arm64": {
-          "downloadUrl": "https://bgb.bircd.org/bgb160.zip",
+          "downloadUrl": "https://bgb.bircd.org/bgb.zip",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
           "archive": "zip",
           "binaryRelPath": "bgb.exe",
@@ -74,21 +74,21 @@
       "description": "Nintendo DS emulator. Required for Gen 4–5 play and hunts. Works best with real DS firmware files (configured in BIOS directory).",
       "platforms": {
         "linux-x64": {
-          "downloadUrl": "https://github.com/melonDS-emu/melonDS/releases/download/0.9.5/melonDS-appimage-x86_64.zip",
+          "downloadUrl": "https://github.com/melonDS-emu/melonDS/releases/download/0.9.5/melonDS_0.9.5_linux_x64.zip",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
           "archive": "zip",
-          "binaryRelPath": "melonDS.AppImage",
+          "binaryRelPath": "melonDS",
           "chmod": true
         },
         "macos-arm64": {
-          "downloadUrl": "https://github.com/melonDS-emu/melonDS/releases/download/0.9.5/melonDS-0.9.5-macOS.dmg",
+          "downloadUrl": "https://github.com/melonDS-emu/melonDS/releases/download/0.9.5/melonDS_0.9.5_mac_UB2.dmg",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
           "archive": "dmg",
           "dmgVolumeName": "melonDS",
           "binaryRelPath": "melonDS.app/Contents/MacOS/melonDS"
         },
         "windows-x64": {
-          "downloadUrl": "https://github.com/melonDS-emu/melonDS/releases/download/0.9.5/melonDS-0.9.5-windows-x86_64.zip",
+          "downloadUrl": "https://github.com/melonDS-emu/melonDS/releases/download/0.9.5/melonDS_0.9.5_win_x64.zip",
           "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
           "archive": "zip",
           "binaryRelPath": "melonDS.exe"

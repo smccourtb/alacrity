@@ -245,11 +245,9 @@ export default function HuntDashboard() {
     const script = gameConfig?.scripts[mode] || getValues('lua_script');
     setValue('hunt_mode', mode);
     setValue('lua_script', script);
-    // Egg hunts require mGBA/Lua — no Core binary exists
-    if (mode === 'egg' && getValues('engine') === 'core') {
-      setValue('engine', 'qt');
-      setValue('num_instances', 30);
-    }
+    // The old comment said "Egg hunts require mGBA/Lua — no Core binary
+    // exists" but that hasn't been true since shiny_hunter_egg landed. All
+    // hunt modes run through the core C binaries now.
   };
 
   // --- Data fetching ---
@@ -310,11 +308,15 @@ export default function HuntDashboard() {
       const fetchStatus = () => {
         api.hunts.status(hunt.id).then(s => {
           setHuntStatuses(prev => ({ ...prev, [hunt.id]: s }));
-          if (s.hits?.length > 0) {
-            setHunts(prev => prev.map(h =>
-              h.id === hunt.id ? { ...h, status: 'hit', hit_details: JSON.stringify(s.hits) } : h
-            ));
-          }
+          setHunts(prev => prev.map(h => {
+            if (h.id !== hunt.id) return h;
+            const next = { ...h, total_attempts: s.totalAttempts };
+            if (s.hits?.length > 0) {
+              next.status = 'hit';
+              next.hit_details = JSON.stringify(s.hits);
+            }
+            return next;
+          }));
         });
       };
       fetchStatus();
