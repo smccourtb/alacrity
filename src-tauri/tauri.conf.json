@@ -42,7 +42,9 @@
       "../scripts/shiny_hunter_egg": "scripts/shiny_hunter_egg",
       "../scripts/libmgba.so.0.11": "scripts/libmgba.so.0.11",
       "../scripts/libmgba.0.11.dylib": "scripts/libmgba.0.11.dylib",
+      "../server/src/schema.sql": "server/src/schema.sql",
       "../server/src/data": "server/src/data",
+      "../server/src/seeds/data": "server/src/seeds/data",
       "resources/bin/bsdtar-linux-x64": "bin/bsdtar-linux-x64",
       "resources/data/libarchive-LICENSE.txt": "data/libarchive-LICENSE.txt"
     }

@@ -1,0 +1,2157 @@
+{
+  "new-bark-town": {
+    "items": [
+      {
+        "item_name": "Pokégear",
+        "method": "gift",
+        "description": "Given by at the start of the game"
+      },
+      {
+        "item_name": "Berry",
+        "method": "gift",
+        "description": "Held by the the player's first partner Pokemon"
+      },
+      {
+        "item_name": "Potion",
+        "method": "gift",
+        "description": "Gift from Professor Elm's aide after getting a first partner Pokemon"
+      },
+      {
+        "item_name": "Poké Ball",
+        "method": "gift",
+        "description": "Gift from Professor Elm's aide after defeating Silver in"
+      },
+      {
+        "item_name": "Everstone",
+        "method": "gift",
+        "description": "Gift from Professor Elm if shown the Mystery Egg Togepi"
+      },
+      {
+        "item_name": "Master Ball",
+        "method": "gift",
+        "description": "Gift from Professor Elm after earning the eight Johto Badges"
+      },
+      {
+        "item_name": "S.S. Ticket",
+        "method": "gift",
+        "description": "Gift from Professor Elm after entering the Hall of Fame"
+      }
+    ],
+    "tms": [],
+    "events": [
+      {
+        "event_name": "Receive Starter Pokemon",
+        "event_type": "gift_pokemon",
+        "description": "Choose Cyndaquil, Totodile, or Chikorita from Prof. Elm",
+        "species_id": 155
+      }
+    ]
+  },
+  "cherrygrove-city": {
+    "items": [
+      {
+        "item_name": "Map Card",
+        "method": "gift",
+        "description": "Gift from Guide Gent after giving a tour around the town"
+      },
+      {
+        "item_name": "Mystic Water",
+        "method": "gift",
+        "description": "Gift from the man on the island in the water (requires Surf)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "violet-city": {
+    "items": [
+      {
+        "item_name": "Bitter Berry",
+        "method": "gift",
+        "description": "Held by Rocky, an Onix the the player can obtain in a trade"
+      },
+      {
+        "item_name": "PRZCureBerry",
+        "method": "field",
+        "description": "On the Berry tree near the exit to Route 32 (daily)"
+      },
+      {
+        "item_name": "Hyper Potion",
+        "method": "hidden",
+        "description": "At the end of the path between the Pokemon Center and the Pokemon academy (requires Cut/Rock Smash) (hidden)"
+      },
+      {
+        "item_name": "PP Up",
+        "method": "field",
+        "description": "On the land across the western water (requires Surf)"
+      },
+      {
+        "item_name": "Rare Candy",
+        "method": "field",
+        "description": "On the land across the eastern water (requires Surf)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 31,
+        "move_name": "Mud-Slap",
+        "method": "gym_reward"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Defeat Falkner",
+        "event_type": "gym",
+        "description": "Gym 1 — earns Zephyr Badge",
+        "progression_order": 1
+      },
+      {
+        "event_name": "Receive Togepi Egg",
+        "event_type": "gift_pokemon",
+        "description": "From Prof. Elm's aide after first gym",
+        "species_id": 175
+      }
+    ]
+  },
+  "azalea-town": {
+    "items": [
+      {
+        "item_name": "Full Heal",
+        "method": "hidden",
+        "description": "On the north wall surrounding Slowpoke Well (hidden)"
+      },
+      {
+        "item_name": "Wht Apricorn",
+        "method": "field",
+        "description": "Apricorn tree outside of Kurt's House (daily)"
+      },
+      {
+        "item_name": "Lure Ball",
+        "method": "gift",
+        "description": "Gift from Kurt after Team Rocket is driven out of Slowpoke Well"
+      },
+      {
+        "item_name": "Charcoal",
+        "method": "gift",
+        "description": "Gift from the charcoal maker's assistant after obtaining HM01 Cut"
+      },
+      {
+        "item_name": "GS Ball",
+        "method": "field",
+        "description": "sprite=GS Ball Crystal"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 49,
+        "move_name": "Fury Cutter",
+        "method": "gym_reward"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Defeat Bugsy",
+        "event_type": "gym",
+        "description": "Gym 2 — earns Hive Badge",
+        "progression_order": 2
+      },
+      {
+        "event_name": "Clear Slowpoke Well",
+        "event_type": "story",
+        "description": "Defeat Team Rocket in Slowpoke Well"
+      }
+    ]
+  },
+  "goldenrod-city": {
+    "items": [
+      {
+        "item_name": "Revive",
+        "method": "gift",
+        "description": "From a girl in the Pokemon Center in exchange for an Eon Mail (Western version only)"
+      },
+      {
+        "item_name": "Bicycle",
+        "method": "gift",
+        "description": "From the Bike Shop owner"
+      },
+      {
+        "item_name": "SquirtBottle",
+        "method": "gift",
+        "description": "From the Flower Shop lady after earning the Plain Badge"
+      },
+      {
+        "item_name": "GS Ball",
+        "method": "field",
+        "description": "sprite=GS Ball Crystal"
+      },
+      {
+        "item_name": "Radio Card",
+        "method": "field",
+        "description": "sprite=Pokégear Icon"
+      },
+      {
+        "item_name": "Blue Card",
+        "method": "field",
+        "description": "2F, from Buena"
+      },
+      {
+        "item_name": "Pink Bow",
+        "method": "field",
+        "description": "4F, from Mary after defeating Team Rocket"
+      },
+      {
+        "item_name": "Ultra Ball",
+        "method": "field",
+        "description": "5F, in the studio (requires )"
+      },
+      {
+        "item_name": "Rainbow Wing",
+        "method": "gift",
+        "description": "From the Director after defeating Team Rocket"
+      },
+      {
+        "item_name": "Silver Wing",
+        "method": "gift",
+        "description": "From the Director after defeating Team Rocket"
+      },
+      {
+        "item_name": "Clear Bell",
+        "method": "gift",
+        "description": "From the Director after defeating Team Rocket"
+      },
+      {
+        "item_name": "PP Up",
+        "method": "field",
+        "description": "Pokemon ID matched last two digits"
+      },
+      {
+        "item_name": "Exp. Share",
+        "method": "field",
+        "description": "Pokemon ID matched last three digits"
+      },
+      {
+        "item_name": "Master Ball",
+        "method": "field",
+        "description": "Pokemon ID matched perfectly"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 11,
+        "move_name": "Sunny Day",
+        "method": "gift"
+      },
+      {
+        "tm_number": 45,
+        "move_name": "Attract",
+        "method": "gym_reward"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Defeat Whitney",
+        "event_type": "gym",
+        "description": "Gym 3 — earns Plain Badge",
+        "progression_order": 3
+      },
+      {
+        "event_name": "Receive Squirtbottle",
+        "event_type": "story",
+        "description": "From flower shop after defeating Whitney"
+      },
+      {
+        "event_name": "Receive Eevee",
+        "event_type": "gift_pokemon",
+        "description": "From Bill",
+        "species_id": 133
+      },
+      {
+        "event_name": "Clear Radio Tower",
+        "event_type": "story",
+        "description": "Defeat Team Rocket in Radio Tower (post-Mahogany)",
+        "progression_order": 2
+      }
+    ]
+  },
+  "ecruteak-city": {
+    "items": [
+      {
+        "item_name": "Hyper Potion",
+        "method": "hidden",
+        "description": "In the corner by the water in the northeast (hidden)"
+      },
+      {
+        "item_name": "HM03 Surf",
+        "method": "gift",
+        "description": "Reward from old man for defeating the Kimono Girls"
+      },
+      {
+        "item_name": "Itemfinder",
+        "method": "gift",
+        "description": "Gift from the Ace Trainer in the house east of the Gym"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 30,
+        "move_name": "Shadow Ball",
+        "method": "gym_reward"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Defeat Morty",
+        "event_type": "gym",
+        "description": "Gym 4 — earns Fog Badge",
+        "progression_order": 4
+      }
+    ]
+  },
+  "olivine-city": {
+    "items": [
+      {
+        "item_name": "Good Rod",
+        "method": "gift",
+        "description": "From the Fishing Guru in the house north of the Pokemon Center"
+      },
+      {
+        "item_name": "HM04 Strength",
+        "method": "gift",
+        "description": "From a Sailor in Olivine Café"
+      },
+      {
+        "item_name": "PRZCureBerry",
+        "method": "gift",
+        "description": "Held by Volty, a Voltorb the player can receive in a trade"
+      },
+      {
+        "item_name": "Protein",
+        "method": "hidden",
+        "description": "In Olivine Harbor, southwest of the S.S. Aqua (hidden) (requires the S.S. Ticket)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 23,
+        "move_name": "Iron Tail",
+        "method": "gym_reward"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Defeat Jasmine",
+        "event_type": "gym",
+        "description": "Gym 6 — earns Mineral Badge",
+        "progression_order": 6
+      }
+    ]
+  },
+  "cianwood-city": {
+    "items": [
+      {
+        "item_name": "Revive",
+        "method": "hidden",
+        "description": "Under rock in north area, near Pokemon Seer's house (requires Rock Smash) (hidden)"
+      },
+      {
+        "item_name": "Max Ether",
+        "method": "hidden",
+        "description": "Northwest of the Photo Studio (requires Rock Smash) (hidden)"
+      },
+      {
+        "item_name": "Berry",
+        "method": "gift",
+        "description": "Held by Shuckie, a Shuckle the player can receive from Mania"
+      },
+      {
+        "item_name": "SecretPotion",
+        "method": "gift",
+        "description": "From the Cianwood City Pharmacy after talking with Jasmine at the Olivine Lighthouse"
+      },
+      {
+        "item_name": "HM02 Fly",
+        "method": "gift",
+        "description": "Gift from Chuck's wife outside of the Gym after earning the Storm Badge"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 1,
+        "move_name": "DynamicPunch",
+        "method": "gym_reward"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Defeat Chuck",
+        "event_type": "gym",
+        "description": "Gym 5 — earns Storm Badge",
+        "progression_order": 5
+      },
+      {
+        "event_name": "Receive SecretPotion",
+        "event_type": "story",
+        "description": "From Cianwood Pharmacy for Amphy"
+      },
+      {
+        "event_name": "Receive Shuckie",
+        "event_type": "gift_pokemon",
+        "description": "Shuckle from Kirk",
+        "species_id": 213
+      }
+    ]
+  },
+  "mahogany-town": {
+    "items": [
+      {
+        "item_name": "RageCandyBar",
+        "method": "field",
+        "description": "Sold by the salesman in east Mahogany blocking the way out for 300 before Team Rocket is defeated"
+      },
+      {
+        "item_name": "X Accuracy",
+        "method": "field",
+        "description": "B1F; in the room with the computer"
+      },
+      {
+        "item_name": "Guard Spec.",
+        "method": "field",
+        "description": "B1F; in the room with the computer"
+      },
+      {
+        "item_name": "Hyper Potion",
+        "method": "field",
+        "description": "B1F; in the east"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "field",
+        "description": "B1F; in the southwest corner"
+      },
+      {
+        "item_name": "Revive",
+        "method": "hidden",
+        "description": "B1F; within the traps; three tiles north of the stairs (hidden)"
+      },
+      {
+        "item_name": "Full Heal",
+        "method": "hidden",
+        "description": "B2F; in the east, in a machine next to a computer (hidden)"
+      },
+      {
+        "item_name": "Full Heal",
+        "method": "field",
+        "description": "B3F; eastern corridor"
+      },
+      {
+        "item_name": "Ice Heal",
+        "method": "field",
+        "description": "B3F; in the northwest corner of the corridor around the room"
+      },
+      {
+        "item_name": "Dire Hit",
+        "method": "field",
+        "description": "B3F; in the southwest corner"
+      },
+      {
+        "item_name": "X Special",
+        "method": "field",
+        "description": "B3F; in the southwest corner"
+      },
+      {
+        "item_name": "Protein",
+        "method": "field",
+        "description": "B3F; in the southwest corner"
+      },
+      {
+        "item_name": "Ultra Ball",
+        "method": "field",
+        "description": "B3F; dead end of the corridor in the west, in front of Petrel's room"
+      },
+      {
+        "item_name": "HM06 Whirlpool",
+        "method": "gift",
+        "description": "Given to the player by Lance after defeating the Electrode"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 46,
+        "move_name": "Thief",
+        "method": "field"
+      },
+      {
+        "tm_number": 16,
+        "move_name": "Icy Wind",
+        "method": "gym_reward"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Defeat Pryce",
+        "event_type": "gym",
+        "description": "Gym 7 — earns Glacier Badge",
+        "progression_order": 7
+      },
+      {
+        "event_name": "Clear Team Rocket HQ",
+        "event_type": "story",
+        "description": "Defeat Team Rocket in their Mahogany hideout"
+      }
+    ]
+  },
+  "blackthorn-city": {
+    "items": [
+      {
+        "item_name": "Spell Tag",
+        "method": "field",
+        "description": "From Santos"
+      },
+      {
+        "item_name": "Bitter Berry",
+        "method": "gift",
+        "description": "Held by Don, a Rhydon the player can receive in a trade"
+      },
+      {
+        "item_name": "Smoke Ball",
+        "method": "gift",
+        "description": "Held by Doris, a Dodrio the player can receive in a trade"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 24,
+        "move_name": "DragonBreath",
+        "method": "gym_reward"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Defeat Clair",
+        "event_type": "gym",
+        "description": "Gym 8 — earns Rising Badge",
+        "progression_order": 8
+      },
+      {
+        "event_name": "Dragon's Den Challenge",
+        "event_type": "story",
+        "description": "Pass the Dragon's Den quiz to receive Rising Badge"
+      }
+    ]
+  },
+  "lake-of-rage": {
+    "items": [
+      {
+        "item_name": "Full Restore",
+        "method": "hidden",
+        "description": "At the end of the indent on the right side, southwest of the lake (hidden)"
+      },
+      {
+        "item_name": "Black Belt",
+        "method": "field",
+        "description": "From Wesley in the northwestern corner, accessible when the lake is not flooded (requires Cut)"
+      },
+      {
+        "item_name": "Rare Candy",
+        "method": "hidden",
+        "description": "At the end of the western path, west of the lake (requires Cut) (cannot be obtained while Wesley is present) (hidden)"
+      },
+      {
+        "item_name": "Max Ether",
+        "method": "field",
+        "description": "At the end of the middle path, west of the lake (requires Cut)"
+      },
+      {
+        "item_name": "Elixir",
+        "method": "field",
+        "description": "At the end of the middle path, west of the lake (requires Cut)"
+      },
+      {
+        "item_name": "Ether",
+        "method": "gift",
+        "description": "From the Fishing Guru for showing him a larger Magikarp than the one listed"
+      },
+      {
+        "item_name": "Elixir",
+        "method": "gift",
+        "description": "From the Fishing Guru for showing him a larger Magikarp than the one listed"
+      },
+      {
+        "item_name": "Red Scale",
+        "method": "field",
+        "description": "Automatically obtained after battling the Red Gyarados (requires Surf)"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "hidden",
+        "description": "At the northern end of the path, east of the lake (hidden)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 10,
+        "move_name": "Hidden Power",
+        "method": "gift"
+      },
+      {
+        "tm_number": 43,
+        "move_name": "Detect",
+        "method": "field"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Red Gyarados Encounter",
+        "event_type": "static_pokemon",
+        "description": "Guaranteed shiny Gyarados in the lake",
+        "species_id": 130
+      }
+    ]
+  },
+  "route-29": {
+    "items": [
+      {
+        "item_name": "Potion",
+        "method": "field",
+        "description": "East of the northeasternmost grass patch"
+      },
+      {
+        "item_name": "Berry",
+        "method": "field",
+        "description": "Northwest of the northwesternmost grass patch, on the Berry tree on a plateau (daily)"
+      },
+      {
+        "item_name": "Pink Bow",
+        "method": "field",
+        "description": "From Tuscany after earning the Zephyr Badge"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-30": {
+    "items": [
+      {
+        "item_name": "Berry",
+        "method": "field",
+        "description": "On the Berry tree beside the southern house (daily)"
+      },
+      {
+        "item_name": "Berry",
+        "method": "gift",
+        "description": "Given by the man in the southern house"
+      },
+      {
+        "item_name": "Antidote",
+        "method": "field",
+        "description": "North of the southern house"
+      },
+      {
+        "item_name": "PSNCureBerry",
+        "method": "field",
+        "description": "On the Berry tree west of Mr. Pokemon's house (daily)"
+      },
+      {
+        "item_name": "Potion",
+        "method": "hidden",
+        "description": "Four squares south and three squares west of the entrance to Mr. Pokemon's house, in a flower bed (hidden)"
+      },
+      {
+        "item_name": "Mystery Egg",
+        "method": "gift",
+        "description": "Given by Mr. Pokemon in his house"
+      },
+      {
+        "item_name": "Pokédex",
+        "method": "gift",
+        "description": "Given by Professor Oak after obtaining the Mystery Egg from Mr. Pokemon"
+      },
+      {
+        "item_name": "Exp. Share",
+        "method": "gift",
+        "description": "Given by Mr. Pokemon in exchange for the Red Scale"
+      },
+      {
+        "item_name": "HP Up",
+        "method": "gift",
+        "description": "Given by Youngster Joey after defeating him in a rematch (fourth rematch only)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-31": {
+    "items": [
+      {
+        "item_name": "Antidote",
+        "method": "field",
+        "description": "West of the entrance to Dark Cave"
+      },
+      {
+        "item_name": "Potion",
+        "method": "field",
+        "description": "West of the entrance to Dark Cave"
+      },
+      {
+        "item_name": "Bitter Berry",
+        "method": "field",
+        "description": "On the Berry tree beside the sleeping man (daily)"
+      },
+      {
+        "item_name": "Poké Ball",
+        "method": "field",
+        "description": "Near Bug Catcher Wade"
+      },
+      {
+        "item_name": "Berry",
+        "method": "gift",
+        "description": "Sometimes given out if the the player has his number"
+      },
+      {
+        "item_name": "Bitter Berry",
+        "method": "gift",
+        "description": "Sometimes given out if the the player has his number"
+      },
+      {
+        "item_name": "PRZCureBerry",
+        "method": "gift",
+        "description": "Sometimes given out if the the player has his number"
+      },
+      {
+        "item_name": "PSNCureBerry",
+        "method": "gift",
+        "description": "Sometimes given out if the the player has his number"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 50,
+        "move_name": "Nightmare",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "route-32": {
+    "items": [
+      {
+        "item_name": "Great Ball",
+        "method": "hidden",
+        "description": "In the dead end north of the Pokemon Center (hidden) (cannot be obtained while Frieda is present)"
+      },
+      {
+        "item_name": "Super Potion",
+        "method": "hidden",
+        "description": "In the patch of grass directly north of the pier (hidden)"
+      },
+      {
+        "item_name": "Miracle Seed",
+        "method": "gift",
+        "description": "From an old man south of Violet City entrance after getting the Zephyr Badge"
+      },
+      {
+        "item_name": "Great Ball",
+        "method": "field",
+        "description": "Southwest of the pier, in a patch of grass"
+      },
+      {
+        "item_name": "Old Rod",
+        "method": "gift",
+        "description": "From the Fishing Guru inside the Pokemon Center"
+      },
+      {
+        "item_name": "Poison Barb",
+        "method": "field",
+        "description": "From Frieda"
+      },
+      {
+        "item_name": "Potion",
+        "method": "field",
+        "description": "In the tall grass, west of Picnicker Liz"
+      },
+      {
+        "item_name": "Repel",
+        "method": "field",
+        "description": "In the tall grass, west of Picnicker Liz"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 5,
+        "move_name": "Roar",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "route-33": {
+    "items": [
+      {
+        "item_name": "PSNCureBerry",
+        "method": "gift",
+        "description": "From the Berry tree just outside of Union Cave (daily)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-34": {
+    "items": [
+      {
+        "item_name": "Super Potion",
+        "method": "hidden",
+        "description": "In the Pokemon Day Care, where given to the Day-Care Lady stand (hidden)"
+      },
+      {
+        "item_name": "Egg Ticket",
+        "method": "gift",
+        "description": "Received from the Day-Care Man if the Mobile Game Boy Adapter is connected or has been connected before (Japanese version only)"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "field",
+        "description": "In the fenced area west of Picnicker Gina (requires Surf)"
+      },
+      {
+        "item_name": "Rare Candy",
+        "method": "hidden",
+        "description": "In the fenced area west of Picnicker Gina, in the upper-left corner of the second tree from the right (requires Surf) (hidden)"
+      },
+      {
+        "item_name": "Soft Sand",
+        "method": "gift",
+        "description": "Reward for defeating Ace Trainer Kate (requires Surf)"
+      },
+      {
+        "item_name": "Leaf Stone",
+        "method": "gift",
+        "description": "Sometimes given out by Picnicker Gina if the player has her number"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 12,
+        "move_name": "Sweet Scent",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "route-35": {
+    "items": [
+      {
+        "item_name": "Flower Mail",
+        "method": "gift",
+        "description": "Held by Kenya, a Spearow the player can receive from in the southern gate"
+      },
+      {
+        "item_name": "MysteryBerry",
+        "method": "field",
+        "description": "Across the small pond (requires Surf) (daily)"
+      },
+      {
+        "item_name": "HP Up",
+        "method": "gift",
+        "description": "Given by the guard in the southern gate after delivering the Spearow with its Mail to Route 31"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 4,
+        "move_name": "Rollout",
+        "method": "field"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Receive Spearow",
+        "event_type": "gift_pokemon",
+        "description": "Kenya the Spearow from guard",
+        "species_id": 21
+      }
+    ]
+  },
+  "route-36": {
+    "items": [
+      {
+        "item_name": "Hard Stone",
+        "method": "field",
+        "description": "From Arthur after earning the Zephyr Badge"
+      },
+      {
+        "item_name": "Ice Berry",
+        "method": "field",
+        "description": "Next to the National Park gate (daily)"
+      },
+      {
+        "item_name": "Fire Stone",
+        "method": "gift",
+        "description": "Sometimes given out by Schoolboy Alan if the player has his phone number"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 8,
+        "move_name": "Rock Smash",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "route-37": {
+    "items": [
+      {
+        "item_name": "Red Apricorn",
+        "method": "field",
+        "description": "Northwestern tree in the clearing (daily)"
+      },
+      {
+        "item_name": "Blu Apricorn",
+        "method": "field",
+        "description": "Northeastern tree in the clearing (daily)"
+      },
+      {
+        "item_name": "Blk Apricorn",
+        "method": "field",
+        "description": "Southern tree in the clearing (daily)"
+      },
+      {
+        "item_name": "Magnet",
+        "method": "field",
+        "description": "From Sunny"
+      },
+      {
+        "item_name": "Ether",
+        "method": "hidden",
+        "description": "Northwest of the Route 37 sign (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-38": {
+    "items": [
+      {
+        "item_name": "Berry",
+        "method": "field",
+        "description": "West of the fenced section on the lower middle path (daily)"
+      },
+      {
+        "item_name": "Thunderstone",
+        "method": "gift",
+        "description": "Sometimes given out by Lass Dana if the player has her phone number"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-39": {
+    "items": [
+      {
+        "item_name": "Mint Berry",
+        "method": "gift",
+        "description": "From the tree next to Moomoo Farm (daily)"
+      },
+      {
+        "item_name": "Moomoo Milk",
+        "method": "field",
+        "description": "Buyable for 500 at the farm after healing Miltank"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "hidden",
+        "description": "Between the Miltank (hidden)"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "gift",
+        "description": "Sometimes given out by Poké Fan Derek if the player has his phone number (number obtainable with Pikachu in their party)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 13,
+        "move_name": "Snore",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "route-40": {
+    "items": [
+      {
+        "item_name": "Sharp Beak",
+        "method": "field",
+        "description": "From Monica"
+      },
+      {
+        "item_name": "Hyper Potion",
+        "method": "hidden",
+        "description": "Under a breakable rock (requires Rock Smash) (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-41": {
+    "items": [
+      {
+        "item_name": "Max Ether",
+        "method": "hidden",
+        "description": "On the beach on the southwest island (requires Whirlpool) (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-42": {
+    "items": [
+      {
+        "item_name": "Ultra Ball",
+        "method": "field",
+        "description": "In the indent next to the western entrance to Mt. Mortar"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "hidden",
+        "description": "In the southwestern tile of the large rock in the middle of the western pond (requires Surf) (hidden)"
+      },
+      {
+        "item_name": "Super Potion",
+        "method": "field",
+        "description": "Northeast of the Apricorn grove (requires Surf)"
+      },
+      {
+        "item_name": "Pnk Apricorn",
+        "method": "field",
+        "description": "In the left Apricorn tree in the middle of the route (requires Surf and Cut) (daily)"
+      },
+      {
+        "item_name": "Grn Apricorn",
+        "method": "field",
+        "description": "In the middle Apricorn tree in the middle of the route (requires Surf and Cut) (daily)"
+      },
+      {
+        "item_name": "Ylw Apricorn",
+        "method": "field",
+        "description": "In the right Apricorn tree in the middle of the route (requires Surf and Cut) (daily)"
+      },
+      {
+        "item_name": "Water Stone",
+        "method": "gift",
+        "description": "Sometimes given out by Fisherman Tully if the player has his phone number"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-43": {
+    "items": [
+      {
+        "item_name": "Bitter Berry",
+        "method": "gift",
+        "description": "From the tree across the big lake (requires Surf and Cut) (daily)"
+      },
+      {
+        "item_name": "Max Ether",
+        "method": "field",
+        "description": "West of the toll gate"
+      },
+      {
+        "item_name": "Pink Bow",
+        "method": "gift",
+        "description": "Sometimes given out by Picnicker Tiffany if the player has her phone number"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 36,
+        "move_name": "Sludge Bomb",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "route-44": {
+    "items": [
+      {
+        "item_name": "Burnt Berry",
+        "method": "field",
+        "description": "Northeast of the Mahogany Town entrance (daily)"
+      },
+      {
+        "item_name": "Max Repel",
+        "method": "field",
+        "description": "Directly east of the Mahogany Town entrance"
+      },
+      {
+        "item_name": "Max Revive",
+        "method": "field",
+        "description": "In the patch of grass in the middle of the lake (requires Surf)"
+      },
+      {
+        "item_name": "Elixer",
+        "method": "hidden",
+        "description": "In the patch of grass in the middle of the lake (requires Surf) (hidden)"
+      },
+      {
+        "item_name": "Ultra Ball",
+        "method": "field",
+        "description": "Northeast of the ponds"
+      },
+      {
+        "item_name": "Carbos",
+        "method": "gift",
+        "description": "Given by Bird Keeper Vance after defeating him in a rematch (second rematch only)"
+      },
+      {
+        "item_name": "Poké Ball",
+        "method": "gift",
+        "description": "Sometimes given out if the player has his number"
+      },
+      {
+        "item_name": "Great Ball",
+        "method": "gift",
+        "description": "Sometimes given out if the player has his number"
+      },
+      {
+        "item_name": "Ultra Ball",
+        "method": "gift",
+        "description": "Sometimes given out if the player has his number"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-45": {
+    "items": [
+      {
+        "item_name": "Elixir",
+        "method": "field",
+        "description": "Left path"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "field",
+        "description": "Center path"
+      },
+      {
+        "item_name": "X Special",
+        "method": "field",
+        "description": "Left path"
+      },
+      {
+        "item_name": "Revive",
+        "method": "field",
+        "description": "Left path"
+      },
+      {
+        "item_name": "PP Up",
+        "method": "hidden",
+        "description": "In the middle of the pond at the south end of the route (requires Surf) (hidden)"
+      },
+      {
+        "item_name": "MysteryBerry",
+        "method": "field",
+        "description": "Near the pond at the south end of the route (daily)"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "field",
+        "description": "Left path"
+      },
+      {
+        "item_name": "PP Up",
+        "method": "gift",
+        "description": "Given by Blackbelt Kenji after calling him and visiting when he asks"
+      },
+      {
+        "item_name": "Iron",
+        "method": "gift",
+        "description": "Given by Hiker Parry after defeating him in a rematch (second rematch only)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-46": {
+    "items": [
+      {
+        "item_name": "PRZCureBerry",
+        "method": "field",
+        "description": "West of entrance to Dark Cave (daily)"
+      },
+      {
+        "item_name": "Berry",
+        "method": "field",
+        "description": "West of entrance to Dark Cave (daily)"
+      },
+      {
+        "item_name": "Dire Hit",
+        "method": "field",
+        "description": "West of Camper Ted"
+      },
+      {
+        "item_name": "X Speed",
+        "method": "field",
+        "description": "West of Camper Ted"
+      },
+      {
+        "item_name": "Calcium",
+        "method": "gift",
+        "description": "Given by Picnicker Erin after defeating her in a rematch (second rematch only)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-26": {
+    "items": [
+      {
+        "item_name": "Ice Berry",
+        "method": "field",
+        "description": "North of rest stop (daily)"
+      },
+      {
+        "item_name": "Max Elixir",
+        "method": "field",
+        "description": "On the northern express path after the second ledge"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-27": {
+    "items": [
+      {
+        "item_name": "Rare Candy",
+        "method": "field",
+        "description": "On a tiny area southeast of the Tohjo Falls (requires Surf)"
+      },
+      {
+        "item_name": "Star Piece",
+        "method": "gift",
+        "description": "Sometimes given by Bird Keeper Jose after the player has his phone number"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 22,
+        "move_name": "SolarBeam",
+        "method": "field"
+      },
+      {
+        "tm_number": 37,
+        "move_name": "Sandstorm",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "route-28": {
+    "items": [
+      {
+        "item_name": "Rare Candy",
+        "method": "hidden",
+        "description": "In the northeast corner (hidden) (requires Cut)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 47,
+        "move_name": "Steel Wing",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "sprout-tower": {
+    "items": [
+      {
+        "item_name": "Parlyz Heal",
+        "method": "gift",
+        "description": "1F, in the east area of the floor, accessible from 2F"
+      },
+      {
+        "item_name": "X Defend",
+        "method": "gift",
+        "description": "2F, in the northwest area of the floor, accessible from 1F"
+      },
+      {
+        "item_name": "X Accuracy",
+        "method": "gift",
+        "description": "2F, in the northwest area of the floor, accessible from 1F"
+      },
+      {
+        "item_name": "Potion",
+        "method": "field",
+        "description": "3F, west of the ladder to 2F"
+      },
+      {
+        "item_name": "Escape Rope",
+        "method": "field",
+        "description": "3F, east of Li"
+      },
+      {
+        "item_name": "HM05 Flash",
+        "method": "gift",
+        "description": "3F, gift from Sage Li after defeating him"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "slowpoke-well": {
+    "items": [
+      {
+        "item_name": "Super Potion",
+        "method": "field",
+        "description": "B1F, in the center of the platform in the northeast"
+      },
+      {
+        "item_name": "King's Rock",
+        "method": "gift",
+        "description": "B2F, given by a man on the lowest floor (requires Surf and Strength)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 18,
+        "move_name": "Rain Dance",
+        "method": "field"
+      }
+    ],
+    "events": []
+  },
+  "union-cave": {
+    "items": [
+      {
+        "item_name": "Potion",
+        "method": "field",
+        "description": "1F, northwest corner"
+      },
+      {
+        "item_name": "X Attack",
+        "method": "field",
+        "description": "1F, northwest corner"
+      },
+      {
+        "item_name": "Great Ball",
+        "method": "field",
+        "description": "1F, southeast of Firebreather Bill"
+      },
+      {
+        "item_name": "Awakening",
+        "method": "field",
+        "description": "1F, west of the Route 33 exit"
+      },
+      {
+        "item_name": "X Defend",
+        "method": "gift",
+        "description": "B1F, east of the ladder from 1F"
+      },
+      {
+        "item_name": "Hyper Potion",
+        "method": "field",
+        "description": "B2F, northwest of Ace Trainer Nick"
+      },
+      {
+        "item_name": "Elixir",
+        "method": "field",
+        "description": "B2F, northeast corner"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 39,
+        "move_name": "Swift",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "ilex-forest": {
+    "items": [
+      {
+        "item_name": "Revive",
+        "method": "field",
+        "description": "Southeast corner of the forest"
+      },
+      {
+        "item_name": "HM01 Cut",
+        "method": "gift",
+        "description": "Gift from the charcoal maker after the player has returned his Farfetch'd"
+      },
+      {
+        "item_name": "Full Heal",
+        "method": "hidden",
+        "description": "East of the sign near the pond (hidden)"
+      },
+      {
+        "item_name": "X Attack",
+        "method": "field",
+        "description": "At the end of the narrow path east of the Trainer Tips sign (obscured by trees)"
+      },
+      {
+        "item_name": "Antidote",
+        "method": "field",
+        "description": "East of the pond"
+      },
+      {
+        "item_name": "Super Potion",
+        "method": "hidden",
+        "description": "In the indent on the left side, north of the Move Tutor (hidden)"
+      },
+      {
+        "item_name": "Ether",
+        "method": "hidden",
+        "description": "Northeast area of the forest (hidden)"
+      },
+      {
+        "item_name": "Ether",
+        "method": "field",
+        "description": "Northeast area of the forest"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 2,
+        "move_name": "Headbutt",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "national-park": {
+    "items": [
+      {
+        "item_name": "Quick Claw",
+        "method": "gift",
+        "description": "Gift from the woman with a Persian in the southeast"
+      },
+      {
+        "item_name": "Parlyz Heal",
+        "method": "field",
+        "description": "Behind the fence, near the east gate"
+      },
+      {
+        "item_name": "Full Heal",
+        "method": "hidden",
+        "description": "Behind the fence, between the two flowers at the end of the path near the south gate (hidden)"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "gift",
+        "description": "Sometimes given out by Poké Fan Beverly if the player has her number (number obtainable with Marill in their party)"
+      },
+      {
+        "item_name": "Park Ball",
+        "method": "gift",
+        "description": "From the Contest Helper in either gate, to be used in the Bug-Catching Contest, cannot be kept"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 28,
+        "move_name": "Dig",
+        "method": "field"
+      }
+    ],
+    "events": []
+  },
+  "ruins-of-alph": {
+    "items": [
+      {
+        "item_name": "Unown Mode",
+        "method": "gift",
+        "description": "Given by a researcher outside the ruins as an upgrade to the Pokédex after catching at least three different Unown variants"
+      },
+      {
+        "item_name": "Berry",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "PSNCureBerry",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "Heal Powder",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "EnergyPowder",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "Energy Root",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "Gold Berry",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "Moon Stone",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "Revival Herb",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "Charcoal",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "MysteryBerry",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "Stardust",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "Star Piece",
+        "method": "field",
+        "description": "Hidden room"
+      },
+      {
+        "item_name": "Mystic Water",
+        "method": "field",
+        "description": "Hidden room"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "burned-tower": {
+    "items": [
+      {
+        "item_name": "Ultra Ball",
+        "method": "hidden",
+        "description": "1F; dead end east of entrance (hidden)"
+      },
+      {
+        "item_name": "Burn Heal",
+        "method": "field",
+        "description": "1F; dead end at the northeastern corner (requires Rock Smash)"
+      },
+      {
+        "item_name": "HP Up",
+        "method": "field",
+        "description": "1F; dead end at the northeastern corner (requires Rock Smash)"
+      },
+      {
+        "item_name": "Ether",
+        "method": "hidden",
+        "description": "1F; in the small indent at the dead end in the center of the room (requires Rock Smash) (hidden)"
+      },
+      {
+        "item_name": "X Speed",
+        "method": "field",
+        "description": "1F; in the center area (requires Rock Smash)"
+      },
+      {
+        "item_name": "Burn Heal",
+        "method": "hidden",
+        "description": "B1F; in the area accessed by dropping through the hole east of the entrance (hidden)"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "hidden",
+        "description": "B1F; where Entei, Raikou, and Suicune were (hidden)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 20,
+        "move_name": "Endure",
+        "method": "field"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Legendary Beasts Flee",
+        "event_type": "story",
+        "description": "Raikou, Entei, and Suicune begin roaming Johto"
+      }
+    ]
+  },
+  "tin-tower": {
+    "items": [
+      {
+        "item_name": "Rainbow Wing",
+        "method": "gift",
+        "description": "1F; from a Sage after capturing all Legendary beasts and entering the Hall of Fame"
+      },
+      {
+        "item_name": "Full Heal",
+        "method": "field",
+        "description": "3F; lower-left platform"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "hidden",
+        "description": "4F; northeast of the swaying pillar (hidden)"
+      },
+      {
+        "item_name": "Ultra Ball",
+        "method": "field",
+        "description": "4F; on the series of ramps"
+      },
+      {
+        "item_name": "Super Potion",
+        "method": "field",
+        "description": "4F; lower-right platform"
+      },
+      {
+        "item_name": "PP Up",
+        "method": "field",
+        "description": "4F; lower-right platform"
+      },
+      {
+        "item_name": "Escape Rope",
+        "method": "field",
+        "description": "4F; lower-left platform"
+      },
+      {
+        "item_name": "Full Restore",
+        "method": "hidden",
+        "description": "5F; bottom right area, directly northwest of stairs leading to 4F (hidden)"
+      },
+      {
+        "item_name": "Rare Candy",
+        "method": "field",
+        "description": "5F; in front of the swaying pillar"
+      },
+      {
+        "item_name": "Carbos",
+        "method": "hidden",
+        "description": "5F; bottom left area, directly southeast of stairs leading to 4F (hidden)"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "field",
+        "description": "6F; left of the swaying pillar"
+      },
+      {
+        "item_name": "Max Revive",
+        "method": "field",
+        "description": "7F; upper-right platform"
+      },
+      {
+        "item_name": "Full Restore",
+        "method": "field",
+        "description": "8F; upper platform, near left-most statue"
+      },
+      {
+        "item_name": "Max Elixer",
+        "method": "field",
+        "description": "8F; near the swaying pillar"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "field",
+        "description": "8F; platform accessed via a warp panel on 9F"
+      },
+      {
+        "item_name": "HP Up",
+        "method": "field",
+        "description": "9F; upper platform, between two statues"
+      }
+    ],
+    "tms": [],
+    "events": [
+      {
+        "event_name": "Ho-Oh Encounter",
+        "event_type": "static_pokemon",
+        "description": "Encounter Ho-Oh at the top of Tin Tower",
+        "species_id": 250,
+        "games": [
+          "gold"
+        ]
+      }
+    ]
+  },
+  "whirl-islands": {
+    "items": [
+      {
+        "item_name": "Guard Spec.",
+        "method": "field",
+        "description": "Southwestern island section"
+      },
+      {
+        "item_name": "Full Restore",
+        "method": "hidden",
+        "description": "* B1F; southeast of northwest island ladder * B1F west; in the isolated boulder (hidden)"
+      },
+      {
+        "item_name": "Ultra Ball",
+        "method": "hidden",
+        "description": "B1F east; northeast of southeast island ladder (hidden)"
+      },
+      {
+        "item_name": "Rare Candy",
+        "method": "hidden",
+        "description": "B1F northeast; northeast of northeast island ladder (hidden)"
+      },
+      {
+        "item_name": "Carbos",
+        "method": "field",
+        "description": "B1F southwest; of northwest island ladder"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "field",
+        "description": "B1F; near center of northern edge of room"
+      },
+      {
+        "item_name": "Ultra Ball",
+        "method": "field",
+        "description": "Northeast island entrance; next to southern ladder"
+      },
+      {
+        "item_name": "Calcium",
+        "method": "field",
+        "description": "B1F; northeast of southeast island ladder"
+      },
+      {
+        "item_name": "Escape Rope",
+        "method": "field",
+        "description": "B1F; east of southwest island ladder"
+      },
+      {
+        "item_name": "Max Revive",
+        "method": "field",
+        "description": "B2F; west of main ladder located at the top"
+      },
+      {
+        "item_name": "Max Elixir",
+        "method": "field",
+        "description": "B2F; southwest of ladder in enclosed section"
+      },
+      {
+        "item_name": "Full Restore",
+        "method": "field",
+        "description": "B2F; east of ladder in enclosed section"
+      }
+    ],
+    "tms": [],
+    "events": [
+      {
+        "event_name": "Lugia Encounter",
+        "event_type": "static_pokemon",
+        "description": "Encounter Lugia deep within Whirl Islands",
+        "species_id": 249,
+        "games": [
+          "silver"
+        ]
+      }
+    ]
+  },
+  "mt-mortar": {
+    "items": [
+      {
+        "item_name": "Ether",
+        "method": "gift",
+        "description": "West side, accessible from the southwestern ladder from 1F (back)"
+      },
+      {
+        "item_name": "Guard Spec.",
+        "method": "gift",
+        "description": "East side, accessible from the southeastern ladder from 1F (back)"
+      },
+      {
+        "item_name": "Revive",
+        "method": "gift",
+        "description": "East side, accessible from the southeastern ladder from 1F (back)"
+      },
+      {
+        "item_name": "Hyper Potion",
+        "method": "hidden",
+        "description": "East side, on a rock west of the entrance to 1F (back) (hidden)"
+      },
+      {
+        "item_name": "Hyper Potion",
+        "method": "field",
+        "description": "Central area, north of the central platforms, at the bottom of the western ledge (requires Strength)"
+      },
+      {
+        "item_name": "Escape Rope",
+        "method": "field",
+        "description": "Central area, northeast of the central platforms, at the bottom of the northeastern ledge (requires Strength)"
+      },
+      {
+        "item_name": "Ultra Ball",
+        "method": "field",
+        "description": "Central area, atop the northern platform (requires Strength)"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "field",
+        "description": "Central area, northeast of the central platform (requires Strength)"
+      },
+      {
+        "item_name": "Max Repel",
+        "method": "hidden",
+        "description": "Northern area, on a rock in the eastern corner (requires Surf and Waterfall) (hidden)"
+      },
+      {
+        "item_name": "Max Revive",
+        "method": "gift",
+        "description": "Northern area, in the indent east of the ladder from 2F (requires Surf and Waterfall)"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "field",
+        "description": "Northern area, at the southwestern end of the path in the eastern corner (requires Surf and Waterfall)"
+      },
+      {
+        "item_name": "Iron",
+        "method": "gift",
+        "description": "Northern area, on a platform south of the ladder from 2F (requires Surf and Waterfall)"
+      },
+      {
+        "item_name": "Full Restore",
+        "method": "hidden",
+        "description": "The right tile in-between the ledges east of the Dragon Scale (hidden)"
+      },
+      {
+        "item_name": "Dragon Scale",
+        "method": "field",
+        "description": "On the raised section in the northwest corner"
+      },
+      {
+        "item_name": "Elixer",
+        "method": "field",
+        "description": "In the northwest corner, southeast of the ladder leading to 1F (back)"
+      },
+      {
+        "item_name": "Rare Candy",
+        "method": "field",
+        "description": "In the southwest corner, east of a ledge and below two rocks"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "gift",
+        "description": "Northeast of the entrance, below the second ledge from the bottom and east of the rectangular raised section"
+      },
+      {
+        "item_name": "Full Restore",
+        "method": "gift",
+        "description": "On the platform east of the ladder from 1F (entrance) (requires Surf)"
+      },
+      {
+        "item_name": "Hyper Potion",
+        "method": "gift",
+        "description": "On the patch of land/platform northeast of the ladder from 1F (entrance) (requires Surf)"
+      },
+      {
+        "item_name": "Max Ether",
+        "method": "gift",
+        "description": "On the patch of land northeast of the ladder from 1F (entrance) (requires Surf)"
+      },
+      {
+        "item_name": "PP Up",
+        "method": "gift",
+        "description": "North of the ladder from 1F (entrance) (requires Surf)"
+      },
+      {
+        "item_name": "Full Heal",
+        "method": "gift",
+        "description": "On the patch of land across the water, west of the ladder from 1F (requires Surf)"
+      },
+      {
+        "item_name": "Carbos",
+        "method": "gift",
+        "description": "On the patch of land across the water, west of the ladder from 1F (entrance) (requires Surf)"
+      },
+      {
+        "item_name": "Max Revive",
+        "method": "hidden",
+        "description": "On a lone rock south/east of the ladder from 2F (requires Surf and Waterfall) (hidden)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 40,
+        "move_name": "Defense Curl",
+        "method": "field"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Receive Tyrogue",
+        "event_type": "gift_pokemon",
+        "description": "Defeat Karate King",
+        "species_id": 236
+      }
+    ]
+  },
+  "ice-path": {
+    "items": [
+      {
+        "item_name": "HM07 Waterfall",
+        "method": "field",
+        "description": "1F, on the other side of the third patch of ice"
+      },
+      {
+        "item_name": "Iron",
+        "method": "field",
+        "description": "B1F, bottom"
+      },
+      {
+        "item_name": "Protein",
+        "method": "field",
+        "description": "1F, north of the last ladder"
+      },
+      {
+        "item_name": "PP Up",
+        "method": "field",
+        "description": "1F, bottom"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "hidden",
+        "description": "B1F, bottom; on the middle rock in the ice puzzle (hidden)"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "field",
+        "description": "B2F, northwest corner on the ice of the left portion"
+      },
+      {
+        "item_name": "Full Heal",
+        "method": "field",
+        "description": "B2F, center of the left portion"
+      },
+      {
+        "item_name": "Carbos",
+        "method": "hidden",
+        "description": "B2F, in southeast corner of the left portion (hidden)"
+      },
+      {
+        "item_name": "NeverMeltIce",
+        "method": "field",
+        "description": "B3F, bottom left (on the other side of the breakable rock)"
+      },
+      {
+        "item_name": "Ice Heal",
+        "method": "hidden",
+        "description": "B2F, right side in lone boulder between raised platform and ladder to B1F (hidden)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 44,
+        "move_name": "Rest",
+        "method": "field"
+      }
+    ],
+    "events": []
+  },
+  "dark-cave": {
+    "items": [
+      {
+        "item_name": "Elixer",
+        "method": "hidden",
+        "description": "In the northernmost area of the Route 31 side, at the end of a short dead-end path (requires Rock Smash) (hidden)"
+      },
+      {
+        "item_name": "Dire Hit",
+        "method": "field",
+        "description": "Northwest of the exit to Route 46 (requires Rock Smash)"
+      },
+      {
+        "item_name": "Hyper Potion",
+        "method": "field",
+        "description": "Directly north of the Route 46 entrance in the northeast corner (requires Rock Smash)"
+      },
+      {
+        "item_name": "Potion",
+        "method": "field",
+        "description": "Near the exit to Route 31"
+      },
+      {
+        "item_name": "Full Heal",
+        "method": "field",
+        "description": "North of the Route 46 entrance (requires Rock Smash)"
+      },
+      {
+        "item_name": "Revive",
+        "method": "field",
+        "description": "Southeast corner (requires Surf)"
+      },
+      {
+        "item_name": "BlackGlasses",
+        "method": "gift",
+        "description": "From the man in the northwest corner of the Route 45 side (requires Surf)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 13,
+        "move_name": "Snore",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "dragons-den": {
+    "items": [
+      {
+        "item_name": "Revive",
+        "method": "hidden",
+        "description": "East of the entrance (hidden)"
+      },
+      {
+        "item_name": "Calcium",
+        "method": "field",
+        "description": "East of entrance"
+      },
+      {
+        "item_name": "Max Elixer",
+        "method": "hidden",
+        "description": "North wall of water near Dragon Fang (hidden)"
+      },
+      {
+        "item_name": "Max Elixer",
+        "method": "field",
+        "description": "Near Twins Lea & Pia"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "hidden",
+        "description": "On rock north of shrine island (hidden)"
+      },
+      {
+        "item_name": "Dragon Fang",
+        "method": "field",
+        "description": "On the eastern coast (requires Whirlpool)"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 24,
+        "move_name": "DragonBreath",
+        "method": "gift"
+      }
+    ],
+    "events": [
+      {
+        "event_name": "Receive Dratini",
+        "event_type": "gift_pokemon",
+        "description": "Pass Dragon's Den quiz",
+        "species_id": 147
+      }
+    ]
+  },
+  "tohjo-falls": {
+    "items": [
+      {
+        "item_name": "Moon Stone",
+        "method": "field",
+        "description": "On the small piece of land at the western end of the cave (requires Surf)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "victory-road-gsc": {
+    "items": [
+      {
+        "item_name": "Full Heal",
+        "method": "hidden",
+        "description": "* On a rock west of the entrance (hidden) * In the northeast corner"
+      },
+      {
+        "item_name": "Max Revive",
+        "method": "field",
+        "description": "In the northeast corner"
+      },
+      {
+        "item_name": "Full Restore",
+        "method": "field",
+        "description": "On the northeast ledge"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "hidden",
+        "description": "On the rock next to TM26 (hidden)"
+      },
+      {
+        "item_name": "X Special",
+        "method": "field",
+        "description": "On the south ledge"
+      },
+      {
+        "item_name": "HP Up",
+        "method": "field",
+        "description": "On the south ledge"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 26,
+        "move_name": "Earthquake",
+        "method": "field"
+      }
+    ],
+    "events": []
+  },
+  "mt-silver": {
+    "items": [
+      {
+        "item_name": "Full Restore",
+        "method": "hidden",
+        "description": "Southwestern exterior of the cave (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": [
+      {
+        "event_name": "Defeat Red",
+        "event_type": "story",
+        "description": "Final battle against Red at the summit"
+      }
+    ]
+  },
+  "indigo-plateau-gsc": {
+    "items": [],
+    "tms": [],
+    "events": [
+      {
+        "event_name": "Defeat Elite Four",
+        "event_type": "story",
+        "description": "Defeat Will, Koga, Bruno, and Karen"
+      },
+      {
+        "event_name": "Defeat Champion Lance",
+        "event_type": "story",
+        "description": "Become Johto Champion"
+      }
+    ]
+  },
+  "goldenrod-game-corner": {
+    "items": [],
+    "tms": [],
+    "events": [
+      {
+        "event_name": "Purchase Pokemon",
+        "event_type": "story",
+        "description": "Abra, Ekans/Sandshrew, Dratini available"
+      }
+    ]
+  }
+}
