@@ -17,6 +17,7 @@ export interface AlacrityConfig {
   welcomeDismissedAt: string | null;
   romsDir: string;
   biosDir: string;
+  importSources: string[];
   ntfyServer: string;
   ntfyTopic: string;
 }
@@ -27,6 +28,7 @@ const DEFAULTS: Omit<AlacrityConfig, 'ntfyTopic'> = {
   welcomeDismissedAt: null,
   romsDir: '$DATA/roms',
   biosDir: '$DATA/bios',
+  importSources: [],
   ntfyServer: 'https://ntfy.sh',
 };
 
@@ -59,6 +61,7 @@ function load(): AlacrityConfig {
       welcomeDismissedAt: parsed.welcomeDismissedAt ?? DEFAULTS.welcomeDismissedAt,
       romsDir: parsed.romsDir ?? DEFAULTS.romsDir,
       biosDir: parsed.biosDir ?? DEFAULTS.biosDir,
+      importSources: parsed.importSources ?? DEFAULTS.importSources,
       ntfyServer: parsed.ntfyServer ?? DEFAULTS.ntfyServer,
       ntfyTopic: parsed.ntfyTopic ?? generateDefaultNtfyTopic(),
     };

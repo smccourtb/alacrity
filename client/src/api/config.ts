@@ -11,6 +11,7 @@ export interface AlacrityConfig {
   welcomeDismissedAt: string | null;
   romsDir: string;
   biosDir: string;
+  importSources: string[];
   ntfyServer: string;
   ntfyTopic: string;
 }
