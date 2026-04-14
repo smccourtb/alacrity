@@ -54,8 +54,8 @@ const { seedShinyAvailability } = await import('./shiny-availability.js');
 const { seedGuide } = await import('./seeds/seedGuide.js');
 const { seedRibbons, seedMarks, seedBalls, seedForms, seedShinyMethods, seedLegality } = await import('./seed-reference.js');
 const { seedLookupTables } = await import('./seed-moves.js');
-const { runCompletionScan } = await import('./services/completionPipeline.js');
 const { syncSaves } = await import('./services/syncSaves.js');
+const { reconcileTipsInclusion } = await import('./services/identityService.js');
 const { rebuildSnapshots } = await import('./services/saveSnapshot.js');
 const { startRelay, stopRelay, onRelayInput } = await import('./services/mediamtxManager.js');
 const { killAll: killAllProcesses, registeredCount } = await import('./services/processRegistry.js');
@@ -100,16 +100,24 @@ db.exec('CREATE TABLE IF NOT EXISTS move_names (id INTEGER PRIMARY KEY, name TEX
 db.exec('CREATE TABLE IF NOT EXISTS ability_names (id INTEGER PRIMARY KEY, name TEXT NOT NULL)');
 seedLookupTables()
   .then(() => {
-    runCompletionScan();
     syncSaves();
     rebuildSnapshots();
+    try {
+      reconcileTipsInclusion();
+    } catch (err) {
+      console.error('reconcileTipsInclusion failed at startup:', err);
+    }
   })
   .catch(err => {
     console.error('seedLookupTables failed:', err);
     // Still run sync even if seed fails — world state extraction doesn't need these tables.
     // Skip rebuildSnapshots: without move/ability names it would cache "move-###" placeholders.
-    runCompletionScan();
     syncSaves();
+    try {
+      reconcileTipsInclusion();
+    } catch (reconcileErr) {
+      console.error('reconcileTipsInclusion failed at startup (post-seed-error):', reconcileErr);
+    }
   });
 
 // Start Pion relay for WebRTC streaming
