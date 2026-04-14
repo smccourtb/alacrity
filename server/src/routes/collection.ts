@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import db from '../db.js';
-import { scanCheckpoint, resolveCollection } from '../services/identityService.js';
+import { scanCheckpoint, resolveCollection, reconcileTipsInclusion } from '../services/identityService.js';
 import { buildSnapshot } from '../services/saveSnapshot.js';
 
 const router = Router();
@@ -59,35 +59,15 @@ router.post('/rebuild-snapshots', (_req, res) => {
   }
 });
 
-// POST /api/collection/scan/all — scan all opted-in checkpoints
+// POST /api/collection/scan/all — idempotent reconciler
+// Runs reconcileTipsInclusion() which:
+//   - flags active tips with include_in_collection=1 (for non-explicit rows)
+//   - flips off any non-explicit rows that are no longer tips and clears their sightings
+//   - scans every include_in_collection=1 checkpoint that currently has no sightings
 router.post('/scan/all', (_req, res) => {
   try {
-    const checkpoints = db.prepare<{ id: number }, []>(`
-      SELECT c.id
-      FROM checkpoints c
-      JOIN playthroughs pt ON pt.id = c.playthrough_id
-      WHERE c.archived = 0
-        AND pt.include_in_collection = 1
-        AND (c.include_in_collection = 1 OR c.id = pt.active_checkpoint_id)
-    `).all();
-
-    let totalIdentities = 0;
-    let totalSightings = 0;
-    let scanned = 0;
-    const errors: Array<{ id: number; error: string }> = [];
-
-    for (const { id } of checkpoints) {
-      try {
-        const result = scanCheckpoint(id);
-        totalIdentities += result.identities;
-        totalSightings += result.sightings;
-        scanned++;
-      } catch (err: any) {
-        errors.push({ id, error: err.message });
-      }
-    }
-
-    res.json({ scanned, totalIdentities, totalSightings, errors });
+    const result = reconcileTipsInclusion();
+    res.json(result);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
