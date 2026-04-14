@@ -1,11 +1,7 @@
 import { Router } from 'express';
 import db from '../db.js';
-import { parseAndImportAll } from '../services/saveParser.js';
-import { runCompletionScan } from '../services/completionPipeline.js';
 
 const router = Router();
-
-let collectionSyncRunning = false;
 
 // Build GAME_TO_ORIGIN from the game_versions table (single source of truth)
 function getGameToOrigin(): Record<string, string> {
@@ -230,77 +226,6 @@ router.get('/completion/species/:id', (req, res) => {
     entries_count: parsed.length + manualEntries.length,
     forms: formCompletion,
   });
-});
-
-// Preview what a collection sync would do — returns counts and any manually-edited synced pokemon
-router.get('/sync/preview', (_req, res) => {
-  const autoImported = db.prepare(
-    'SELECT COUNT(*) as count FROM pokemon WHERE unique_key IS NOT NULL'
-  ).get() as any;
-
-  const manuallyEdited = db.prepare(
-    `SELECT p.id, p.species_id, s.name as species_name, p.nickname, p.manual_fields, p.source_save
-     FROM pokemon p
-     JOIN species s ON p.species_id = s.id
-     WHERE p.unique_key IS NOT NULL
-       AND p.manual_fields IS NOT NULL AND p.manual_fields != '[]'`
-  ).all();
-
-  res.json({
-    auto_imported_count: autoImported.count,
-    manually_edited: manuallyEdited,
-  });
-});
-
-// Sync collection: wipe auto-imported pokemon and re-import from saves/collection/
-// keep_ids: pokemon IDs to convert to manual (strip unique_key, add to sync_ignores)
-router.post('/sync', async (req, res) => {
-  if (collectionSyncRunning) {
-    return res.status(409).json({ error: 'Sync already in progress' });
-  }
-
-  const { keep_ids } = req.body || {};
-  collectionSyncRunning = true;
-
-  try {
-    // Step 1: Convert keepers + wipe in a sync transaction (fast, DB-only)
-    const prepareSync = db.transaction(() => {
-      if (Array.isArray(keep_ids) && keep_ids.length > 0) {
-        const addIgnore = db.prepare('INSERT OR IGNORE INTO sync_ignores (unique_key, pokemon_id) VALUES (?, ?)');
-        const convertToManual = db.prepare('UPDATE pokemon SET unique_key = NULL WHERE id = ?');
-        const getKey = db.prepare('SELECT id, unique_key FROM pokemon WHERE id = ?');
-
-        for (const id of keep_ids) {
-          const row = getKey.get(id) as { id: number; unique_key: string } | undefined;
-          if (row?.unique_key) {
-            addIgnore.run(row.unique_key, row.id);
-            convertToManual.run(row.id);
-          }
-        }
-      }
-      return db.prepare('DELETE FROM pokemon WHERE unique_key IS NOT NULL').run();
-    });
-    const deleted = prepareSync();
-
-    // Step 2: Parse save files (async, yields to event loop between files)
-    const result = await parseAndImportAll();
-
-    // Step 3: Re-run completion scan (sync, fast)
-    runCompletionScan();
-
-    res.json({
-      cleared: deleted.changes,
-      imported: result.imported,
-      skipped: result.skipped,
-      total_parsed: result.total,
-      by_source: result.bySource,
-    });
-  } catch (e: any) {
-    console.error('Sync failed:', e);
-    res.status(500).json({ error: e.message });
-  } finally {
-    collectionSyncRunning = false;
-  }
 });
 
 router.post('/', (req, res) => {
