@@ -369,15 +369,23 @@ router.post('/scan', async (req: Request, res: Response) => {
     }
   }
 
-  // ── Phase 2: sort by progression (badge count asc, non-daycare first) ─────
+  // ── Phase 2: sort by progression (badge count asc, then playtime, then mtime)
+  //
+  // NOTE: a prior version of this sort put non-daycare saves before daycare
+  // ones at the same badge level, on the theory that daycare presence
+  // indicated a hunt/breeding branch that should be processed after the
+  // mainline. The Crystal acceptance test for save-placement-v2 caught this:
+  // Crystal's true root (Charmander_hunt3, playtime 42720) has a daycare,
+  // and the no-daycare Ditto_hunt15 (playtime 64320) was processed first,
+  // became a root, and then the playtime hard guard in findBestParent
+  // prevented anything from re-parenting to it. Now that Task 4 gives us
+  // hunts.parent_checkpoint_id as a hard lineage signal for real hunt-derived
+  // saves, the daycare-presence heuristic is both unnecessary and wrong for
+  // breeding-heavy playthroughs.
 
   parsed.sort((a, b) => {
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
-    // Non-daycare before daycare (progression saves before hunt branches)
-    const aHasDc = a.snapshot.daycare ? 1 : 0;
-    const bHasDc = b.snapshot.daycare ? 1 : 0;
-    if (aHasDc !== bHasDc) return aHasDc - bHasDc;
     const apt = a.snapshot.play_time_seconds ?? 0;
     const bpt = b.snapshot.play_time_seconds ?? 0;
     if (apt !== bpt) return apt - bpt;

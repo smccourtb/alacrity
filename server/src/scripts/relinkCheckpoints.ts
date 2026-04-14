@@ -65,17 +65,15 @@ function relinkPlaythrough(playthroughId: number) {
     }
   }
 
-  // Sort by progression order, matching routes/timeline.ts /scan's order so
-  // the relink produces the same tree a fresh /scan would:
-  //   (badge_count asc, non-daycare first, play_time_seconds asc, mtime asc)
-  // The daycare key matters: progression saves should be processed before
-  // hunt branches at the same badge count so they become parents.
+  // Sort by progression order, matching routes/timeline.ts /scan:
+  //   (badge_count asc, play_time_seconds asc, mtime asc)
+  // The earliest in-game playtime within a badge tier is processed first
+  // so it becomes the root candidate. Daycare-presence is not in the sort
+  // key — hunt lineage is recorded directly via hunts.parent_checkpoint_id
+  // (Task 4), so we don't need heuristics for "is this a hunt branch."
   parsed.sort((a, b) => {
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
-    const aHasDc = a.snapshot.daycare ? 1 : 0;
-    const bHasDc = b.snapshot.daycare ? 1 : 0;
-    if (aHasDc !== bHasDc) return aHasDc - bHasDc;
     const apt = a.snapshot.play_time_seconds ?? 0;
     const bpt = b.snapshot.play_time_seconds ?? 0;
     if (apt !== bpt) return apt - bpt;
