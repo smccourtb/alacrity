@@ -319,6 +319,8 @@ CREATE TABLE IF NOT EXISTS checkpoints (
   needs_confirmation INTEGER NOT NULL DEFAULT 0,
   snapshot TEXT,
   notes TEXT,
+  include_in_collection INTEGER NOT NULL DEFAULT 0,
+  include_explicit INTEGER NOT NULL DEFAULT 0,
   created_at TEXT DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_checkpoints_playthrough ON checkpoints(playthrough_id);

@@ -171,6 +171,13 @@ if (!checkpointCols.includes('archived')) {
   db.exec('ALTER TABLE checkpoints ADD COLUMN archived INTEGER NOT NULL DEFAULT 0');
 }
 
+// Migrate: checkpoints include_explicit (distinguishes user-toggled from auto-tip inclusion)
+if (!checkpointCols.includes('include_explicit')) {
+  db.exec('ALTER TABLE checkpoints ADD COLUMN include_explicit INTEGER NOT NULL DEFAULT 0');
+  // Any pre-existing include_in_collection=1 rows are treated as explicit user intent
+  db.exec('UPDATE checkpoints SET include_explicit = 1 WHERE include_in_collection = 1');
+}
+
 // Migrate: playthroughs include_in_collection
 const playthroughCols = (db.prepare('PRAGMA table_info(playthroughs)').all() as any[]).map((c: any) => c.name);
 if (!playthroughCols.includes('include_in_collection')) {
