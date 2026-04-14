@@ -12,12 +12,10 @@ export function runMigrations(db: Database) {
   // Add parent_checkpoint_id column for hunt-spawn lineage tracking
   // (2026-04-14, save-placement-v2 plan). Hunts now record which checkpoint
   // they branched from so smartPlaceSaves doesn't have to infer it.
+  // Fail fast: a silent ALTER failure here would cause every subsequent
+  // INSERT INTO hunts to crash with "no such column", far from the root cause.
   if (!huntsColumns.includes('parent_checkpoint_id')) {
-    try {
-      db.exec('ALTER TABLE hunts ADD COLUMN parent_checkpoint_id INTEGER REFERENCES checkpoints(id)');
-    } catch (err) {
-      console.error('[migrate] failed to add hunts.parent_checkpoint_id:', err);
-    }
+    db.exec('ALTER TABLE hunts ADD COLUMN parent_checkpoint_id INTEGER REFERENCES checkpoints(id)');
   }
 
   // Drop deprecated pokemon table (retired 2026-04-13 along with the parallel
