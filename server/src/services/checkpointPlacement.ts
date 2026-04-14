@@ -54,12 +54,8 @@ export function findBestParent(
 ): number | null {
   if (placed.length === 0) return null;
 
-  const curPartyIds = new Set(snapshot.party.map(p => p.species_id));
-  const curDcKey = daycareKey(snapshot);
-
   // Precompute the child's party mon lookup once for the level-monotonicity
-  // guard below. Matched by species + nickname + OT fingerprint (PIDs aren't
-  // available in Gen 1/2, so this is the best we can do for fuzzy identity).
+  // guard (used by scoreCandidate).
   const childParty = new Map<string, number>();
   for (const p of snapshot.party) {
     childParty.set(monKey(p), p.level);
@@ -75,93 +71,7 @@ export function findBestParent(
     if (s.badge_count > snapshot.badge_count) continue;
     if ((s.play_time_seconds ?? 0) > (snapshot.play_time_seconds ?? 0)) continue;
 
-    // Party species overlap, normalised to [0..1].
-    const parentPartyIds = new Set(s.party.map(p => p.species_id));
-    let overlap = 0;
-    for (const id of curPartyIds) if (parentPartyIds.has(id)) overlap++;
-    const maxParty = Math.max(curPartyIds.size, parentPartyIds.size, 1);
-    const overlapRatio = overlap / maxParty;
-
-    const badgeDiff = snapshot.badge_count - s.badge_count;
-
-    // Daycare bonus / mismatch penalty.
-    const parentDcKey = daycareKey(s);
-    let dcBonus = 0;
-    if (curDcKey && parentDcKey && curDcKey === parentDcKey) dcBonus = 20;
-    else if (curDcKey && parentDcKey && curDcKey !== parentDcKey) dcBonus = -5;
-
-    // Wall-clock proximity: when scores are otherwise close, prefer the
-    // candidate whose mtime is closest to (but not after) the new save's
-    // mtime. Max +5 at zero age, linear decay at -1/6 per day, floored
-    // at 0. Zero contribution if either timestamp is missing or the
-    // candidate is newer than the child.
-    let mtimeBonus = 0;
-    const parentMtime = cp.file_mtime;
-    if (childMtime && parentMtime) {
-      const childMs = Date.parse(childMtime);
-      const parentMs = Date.parse(parentMtime);
-      if (Number.isFinite(childMs) && Number.isFinite(parentMs) && parentMs <= childMs) {
-        const ageDays = (childMs - parentMs) / 86_400_000;
-        mtimeBonus = Math.max(0, 5 - ageDays / 6);
-      }
-    }
-
-    // Box composition: boxes only grow within a playthrough (modulo trades).
-    // A parent whose box species are a subset of the child's is very likely
-    // a real ancestor. A parent with box species the child lacks is very
-    // likely NOT an ancestor.
-    const childBoxIds = new Set((snapshot.box_pokemon ?? []).map(p => p.species_id));
-    const parentBoxIds = new Set((s.box_pokemon ?? []).map(p => p.species_id));
-
-    let boxScore = 0;
-    if (parentBoxIds.size > 0 || childBoxIds.size > 0) {
-      let parentInChild = 0;
-      let parentNotInChild = 0;
-      for (const id of parentBoxIds) {
-        if (childBoxIds.has(id)) parentInChild++;
-        else parentNotInChild++;
-      }
-      // Reward: each parent box mon present in child → +2, capped at +50.
-      // Penalty: each parent box mon NOT present in child → -8 (uncapped,
-      // this is the strong 'wrong lineage' signal).
-      boxScore = Math.min(50, parentInChild * 2) - parentNotInChild * 8;
-    }
-
-    // Key items: monotonic story progression. Far more granular than badges —
-    // dozens of items per playthrough. A parent must have a subset of the
-    // child's key items; any parent-only item is strong evidence of wrong lineage.
-    const childKeyItems = new Set(snapshot.key_items ?? []);
-    const parentKeyItems = new Set(s.key_items ?? []);
-
-    let keyItemScore = 0;
-    if (parentKeyItems.size > 0 || childKeyItems.size > 0) {
-      let parentInChild = 0;
-      let parentNotInChild = 0;
-      for (const k of parentKeyItems) {
-        if (childKeyItems.has(k)) parentInChild++;
-        else parentNotInChild++;
-      }
-      // Reward: each parent key item present in child → +1, capped at +30.
-      // Penalty: each parent key item NOT in child → -10. Strong because key
-      // items are basically never lost in normal play.
-      keyItemScore = Math.min(30, parentInChild) - parentNotInChild * 10;
-    }
-
-    // Per-mon level monotonicity: if both saves contain the "same" individual
-    // (fuzzy-matched by species + nickname + OT), the parent's level must be
-    // ≤ the child's level. Each violation costs -25 — a single violation is
-    // near-certain evidence of wrong lineage.
-    let levelViolations = 0;
-    for (const pp of s.party) {
-      const childLevel = childParty.get(monKey(pp));
-      if (childLevel !== undefined && pp.level > childLevel) {
-        levelViolations++;
-      }
-    }
-    const levelPenalty = levelViolations * -25;
-
-    const score = overlapRatio * 100 - badgeDiff * 10 + dcBonus + mtimeBonus
-                + boxScore + keyItemScore + levelPenalty;
+    const score = scoreCandidate(snapshot, cp, childParty, childMtime);
 
     if (score > bestScore) {
       bestScore = score;
@@ -181,4 +91,89 @@ function daycareKey(snapshot: SaveSnapshot): string | null {
 
 function monKey(p: { species_id: number; nickname?: string; ot_name?: string; ot_tid?: number }): string {
   return `${p.species_id}|${(p.nickname ?? '').toLowerCase()}|${p.ot_name ?? ''}|${p.ot_tid ?? ''}`;
+}
+
+/**
+ * Score a single candidate parent against a new save. Pure function — no
+ * hard guards (callers must enforce badge_count and play_time_seconds
+ * monotonicity before calling). Returns the composite score using all the
+ * same signals as findBestParent's main loop.
+ */
+function scoreCandidate(
+  snapshot: SaveSnapshot,
+  cp: PlacedCheckpoint,
+  childParty: Map<string, number>,
+  childMtime: string | null,
+): number {
+  const s = cp.snapshot;
+
+  // Party species overlap, normalised to [0..1].
+  const curPartyIds = new Set(snapshot.party.map(p => p.species_id));
+  const parentPartyIds = new Set(s.party.map(p => p.species_id));
+  let overlap = 0;
+  for (const id of curPartyIds) if (parentPartyIds.has(id)) overlap++;
+  const maxParty = Math.max(curPartyIds.size, parentPartyIds.size, 1);
+  const overlapRatio = overlap / maxParty;
+
+  const badgeDiff = snapshot.badge_count - s.badge_count;
+
+  // Daycare bonus / mismatch penalty.
+  const curDcKey = daycareKey(snapshot);
+  const parentDcKey = daycareKey(s);
+  let dcBonus = 0;
+  if (curDcKey && parentDcKey && curDcKey === parentDcKey) dcBonus = 20;
+  else if (curDcKey && parentDcKey && curDcKey !== parentDcKey) dcBonus = -5;
+
+  // Wall-clock mtime proximity (0..+5, 30-day linear decay).
+  let mtimeBonus = 0;
+  const parentMtime = cp.file_mtime;
+  if (childMtime && parentMtime) {
+    const childMs = Date.parse(childMtime);
+    const parentMs = Date.parse(parentMtime);
+    if (Number.isFinite(childMs) && Number.isFinite(parentMs) && parentMs <= childMs) {
+      const ageDays = (childMs - parentMs) / 86_400_000;
+      mtimeBonus = Math.max(0, 5 - ageDays / 6);
+    }
+  }
+
+  // Box composition: monotonic accumulation signal.
+  const childBoxIds = new Set((snapshot.box_pokemon ?? []).map(p => p.species_id));
+  const parentBoxIds = new Set((s.box_pokemon ?? []).map(p => p.species_id));
+  let boxScore = 0;
+  if (parentBoxIds.size > 0 || childBoxIds.size > 0) {
+    let parentInChild = 0;
+    let parentNotInChild = 0;
+    for (const id of parentBoxIds) {
+      if (childBoxIds.has(id)) parentInChild++;
+      else parentNotInChild++;
+    }
+    boxScore = Math.min(50, parentInChild * 2) - parentNotInChild * 8;
+  }
+
+  // Key items: monotonic story progression signal.
+  const childKeyItems = new Set(snapshot.key_items ?? []);
+  const parentKeyItems = new Set(s.key_items ?? []);
+  let keyItemScore = 0;
+  if (parentKeyItems.size > 0 || childKeyItems.size > 0) {
+    let parentInChild = 0;
+    let parentNotInChild = 0;
+    for (const k of parentKeyItems) {
+      if (childKeyItems.has(k)) parentInChild++;
+      else parentNotInChild++;
+    }
+    keyItemScore = Math.min(30, parentInChild) - parentNotInChild * 10;
+  }
+
+  // Per-mon level monotonicity (fuzzy-matched by species + nickname + OT).
+  let levelViolations = 0;
+  for (const pp of s.party) {
+    const childLevel = childParty.get(monKey(pp));
+    if (childLevel !== undefined && pp.level > childLevel) {
+      levelViolations++;
+    }
+  }
+  const levelPenalty = levelViolations * -25;
+
+  return overlapRatio * 100 - badgeDiff * 10 + dcBonus + mtimeBonus
+       + boxScore + keyItemScore + levelPenalty;
 }
