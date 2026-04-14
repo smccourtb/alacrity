@@ -15,51 +15,104 @@ function buildParentMap(nodes: LayoutNode[]): Map<number, LayoutNode> {
 
 function buildRemappedCols(nodes: LayoutNode[], parentMap: Map<number, LayoutNode>) {
   const colMap = new Map<number, number>();
-  const forkGroups = new Map<number, LayoutNode[]>();
-  for (const ln of nodes) {
-    const parent = parentMap.get(ln.node.id);
-    if (!parent || parent.col === ln.col) {
-      colMap.set(ln.node.id, parent ? (colMap.get(parent.node.id) ?? 0) : 0);
-    } else {
-      const pid = parent.node.id;
-      if (!forkGroups.has(pid)) forkGroups.set(pid, []);
-      forkGroups.get(pid)!.push(ln);
+
+  // id → LayoutNode lookup so we can resolve children from CheckpointNode.children.
+  const byId = new Map<number, LayoutNode>();
+  for (const ln of nodes) byId.set(ln.node.id, ln);
+
+  // Roots are nodes with no parent in this layout.
+  const roots: LayoutNode[] = nodes.filter(ln => !parentMap.has(ln.node.id));
+
+  // Track how many fork children we've assigned per parent.
+  const forkCount = new Map<number, number>();
+
+  // Top-down BFS: a node's col is only computed after its parent's col is set,
+  // so the old col-0 fallback case never happens. A mainline child (the child's
+  // original computeLayout col equals the parent's) inherits the parent's
+  // remapped col. A fork child gets a new column parent.col + (1 + nth fork).
+  const queue: LayoutNode[] = [];
+  for (const root of roots) {
+    colMap.set(root.node.id, 0);
+    queue.push(root);
+  }
+
+  while (queue.length > 0) {
+    const parent = queue.shift()!;
+    const parentRemapped = colMap.get(parent.node.id)!;
+    for (const childNode of parent.node.children) {
+      const childLn = byId.get(childNode.id);
+      if (!childLn) continue;
+      if (childLn.col === parent.col) {
+        colMap.set(childLn.node.id, parentRemapped);
+      } else {
+        const nth = forkCount.get(parent.node.id) ?? 0;
+        colMap.set(childLn.node.id, parentRemapped + 1 + nth);
+        forkCount.set(parent.node.id, nth + 1);
+      }
+      queue.push(childLn);
     }
   }
-  for (const [pid, children] of forkGroups) {
-    const parentCol = colMap.get(pid) ?? 0;
-    children.forEach((ln, i) => colMap.set(ln.node.id, parentCol + 1 + i));
-  }
+
   return (ln: LayoutNode) => colMap.get(ln.node.id) ?? ln.col;
 }
 
 // Group nodes into mainline + branch clusters for non-graph layouts
 interface NodeGroup {
   mainline: LayoutNode;
-  branches: LayoutNode[];
+  /** Nested branch groups. Each entry is itself a NodeGroup with its own
+   *  subtree, so the render path is recursive and deep descendants never
+   *  vanish. */
+  branches: NodeGroup[];
 }
 
-function buildNodeGroups(nodes: LayoutNode[], parentMap: Map<number, LayoutNode>, remappedCol: (ln: LayoutNode) => number): NodeGroup[] {
-  const groups: NodeGroup[] = [];
-  const branchChildIds = new Set<number>();
+function buildNodeGroups(
+  nodes: LayoutNode[],
+  parentMap: Map<number, LayoutNode>,
+  remappedCol: (ln: LayoutNode) => number,
+): NodeGroup[] {
+  // id → LayoutNode lookup.
+  const byId = new Map<number, LayoutNode>();
+  for (const ln of nodes) byId.set(ln.node.id, ln);
 
-  // Find all branch children
-  for (const ln of nodes) {
-    const parent = parentMap.get(ln.node.id);
-    if (parent && remappedCol(parent) !== remappedCol(ln)) {
-      branchChildIds.add(ln.node.id);
+  // A child is a "branch child" of its parent if their remapped cols differ.
+  // Mainline children (same col) stay on the trunk and get their own top-level
+  // NodeGroup at the outer walker.
+  function isBranchChild(parent: LayoutNode, child: LayoutNode): boolean {
+    return remappedCol(parent) !== remappedCol(child);
+  }
+
+  // Build a NodeGroup for one node: the node itself is the mainline, and each
+  // of its BRANCH children becomes a recursively-built nested NodeGroup.
+  function buildGroupFor(ln: LayoutNode): NodeGroup {
+    const branches: NodeGroup[] = [];
+    for (const childNode of ln.node.children) {
+      const childLn = byId.get(childNode.id);
+      if (!childLn) continue;
+      if (isBranchChild(ln, childLn)) {
+        branches.push(buildGroupFor(childLn));
+      }
+    }
+    return { mainline: ln, branches };
+  }
+
+  // Top-level groups are the trunk nodes: roots + every mainline descendant.
+  // Branch nodes have already been folded into their parent's nested groups.
+  const groups: NodeGroup[] = [];
+  const roots = nodes.filter(ln => !parentMap.has(ln.node.id));
+
+  function walkTrunk(ln: LayoutNode) {
+    groups.push(buildGroupFor(ln));
+    for (const childNode of ln.node.children) {
+      const childLn = byId.get(childNode.id);
+      if (!childLn) continue;
+      if (!isBranchChild(ln, childLn)) {
+        walkTrunk(childLn);
+      }
     }
   }
 
-  // Build groups: mainline nodes with their branch children attached
-  for (const ln of nodes) {
-    if (branchChildIds.has(ln.node.id)) continue;
-    const branches = ln.node.children
-      .filter(c => branchChildIds.has(c.id))
-      .map(c => nodes.find(n => n.node.id === c.id)!)
-      .filter(Boolean);
-    groups.push({ mainline: ln, branches });
-  }
+  for (const root of roots) walkTrunk(root);
+
   return groups;
 }
 
@@ -147,6 +200,106 @@ export function TreeView({
     );
   }
 
+  // Layout A: recursively render one branch NodeGroup as a row + nested sub-branches.
+  function renderBranchGroupA(group: NodeGroup): React.ReactNode {
+    const ln = group.mainline;
+    const bColor = branchColor(remappedCol(ln));
+    const hasNested = group.branches.length > 0;
+    return (
+      <div key={ln.node.id}>
+        <div className="flex items-center" style={{ height: rowHeight - 4 }}>
+          <div
+            className="flex-shrink-0 rounded-full mr-2.5"
+            style={{ width: 7, height: 7, backgroundColor: bColor, opacity: 0.6 }}
+          />
+          <div className="flex-1 min-w-0">{renderRow(ln.node, { small: true })}</div>
+        </div>
+        {hasNested && (
+          <div className="ml-5 border-l-2" style={{ borderColor: bColor + '44' }}>
+            {group.branches.map((sub) => renderBranchGroupA(sub))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Layout B: recursively render one branch NodeGroup.
+  function renderBranchGroupB(group: NodeGroup): React.ReactNode {
+    const ln = group.mainline;
+    const bColor = branchColor(remappedCol(ln));
+    const hasNested = group.branches.length > 0;
+    return (
+      <div key={ln.node.id}>
+        <div className="flex items-center px-3" style={{ height: rowHeight - 6 }}>
+          <div
+            className="flex-shrink-0 rounded-full mr-2"
+            style={{ width: 6, height: 6, backgroundColor: bColor, opacity: 0.7 }}
+          />
+          <div className="flex-1 min-w-0">{renderRow(ln.node, { small: true })}</div>
+        </div>
+        {hasNested && (
+          <div className="ml-4 border-l-2 border-border/30 pl-2">
+            {group.branches.map((sub) => renderBranchGroupB(sub))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Layout C: recursively render one branch NodeGroup as pill chips.
+  function renderBranchGroupC(group: NodeGroup): React.ReactNode {
+    const ln = group.mainline;
+    const bColor = branchColor(remappedCol(ln));
+    const isSelected = selectedNodeId === ln.node.id;
+    const hasNested = group.branches.length > 0;
+    return (
+      <div key={ln.node.id} className="inline-block">
+        <button
+          onClick={() => onSelect(ln.node)}
+          className={`
+            inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium
+            transition-all cursor-pointer border
+            ${isSelected
+              ? 'bg-foreground/5 border-foreground/20 text-foreground'
+              : 'bg-transparent border-transparent hover:bg-muted/50 text-muted-foreground hover:text-foreground'}
+          `}
+          style={{ opacity: deadEndIds.has(ln.node.id) ? 0.4 : activePathIds.has(ln.node.id) ? 1 : 0.7 }}
+        >
+          <span className="rounded-full" style={{ width: 5, height: 5, backgroundColor: bColor }} />
+          <span className="truncate max-w-[140px]">{ln.node.label}</span>
+        </button>
+        {hasNested && (
+          <div className="flex flex-wrap gap-1.5 ml-4 mt-0.5">
+            {group.branches.map((sub) => renderBranchGroupC(sub))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Layout D: recursively render one branch NodeGroup as a row + nested sub-branch cards.
+  function renderBranchGroupD(group: NodeGroup): React.ReactNode {
+    const ln = group.mainline;
+    const bColor = branchColor(remappedCol(ln));
+    const hasNested = group.branches.length > 0;
+    return (
+      <div key={ln.node.id}>
+        <div className="flex items-center px-3 hover:bg-muted/30 transition-colors" style={{ height: rowHeight - 6 }}>
+          <div
+            className="flex-shrink-0 rounded-full mr-2"
+            style={{ width: 6, height: 6, backgroundColor: bColor, opacity: 0.7 }}
+          />
+          <div className="flex-1 min-w-0">{renderRow(ln.node, { small: true })}</div>
+        </div>
+        {hasNested && (
+          <div className="ml-4 border-l-2 border-border/30 pl-2 pb-1">
+            {group.branches.map((sub) => renderBranchGroupD(sub))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   // ========== LAYOUT A -- Left Border Groups ==========
   if (desktopLayout === 'A') {
     return (
@@ -170,19 +323,8 @@ export function TreeView({
               </div>
               {/* Branch children */}
               {branches.length > 0 && (
-                <div className="ml-[18px] pl-5 border-l-2" style={{ borderColor: branchColor(remappedCol(branches[0])) + '44' }}>
-                  {branches.map((ln) => {
-                    const bColor = branchColor(remappedCol(ln));
-                    return (
-                      <div key={ln.node.id} className="flex items-center" style={{ height: rowHeight - 4 }}>
-                        <div
-                          className="flex-shrink-0 rounded-full mr-2.5"
-                          style={{ width: 7, height: 7, backgroundColor: bColor, opacity: 0.6 }}
-                        />
-                        <div className="flex-1 min-w-0">{renderRow(ln.node, { small: true })}</div>
-                      </div>
-                    );
-                  })}
+                <div className="ml-[18px] pl-5 border-l-2" style={{ borderColor: branchColor(remappedCol(branches[0].mainline)) + '44' }}>
+                  {branches.map((sub) => renderBranchGroupA(sub))}
                 </div>
               )}
             </div>
@@ -235,19 +377,8 @@ export function TreeView({
                 )}
               </div>
               {hasBranches && expanded && (
-                <div className="mx-3 mb-2 rounded-lg overflow-hidden" style={{ backgroundColor: branchColor(remappedCol(branches[0])) + '08', border: `1px solid ${branchColor(remappedCol(branches[0]))}15` }}>
-                  {branches.map((ln) => {
-                    const bColor = branchColor(remappedCol(ln));
-                    return (
-                      <div key={ln.node.id} className="flex items-center px-3" style={{ height: rowHeight - 6 }}>
-                        <div
-                          className="flex-shrink-0 rounded-full mr-2"
-                          style={{ width: 6, height: 6, backgroundColor: bColor, opacity: 0.7 }}
-                        />
-                        <div className="flex-1 min-w-0">{renderRow(ln.node, { small: true })}</div>
-                      </div>
-                    );
-                  })}
+                <div className="mx-3 mb-2 rounded-lg overflow-hidden" style={{ backgroundColor: branchColor(remappedCol(branches[0].mainline)) + '08', border: `1px solid ${branchColor(remappedCol(branches[0].mainline))}15` }}>
+                  {branches.map((sub) => renderBranchGroupB(sub))}
                 </div>
               )}
             </div>
@@ -280,27 +411,7 @@ export function TreeView({
               </div>
               {branches.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 ml-[34px] mr-3 pb-2">
-                  {branches.map((ln) => {
-                    const bColor = branchColor(remappedCol(ln));
-                    const isSelected = selectedNodeId === ln.node.id;
-                    return (
-                      <button
-                        key={ln.node.id}
-                        onClick={() => onSelect(ln.node)}
-                        className={`
-                          inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium
-                          transition-all cursor-pointer border
-                          ${isSelected
-                            ? 'bg-foreground/5 border-foreground/20 text-foreground'
-                            : 'bg-transparent border-transparent hover:bg-muted/50 text-muted-foreground hover:text-foreground'}
-                        `}
-                        style={{ opacity: deadEndIds.has(ln.node.id) ? 0.4 : activePathIds.has(ln.node.id) ? 1 : 0.7 }}
-                      >
-                        <span className="rounded-full" style={{ width: 5, height: 5, backgroundColor: bColor }} />
-                        <span className="truncate max-w-[140px]">{ln.node.label}</span>
-                      </button>
-                    );
-                  })}
+                  {branches.map((sub) => renderBranchGroupC(sub))}
                 </div>
               )}
             </div>
@@ -346,17 +457,17 @@ export function TreeView({
               </div>
             </div>
 
-            {/* Branch card -- indented to the right of trunk */}
+            {/* Branch card -- recursive NodeGroup render with nested sub-branches */}
             {branches.length > 0 && (
               <div className="relative" style={{ marginLeft: TRUNK_X + 14, marginRight: 12, marginBottom: 8 }}>
                 <div className="rounded-xl border border-border/40 bg-muted/20 overflow-hidden">
                   <div className="flex items-center gap-2 px-3 py-1.5 border-b border-border/30">
                     <div className="flex -space-x-1">
-                      {branches.slice(0, 4).map((ln) => (
+                      {branches.slice(0, 4).map((sub) => (
                         <div
-                          key={ln.node.id}
+                          key={sub.mainline.node.id}
                           className="rounded-full border-2 border-white"
-                          style={{ width: 8, height: 8, backgroundColor: branchColor(remappedCol(ln)) }}
+                          style={{ width: 8, height: 8, backgroundColor: branchColor(remappedCol(sub.mainline)) }}
                         />
                       ))}
                     </div>
@@ -365,18 +476,7 @@ export function TreeView({
                     </span>
                   </div>
                   <div className="divide-y divide-border/20">
-                    {branches.map((ln) => {
-                      const bColor = branchColor(remappedCol(ln));
-                      return (
-                        <div key={ln.node.id} className="flex items-center px-3 hover:bg-muted/30 transition-colors" style={{ height: rowHeight - 6 }}>
-                          <div
-                            className="flex-shrink-0 rounded-full mr-2"
-                            style={{ width: 6, height: 6, backgroundColor: bColor, opacity: 0.7 }}
-                          />
-                          <div className="flex-1 min-w-0">{renderRow(ln.node, { small: true })}</div>
-                        </div>
-                      );
-                    })}
+                    {branches.map((sub) => renderBranchGroupD(sub))}
                   </div>
                 </div>
               </div>
@@ -407,6 +507,36 @@ interface MobileTreeViewProps {
 function MobileTreeView({ layout, hasFilter, filteredIds, selectedNodeId, onSelect, parentMap, remappedCol }: MobileTreeViewProps) {
   const { nodes, activePathIds, deadEndIds } = layout;
   const groups = buildNodeGroups(nodes, parentMap, remappedCol);
+
+  function renderBranchGroupMobile(group: NodeGroup): React.ReactNode {
+    const ln = group.mainline;
+    const bColor = branchColor(remappedCol(ln));
+    const bFiltered = hasFilter && !filteredIds.has(ln.node.id);
+    const bSelected = selectedNodeId === ln.node.id;
+    const bActive = activePathIds.has(ln.node.id);
+    const bDead = deadEndIds.has(ln.node.id);
+    const bOpacity = bFiltered ? 0.25 : bDead ? 0.4 : bActive ? 1 : 0.6;
+    const hasNested = group.branches.length > 0;
+
+    return (
+      <div key={ln.node.id}>
+        <div
+          className="flex items-center px-2.5"
+          style={{ height: M_ROW_H - 6, opacity: bOpacity, transition: 'opacity 150ms' }}
+        >
+          <div className="flex-shrink-0 rounded-full mr-2" style={{ width: 5, height: 5, backgroundColor: bColor, opacity: 0.7 }} />
+          <div className="flex-1 min-w-0">
+            <TimelineNode node={ln.node} isSelected={bSelected} onSelect={() => !bFiltered && onSelect(ln.node)} />
+          </div>
+        </div>
+        {hasNested && (
+          <div className="ml-3 border-l border-border/40 pl-1">
+            {group.branches.map((sub) => renderBranchGroupMobile(sub))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="relative py-1">
@@ -449,11 +579,11 @@ function MobileTreeView({ layout, hasFilter, filteredIds, selectedNodeId, onSele
                 <div className="rounded-lg border border-border/40 bg-muted/20 overflow-hidden">
                   <div className="flex items-center gap-1.5 px-2.5 py-1 border-b border-border/30">
                     <div className="flex -space-x-1">
-                      {branches.slice(0, 3).map((ln) => (
+                      {branches.slice(0, 3).map((sub) => (
                         <div
-                          key={ln.node.id}
+                          key={sub.mainline.node.id}
                           className="rounded-full border border-white"
-                          style={{ width: 6, height: 6, backgroundColor: branchColor(remappedCol(ln)) }}
+                          style={{ width: 6, height: 6, backgroundColor: branchColor(remappedCol(sub.mainline)) }}
                         />
                       ))}
                     </div>
@@ -462,27 +592,7 @@ function MobileTreeView({ layout, hasFilter, filteredIds, selectedNodeId, onSele
                     </span>
                   </div>
                   <div className="divide-y divide-border/20">
-                    {branches.map((ln) => {
-                      const bColor = branchColor(remappedCol(ln));
-                      const bFiltered = hasFilter && !filteredIds.has(ln.node.id);
-                      const bSelected = selectedNodeId === ln.node.id;
-                      const bActive = activePathIds.has(ln.node.id);
-                      const bDead = deadEndIds.has(ln.node.id);
-                      const bOpacity = bFiltered ? 0.25 : bDead ? 0.4 : bActive ? 1 : 0.6;
-
-                      return (
-                        <div
-                          key={ln.node.id}
-                          className="flex items-center px-2.5"
-                          style={{ height: M_ROW_H - 6, opacity: bOpacity, transition: 'opacity 150ms' }}
-                        >
-                          <div className="flex-shrink-0 rounded-full mr-2" style={{ width: 5, height: 5, backgroundColor: bColor, opacity: 0.7 }} />
-                          <div className="flex-1 min-w-0">
-                            <TimelineNode node={ln.node} isSelected={bSelected} onSelect={() => !bFiltered && onSelect(ln.node)} />
-                          </div>
-                        </div>
-                      );
-                    })}
+                    {branches.map((sub) => renderBranchGroupMobile(sub))}
                   </div>
                 </div>
               </div>
