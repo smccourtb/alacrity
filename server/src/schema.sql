@@ -344,7 +344,7 @@ CREATE TABLE IF NOT EXISTS specimen_progress (
   current_location TEXT,
   save_file_id INTEGER REFERENCES save_files(id),
   checkpoint_id INTEGER REFERENCES checkpoints(id),
-  pokemon_id INTEGER REFERENCES pokemon(id),
+  pokemon_id INTEGER,
   notes TEXT,
   UNIQUE(target_id)
 );

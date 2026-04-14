@@ -16,6 +16,40 @@ export function runMigrations(db: Database) {
   try { db.exec('DROP TABLE IF EXISTS pokemon'); } catch {}
   try { db.exec('DROP INDEX IF EXISTS idx_pokemon_unique'); } catch {}
 
+  // Rebuild specimen_progress to strip the stale FK to pokemon(id). With
+  // PRAGMA foreign_keys=ON, the dangling reference crashes any INSERT into
+  // specimen_progress after the pokemon table is dropped. SQLite can't drop
+  // a FK via ALTER TABLE — we have to rebuild via create/copy/drop/rename.
+  try {
+    const row = db.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='specimen_progress'").get() as { sql: string } | undefined;
+    if (row && /REFERENCES\s+pokemon\b/i.test(row.sql)) {
+      db.exec('PRAGMA foreign_keys = OFF');
+      const rebuild = db.transaction(() => {
+        // Keep this in sync with schema.sql — uses the FK-free column list.
+        db.exec(`
+          CREATE TABLE specimen_progress_new (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            target_id INTEGER NOT NULL REFERENCES specimen_targets(id) ON DELETE CASCADE,
+            status TEXT NOT NULL DEFAULT 'pending',
+            current_location TEXT,
+            save_file_id INTEGER REFERENCES save_files(id),
+            checkpoint_id INTEGER REFERENCES checkpoints(id),
+            pokemon_id INTEGER,
+            notes TEXT,
+            UNIQUE(target_id)
+          )
+        `);
+        db.exec('INSERT INTO specimen_progress_new SELECT id, target_id, status, current_location, save_file_id, checkpoint_id, pokemon_id, notes FROM specimen_progress');
+        db.exec('DROP TABLE specimen_progress');
+        db.exec('ALTER TABLE specimen_progress_new RENAME TO specimen_progress');
+      });
+      rebuild();
+      db.exec('PRAGMA foreign_keys = ON');
+    }
+  } catch (err) {
+    console.error('[migrate] specimen_progress FK strip failed:', err);
+  }
+
   // Species table legality columns
   const speciesCols = (db.prepare('PRAGMA table_info(species)').all() as any[]).map((c: any) => c.name);
   const newSpeciesCols: [string, string][] = [
