@@ -323,6 +323,30 @@ export function scanCheckpoint(checkpointId: number): ScanResult {
   return { identities: newIdentities, sightings: sightings.length };
 }
 
+// ── clearSightingsForCheckpoint ───────────────────────────────────────────────────────
+
+const stmtGcOrphanedIdentities = db.prepare(`
+  DELETE FROM pokemon_identity
+  WHERE id NOT IN (SELECT identity_id FROM collection_saves)
+    AND id NOT IN (SELECT identity_id FROM collection_bank)
+    AND id NOT IN (SELECT identity_id FROM collection_manual WHERE identity_id IS NOT NULL)
+`);
+
+/**
+ * Delete all collection_saves rows for a checkpoint and garbage-collect any
+ * pokemon_identity rows that are now referenced by zero sightings.
+ *
+ * Safe to call on a checkpoint that has no sightings — it's a no-op.
+ */
+export const clearSightingsForCheckpoint = db.transaction((checkpointId: number): { deletedSightings: number; gcIdentities: number } => {
+  const del = stmtDeleteSightingsByCheckpoint.run(checkpointId);
+  const gc = stmtGcOrphanedIdentities.run();
+  return {
+    deletedSightings: del.changes ?? 0,
+    gcIdentities: gc.changes ?? 0,
+  };
+});
+
 // ── resolveCollection ─────────────────────────────────────────────────────────
 
 interface ResolveScope {
