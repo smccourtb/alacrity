@@ -151,14 +151,14 @@ export default function PlayPage() {
     if (allGames.length > 0) {
       // Prefer the first playthrough's game, then first available
       const firstPtGame = playthroughs.length > 0 ? playthroughs[0].game : null;
-      setSelectedGame(firstPtGame ?? allGames[0]);
+      setSelectedGame(firstPtGame ? normalizeGameName(firstPtGame) : allGames[0]);
     }
   }, [playthroughs, allGames, selectedGame]);
 
   // --- Auto-select first playthrough when game changes ---
   useEffect(() => {
     if (!selectedGame) return;
-    const matching = playthroughs.filter(p => p.game === selectedGame);
+    const matching = playthroughs.filter(p => normalizeGameName(p.game) === selectedGame);
     if (matching.length > 0) {
       // Keep selection if it already matches the game
       if (selectedPlaythrough && selectedPlaythrough.game === selectedGame) return;
