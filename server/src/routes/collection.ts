@@ -104,6 +104,9 @@ router.get('/', (req, res) => {
 });
 
 // GET /api/collection/:id/sightings — list sightings for an identity
+// Reads collection_saves + collection_bank directly (not the legacy
+// `collection` view) so the data source matches every other collection read
+// path in the app.
 router.get('/:id/sightings', (req, res) => {
   const id = Number(req.params.id);
   if (isNaN(id)) return res.status(400).json({ error: 'Invalid identity id' });
@@ -114,7 +117,7 @@ router.get('/:id/sightings', (req, res) => {
         s.id,
         s.identity_id,
         s.checkpoint_id,
-        s.bank_file_id,
+        NULL AS bank_file_id,
         s.species_id,
         s.box_slot,
         s.level,
@@ -124,13 +127,31 @@ router.get('/:id/sightings', (req, res) => {
         pt.game,
         sf.file_path,
         sf.save_timestamp
-      FROM collection s
+      FROM collection_saves s
       LEFT JOIN checkpoints c ON c.id = s.checkpoint_id
       LEFT JOIN playthroughs pt ON pt.id = c.playthrough_id
       LEFT JOIN save_files sf ON sf.id = c.save_file_id
       WHERE s.identity_id = ?
-      ORDER BY sf.save_timestamp DESC
-    `).all(id);
+      UNION ALL
+      SELECT
+        b.id,
+        b.identity_id,
+        NULL AS checkpoint_id,
+        b.bank_file_id,
+        b.species_id,
+        b.box_slot,
+        b.level,
+        b.snapshot_data,
+        b.created_at,
+        NULL AS checkpoint_label,
+        NULL AS game,
+        bsf.file_path,
+        bsf.save_timestamp
+      FROM collection_bank b
+      LEFT JOIN save_files bsf ON bsf.id = b.bank_file_id
+      WHERE b.identity_id = ?
+      ORDER BY save_timestamp DESC
+    `).all(id, id);
 
     res.json(sightings);
   } catch (err: any) {

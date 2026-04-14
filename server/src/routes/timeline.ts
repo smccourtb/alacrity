@@ -540,10 +540,18 @@ router.patch('/checkpoints/:id/collection', (req: Request, res: Response) => {
   try {
     if (include) {
       const result = scanCheckpoint(id);
-      return res.json({ success: true, scanned: true, identities: result.identities, sightings: result.sightings });
+      return res.json({
+        success: true,
+        action: 'scanned' as const,
+        counts: { identities: result.identities, sightings: result.sightings },
+      });
     } else {
       const result = clearSightingsForCheckpoint(id);
-      return res.json({ success: true, cleared: true, deletedSightings: result.deletedSightings, gcIdentities: result.gcIdentities });
+      return res.json({
+        success: true,
+        action: 'cleared' as const,
+        counts: { deletedSightings: result.deletedSightings, gcIdentities: result.gcIdentities },
+      });
     }
   } catch (err: any) {
     return res.status(500).json({ error: err.message });

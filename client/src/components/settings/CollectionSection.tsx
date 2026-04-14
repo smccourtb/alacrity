@@ -9,6 +9,7 @@ interface ReconcileResult {
   scanned: number;
   totalIdentities: number;
   totalSightings: number;
+  errors: { checkpointId: number; reason: string }[];
 }
 
 export function CollectionSection() {
@@ -54,6 +55,18 @@ export function CollectionSection() {
               <div>Checkpoints scanned: {result.scanned}</div>
               <div>Identities added: {result.totalIdentities}</div>
               <div>Sightings added: {result.totalSightings}</div>
+              {result.errors.length > 0 && (
+                <div className="pt-1 text-red-600">
+                  <div>{result.errors.length} error{result.errors.length === 1 ? '' : 's'}:</div>
+                  <ul className="list-disc pl-4 max-h-24 overflow-y-auto font-mono">
+                    {result.errors.map((e, i) => (
+                      <li key={i} title={`checkpoint ${e.checkpointId}: ${e.reason}`}>
+                        checkpoint {e.checkpointId}: {e.reason}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
           <Button size="sm" variant="outline" disabled={busy} onClick={handleReconcile}>
