@@ -334,11 +334,6 @@ export const api = {
       return request<any>(`/guide/progress/${stepId}`, { method: 'POST', body: JSON.stringify(data) });
     },
     campaign: () => request<any>('/guide/campaign'),
-    scanCompletion: () => {
-      invalidateCache('/guide');
-      invalidateCache('/specimens');
-      return request<any>('/guide/scan-completion', { method: 'POST' });
-    },
     updateLocationPosition: (id: number, x: number, y: number) => {
       invalidateCache('/guide/locations');
       return request<{ ok: boolean }>(`/guide/locations/${id}`, {
