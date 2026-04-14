@@ -7,13 +7,25 @@ import { buildSnapshot, type SaveSnapshot } from './saveSnapshot.js';
 import { prettyGameName } from './pkConstants.js';
 import { reconcileTipsInclusion } from './identityService.js';
 
+export interface SyncSavesResult {
+  added: number;
+  stale: number;
+  updated: number;
+  reconcileErrors: string[];
+}
+
 /**
  * Reconcile filesystem saves with the save_files DB table.
  * - New files on disk → INSERT
  * - Files in DB but missing from disk → mark stale
  * - Files in both → update mtime/size if changed
+ *
+ * After reconciling, runs reconcileTipsInclusion() so newly-created
+ * checkpoints that became active tips get flagged + scanned. Any errors
+ * from that step are returned in reconcileErrors so callers can surface
+ * them rather than relying on console.
  */
-export function syncSaves(): { added: number; stale: number; updated: number } {
+export function syncSaves(): SyncSavesResult {
   const discovered = discoverAllSaves();
   const discoveredPaths = new Set(discovered.map(d => d.filePath));
 
@@ -135,13 +147,18 @@ export function syncSaves(): { added: number; stale: number; updated: number } {
   // Reconcile auto-tip inclusion: newly-created checkpoints that became
   // active tips get include_in_collection=1 + scanned; old tips that are
   // no longer tip get flipped off (unless the user explicitly flagged them).
+  const reconcileErrors: string[] = [];
   try {
-    reconcileTipsInclusion();
-  } catch (err) {
+    const r = reconcileTipsInclusion();
+    if (r.errors.length > 0) {
+      reconcileErrors.push(...r.errors.map(e => `checkpoint ${e.checkpointId}: ${e.reason}`));
+    }
+  } catch (err: any) {
     console.error('[syncSaves] reconcileTipsInclusion failed:', err);
+    reconcileErrors.push(err?.message || String(err));
   }
 
-  return { added, stale, updated };
+  return { added, stale, updated, reconcileErrors };
 }
 
 /**
