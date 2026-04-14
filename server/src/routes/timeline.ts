@@ -374,6 +374,10 @@ router.post('/scan', async (req: Request, res: Response) => {
   parsed.sort((a, b) => {
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
+    // Non-daycare before daycare (progression saves before hunt branches)
+    const aHasDc = a.snapshot.daycare ? 1 : 0;
+    const bHasDc = b.snapshot.daycare ? 1 : 0;
+    if (aHasDc !== bHasDc) return aHasDc - bHasDc;
     const apt = a.snapshot.play_time_seconds ?? 0;
     const bpt = b.snapshot.play_time_seconds ?? 0;
     if (apt !== bpt) return apt - bpt;
