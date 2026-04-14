@@ -24,9 +24,16 @@ export interface PlacedCheckpoint {
  * Individual Pokémon are fuzzy-matched by (species_id, nickname, ot_name,
  * ot_tid) for the per-mon level-monotonicity guard. PIDs are not available
  * for Gen 1/2 saves, so this four-tuple is the best available fingerprint.
- * For Gen 1/2 saves where nickname/OT are unpopulated, most mons collapse
- * to the same key — the level guard silently does nothing useful (which is
- * acceptable; box_pokemon handles the heavy lifting for those games).
+ *
+ * For Gen 1/2 where nickname isn't decoded, same-species same-trainer mons
+ * collapse to the same key — so the guard still fires on same-species level
+ * regressions. Within one playthrough that's usually correct (a legitimate
+ * ancestor shouldn't have a higher-level version of a species than its
+ * descendant), but it can false-positive if the player released their
+ * original mon and caught a lower-level replacement of the same species,
+ * because the ancestor save still has the higher-level original. The -25
+ * per violation is small enough that box_pokemon can still carry a correct
+ * lineage through one or two spurious matches.
  *
  * Signals:
  *   - badge_count          parent must have ≤ child's badge count          [hard guard]
