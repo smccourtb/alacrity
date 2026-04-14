@@ -6,6 +6,7 @@ import { autoLinkSave } from './autoLinkage.js';
 import { buildSnapshot, type SaveSnapshot } from './saveSnapshot.js';
 import { prettyGameName } from './pkConstants.js';
 import { reconcileTipsInclusion } from './identityService.js';
+import { findBestParent, type PlacedCheckpoint } from './checkpointPlacement.js';
 
 export interface SyncSavesResult {
   added: number;
@@ -247,42 +248,6 @@ function cleanUnreferencedStale(): number {
 // Smart save placement — same algorithm as timeline /scan
 // ---------------------------------------------------------------------------
 
-function findBestParent(
-  snapshot: SaveSnapshot,
-  placed: Array<{ id: number; snapshot: SaveSnapshot }>,
-): number | null {
-  if (placed.length === 0) return null;
-
-  const curPartyIds = new Set(snapshot.party.map(p => p.species_id));
-  let bestId: number | null = null;
-  let bestScore = -Infinity;
-
-  for (const cp of placed) {
-    const s = cp.snapshot;
-    if (s.badge_count > snapshot.badge_count) continue;
-
-    // Play time: parent can't have more play time than child
-    if ((s.play_time_seconds ?? 0) > (snapshot.play_time_seconds ?? 0)) continue;
-
-    const parentPartyIds = new Set(s.party.map(p => p.species_id));
-    let overlap = 0;
-    for (const id of curPartyIds) {
-      if (parentPartyIds.has(id)) overlap++;
-    }
-    const maxParty = Math.max(curPartyIds.size, parentPartyIds.size, 1);
-    const overlapRatio = overlap / maxParty;
-    const badgeDiff = snapshot.badge_count - s.badge_count;
-
-    const score = overlapRatio * 100 - badgeDiff * 10;
-    if (score > bestScore) {
-      bestScore = score;
-      bestId = cp.id;
-    }
-  }
-
-  return bestId;
-}
-
 function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: string; label: string | null }>) {
   // Phase 1: parse snapshots
   interface ParsedSave { row: typeof saves[0]; snapshot: SaveSnapshot; label: string }
@@ -327,7 +292,7 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
     "UPDATE playthroughs SET active_checkpoint_id = ?, updated_at = datetime('now') WHERE id = ?",
   );
 
-  const placedByPt = new Map<string, Array<{ id: number; snapshot: SaveSnapshot }>>();
+  const placedByPt = new Map<string, PlacedCheckpoint[]>();
 
   // Load existing checkpoints so new saves can parent to them
   const existing = db.prepare(`
@@ -338,7 +303,7 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
   for (const ec of existing) {
     const key = `${ec.game}|${ec.ot_name}|${ec.ot_tid}`;
     if (!placedByPt.has(key)) placedByPt.set(key, []);
-    try { placedByPt.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot) }); } catch {}
+    try { placedByPt.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: null }); } catch {}
   }
 
   let linked = 0;
@@ -365,7 +330,7 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
     const cpId = Number(cpResult.lastInsertRowid);
 
     if (!placedByPt.has(ptKey)) placedByPt.set(ptKey, []);
-    placedByPt.get(ptKey)!.push({ id: cpId, snapshot });
+    placedByPt.get(ptKey)!.push({ id: cpId, snapshot, file_mtime: null });
     updateActive.run(cpId, playthrough.id);
     linked++;
   }
