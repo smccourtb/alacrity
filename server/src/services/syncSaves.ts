@@ -5,6 +5,7 @@ import { discoverAllSaves, type DiscoveredSave } from './saveDiscovery.js';
 import { autoLinkSave } from './autoLinkage.js';
 import { buildSnapshot, type SaveSnapshot } from './saveSnapshot.js';
 import { prettyGameName } from './pkConstants.js';
+import { reconcileTipsInclusion } from './identityService.js';
 
 /**
  * Reconcile filesystem saves with the save_files DB table.
@@ -130,6 +131,16 @@ export function syncSaves(): { added: number; stale: number; updated: number } {
   const cleaned = cleanUnreferencedStale();
 
   console.log(`[syncSaves] added=${added} updated=${updated} stale=${stale} relinked=${relinked} cleaned=${cleaned} total_discovered=${discovered.length}`);
+
+  // Reconcile auto-tip inclusion: newly-created checkpoints that became
+  // active tips get include_in_collection=1 + scanned; old tips that are
+  // no longer tip get flipped off (unless the user explicitly flagged them).
+  try {
+    reconcileTipsInclusion();
+  } catch (err) {
+    console.error('[syncSaves] reconcileTipsInclusion failed:', err);
+  }
+
   return { added, stale, updated };
 }
 
