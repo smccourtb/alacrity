@@ -245,6 +245,35 @@ function cleanUnreferencedStale(): number {
 }
 
 // ---------------------------------------------------------------------------
+// Hunt-spawn lineage: look up the recorded parent checkpoint for a save
+// that was produced by a hunt (instance backups in hunts/<hunt_dir>/open_*/).
+// ---------------------------------------------------------------------------
+
+/**
+ * Return the hunt row (id + parent_checkpoint_id) whose hunt_dir is a path
+ * component of `filePath`, meaning this save was produced by that hunt.
+ *
+ * `hunt_dir` is stored as a bare name (e.g. "Crystal-Charmander-2026-04-13"),
+ * while `filePath` is an absolute path. We check whether the string
+ * `/hunts/<hunt_dir>/` appears inside `filePath` using SQLite's `instr`.
+ *
+ * Catch saves (saves/catches/<game>/<target>/) are NOT matched here because
+ * their path contains no hunt_dir component. Those fall through to
+ * findBestParent inference, which already has a strong fingerprint signal
+ * from party + box pokemon. This is an intentional gap — documented here so
+ * a future task can add a catches-path matcher if needed.
+ */
+function findHuntForSavePath(filePath: string): { id: number; parent_checkpoint_id: number | null } | null {
+  const row = db.prepare(`
+    SELECT id, parent_checkpoint_id FROM hunts
+    WHERE hunt_dir IS NOT NULL
+      AND instr(?, '/hunts/' || hunt_dir || '/') > 0
+    LIMIT 1
+  `).get(filePath) as { id: number; parent_checkpoint_id: number | null } | undefined;
+  return row ?? null;
+}
+
+// ---------------------------------------------------------------------------
 // Smart save placement — same algorithm as timeline /scan
 // ---------------------------------------------------------------------------
 
@@ -328,7 +357,13 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
 
     const ptKey = `${g}|${snapshot.ot_name}|${snapshot.ot_tid}`;
     const placed = placedByPt.get(ptKey) ?? [];
-    const parentId = findBestParent(snapshot, placed, row.file_mtime);
+    // Short-circuit: if this save lives under a known hunt's directory, use the
+    // hunt's recorded parent checkpoint directly instead of inferring via
+    // findBestParent. Falls back to inference if parent_checkpoint_id is null
+    // (legacy hunt created before this column existed).
+    const huntMatch = findHuntForSavePath(row.file_path);
+    const parentId = huntMatch?.parent_checkpoint_id
+      ?? findBestParent(snapshot, placed, row.file_mtime);
 
     const cpResult = createCheckpoint.run(
       playthrough.id, row.id, parentId, label,

@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS hunts (
   elapsed_seconds INTEGER NOT NULL DEFAULT 0,
   is_archived INTEGER NOT NULL DEFAULT 0,
   hunt_dir TEXT,
+  parent_checkpoint_id INTEGER REFERENCES checkpoints(id),
   created_at TEXT DEFAULT (datetime('now'))
 );
 
