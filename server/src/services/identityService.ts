@@ -325,9 +325,14 @@ export function scanCheckpoint(checkpointId: number): ScanResult {
 
 // ── clearSightingsForCheckpoint ───────────────────────────────────────────────────────
 
-const stmtGcOrphanedIdentities = db.prepare(`
+const stmtSelectIdentityIdsForCheckpoint = db.prepare<{ identity_id: number }, [number]>(`
+  SELECT identity_id FROM collection_saves WHERE checkpoint_id = ?
+`);
+
+const stmtGcCandidateIdentities = db.prepare(`
   DELETE FROM pokemon_identity
-  WHERE id NOT IN (SELECT identity_id FROM collection_saves)
+  WHERE id IN (SELECT value FROM json_each(?))
+    AND id NOT IN (SELECT identity_id FROM collection_saves)
     AND id NOT IN (SELECT identity_id FROM collection_bank)
     AND id NOT IN (SELECT identity_id FROM collection_manual WHERE identity_id IS NOT NULL)
 `);
@@ -337,10 +342,17 @@ const stmtGcOrphanedIdentities = db.prepare(`
  * pokemon_identity rows that are now referenced by zero sightings.
  *
  * Safe to call on a checkpoint that has no sightings — it's a no-op.
+ *
+ * Scoped GC: only checks identities that were actually referenced by the
+ * deleted sightings, not every row in pokemon_identity. Bounded by the
+ * sighting count of the checkpoint being cleared.
  */
 export const clearSightingsForCheckpoint = db.transaction((checkpointId: number): { deletedSightings: number; gcIdentities: number } => {
+  const affected = stmtSelectIdentityIdsForCheckpoint.all(checkpointId).map(r => r.identity_id);
   const del = stmtDeleteSightingsByCheckpoint.run(checkpointId);
-  const gc = stmtGcOrphanedIdentities.run();
+  const gc = affected.length > 0
+    ? stmtGcCandidateIdentities.run(JSON.stringify(affected))
+    : { changes: 0 };
   return {
     deletedSightings: del.changes ?? 0,
     gcIdentities: gc.changes ?? 0,
@@ -389,6 +401,21 @@ const stmtListCheckpointsNeedingScan = db.prepare<{ id: number }, []>(`
   GROUP BY c.id
 `);
 
+export interface ReconcileResult {
+  tipsFlaggedOn: number;
+  staleFlaggedOff: number;
+  scanned: number;
+  totalIdentities: number;
+  totalSightings: number;
+  errors: { checkpointId: number; reason: string }[];
+}
+
+// In-flight guard: prevents the startup reconciler and a manual /scan/all
+// from racing on the same checkpoints. Second concurrent caller returns
+// the "already running" sentinel and the request finishes fast with zero
+// counts rather than duplicating scan work.
+let reconcileInflight = false;
+
 /**
  * Reconcile auto-tip inclusion across the whole DB:
  *   - For every playthrough's active_checkpoint_id, set include_in_collection=1
@@ -397,58 +424,74 @@ const stmtListCheckpointsNeedingScan = db.prepare<{ id: number }, []>(`
  *     include_explicit=0, flip it off and clear its sightings + GC identities.
  *   - Scan every tip that now has include_in_collection=1 but no sightings yet.
  *
- * Idempotent — running twice is a no-op after the first run.
+ * Idempotent — running twice is a no-op after the first run. If a reconcile
+ * is already in flight, returns an empty result rather than running in
+ * parallel (single-user desktop app, no real concurrency, but guards
+ * against the startup-vs-manual-click race on fast restarts).
  */
-export function reconcileTipsInclusion(): {
-  tipsFlaggedOn: number;
-  staleFlaggedOff: number;
-  scanned: number;
-  totalIdentities: number;
-  totalSightings: number;
-} {
-  const tipIds = new Set(stmtListActiveTips.all().map(r => r.id));
-  const currentAutoIncluded = new Set(stmtListNonExplicitIncluded.all().map(r => r.id));
+export function reconcileTipsInclusion(): ReconcileResult {
+  const empty: ReconcileResult = {
+    tipsFlaggedOn: 0,
+    staleFlaggedOff: 0,
+    scanned: 0,
+    totalIdentities: 0,
+    totalSightings: 0,
+    errors: [],
+  };
+  if (reconcileInflight) return empty;
+  reconcileInflight = true;
+  try {
+    const tipIds = new Set(stmtListActiveTips.all().map(r => r.id));
+    const currentAutoIncluded = new Set(stmtListNonExplicitIncluded.all().map(r => r.id));
 
-  let tipsFlaggedOn = 0;
-  let staleFlaggedOff = 0;
+    let tipsFlaggedOn = 0;
+    let staleFlaggedOff = 0;
+    const errors: { checkpointId: number; reason: string }[] = [];
 
-  // Flip off any non-explicit, non-tip checkpoints that are currently included
-  for (const id of currentAutoIncluded) {
-    if (!tipIds.has(id)) {
-      const result = stmtSetIncludeAutoOff.run(id);
-      if ((result.changes ?? 0) > 0) {
-        clearSightingsForCheckpoint(id);
-        staleFlaggedOff++;
+    // Flip off any non-explicit, non-tip checkpoints that are currently included
+    for (const id of currentAutoIncluded) {
+      if (!tipIds.has(id)) {
+        const result = stmtSetIncludeAutoOff.run(id);
+        if ((result.changes ?? 0) > 0) {
+          try {
+            clearSightingsForCheckpoint(id);
+            staleFlaggedOff++;
+          } catch (err: any) {
+            errors.push({ checkpointId: id, reason: `clear failed: ${err?.message || String(err)}` });
+          }
+        }
       }
     }
-  }
 
-  // Flip on any tip that isn't already flagged (respects explicit: won't change rows where include_explicit=1 and include_in_collection=0)
-  for (const id of tipIds) {
-    const result = stmtSetIncludeAutoOn.run(id);
-    if ((result.changes ?? 0) > 0) {
-      tipsFlaggedOn++;
+    // Flip on any tip that isn't already flagged (respects explicit: won't change rows where include_explicit=1)
+    for (const id of tipIds) {
+      const result = stmtSetIncludeAutoOn.run(id);
+      if ((result.changes ?? 0) > 0) {
+        tipsFlaggedOn++;
+      }
     }
-  }
 
-  // Scan every checkpoint that is now flagged (tip or explicit) but has no sightings yet
-  const needsScan = stmtListCheckpointsNeedingScan.all();
+    // Scan every checkpoint that is now flagged (tip or explicit) but has no sightings yet
+    const needsScan = stmtListCheckpointsNeedingScan.all();
 
-  let scanned = 0;
-  let totalIdentities = 0;
-  let totalSightings = 0;
-  for (const { id } of needsScan) {
-    try {
-      const r = scanCheckpoint(id);
-      totalIdentities += r.identities;
-      totalSightings += r.sightings;
-      scanned++;
-    } catch (err) {
-      console.error(`[reconcileTipsInclusion] scanCheckpoint(${id}) failed:`, err);
+    let scanned = 0;
+    let totalIdentities = 0;
+    let totalSightings = 0;
+    for (const { id } of needsScan) {
+      try {
+        const r = scanCheckpoint(id);
+        totalIdentities += r.identities;
+        totalSightings += r.sightings;
+        scanned++;
+      } catch (err: any) {
+        errors.push({ checkpointId: id, reason: `scan failed: ${err?.message || String(err)}` });
+      }
     }
-  }
 
-  return { tipsFlaggedOn, staleFlaggedOff, scanned, totalIdentities, totalSightings };
+    return { tipsFlaggedOn, staleFlaggedOff, scanned, totalIdentities, totalSightings, errors };
+  } finally {
+    reconcileInflight = false;
+  }
 }
 
 // ── resolveCollection ─────────────────────────────────────────────────────────
