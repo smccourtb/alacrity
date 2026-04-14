@@ -168,30 +168,6 @@ export const api = {
       invalidateCache('/pokemon');
       return request<void>(`/pokemon/${id}`, { method: 'DELETE' });
     },
-    syncPreview: () => request<{
-      auto_imported_count: number;
-      manually_edited: Array<{
-        id: number;
-        species_id: number;
-        species_name: string;
-        nickname: string;
-        manual_fields: string;
-        source_save: string;
-      }>;
-    }>('/pokemon/sync/preview'),
-    sync: (keepIds?: number[]) => {
-      invalidateCache('/pokemon');
-      return request<{
-        cleared: number;
-        imported: number;
-        skipped: number;
-        total_parsed: number;
-        by_source: Record<string, number>;
-      }>('/pokemon/sync', {
-        method: 'POST',
-        body: JSON.stringify({ keep_ids: keepIds }),
-      });
-    },
   },
   hunts: {
     list: (opts?: { archived?: boolean }) => request<any[]>(opts?.archived ? '/hunts?archived=true' : '/hunts'),
