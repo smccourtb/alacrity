@@ -82,33 +82,37 @@ function buildNodeGroups(
     return remappedCol(parent) !== remappedCol(child);
   }
 
-  // Build a NodeGroup for one node: the node itself is the mainline, and
-  // ALL of its children become recursively-built nested NodeGroups.
+  // Build a NodeGroup for one node. Behavior depends on `inBranch`:
   //
-  // NOTE: we do NOT filter by isBranchChild here. That check is only needed
-  // at the trunk level (walkTrunk). Inside a branch subtree, a "mainline
-  // child" from computeLayout's perspective is just the first-visited child
-  // in the DFS — it has no visual significance once we're inside a branch
-  // card. If we filtered it out here, deep mainline descendants of a branch
-  // (e.g. Abra under Ditto where Ditto is itself a branch of the root)
-  // would silently disappear.
-  function buildGroupFor(ln: LayoutNode): NodeGroup {
+  //   inBranch = false (trunk-level call from walkTrunk):
+  //     skip mainline children — walkTrunk will visit them as their own
+  //     top-level NodeGroups. Only fork/branch children get folded in.
+  //
+  //   inBranch = true (recursive call from inside another buildGroupFor):
+  //     include ALL children. Inside a branch subtree there is no trunk,
+  //     so every descendant becomes a nested row in the branch card.
+  //
+  // Without this flag, calling walkTrunk on the root would duplicate every
+  // mainline descendant: once nested inside the root's NodeGroup, once as
+  // its own top-level group. Yesterday's iteration hit exactly that bug.
+  function buildGroupFor(ln: LayoutNode, inBranch: boolean): NodeGroup {
     const branches: NodeGroup[] = [];
     for (const childNode of ln.node.children) {
       const childLn = byId.get(childNode.id);
       if (!childLn) continue;
-      branches.push(buildGroupFor(childLn));
+      if (!inBranch && !isBranchChild(ln, childLn)) continue;
+      branches.push(buildGroupFor(childLn, true));
     }
     return { mainline: ln, branches };
   }
 
   // Top-level groups are the trunk nodes: roots + every mainline descendant.
-  // Branch nodes have already been folded into their parent's nested groups.
+  // Branch nodes get folded into their parent's nested groups via buildGroupFor.
   const groups: NodeGroup[] = [];
   const roots = nodes.filter(ln => !parentMap.has(ln.node.id));
 
   function walkTrunk(ln: LayoutNode) {
-    groups.push(buildGroupFor(ln));
+    groups.push(buildGroupFor(ln, false));
     for (const childNode of ln.node.children) {
       const childLn = byId.get(childNode.id);
       if (!childLn) continue;
