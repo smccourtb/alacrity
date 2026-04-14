@@ -347,6 +347,108 @@ export const clearSightingsForCheckpoint = db.transaction((checkpointId: number)
   };
 });
 
+// ── reconcileTipsInclusion ────────────────────────────────────────────────────
+
+const stmtListActiveTips = db.prepare<{ id: number }, []>(`
+  SELECT active_checkpoint_id AS id
+  FROM playthroughs
+  WHERE active_checkpoint_id IS NOT NULL
+    AND include_in_collection = 1
+`);
+
+const stmtListNonExplicitIncluded = db.prepare<{ id: number }, []>(`
+  SELECT id
+  FROM checkpoints
+  WHERE include_in_collection = 1
+    AND include_explicit = 0
+`);
+
+const stmtSetIncludeAutoOn = db.prepare(`
+  UPDATE checkpoints
+  SET include_in_collection = 1
+  WHERE id = ?
+    AND include_explicit = 0
+`);
+
+const stmtSetIncludeAutoOff = db.prepare(`
+  UPDATE checkpoints
+  SET include_in_collection = 0
+  WHERE id = ?
+    AND include_explicit = 0
+`);
+
+const stmtListCheckpointsNeedingScan = db.prepare<{ id: number }, []>(`
+  SELECT c.id
+  FROM checkpoints c
+  LEFT JOIN collection_saves cs ON cs.checkpoint_id = c.id
+  WHERE c.include_in_collection = 1
+    AND c.archived = 0
+    AND cs.id IS NULL
+  GROUP BY c.id
+`);
+
+/**
+ * Reconcile auto-tip inclusion across the whole DB:
+ *   - For every playthrough's active_checkpoint_id, set include_in_collection=1
+ *     (no-op if the row already has include_explicit=1).
+ *   - For every non-tip checkpoint currently with include_in_collection=1 AND
+ *     include_explicit=0, flip it off and clear its sightings + GC identities.
+ *   - Scan every tip that now has include_in_collection=1 but no sightings yet.
+ *
+ * Idempotent — running twice is a no-op after the first run.
+ */
+export function reconcileTipsInclusion(): {
+  tipsFlaggedOn: number;
+  staleFlaggedOff: number;
+  scanned: number;
+  totalIdentities: number;
+  totalSightings: number;
+} {
+  const tipIds = new Set(stmtListActiveTips.all().map(r => r.id));
+  const currentAutoIncluded = new Set(stmtListNonExplicitIncluded.all().map(r => r.id));
+
+  let tipsFlaggedOn = 0;
+  let staleFlaggedOff = 0;
+
+  // Flip off any non-explicit, non-tip checkpoints that are currently included
+  for (const id of currentAutoIncluded) {
+    if (!tipIds.has(id)) {
+      const result = stmtSetIncludeAutoOff.run(id);
+      if ((result.changes ?? 0) > 0) {
+        clearSightingsForCheckpoint(id);
+        staleFlaggedOff++;
+      }
+    }
+  }
+
+  // Flip on any tip that isn't already flagged (respects explicit: won't change rows where include_explicit=1 and include_in_collection=0)
+  for (const id of tipIds) {
+    const result = stmtSetIncludeAutoOn.run(id);
+    if ((result.changes ?? 0) > 0) {
+      tipsFlaggedOn++;
+    }
+  }
+
+  // Scan every checkpoint that is now flagged (tip or explicit) but has no sightings yet
+  const needsScan = stmtListCheckpointsNeedingScan.all();
+
+  let scanned = 0;
+  let totalIdentities = 0;
+  let totalSightings = 0;
+  for (const { id } of needsScan) {
+    try {
+      const r = scanCheckpoint(id);
+      totalIdentities += r.identities;
+      totalSightings += r.sightings;
+      scanned++;
+    } catch (err) {
+      console.error(`[reconcileTipsInclusion] scanCheckpoint(${id}) failed:`, err);
+    }
+  }
+
+  return { tipsFlaggedOn, staleFlaggedOff, scanned, totalIdentities, totalSightings };
+}
+
 // ── resolveCollection ─────────────────────────────────────────────────────────
 
 interface ResolveScope {
