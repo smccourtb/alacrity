@@ -1,0 +1,839 @@
+[
+  {
+    "name": "Champion Ribbon",
+    "category": "champion",
+    "how_to_obtain": "Defeat the Champion in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "champion-ribbon",
+    "sort_order": 1
+  },
+  {
+    "name": "Sinnoh Champion Ribbon",
+    "category": "champion",
+    "how_to_obtain": "Defeat the Sinnoh Champion in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "sinnoh-champion-ribbon",
+    "sort_order": 2
+  },
+  {
+    "name": "Kalos Champion Ribbon",
+    "category": "champion",
+    "how_to_obtain": "Defeat the Kalos Champion in X or Y",
+    "games": ["X", "Y"],
+    "prerequisites": null,
+    "sprite_key": "kalos-champion-ribbon",
+    "sort_order": 3
+  },
+  {
+    "name": "Hoenn Champion Ribbon",
+    "category": "champion",
+    "how_to_obtain": "Defeat the Hoenn Champion in Omega Ruby or Alpha Sapphire",
+    "games": ["Omega Ruby", "Alpha Sapphire"],
+    "prerequisites": null,
+    "sprite_key": "hoenn-champion-ribbon",
+    "sort_order": 4
+  },
+  {
+    "name": "Alola Champion Ribbon",
+    "category": "champion",
+    "how_to_obtain": "Defeat the Alola Champion in Sun, Moon, Ultra Sun, or Ultra Moon",
+    "games": ["Sun", "Moon", "Ultra Sun", "Ultra Moon"],
+    "prerequisites": null,
+    "sprite_key": "alola-champion-ribbon",
+    "sort_order": 5
+  },
+  {
+    "name": "Galar Champion Ribbon",
+    "category": "champion",
+    "how_to_obtain": "Defeat the Galar Champion in Sword or Shield",
+    "games": ["Sword", "Shield"],
+    "prerequisites": null,
+    "sprite_key": "galar-champion-ribbon",
+    "sort_order": 6
+  },
+  {
+    "name": "Paldea Champion Ribbon",
+    "category": "champion",
+    "how_to_obtain": "Defeat the Paldea Champion in Scarlet or Violet",
+    "games": ["Scarlet", "Violet"],
+    "prerequisites": null,
+    "sprite_key": "paldea-champion-ribbon",
+    "sort_order": 7
+  },
+  {
+    "name": "Cool Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Cool contest (Normal Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "cool-ribbon",
+    "sort_order": 101
+  },
+  {
+    "name": "Cool Super Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Cool contest (Super Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "cool-super-ribbon",
+    "sort_order": 102
+  },
+  {
+    "name": "Cool Hyper Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Cool contest (Hyper Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "cool-hyper-ribbon",
+    "sort_order": 103
+  },
+  {
+    "name": "Cool Master Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Cool contest (Master Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "cool-master-ribbon",
+    "sort_order": 104
+  },
+  {
+    "name": "Beauty Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Beauty contest (Normal Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "beauty-ribbon",
+    "sort_order": 105
+  },
+  {
+    "name": "Beauty Super Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Beauty contest (Super Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "beauty-super-ribbon",
+    "sort_order": 106
+  },
+  {
+    "name": "Beauty Hyper Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Beauty contest (Hyper Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "beauty-hyper-ribbon",
+    "sort_order": 107
+  },
+  {
+    "name": "Beauty Master Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Beauty contest (Master Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "beauty-master-ribbon",
+    "sort_order": 108
+  },
+  {
+    "name": "Cute Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Cute contest (Normal Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "cute-ribbon",
+    "sort_order": 109
+  },
+  {
+    "name": "Cute Super Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Cute contest (Super Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "cute-super-ribbon",
+    "sort_order": 110
+  },
+  {
+    "name": "Cute Hyper Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Cute contest (Hyper Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "cute-hyper-ribbon",
+    "sort_order": 111
+  },
+  {
+    "name": "Cute Master Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Cute contest (Master Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "cute-master-ribbon",
+    "sort_order": 112
+  },
+  {
+    "name": "Smart Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Smart contest (Normal Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "smart-ribbon",
+    "sort_order": 113
+  },
+  {
+    "name": "Smart Super Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Smart contest (Super Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "smart-super-ribbon",
+    "sort_order": 114
+  },
+  {
+    "name": "Smart Hyper Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Smart contest (Hyper Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "smart-hyper-ribbon",
+    "sort_order": 115
+  },
+  {
+    "name": "Smart Master Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Smart contest (Master Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "smart-master-ribbon",
+    "sort_order": 116
+  },
+  {
+    "name": "Tough Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Tough contest (Normal Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "tough-ribbon",
+    "sort_order": 117
+  },
+  {
+    "name": "Tough Super Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Tough contest (Super Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "tough-super-ribbon",
+    "sort_order": 118
+  },
+  {
+    "name": "Tough Hyper Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Tough contest (Hyper Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "tough-hyper-ribbon",
+    "sort_order": 119
+  },
+  {
+    "name": "Tough Master Ribbon",
+    "category": "contest-deprecated-gen3",
+    "how_to_obtain": "Win the Tough contest (Master Rank) in Ruby, Sapphire, Emerald, Colosseum, or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "tough-master-ribbon",
+    "sort_order": 120
+  },
+  {
+    "name": "Cool Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Cool contest (Normal Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "cool-ribbon-gen4",
+    "sort_order": 201
+  },
+  {
+    "name": "Cool Great Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Cool contest (Great Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "cool-great-ribbon",
+    "sort_order": 202
+  },
+  {
+    "name": "Cool Ultra Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Cool contest (Ultra Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "cool-ultra-ribbon",
+    "sort_order": 203
+  },
+  {
+    "name": "Cool Master Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Cool contest (Master Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "cool-master-ribbon-gen4",
+    "sort_order": 204
+  },
+  {
+    "name": "Beauty Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Beauty contest (Normal Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "beauty-ribbon-gen4",
+    "sort_order": 205
+  },
+  {
+    "name": "Beauty Great Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Beauty contest (Great Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "beauty-great-ribbon",
+    "sort_order": 206
+  },
+  {
+    "name": "Beauty Ultra Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Beauty contest (Ultra Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "beauty-ultra-ribbon",
+    "sort_order": 207
+  },
+  {
+    "name": "Beauty Master Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Beauty contest (Master Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "beauty-master-ribbon-gen4",
+    "sort_order": 208
+  },
+  {
+    "name": "Cute Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Cute contest (Normal Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "cute-ribbon-gen4",
+    "sort_order": 209
+  },
+  {
+    "name": "Cute Great Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Cute contest (Great Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "cute-great-ribbon",
+    "sort_order": 210
+  },
+  {
+    "name": "Cute Ultra Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Cute contest (Ultra Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "cute-ultra-ribbon",
+    "sort_order": 211
+  },
+  {
+    "name": "Cute Master Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Cute contest (Master Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "cute-master-ribbon-gen4",
+    "sort_order": 212
+  },
+  {
+    "name": "Smart Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Smart contest (Normal Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "smart-ribbon-gen4",
+    "sort_order": 213
+  },
+  {
+    "name": "Smart Great Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Smart contest (Great Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "smart-great-ribbon",
+    "sort_order": 214
+  },
+  {
+    "name": "Smart Ultra Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Smart contest (Ultra Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "smart-ultra-ribbon",
+    "sort_order": 215
+  },
+  {
+    "name": "Smart Master Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Smart contest (Master Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "smart-master-ribbon-gen4",
+    "sort_order": 216
+  },
+  {
+    "name": "Tough Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Tough contest (Normal Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "tough-ribbon-gen4",
+    "sort_order": 217
+  },
+  {
+    "name": "Tough Great Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Tough contest (Great Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "tough-great-ribbon",
+    "sort_order": 218
+  },
+  {
+    "name": "Tough Ultra Ribbon",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Tough contest (Ultra Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "tough-ultra-ribbon",
+    "sort_order": 219
+  },
+  {
+    "name": "Tough Master Ribbon (Gen IV)",
+    "category": "contest-deprecated-gen4",
+    "how_to_obtain": "Win the Tough contest (Master Rank) in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "tough-master-ribbon-gen4",
+    "sort_order": 220
+  },
+  {
+    "name": "Contest Memory Ribbon (Blue)",
+    "category": "contest",
+    "how_to_obtain": "Transferred to a game that doesn't support Gen III contests; records past Gen III contest wins",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Brilliant Diamond", "Shining Pearl"],
+    "prerequisites": null,
+    "sprite_key": "contest-memory-ribbon-blue",
+    "sort_order": 301
+  },
+  {
+    "name": "Contest Memory Ribbon (Gold)",
+    "category": "contest",
+    "how_to_obtain": "Awarded when a Pokemon has all 20 Gen III contest ribbons and is transferred forward",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Brilliant Diamond", "Shining Pearl"],
+    "prerequisites": null,
+    "sprite_key": "contest-memory-ribbon-gold",
+    "sort_order": 302
+  },
+  {
+    "name": "Artist Ribbon",
+    "category": "contest",
+    "how_to_obtain": "Win the Master Rank Cool contest and have your Pokemon's picture taken in Ruby, Sapphire, or Emerald",
+    "games": ["Ruby", "Sapphire", "Emerald"],
+    "prerequisites": null,
+    "sprite_key": "artist-ribbon",
+    "sort_order": 303
+  },
+  {
+    "name": "Coolness Master Ribbon",
+    "category": "contest",
+    "how_to_obtain": "Win the Master Rank Cool contest in Omega Ruby, Alpha Sapphire, or Brilliant Diamond/Shining Pearl",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Brilliant Diamond", "Shining Pearl"],
+    "prerequisites": null,
+    "sprite_key": "coolness-master-ribbon",
+    "sort_order": 304
+  },
+  {
+    "name": "Beauty Master Ribbon (Contest)",
+    "category": "contest",
+    "how_to_obtain": "Win the Master Rank Beauty contest in Omega Ruby, Alpha Sapphire, or Brilliant Diamond/Shining Pearl",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Brilliant Diamond", "Shining Pearl"],
+    "prerequisites": null,
+    "sprite_key": "beauty-master-ribbon-contest",
+    "sort_order": 305
+  },
+  {
+    "name": "Cuteness Master Ribbon",
+    "category": "contest",
+    "how_to_obtain": "Win the Master Rank Cute contest in Omega Ruby, Alpha Sapphire, or Brilliant Diamond/Shining Pearl",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Brilliant Diamond", "Shining Pearl"],
+    "prerequisites": null,
+    "sprite_key": "cuteness-master-ribbon",
+    "sort_order": 306
+  },
+  {
+    "name": "Cleverness Master Ribbon",
+    "category": "contest",
+    "how_to_obtain": "Win the Master Rank Smart contest in Omega Ruby, Alpha Sapphire, or Brilliant Diamond/Shining Pearl",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Brilliant Diamond", "Shining Pearl"],
+    "prerequisites": null,
+    "sprite_key": "cleverness-master-ribbon",
+    "sort_order": 307
+  },
+  {
+    "name": "Toughness Master Ribbon",
+    "category": "contest",
+    "how_to_obtain": "Win the Master Rank Tough contest in Omega Ruby, Alpha Sapphire, or Brilliant Diamond/Shining Pearl",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Brilliant Diamond", "Shining Pearl"],
+    "prerequisites": null,
+    "sprite_key": "toughness-master-ribbon",
+    "sort_order": 308
+  },
+  {
+    "name": "Contest Star Ribbon",
+    "category": "contest",
+    "how_to_obtain": "Win a contest in Scarlet or Violet",
+    "games": ["Scarlet", "Violet"],
+    "prerequisites": null,
+    "sprite_key": "contest-star-ribbon",
+    "sort_order": 309
+  },
+  {
+    "name": "Twinkling Star Ribbon",
+    "category": "contest",
+    "how_to_obtain": "Win all contest categories in Scarlet or Violet",
+    "games": ["Scarlet", "Violet"],
+    "prerequisites": null,
+    "sprite_key": "twinkling-star-ribbon",
+    "sort_order": 310
+  },
+  {
+    "name": "Winning Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win the Battle Tower (Lv. 50) in Ruby, Sapphire, or Emerald",
+    "games": ["Ruby", "Sapphire", "Emerald"],
+    "prerequisites": null,
+    "sprite_key": "winning-ribbon",
+    "sort_order": 401
+  },
+  {
+    "name": "Victory Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win the Battle Tower (Lv. 100) in Ruby, Sapphire, or Emerald, or win in Colosseum or XD",
+    "games": ["Ruby", "Sapphire", "Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "victory-ribbon",
+    "sort_order": 402
+  },
+  {
+    "name": "Ability Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win the Battle Tower (Single, Lv. 50) in Emerald, Colosseum, or XD",
+    "games": ["Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "ability-ribbon",
+    "sort_order": 403
+  },
+  {
+    "name": "Great Ability Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win the Battle Tower (Single, Lv. 100) in Emerald, Colosseum, or XD",
+    "games": ["Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "great-ability-ribbon",
+    "sort_order": 404
+  },
+  {
+    "name": "Double Ability Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win the Battle Tower (Double, Lv. 50) in Emerald, Colosseum, or XD",
+    "games": ["Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "double-ability-ribbon",
+    "sort_order": 405
+  },
+  {
+    "name": "Multi Ability Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win the Battle Tower (Multi, Lv. 50) in Emerald, Colosseum, or XD",
+    "games": ["Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "multi-ability-ribbon",
+    "sort_order": 406
+  },
+  {
+    "name": "Pair Ability Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win the Battle Tower (Link Multi, Lv. 50) in Emerald, Colosseum, or XD",
+    "games": ["Emerald", "Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "pair-ability-ribbon",
+    "sort_order": 407
+  },
+  {
+    "name": "Battle Memory Ribbon (Blue)",
+    "category": "battle-facility",
+    "how_to_obtain": "Transferred to a game that doesn't support Gen III battle facilities; records past battle wins",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Brilliant Diamond", "Shining Pearl"],
+    "prerequisites": null,
+    "sprite_key": "battle-memory-ribbon-blue",
+    "sort_order": 408
+  },
+  {
+    "name": "Battle Memory Ribbon (Gold)",
+    "category": "battle-facility",
+    "how_to_obtain": "Awarded when a Pokemon has all 7 Gen III battle facility ribbons and is transferred forward",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Brilliant Diamond", "Shining Pearl"],
+    "prerequisites": null,
+    "sprite_key": "battle-memory-ribbon-gold",
+    "sort_order": 409
+  },
+  {
+    "name": "Skilful Battler Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win 20 consecutive battles in the Battle Tree in Sun, Moon, Ultra Sun, or Ultra Moon",
+    "games": ["Sun", "Moon", "Ultra Sun", "Ultra Moon"],
+    "prerequisites": null,
+    "sprite_key": "skilful-battler-ribbon",
+    "sort_order": 410
+  },
+  {
+    "name": "Expert Battler Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win 50 consecutive battles in the Battle Tree in Sun, Moon, Ultra Sun, or Ultra Moon",
+    "games": ["Sun", "Moon", "Ultra Sun", "Ultra Moon"],
+    "prerequisites": null,
+    "sprite_key": "expert-battler-ribbon",
+    "sort_order": 411
+  },
+  {
+    "name": "Battle Royal Master Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win 50 consecutive Battle Royal battles in Sun, Moon, Ultra Sun, or Ultra Moon",
+    "games": ["Sun", "Moon", "Ultra Sun", "Ultra Moon"],
+    "prerequisites": null,
+    "sprite_key": "battle-royal-master-ribbon",
+    "sort_order": 412
+  },
+  {
+    "name": "Battle Tree Great Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Defeat a Battle Legend in the Battle Tree in Sun, Moon, Ultra Sun, or Ultra Moon",
+    "games": ["Sun", "Moon", "Ultra Sun", "Ultra Moon"],
+    "prerequisites": null,
+    "sprite_key": "battle-tree-great-ribbon",
+    "sort_order": 413
+  },
+  {
+    "name": "Battle Tree Master Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Defeat all Battle Legends in the Battle Tree in Sun, Moon, Ultra Sun, or Ultra Moon",
+    "games": ["Sun", "Moon", "Ultra Sun", "Ultra Moon"],
+    "prerequisites": null,
+    "sprite_key": "battle-tree-master-ribbon",
+    "sort_order": 414
+  },
+  {
+    "name": "Tower Master Ribbon",
+    "category": "battle-facility",
+    "how_to_obtain": "Win the Battle Tower in Sword or Shield",
+    "games": ["Sword", "Shield"],
+    "prerequisites": null,
+    "sprite_key": "tower-master-ribbon",
+    "sort_order": 415
+  },
+  {
+    "name": "Alert Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from an in-game NPC for a memorable event in Colosseum or XD",
+    "games": ["Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "alert-ribbon",
+    "sort_order": 501
+  },
+  {
+    "name": "Shock Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from an in-game NPC for a memorable event in Colosseum or XD",
+    "games": ["Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "shock-ribbon",
+    "sort_order": 502
+  },
+  {
+    "name": "Downcast Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from an in-game NPC for a memorable event in Colosseum or XD",
+    "games": ["Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "downcast-ribbon",
+    "sort_order": 503
+  },
+  {
+    "name": "Careless Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from an in-game NPC for a memorable event in Colosseum or XD",
+    "games": ["Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "careless-ribbon",
+    "sort_order": 504
+  },
+  {
+    "name": "Relax Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from an in-game NPC for a memorable event in Colosseum or XD",
+    "games": ["Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "relax-ribbon",
+    "sort_order": 505
+  },
+  {
+    "name": "Snooze Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from an in-game NPC for a memorable event in Colosseum or XD",
+    "games": ["Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "snooze-ribbon",
+    "sort_order": 506
+  },
+  {
+    "name": "Smile Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from an in-game NPC for a memorable event in Colosseum or XD",
+    "games": ["Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "smile-ribbon",
+    "sort_order": 507
+  },
+  {
+    "name": "Gorgeous Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Buy from a vendor for 10,000 Poke in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "gorgeous-ribbon",
+    "sort_order": 508
+  },
+  {
+    "name": "Royal Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Buy from a vendor for 100,000 Poke in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "royal-ribbon",
+    "sort_order": 509
+  },
+  {
+    "name": "Gorgeous Royal Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Buy from a vendor for 999,999 Poke in Diamond, Pearl, or Platinum",
+    "games": ["Diamond", "Pearl", "Platinum"],
+    "prerequisites": null,
+    "sprite_key": "gorgeous-royal-ribbon",
+    "sort_order": 510
+  },
+  {
+    "name": "Footprint Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Raise a Pokemon's friendship to max and show it to the Footprint Man in Diamond, Pearl, Platinum, or HeartGold/SoulSilver",
+    "games": ["Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver"],
+    "prerequisites": null,
+    "sprite_key": "footprint-ribbon",
+    "sort_order": 511
+  },
+  {
+    "name": "Effort Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Max out a Pokemon's Effort Values (510 EVs total) and show it to a specific NPC",
+    "games": ["Ruby", "Sapphire", "Emerald", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Scarlet", "Violet"],
+    "prerequisites": null,
+    "sprite_key": "effort-ribbon",
+    "sort_order": 512
+  },
+  {
+    "name": "Best Friends Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Max out a Pokemon's friendship and show it to a specific NPC (Gen 6+)",
+    "games": ["X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Scarlet", "Violet"],
+    "prerequisites": null,
+    "sprite_key": "best-friends-ribbon",
+    "sort_order": 513
+  },
+  {
+    "name": "Training Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Max out a Pokemon's base stats through Super Training or Hyper Training (Gen 6+)",
+    "games": ["X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Scarlet", "Violet"],
+    "prerequisites": null,
+    "sprite_key": "training-ribbon",
+    "sort_order": 514
+  },
+  {
+    "name": "Legend Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from a special in-game event for legendary Pokemon in Omega Ruby, Alpha Sapphire, Sun, Moon, Ultra Sun, or Ultra Moon",
+    "games": ["Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon"],
+    "prerequisites": null,
+    "sprite_key": "legend-ribbon",
+    "sort_order": 515
+  },
+  {
+    "name": "Master Rank Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Reach Master Rank in the Battle Stadium in Sword, Shield, Scarlet, or Violet",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "prerequisites": null,
+    "sprite_key": "master-rank-ribbon",
+    "sort_order": 516
+  },
+  {
+    "name": "Hisui Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from a research task in Pokemon Legends: Arceus",
+    "games": ["Legends: Arceus"],
+    "prerequisites": null,
+    "sprite_key": "hisui-ribbon",
+    "sort_order": 517
+  },
+  {
+    "name": "Once-in-a-Lifetime Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained from a special event in Scarlet or Violet",
+    "games": ["Scarlet", "Violet"],
+    "prerequisites": null,
+    "sprite_key": "once-in-a-lifetime-ribbon",
+    "sort_order": 518
+  },
+  {
+    "name": "Partner Ribbon",
+    "category": "miscellaneous",
+    "how_to_obtain": "Obtained in Pokemon Legends: Arceus for bonding with your starter partner",
+    "games": ["Legends: Arceus"],
+    "prerequisites": null,
+    "sprite_key": "partner-ribbon",
+    "sort_order": 519
+  },
+  {
+    "name": "National Ribbon",
+    "category": "colosseum-xd",
+    "how_to_obtain": "Purify all Shadow Pokemon in Colosseum",
+    "games": ["Colosseum"],
+    "prerequisites": null,
+    "sprite_key": "national-ribbon",
+    "sort_order": 601
+  },
+  {
+    "name": "Earth Ribbon",
+    "category": "colosseum-xd",
+    "how_to_obtain": "Defeat Mt. Battle (100 consecutive battles) in Colosseum or XD",
+    "games": ["Colosseum", "XD"],
+    "prerequisites": null,
+    "sprite_key": "earth-ribbon",
+    "sort_order": 602
+  }
+]

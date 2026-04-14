@@ -1,0 +1,982 @@
+[
+  {
+    "species_id": 494,
+    "form": 0,
+    "game": "Black"
+  },
+  {
+    "species_id": 494,
+    "form": 0,
+    "game": "White"
+  },
+  {
+    "species_id": 570,
+    "form": 0,
+    "game": "Black"
+  },
+  {
+    "species_id": 570,
+    "form": 0,
+    "game": "White"
+  },
+  {
+    "species_id": 571,
+    "form": 0,
+    "game": "Black"
+  },
+  {
+    "species_id": 571,
+    "form": 0,
+    "game": "White"
+  },
+  {
+    "species_id": 643,
+    "form": 0,
+    "game": "Black"
+  },
+  {
+    "species_id": 644,
+    "form": 0,
+    "game": "White"
+  },
+  {
+    "species_id": 643,
+    "form": 0,
+    "game": "White 2"
+  },
+  {
+    "species_id": 644,
+    "form": 0,
+    "game": "Black 2"
+  },
+  {
+    "species_id": 716,
+    "form": 0,
+    "game": "X"
+  },
+  {
+    "species_id": 717,
+    "form": 0,
+    "game": "Y"
+  },
+  {
+    "species_id": 718,
+    "form": 0,
+    "game": "X"
+  },
+  {
+    "species_id": 718,
+    "form": 0,
+    "game": "Y"
+  },
+  {
+    "species_id": 150,
+    "form": 0,
+    "game": "X"
+  },
+  {
+    "species_id": 150,
+    "form": 0,
+    "game": "Y"
+  },
+  {
+    "species_id": 144,
+    "form": 0,
+    "game": "X"
+  },
+  {
+    "species_id": 144,
+    "form": 0,
+    "game": "Y"
+  },
+  {
+    "species_id": 145,
+    "form": 0,
+    "game": "X"
+  },
+  {
+    "species_id": 145,
+    "form": 0,
+    "game": "Y"
+  },
+  {
+    "species_id": 146,
+    "form": 0,
+    "game": "X"
+  },
+  {
+    "species_id": 146,
+    "form": 0,
+    "game": "Y"
+  },
+  {
+    "species_id": 382,
+    "form": 0,
+    "game": "Alpha Sapphire"
+  },
+  {
+    "species_id": 383,
+    "form": 0,
+    "game": "Omega Ruby"
+  },
+  {
+    "species_id": 384,
+    "form": 0,
+    "game": "Omega Ruby"
+  },
+  {
+    "species_id": 384,
+    "form": 0,
+    "game": "Alpha Sapphire"
+  },
+  {
+    "species_id": 386,
+    "form": 0,
+    "game": "Omega Ruby"
+  },
+  {
+    "species_id": 386,
+    "form": 0,
+    "game": "Alpha Sapphire"
+  },
+  {
+    "species_id": 785,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 785,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 786,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 786,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 787,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 787,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 788,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 788,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 789,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 789,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 791,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 792,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 800,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 800,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 793,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 793,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 794,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 795,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 796,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 796,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 797,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 798,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 799,
+    "form": 0,
+    "game": "Sun"
+  },
+  {
+    "species_id": 799,
+    "form": 0,
+    "game": "Moon"
+  },
+  {
+    "species_id": 785,
+    "form": 0,
+    "game": "Ultra Sun"
+  },
+  {
+    "species_id": 785,
+    "form": 0,
+    "game": "Ultra Moon"
+  },
+  {
+    "species_id": 786,
+    "form": 0,
+    "game": "Ultra Sun"
+  },
+  {
+    "species_id": 786,
+    "form": 0,
+    "game": "Ultra Moon"
+  },
+  {
+    "species_id": 787,
+    "form": 0,
+    "game": "Ultra Sun"
+  },
+  {
+    "species_id": 787,
+    "form": 0,
+    "game": "Ultra Moon"
+  },
+  {
+    "species_id": 788,
+    "form": 0,
+    "game": "Ultra Sun"
+  },
+  {
+    "species_id": 788,
+    "form": 0,
+    "game": "Ultra Moon"
+  },
+  {
+    "species_id": 789,
+    "form": 0,
+    "game": "Ultra Sun"
+  },
+  {
+    "species_id": 789,
+    "form": 0,
+    "game": "Ultra Moon"
+  },
+  {
+    "species_id": 791,
+    "form": 0,
+    "game": "Ultra Sun"
+  },
+  {
+    "species_id": 791,
+    "form": 0,
+    "game": "Ultra Moon"
+  },
+  {
+    "species_id": 792,
+    "form": 0,
+    "game": "Ultra Sun"
+  },
+  {
+    "species_id": 792,
+    "form": 0,
+    "game": "Ultra Moon"
+  },
+  {
+    "species_id": 800,
+    "form": 0,
+    "game": "Ultra Sun"
+  },
+  {
+    "species_id": 800,
+    "form": 0,
+    "game": "Ultra Moon"
+  },
+  {
+    "species_id": 718,
+    "form": 0,
+    "game": "Ultra Sun"
+  },
+  {
+    "species_id": 718,
+    "form": 0,
+    "game": "Ultra Moon"
+  },
+  {
+    "species_id": 25,
+    "form": 0,
+    "game": "Let's Go Pikachu"
+  },
+  {
+    "species_id": 133,
+    "form": 0,
+    "game": "Let's Go Eevee"
+  },
+  {
+    "species_id": 810,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 810,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 813,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 813,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 816,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 816,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 772,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 772,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 848,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 848,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 891,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 891,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 888,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 888,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 889,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 889,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 890,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 890,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 896,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 896,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 897,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 897,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 898,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 898,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 789,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 789,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 494,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 494,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 647,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 647,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 803,
+    "form": 0,
+    "game": "Sword"
+  },
+  {
+    "species_id": 803,
+    "form": 0,
+    "game": "Shield"
+  },
+  {
+    "species_id": 151,
+    "form": 0,
+    "game": "Brilliant Diamond"
+  },
+  {
+    "species_id": 151,
+    "form": 0,
+    "game": "Shining Pearl"
+  },
+  {
+    "species_id": 385,
+    "form": 0,
+    "game": "Brilliant Diamond"
+  },
+  {
+    "species_id": 385,
+    "form": 0,
+    "game": "Shining Pearl"
+  },
+  {
+    "species_id": 906,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 906,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 909,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 909,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 912,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 912,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1001,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1001,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1002,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1002,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1003,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1003,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1004,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1004,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1007,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1008,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 999,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 999,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1017,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1017,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1014,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1014,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1015,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1015,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1016,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1016,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1024,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1024,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1025,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1025,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1020,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1021,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 1022,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 1023,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 648,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 648,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 144,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 144,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 145,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 145,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 146,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 146,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 243,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 243,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 244,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 244,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 245,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 245,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 249,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 249,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 250,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 250,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 380,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 380,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 381,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 381,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 382,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 382,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 383,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 383,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 384,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 384,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 638,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 638,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 639,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 639,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 640,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 640,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 643,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 643,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 644,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 644,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 646,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 646,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 791,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 791,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 792,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 792,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 800,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 800,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 891,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 891,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 896,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 896,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 897,
+    "form": 0,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 897,
+    "form": 0,
+    "game": "Violet"
+  },
+  {
+    "species_id": 901,
+    "form": 1,
+    "game": "Scarlet"
+  },
+  {
+    "species_id": 901,
+    "form": 1,
+    "game": "Violet"
+  }
+]

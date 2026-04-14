@@ -20,6 +20,11 @@ setLogJson(LOG_JSON);
 // Initialize paths BEFORE any module that reads them (db.ts, routes, services)
 initPaths({ dataDir: args['data-dir'], resourcesDir: args['resources-dir'] });
 
+// Initialize config service — creates config.json with defaults if missing.
+// Loaded dynamically so it only evaluates after initPaths has set the data dir.
+const { initConfig } = await import('./services/config.js');
+initConfig();
+
 // ── Dynamic imports (must come after initPaths) ─────────────────
 const { default: db } = await import('./db.js');
 const { default: express } = await import('express');
@@ -42,12 +47,15 @@ const { default: launcherRouter } = await import('./routes/launcher.js');
 const { default: streamRouter } = await import('./routes/stream.js');
 const { default: flagRoutes } = await import('./routes/flags.js');
 const { default: timelineRouter } = await import('./routes/timeline.js');
+const { default: configRouter } = await import('./routes/config.js');
+const { default: dependenciesRouter } = await import('./routes/dependencies.js');
+const { default: systemRouter } = await import('./routes/system.js');
 const { seedShinyAvailability } = await import('./shiny-availability.js');
 const { seedGuide } = await import('./seeds/seedGuide.js');
 const { seedRibbons, seedMarks, seedBalls, seedForms, seedShinyMethods, seedLegality } = await import('./seed-reference.js');
 const { seedLookupTables } = await import('./seed-moves.js');
-const { runCompletionScan } = await import('./services/completionPipeline.js');
 const { syncSaves } = await import('./services/syncSaves.js');
+const { reconcileTipsInclusion } = await import('./services/identityService.js');
 const { rebuildSnapshots } = await import('./services/saveSnapshot.js');
 const { startRelay, stopRelay, onRelayInput } = await import('./services/mediamtxManager.js');
 const { killAll: killAllProcesses, registeredCount } = await import('./services/processRegistry.js');
@@ -69,6 +77,13 @@ app.use(express.json());
 
 runMigrations(db);
 
+// Initialize dependency service — requires DB schema from runMigrations.
+// Eager loadManifest fails fast on missing/malformed manifest JSON.
+const { cleanupTempInstalls, loadManifest, detectMismatches } = await import('./services/dependencies.js');
+cleanupTempInstalls();
+loadManifest();
+detectMismatches();
+
 // Disable FK checks during seeding — species table populated async from PokeAPI
 db.exec('PRAGMA foreign_keys = OFF');
 seedShinyAvailability();
@@ -85,16 +100,24 @@ db.exec('CREATE TABLE IF NOT EXISTS move_names (id INTEGER PRIMARY KEY, name TEX
 db.exec('CREATE TABLE IF NOT EXISTS ability_names (id INTEGER PRIMARY KEY, name TEXT NOT NULL)');
 seedLookupTables()
   .then(() => {
-    runCompletionScan();
     syncSaves();
     rebuildSnapshots();
+    try {
+      reconcileTipsInclusion();
+    } catch (err) {
+      console.error('reconcileTipsInclusion failed at startup:', err);
+    }
   })
   .catch(err => {
     console.error('seedLookupTables failed:', err);
     // Still run sync even if seed fails — world state extraction doesn't need these tables.
     // Skip rebuildSnapshots: without move/ability names it would cache "move-###" placeholders.
-    runCompletionScan();
     syncSaves();
+    try {
+      reconcileTipsInclusion();
+    } catch (reconcileErr) {
+      console.error('reconcileTipsInclusion failed at startup (post-seed-error):', reconcileErr);
+    }
   });
 
 // Start Pion relay for WebRTC streaming
@@ -130,6 +153,9 @@ app.use('/api/launcher', launcherRouter);
 app.use('/api/stream', streamRouter);
 app.use('/api/flags', flagRoutes);
 app.use('/api/timeline', timelineRouter);
+app.use('/api/config', configRouter);
+app.use('/api/dependencies', dependenciesRouter);
+app.use('/api/system', systemRouter);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });

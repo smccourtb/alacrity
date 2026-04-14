@@ -45,10 +45,10 @@ export default function HuntForm({
   const watchedRomPath = watch('rom_path');
   const watchedSavPath = watch('sav_path');
 
-  // Fetch available ROMs and scripts for pickers
-  const [huntFiles, setHuntFiles] = useState<{ roms: any[]; scripts: any[] }>({ roms: [], scripts: [] });
+  // Fetch available ROMs for pickers
+  const [huntFiles, setHuntFiles] = useState<{ roms: any[] }>({ roms: [] });
   useEffect(() => {
-    api.hunts.files().then(f => setHuntFiles({ roms: f.roms, scripts: f.scripts })).catch(() => {});
+    api.hunts.files().then(f => setHuntFiles({ roms: f.roms })).catch(() => {});
   }, []);
 
   // Daycare info for egg mode

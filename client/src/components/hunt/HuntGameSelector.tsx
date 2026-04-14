@@ -106,28 +106,13 @@ export default function HuntGameSelector({
         )}
       </div>
 
-      {/* Gen 1/2: Engine + Instances + Hunt Mode */}
+      {/* Gen 1/2: Instances + Hunt Mode. The engine was historically selectable
+          between the core C binaries and a Qt/Lua path, but Qt/Lua was dropped
+          during the Tauri migration — the C binaries cover every hunt mode
+          (gift/stationary/wild/egg) and work headlessly across platforms. */}
       {!isThisA3DSGame && (
         <>
           <div className="flex flex-wrap items-center gap-2">
-            <Controller
-              name="engine"
-              control={control}
-              render={({ field }) => (
-                <PillToggle
-                  options={[
-                    { value: 'core', label: 'Core' },
-                    { value: 'qt', label: 'Qt/Lua' },
-                  ]}
-                  value={field.value}
-                  onChange={(v) => {
-                    const engine = v as 'core' | 'qt';
-                    setValue('engine', engine);
-                    setValue('num_instances', engine === 'core' ? 16 : 30);
-                  }}
-                />
-              )}
-            />
             <FormField label="Instances" className="w-20">
               <Controller
                 name="num_instances"
@@ -153,7 +138,7 @@ export default function HuntGameSelector({
               <PillToggle
                 options={[
                   { value: 'gift', label: 'Gift' },
-                  { value: 'battle', label: 'Battle' },
+                  { value: 'battle', label: 'Stationary' },
                   { value: 'wild', label: 'Wild' },
                   { value: 'egg', label: 'Egg' },
                 ]}

@@ -57,6 +57,9 @@ jobs:
           chmod +x src-tauri/binaries/alacrity-server-x86_64-unknown-linux-gnu
           touch data/pokemon.db
           touch scripts/shiny_hunter_core scripts/shiny_hunter_wild scripts/shiny_hunter_egg
+          # libmgba artifacts are gitignored (built per-platform in release.yml);
+          # stub both .so and .dylib for Tauri's resource-existence validation.
+          touch scripts/libmgba.so.0.11 scripts/libmgba.0.11.dylib
 
       - name: cargo check
         working-directory: src-tauri

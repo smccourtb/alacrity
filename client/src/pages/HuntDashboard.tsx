@@ -6,6 +6,7 @@ import { Switch } from '@/components/ui/switch';
 import HuntPanel from '@/components/HuntPanel';
 import HuntForm from '@/components/HuntForm';
 import HuntHistoryList from '@/components/HuntHistoryList';
+import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
 
 interface HuntFormValues {
   target_name: string;
@@ -13,11 +14,10 @@ interface HuntFormValues {
   game: string;
   rom_path: string;
   sav_path: string;
-  lua_script: string;
   hunt_mode: string;
   walk_dir: string;
   num_instances: number;
-  engine: 'core' | 'qt' | 'rng';
+  engine: 'core' | 'rng';
   target_shiny: number;
   target_perfect: number;
   target_gender: string;
@@ -143,7 +143,6 @@ export default function HuntDashboard() {
       game: '',
       rom_path: '',
       sav_path: '',
-      lua_script: '',
       hunt_mode: 'gift',
       walk_dir: 'ns',
       num_instances: 16,
@@ -208,11 +207,9 @@ export default function HuntDashboard() {
     if (!config) return;
     const firstTarget = config.targets[0];
     const mode = firstTarget?.defaultMode || 'gift';
-    const script = config.scripts[mode] || Object.values(config.scripts)[0] || '';
     setValue('game', game);
     setValue('rom_path', config.rom?.path || '');
     setValue('sav_path', config.saves[0]?.path || '');
-    setValue('lua_script', script as string);
     setValue('target_name', firstTarget?.name || '');
     setValue('target_species_id', firstTarget?.species_id || null);
     setValue('hunt_mode', mode);
@@ -232,23 +229,14 @@ export default function HuntDashboard() {
     setCustomTarget(false);
     const targetMeta = gameConfig?.targets.find((t: any) => t.name === target);
     const mode = targetMeta?.defaultMode || getValues('hunt_mode');
-    const script = gameConfig?.scripts[mode] || getValues('lua_script');
     setValue('target_name', target);
     setValue('target_species_id', targetMeta?.species_id || null);
     setValue('hunt_mode', mode);
-    setValue('lua_script', script);
     setValue('target_gender', 'any');
   };
 
   const handleModeChange = (mode: string) => {
-    const script = gameConfig?.scripts[mode] || getValues('lua_script');
     setValue('hunt_mode', mode);
-    setValue('lua_script', script);
-    // Egg hunts require mGBA/Lua — no Core binary exists
-    if (mode === 'egg' && getValues('engine') === 'core') {
-      setValue('engine', 'qt');
-      setValue('num_instances', 30);
-    }
   };
 
   // --- Data fetching ---
@@ -280,8 +268,6 @@ export default function HuntDashboard() {
           }
           if (paramMode) {
             setValue('hunt_mode', paramMode);
-            const script = config.scripts[paramMode];
-            if (script) setValue('lua_script', script);
           }
         }
         // Clear params so they don't re-apply on refresh
@@ -309,11 +295,15 @@ export default function HuntDashboard() {
       const fetchStatus = () => {
         api.hunts.status(hunt.id).then(s => {
           setHuntStatuses(prev => ({ ...prev, [hunt.id]: s }));
-          if (s.hits?.length > 0) {
-            setHunts(prev => prev.map(h =>
-              h.id === hunt.id ? { ...h, status: 'hit', hit_details: JSON.stringify(s.hits) } : h
-            ));
-          }
+          setHunts(prev => prev.map(h => {
+            if (h.id !== hunt.id) return h;
+            const next = { ...h, total_attempts: s.totalAttempts };
+            if (s.hits?.length > 0) {
+              next.status = 'hit';
+              next.hit_details = JSON.stringify(s.hits);
+            }
+            return next;
+          }));
         });
       };
       fetchStatus();
@@ -414,6 +404,10 @@ export default function HuntDashboard() {
         <div className="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
           {/* Left: Form (sticky on desktop) */}
           <div className="lg:self-start lg:sticky lg:top-6">
+            <InlineEmulatorWarning
+              emulatorId="mgba"
+              coreAbiLockMessage="This version of Alacrity's hunt engine requires a specific version of mGBA. The currently installed version may produce incorrect results."
+            />
             <HuntForm
               control={control}
               watch={watch}

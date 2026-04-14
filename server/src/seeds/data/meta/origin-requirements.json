@@ -1,0 +1,158 @@
+[
+  {
+    "species_id": 137,
+    "requirement_type": "tm_move",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Porygon must learn Tri Attack (TM49) — Gen 1 exclusive TM, not available in any later gen",
+    "move_name": "Tri Attack",
+    "priority": "must"
+  },
+  {
+    "species_id": 133,
+    "requirement_type": "event",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Eevee — one-time gift from Celadon Mansion rooftop. Only one per save.",
+    "priority": "must"
+  },
+  {
+    "species_id": 138,
+    "requirement_type": "event",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Omanyte — revive Helix Fossil at Cinnabar Lab. One fossil choice per save (Omanyte OR Kabuto).",
+    "priority": "must"
+  },
+  {
+    "species_id": 140,
+    "requirement_type": "event",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Kabuto — revive Dome Fossil at Cinnabar Lab. One fossil choice per save (Omanyte OR Kabuto).",
+    "priority": "must"
+  },
+  {
+    "species_id": 142,
+    "requirement_type": "event",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Aerodactyl — revive Old Amber at Cinnabar Lab. One per save.",
+    "priority": "must"
+  },
+  {
+    "species_id": 106,
+    "requirement_type": "event",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Hitmonlee — one-time gift at Fighting Dojo. Choose Hitmonlee OR Hitmonchan.",
+    "priority": "must"
+  },
+  {
+    "species_id": 107,
+    "requirement_type": "event",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Hitmonchan — one-time gift at Fighting Dojo. Choose Hitmonlee OR Hitmonchan.",
+    "priority": "must"
+  },
+  {
+    "species_id": 131,
+    "requirement_type": "event",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Lapras — one-time gift in Silph Co. after defeating rival. One per save.",
+    "priority": "must"
+  },
+  {
+    "species_id": 143,
+    "requirement_type": "catch",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Snorlax — two static encounters (Route 12 and Route 16). Requires Poké Flute.",
+    "priority": "must"
+  },
+  {
+    "species_id": 144,
+    "requirement_type": "catch",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Articuno — static encounter in Seafoam Islands. One per save.",
+    "priority": "must"
+  },
+  {
+    "species_id": 145,
+    "requirement_type": "catch",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Zapdos — static encounter at Power Plant. One per save.",
+    "priority": "must"
+  },
+  {
+    "species_id": 146,
+    "requirement_type": "catch",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Moltres — static encounter at Victory Road. One per save.",
+    "priority": "must"
+  },
+  {
+    "species_id": 150,
+    "requirement_type": "catch",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Mewtwo — static encounter in Cerulean Cave (post-game). One per save.",
+    "priority": "must"
+  },
+  {
+    "species_id": 1,
+    "requirement_type": "event",
+    "source_games": ["yellow"],
+    "description": "Bulbasaur — one-time gift from girl in Cerulean City (Yellow only, requires Pikachu happiness).",
+    "priority": "must"
+  },
+  {
+    "species_id": 4,
+    "requirement_type": "event",
+    "source_games": ["yellow"],
+    "description": "Charmander — one-time gift from man on Route 24 (Yellow only).",
+    "priority": "must"
+  },
+  {
+    "species_id": 7,
+    "requirement_type": "event",
+    "source_games": ["yellow"],
+    "description": "Squirtle — one-time gift from Officer Jenny in Vermilion City (Yellow only).",
+    "priority": "must"
+  },
+  {
+    "species_id": 25,
+    "requirement_type": "event",
+    "source_games": ["yellow"],
+    "description": "Pikachu — starter in Yellow. One per save, cannot be released.",
+    "priority": "must"
+  },
+  {
+    "species_id": 122,
+    "requirement_type": "trade_evo",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Mr. Mime — in-game trade for Abra on Route 2 (only way to get Mr. Mime in Gen 1 without link trade).",
+    "priority": "recommended"
+  },
+  {
+    "species_id": 108,
+    "requirement_type": "catch",
+    "source_games": ["red", "blue"],
+    "description": "Lickitung — Red/Blue only via Safari Zone. Not available in Yellow.",
+    "priority": "must"
+  },
+  {
+    "species_id": 124,
+    "requirement_type": "catch",
+    "source_games": ["red", "blue"],
+    "description": "Jynx — in-game trade for Poliwhirl in Cerulean City (Red/Blue). In Yellow, obtainable in Seafoam Islands.",
+    "priority": "recommended"
+  },
+  {
+    "species_id": 128,
+    "requirement_type": "catch",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Tauros — Safari Zone only. Low encounter rate, worth catching multiple for trade fodder.",
+    "priority": "must"
+  },
+  {
+    "species_id": 30,
+    "requirement_type": "tm_move",
+    "source_games": ["red", "blue", "yellow"],
+    "description": "Nidorina can learn TM moves in Gen 1 that she can't in later gens. Teach before evolving/transferring.",
+    "move_name": "Body Slam",
+    "priority": "optional"
+  }
+]

@@ -2,11 +2,13 @@ import { Router } from 'express';
 import { spawn, execSync } from 'child_process';
 import { registerProcess } from '../services/processRegistry.js';
 import { join } from 'path';
-import { readdirSync, readFileSync, watchFile, unwatchFile, existsSync, mkdirSync, symlinkSync, copyFileSync, statSync, rmSync, writeFileSync } from 'fs';
+import { readdirSync, readFileSync, watch, existsSync, mkdirSync, symlinkSync, copyFileSync, statSync, rmSync, writeFileSync, utimesSync, type FSWatcher } from 'fs';
 import { basename, extname } from 'path';
-import { hostname, userInfo } from 'os';
 import db from '../db.js';
 import { paths } from '../paths.js';
+import { getConfig } from '../services/config.js';
+import { resolveEmulatorPath, EmulatorNotInstalledError } from '../services/dependencies.js';
+import { currentOs } from '../services/os-triple.js';
 import { pushTo3DS } from '../services/ftpSync.js';
 import { RNGHuntOrchestrator, type RNGHuntConfig, type HuntProgress } from "../services/rngHuntOrchestrator.js";
 import { NDSRNGHuntOrchestrator, type NDSRNGHuntConfig, type HuntProgress as NDSHuntProgress } from "../services/ndsRngHuntOrchestrator.js";
@@ -22,11 +24,30 @@ const activeRNGHunts = new Map<number, RNGHuntOrchestrator | NDSRNGHuntOrchestra
 
 const HUNTS_DIR = paths.huntsDir;
 const SCRIPTS_DIR = paths.scriptsDir;
-const MGBA = join(process.env.HOME || '', 'mgba', 'build', 'qt', 'mgba-qt');
 const CORE_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_core');
 const WILD_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_wild');
 const EGG_HUNTER  = join(SCRIPTS_DIR, 'shiny_hunter_egg');
-const NTFY_TOPIC = `shiny-farm-${userInfo().username}-${hostname()}`;
+
+/**
+ * Resolve the mGBA binary from emulator_configs at call time. Hunts can't
+ * start without it — throws EmulatorNotInstalledError if not configured.
+ */
+function getMgbaBinary(): string {
+  const row = db.prepare(
+    'SELECT path FROM emulator_configs WHERE id = ? AND os = ?'
+  ).get('mgba', currentOs()) as { path: string } | undefined;
+
+  if (!row || !row.path) {
+    throw new EmulatorNotInstalledError();
+  }
+
+  return resolveEmulatorPath(row.path);
+}
+
+function getNtfyUrl(): string {
+  const c = getConfig();
+  return `${c.ntfyServer}/${c.ntfyTopic}`;
+}
 
 /** Build a human-readable hunt directory name: Game-Target-YYYY-MM-DD[-N] */
 function generateHuntDirName(game: string, target: string): string {
@@ -156,7 +177,7 @@ function genderDvThreshold(genderRate: number): number {
 }
 
 const notifiedHits = new Set<string>();
-const activeWatchers = new Map<number, string[]>(); // huntId → watched file paths
+const activeWatchers = new Map<number, FSWatcher[]>(); // huntId → FSWatcher instances
 
 function killHuntProcesses(huntId: number) {
   const hunt = db.prepare('SELECT hunt_dir FROM hunts WHERE id = ?').get(huntId) as any;
@@ -180,11 +201,63 @@ function cleanupNonHitInstances(hunt: any, hitInstances: Set<string>) {
 }
 
 function stopHuntWatcher(huntId: number) {
-  const paths = activeWatchers.get(huntId);
-  if (paths) {
-    for (const p of paths) unwatchFile(p);
+  const watchers = activeWatchers.get(huntId);
+  if (watchers) {
+    for (const w of watchers) {
+      try { w.close(); } catch {}
+    }
     activeWatchers.delete(huntId);
   }
+}
+
+// Write the archive bundle for a hit instance: base.sav + shiny.ss1 + manifest.json
+// to catches/<game>/<target_huntN_DVs>/. Does not copy catch.sav and does not
+// register in save_files or create a checkpoint — those belong to the user-driven
+// /save-catch and /save-to-library flows. Safe to call multiple times.
+function writeArchiveBundle(hunt: any, instance: string): { catchDir: string; folderName: string; dvStr: string } | null {
+  const huntDir = getHuntDir(hunt);
+  const instDir = join(huntDir, `instance_${instance}`);
+  if (!existsSync(instDir)) return null;
+
+  const stateFiles = readdirSync(instDir).filter((f: string) => f.endsWith('.ss1') && f !== 'rom.ss1');
+  const stateFile = stateFiles[0] || '';
+  const dvMatch = stateFile.match(/A(\d+)_D(\d+)_Sp(\d+)_Sc(\d+)/);
+  const dvStr = dvMatch ? `A${dvMatch[1]}_D${dvMatch[2]}_Sp${dvMatch[3]}_Sc${dvMatch[4]}` : '';
+
+  const game = hunt.game || 'Unknown';
+  const folderName = [hunt.target_name, `hunt${hunt.id}`, dvStr].filter(Boolean).join('_');
+  const catchGameDir = paths.catchGameDir(game);
+  const catchDir = join(catchGameDir, folderName);
+  mkdirSync(catchDir, { recursive: true });
+
+  const baseSavSrc = join(instDir, 'rom.sav');
+  if (existsSync(baseSavSrc)) {
+    copyFileSync(baseSavSrc, join(catchDir, 'base.sav'));
+  }
+  if (stateFile) {
+    copyFileSync(join(instDir, stateFile), join(catchDir, 'shiny.ss1'));
+  }
+
+  // Preserve any catch.sav that was already copied in by a prior run
+  const hasCatchSav = existsSync(join(catchDir, 'catch.sav'));
+
+  const manifest = {
+    game: hunt.game,
+    species: hunt.target_name,
+    species_id: hunt.target_species_id,
+    dvs: dvStr,
+    hunt_id: hunt.id,
+    emulator: hunt.engine,
+    archived_at: new Date().toISOString(),
+    files: {
+      base_save: existsSync(join(catchDir, 'base.sav')) ? 'base.sav' : null,
+      save_state: existsSync(join(catchDir, 'shiny.ss1')) ? 'shiny.ss1' : null,
+      catch_save: hasCatchSav ? 'catch.sav' : null,
+    },
+  };
+  writeFileSync(join(catchDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
+
+  return { catchDir, folderName, dvStr };
 }
 
 function handleHuntHit(huntId: number, targetName: string, hits: { instance: string; attempts: number; details: string }[]) {
@@ -218,6 +291,20 @@ function handleHuntHit(huntId: number, targetName: string, hits: { instance: str
   }
 
   const hitInstanceNums = new Set(hits.map(h => h.instance.replace('#', '')));
+
+  // Write the archive bundle for each hit instance before cleaning up. This is
+  // the system's permanent provenance record and should happen regardless of
+  // whether the user ever opens the workflow.
+  if (hunt) {
+    for (const instance of hitInstanceNums) {
+      try {
+        writeArchiveBundle(hunt, instance);
+      } catch (err) {
+        console.error(`[hunt ${huntId}] archive bundle failed for instance ${instance}:`, err);
+      }
+    }
+  }
+
   cleanupNonHitInstances(hunt, hitInstanceNums);
 }
 
@@ -250,13 +337,17 @@ function startHuntWatcher(huntId: number, targetName: string, hunt: any) {
   stopHuntWatcher(huntId);
 
   const logFiles = readdirSync(logDir).filter(f => f.endsWith('.log'));
-  const watchedPaths: string[] = [];
+  const watchers: FSWatcher[] = [];
 
   for (const f of logFiles) {
     const filePath = join(logDir, f);
     let lastSize = existsSync(filePath) ? readFileSync(filePath, 'utf-8').length : 0;
 
-    watchFile(filePath, { interval: 2000 }, () => {
+    // fs.watch is kqueue/inotify-backed — event-driven, no polling interval.
+    // Replaces an earlier watchFile(interval: 2000) that was lagging badly
+    // inside the compiled Bun sidecar, holding hit detection several seconds
+    // behind the actual log write.
+    const w = watch(filePath, () => {
       try {
         const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId) as any;
         if (!hunt || hunt.status !== 'running') {
@@ -277,16 +368,16 @@ function startHuntWatcher(huntId: number, targetName: string, hunt: any) {
         }
       } catch {}
     });
-    watchedPaths.push(filePath);
+    watchers.push(w);
   }
 
-  activeWatchers.set(huntId, watchedPaths);
-  console.log(`[hunt ${huntId}] Watching ${watchedPaths.length} log files for shiny hits`);
+  activeWatchers.set(huntId, watchers);
+  console.log(`[hunt ${huntId}] Watching ${watchers.length} log files for shiny hits`);
 }
 
 async function ntfyPush(title: string, message: string, priority = 'default', tags = 'pokemon') {
   try {
-    await fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+    await fetch(getNtfyUrl(), {
       method: 'POST',
       headers: { Title: title, Priority: priority, Tags: tags },
       body: message,
@@ -312,11 +403,9 @@ router.get('/', (req, res) => {
 
 // Scan for available ROMs, saves, and lua scripts
 const HOME = process.env.HOME || '';
-const ROM_DIRS = [
-  join(HOME, 'pokemon', 'roms'),
-  join(HOME, 'pokemon', 'saves'),
-  join(HOME, 'pokemon', 'saves', 'catches'),
-];
+function getScanDirs() {
+  return [paths.romsDir, paths.libraryDir, paths.catchesDir];
+}
 const ROM_EXTS = ['.gbc', '.gb', '.gba', '.3ds', '.cia', '.cxi'];
 const SAV_EXTS = ['.sav'];
 
@@ -335,18 +424,6 @@ function scanFiles(dirs: string[], exts: string[]) {
     } catch {}
   }
   return results.sort((a, b) => a.name.localeCompare(b.name));
-}
-
-function scanLuaScripts() {
-  const luaDir = join(SCRIPTS_DIR, 'lua');
-  if (!existsSync(luaDir)) return [];
-  return readdirSync(luaDir)
-    .filter(f => f.endsWith('.lua') && f.includes('shiny_hunt'))
-    .map(f => {
-      const path = join(luaDir, f);
-      const gen = f.includes('gen1') ? 'Gen 1 (R/B/Y)' : f.includes('gen2') ? 'Gen 2 (G/S/C)' : 'Unknown';
-      return { path, name: f, gen };
-    });
 }
 
 router.get('/browse', (req, res) => {
@@ -374,10 +451,10 @@ router.get('/browse', (req, res) => {
 });
 
 router.get('/files', (_req, res) => {
+  const scanDirs = getScanDirs();
   res.json({
-    roms: scanFiles(ROM_DIRS, ROM_EXTS),
-    saves: scanFiles(ROM_DIRS, SAV_EXTS),
-    scripts: scanLuaScripts(),
+    roms: scanFiles(scanDirs, ROM_EXTS),
+    saves: scanFiles(scanDirs, SAV_EXTS),
   });
 });
 
@@ -389,7 +466,6 @@ router.get('/presets', (_req, res) => {
       game: 'Yellow',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Yellow.gbc'),
       sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Yellow.sav'),
-      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen1.lua'),
       hunt_mode: 'gift',
     },
     {
@@ -398,7 +474,6 @@ router.get('/presets', (_req, res) => {
       game: 'Crystal',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
       sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.sav'),
-      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen2.lua'),
       hunt_mode: 'battle',
     },
     {
@@ -407,7 +482,6 @@ router.get('/presets', (_req, res) => {
       game: 'Crystal',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
       sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.sav'),
-      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen2_wild.lua'),
       hunt_mode: 'wild',
       walk_dir: 'ns',
     },
@@ -417,16 +491,15 @@ router.get('/presets', (_req, res) => {
       game: 'Crystal',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
       sav_path: join(HOME, 'pokemon', 'saves', 'library', 'Crystal', 'egg-hunt-base.sav'),
-      lua_script: join(SCRIPTS_DIR, 'lua', 'shiny_hunt_gen2_egg.lua'),
       hunt_mode: 'egg',
     },
   ]);
 });
 
 router.get('/game-configs', (_req, res) => {
-  const roms = scanFiles(ROM_DIRS, ROM_EXTS);
-  const saves = scanFiles(ROM_DIRS, SAV_EXTS);
-  const scripts = scanLuaScripts();
+  const scanDirs = getScanDirs();
+  const roms = scanFiles(scanDirs, ROM_EXTS);
+  const saves = scanFiles(scanDirs, SAV_EXTS);
 
   const configs = Object.entries(GAME_METADATA).map(([game, meta]) => {
     const rom = roms.find(r => meta.romPattern.test(r.name)) || null;
@@ -434,23 +507,6 @@ router.get('/game-configs', (_req, res) => {
     const gameSaves = romBase
       ? saves.filter(s => s.name.replace(/\.sav$/i, '') === romBase)
       : [];
-
-    // Map hunt modes to lua scripts based on gen
-    const gameScripts: Record<string, string> = {};
-    for (const s of scripts) {
-      if (meta.gen === 1 && s.name.includes('gen1')) {
-        gameScripts['gift'] = s.path;
-      } else if (meta.gen === 2 && s.name.includes('gen2')) {
-        if (s.name.includes('egg')) {
-          gameScripts['egg'] = s.path;
-        } else if (s.name.includes('wild')) {
-          gameScripts['wild'] = s.path;
-        } else {
-          gameScripts['gift'] = s.path;
-          gameScripts['battle'] = s.path;
-        }
-      }
-    }
 
     const targets = getTargetsForGame(game, meta.gen);
 
@@ -460,7 +516,6 @@ router.get('/game-configs', (_req, res) => {
       rom: rom ? { path: rom.path, name: rom.name } : null,
       saves: gameSaves.map(s => ({ path: s.path, name: s.name })),
       targets,
-      scripts: gameScripts,
     };
   });
 
@@ -510,21 +565,19 @@ router.get("/encounter-types/:game", (req, res) => {
 });
 
 function spawnHuntProcesses(huntId: number, hunt: any) {
-  const { rom_path, sav_path, lua_script, num_instances, engine, hunt_mode, walk_dir, target_name } = hunt;
-  const useCore = engine === 'core';
+  const { rom_path, sav_path, num_instances, hunt_mode, walk_dir, target_name } = hunt;
   const isWild = hunt_mode === 'wild';
+  const isEgg = hunt_mode === 'egg';
   const huntDir = getHuntDir(hunt);
   const logDir = join(huntDir, 'logs');
   const instances = num_instances;
 
-  // Compute gender DV threshold from species data
-  let genderThreshold = -2; // default: no gender check
+  let genderThreshold = -2;
   if (hunt.target_species_id) {
     const species = db.prepare('SELECT gender_rate FROM species WHERE id = ?').get(hunt.target_species_id) as any;
     if (species) genderThreshold = genderDvThreshold(species.gender_rate);
   }
 
-  // Condition env vars shared by both core and qt engines
   const conditionEnv = {
     TARGET_SHINY: String(hunt.target_shiny ?? 1),
     TARGET_PERFECT: String(hunt.target_perfect ?? 0),
@@ -536,49 +589,26 @@ function spawnHuntProcesses(huntId: number, hunt: any) {
     MIN_SPC: String(hunt.min_spc ?? 0),
   };
 
+  const binary = isEgg ? EGG_HUNTER : isWild ? WILD_HUNTER : CORE_HUNTER;
+
   for (let i = 1; i <= instances; i++) {
     const instDir = join(huntDir, `instance_${i}`);
     const logFile = join(logDir, `instance_${i}.log`);
+    const args = isWild
+      ? [String(i), rom_path, sav_path, logFile, instDir, target_name, walk_dir || 'ns']
+      : [String(i), rom_path, sav_path, logFile, instDir];
 
-    if (useCore) {
-      const isEgg = hunt_mode === 'egg';
-      const binary = isEgg ? EGG_HUNTER : isWild ? WILD_HUNTER : CORE_HUNTER;
-      const args = isWild
-        ? [String(i), rom_path, sav_path, logFile, instDir, target_name, walk_dir || 'ns']
-        : [String(i), rom_path, sav_path, logFile, instDir];
-
-      const child = spawn(binary, args, {
-        env: { ...process.env, ...conditionEnv },
-        stdio: 'ignore',
-        detached: true,
-      });
-      registerProcess(child, `Hunt-core[${huntId}:${i}]`);
-    } else {
-      const child = spawn(MGBA, [
-        join(instDir, 'rom.gbc'),
-        '--script', lua_script,
-        '-C', 'fpsTarget=600000'
-      ], {
-        env: {
-          ...process.env,
-          QT_QPA_PLATFORM: 'offscreen',
-          MGBA_LOG_FILE: logFile,
-          INSTANCE_ID: String(i),
-          HUNT_MODE: hunt_mode || 'gift',
-          TARGET_SPECIES: target_name,
-          WALK_DIR: walk_dir || 'ns',
-          ...conditionEnv,
-        },
-        stdio: 'ignore',
-        detached: true,
-      });
-      registerProcess(child, `Hunt-mGBA[${huntId}:${i}]`);
-    }
+    const child = spawn(binary, args, {
+      env: { ...process.env, ...conditionEnv },
+      stdio: 'ignore',
+      detached: true,
+    });
+    registerProcess(child, `Hunt-core[${huntId}:${i}]`);
   }
 }
 
 router.post('/', (req, res) => {
-  const { target_name, target_species_id, game, rom_path, sav_path, lua_script, num_instances, hunt_mode, engine, walk_dir,
+  const { target_name, target_species_id, game, rom_path, sav_path, num_instances, hunt_mode, engine, walk_dir,
     target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc,
     encounter_type, target_nature, target_ability, target_ivs,
     perfect_iv_count, is_shiny_locked, has_shiny_charm } = req.body;
@@ -600,13 +630,13 @@ router.post('/', (req, res) => {
 
     const result = db.prepare(`
       INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path,
-        lua_script, num_instances, engine, hunt_mode, walk_dir,
+        num_instances, engine, hunt_mode, walk_dir,
         target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc,
         hunt_dir, status, started_at,
         encounter_type, target_nature, target_ability, target_ivs,
         perfect_iv_count, is_shiny_locked, has_shiny_charm)
       VALUES (?, ?, ?, ?, ?,
-        '', 1, 'rng', ?, '',
+        1, 'rng', ?, '',
         ?, 0, ?, 0, 0, 0, 0,
         ?, 'running', datetime('now'),
         ?, ?, ?, ?,
@@ -708,16 +738,15 @@ router.post('/', (req, res) => {
     return res.status(201).json(hunt);
   }
 
-  const useCore = engine === 'core';
-  const instances = num_instances || (useCore ? 16 : 30);
+  const instances = num_instances || 16;
 
   const huntDirName = generateHuntDirName(game, target_name);
 
   const result = db.prepare(`
-    INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path, lua_script, num_instances, engine, hunt_mode, walk_dir,
+    INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path, num_instances, engine, hunt_mode, walk_dir,
       target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc, hunt_dir, status, started_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', datetime('now'))
-  `).run(target_name, target_species_id || null, game, rom_path, sav_path, lua_script, instances, engine || 'core', hunt_mode || 'gift', walk_dir || 'ns',
+    VALUES (?, ?, ?, ?, ?, ?, 'core', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', datetime('now'))
+  `).run(target_name, target_species_id || null, game, rom_path, sav_path, instances, hunt_mode || 'gift', walk_dir || 'ns',
     target_shiny ?? 1, target_perfect ?? 0, target_gender || 'any', min_atk ?? 0, min_def ?? 0, min_spd ?? 0, min_spc ?? 0, huntDirName);
 
   const huntId = result.lastInsertRowid as number;
@@ -733,7 +762,14 @@ router.post('/', (req, res) => {
   }
 
   const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId) as any;
-  spawnHuntProcesses(huntId, hunt);
+  try {
+    spawnHuntProcesses(huntId, hunt);
+  } catch (err) {
+    if (err instanceof EmulatorNotInstalledError) {
+      return res.status(400).json({ error: 'mGBA is not installed. Install it from Settings → Emulators.' });
+    }
+    throw err;
+  }
   startHuntWatcher(huntId, target_name, hunt);
 
   ntfyPush(
@@ -794,7 +830,15 @@ router.post('/:id/resume', (req, res) => {
 
   db.prepare(`UPDATE hunts SET status = 'running', ended_at = NULL, started_at = datetime('now') WHERE id = ?`).run(hunt.id);
 
-  spawnHuntProcesses(hunt.id, hunt);
+  try {
+    spawnHuntProcesses(hunt.id, hunt);
+  } catch (err) {
+    if (err instanceof EmulatorNotInstalledError) {
+      db.prepare(`UPDATE hunts SET status = 'stopped' WHERE id = ?`).run(hunt.id);
+      return res.status(400).json({ error: 'mGBA is not installed. Install it from Settings → Emulators.' });
+    }
+    throw err;
+  }
   startHuntWatcher(hunt.id, hunt.target_name, hunt);
 
   ntfyPush(
@@ -888,15 +932,25 @@ router.get('/:id/hit-info', (req, res) => {
       saveModified = statSync(openSavPath).mtimeMs > statSync(instSavPath).mtimeMs;
     }
 
-    // Check if already saved to catches (new bundled folder structure)
+    // Archive bundle state. `archived` is true when the manifest.json exists
+    // (the full bundle — base.sav + shiny.ss1 + manifest — was written by
+    // handleHuntHit at detection time). `savedToCatches` is the narrower flag:
+    // catch.sav specifically exists (i.e. the user saved in-game and the catch
+    // save was copied into the bundle).
     const catchesGameDir = paths.catchGameDir(hunt.game || '');
     const catchPattern = `${hunt.target_name}_hunt${hunt.id}`;
+    let archived = false;
     let savedToCatches = false;
+    let catchDirPath = '';
     let catchSavePath = '';
     if (existsSync(catchesGameDir)) {
       const catchFolder = readdirSync(catchesGameDir).find(f => f.includes(catchPattern));
       if (catchFolder) {
-        const catchFile = join(catchesGameDir, catchFolder, 'catch.sav');
+        catchDirPath = join(catchesGameDir, catchFolder);
+        if (existsSync(join(catchDirPath, 'manifest.json'))) {
+          archived = true;
+        }
+        const catchFile = join(catchDirPath, 'catch.sav');
         if (existsSync(catchFile)) {
           savedToCatches = true;
           catchSavePath = catchFile;
@@ -915,11 +969,13 @@ router.get('/:id/hit-info', (req, res) => {
         instanceDir: instDir,
         openDir: opened ? openDir : null,
         savePath: opened ? openSavPath : instSavPath,
+        catchDir: archived ? catchDirPath : null,
         catchSavePath: savedToCatches ? catchSavePath : null,
       },
       workflow: {
         opened,
         saveModified,
+        archived,
         savedToCatches,
       },
     };
@@ -929,6 +985,8 @@ router.get('/:id/hit-info', (req, res) => {
     huntId: hunt.id,
     target: hunt.target_name,
     game: hunt.game,
+    huntMode: hunt.hunt_mode,
+    engine: hunt.engine,
     totalAttempts: hunt.total_attempts,
     hits: enriched,
   });
@@ -1157,7 +1215,16 @@ router.post('/:id/open', (req, res) => {
   const savDst = join(openDir, 'rom.sav');
 
   if (!existsSync(romDst)) symlinkSync(romSrc, romDst);
-  copyFileSync(join(instDir, 'rom.sav'), savDst);
+  const savSrc = join(instDir, 'rom.sav');
+  copyFileSync(savSrc, savDst);
+  // Preserve the source mtime on the destination. Without this, copyFileSync
+  // stamps the destination with the current time, which would cause the
+  // saveModified heuristic (open/rom.sav.mtime > instance/rom.sav.mtime) to
+  // return true the instant /open is called — before the user has done
+  // anything in mGBA. Backdating makes "user actually saved in-game" the
+  // only way for the open file to become newer than the source.
+  const savSrcStat = statSync(savSrc);
+  utimesSync(savDst, savSrcStat.atime, savSrcStat.mtime);
 
   // Launch with save state if available, otherwise just ROM+sav
   const mgbaArgs = [romDst];
@@ -1167,7 +1234,17 @@ router.post('/:id/open', (req, res) => {
     mgbaArgs.push('-t', ssDst);
   }
 
-  const child = spawn(MGBA, mgbaArgs, {
+  let mgbaBinary: string;
+  try {
+    mgbaBinary = getMgbaBinary();
+  } catch (err) {
+    if (err instanceof EmulatorNotInstalledError) {
+      return res.status(400).json({ error: 'mGBA is not installed. Install it from Settings → Emulators.' });
+    }
+    throw err;
+  }
+
+  const child = spawn(mgbaBinary, mgbaArgs, {
     env: { ...process.env, DISPLAY: process.env.DISPLAY || ':0' },
     stdio: 'ignore',
     detached: true,
@@ -1230,7 +1307,7 @@ router.get('/:id/stream', (req, res) => {
     Connection: 'keep-alive',
   });
 
-  const watchers: string[] = [];
+  const watchers: FSWatcher[] = [];
   const logDir = join(getHuntDir(hunt), 'logs');
 
   // RNG hunts don't use log files — skip straight to orchestrator listener
@@ -1271,7 +1348,9 @@ router.get('/:id/stream', (req, res) => {
     let lastSize = existsSync(filePath) ? readFileSync(filePath, 'utf-8').length : 0;
     const inst = f.replace('.log', '').replace('instance_', '#');
 
-    watchFile(filePath, { interval: 1000 }, () => {
+    // Event-driven fs.watch — replaces watchFile(interval: 1000) which was
+    // batching log lines for seconds at a time inside the compiled sidecar.
+    const w = watch(filePath, () => {
       try {
         const content = readFileSync(filePath, 'utf-8');
         const newContent = content.slice(lastSize);
@@ -1284,11 +1363,13 @@ router.get('/:id/stream', (req, res) => {
         }
       } catch {}
     });
-    watchers.push(filePath);
+    watchers.push(w);
   }
 
   req.on('close', () => {
-    for (const f of watchers) unwatchFile(f);
+    for (const w of watchers) {
+      try { w.close(); } catch {}
+    }
   });
 });
 

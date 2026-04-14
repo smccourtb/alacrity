@@ -1,0 +1,488 @@
+[
+  {
+    "name": "Lunchtime Mark",
+    "category": "time",
+    "how_to_obtain": "Catch a Pokemon between 12:00 and 12:59",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Lunchtime",
+    "sprite_key": "lunchtime-mark",
+    "sort_order": 1
+  },
+  {
+    "name": "Sleepy-Time Mark",
+    "category": "time",
+    "how_to_obtain": "Catch a Pokemon between 00:00 and 00:59",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Sleepy",
+    "sprite_key": "sleepy-time-mark",
+    "sort_order": 2
+  },
+  {
+    "name": "Dusk Mark",
+    "category": "time",
+    "how_to_obtain": "Catch a Pokemon between 19:00 and 19:59",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Dusk",
+    "sprite_key": "dusk-mark",
+    "sort_order": 3
+  },
+  {
+    "name": "Dawn Mark",
+    "category": "time",
+    "how_to_obtain": "Catch a Pokemon between 6:00 and 6:59",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Early Riser",
+    "sprite_key": "dawn-mark",
+    "sort_order": 4
+  },
+  {
+    "name": "Cloudy Mark",
+    "category": "weather",
+    "how_to_obtain": "Catch a Pokemon during overcast weather",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Cloudy Skies",
+    "sprite_key": "cloudy-mark",
+    "sort_order": 5
+  },
+  {
+    "name": "Rainy Mark",
+    "category": "weather",
+    "how_to_obtain": "Catch a Pokemon during rain",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Rain",
+    "sprite_key": "rainy-mark",
+    "sort_order": 6
+  },
+  {
+    "name": "Stormy Mark",
+    "category": "weather",
+    "how_to_obtain": "Catch a Pokemon during a thunderstorm",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Storm",
+    "sprite_key": "stormy-mark",
+    "sort_order": 7
+  },
+  {
+    "name": "Dry Mark",
+    "category": "weather",
+    "how_to_obtain": "Catch a Pokemon during harsh sunlight",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Drought",
+    "sprite_key": "dry-mark",
+    "sort_order": 8
+  },
+  {
+    "name": "Snowy Mark",
+    "category": "weather",
+    "how_to_obtain": "Catch a Pokemon during snow",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Snow",
+    "sprite_key": "snowy-mark",
+    "sort_order": 9
+  },
+  {
+    "name": "Blizzard Mark",
+    "category": "weather",
+    "how_to_obtain": "Catch a Pokemon during a blizzard",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Blizzard",
+    "sprite_key": "blizzard-mark",
+    "sort_order": 10
+  },
+  {
+    "name": "Sandstorm Mark",
+    "category": "weather",
+    "how_to_obtain": "Catch a Pokemon during a sandstorm",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Sandstorm",
+    "sprite_key": "sandstorm-mark",
+    "sort_order": 11
+  },
+  {
+    "name": "Misty Mark",
+    "category": "weather",
+    "how_to_obtain": "Catch a Pokemon during fog",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Mist",
+    "sprite_key": "misty-mark",
+    "sort_order": 12
+  },
+  {
+    "name": "Fishing Mark",
+    "category": "event",
+    "how_to_obtain": "Catch a Pokemon while fishing",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of the Catch",
+    "sprite_key": "fishing-mark",
+    "sort_order": 13
+  },
+  {
+    "name": "Curry Mark",
+    "category": "event",
+    "how_to_obtain": "Catch a Pokemon after making curry at a campsite",
+    "games": ["Sword", "Shield"],
+    "title_suffix": "the Pokemon That Loves Curry",
+    "sprite_key": "curry-mark",
+    "sort_order": 14
+  },
+  {
+    "name": "Destiny Mark",
+    "category": "event",
+    "how_to_obtain": "Randomly obtained with a 1/100 chance when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of Destiny",
+    "sprite_key": "destiny-mark",
+    "sort_order": 15
+  },
+  {
+    "name": "Gourmand Mark",
+    "category": "special",
+    "how_to_obtain": "Encounter a Pokemon at a picnic in Scarlet/Violet",
+    "games": ["Scarlet", "Violet"],
+    "title_suffix": "the Gourmand",
+    "sprite_key": "gourmand-mark",
+    "sort_order": 16
+  },
+  {
+    "name": "Partner Mark",
+    "category": "special",
+    "how_to_obtain": "Catch a Pokemon encountered via Let's Go mode",
+    "games": ["Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's a Partner",
+    "sprite_key": "partner-mark",
+    "sort_order": 17
+  },
+  {
+    "name": "Titan Mark",
+    "category": "special",
+    "how_to_obtain": "Catch a Titan Pokemon in Scarlet/Violet",
+    "games": ["Scarlet", "Violet"],
+    "title_suffix": "the Titan",
+    "sprite_key": "titan-mark",
+    "sort_order": 18
+  },
+  {
+    "name": "Alpha Mark",
+    "category": "special",
+    "how_to_obtain": "Catch an Alpha Pokemon in Pokemon Legends: Arceus",
+    "games": ["Legends Arceus"],
+    "title_suffix": "the Alpha",
+    "sprite_key": "alpha-mark",
+    "sort_order": 19
+  },
+  {
+    "name": "Mightiest Mark",
+    "category": "special",
+    "how_to_obtain": "Catch a Pokemon from a 7-star Tera Raid",
+    "games": ["Scarlet", "Violet"],
+    "title_suffix": "the Mightiest",
+    "sprite_key": "mightiest-mark",
+    "sort_order": 20
+  },
+  {
+    "name": "Itemfinder Mark",
+    "category": "special",
+    "how_to_obtain": "Find a Pokemon via the Item Finder in Scarlet/Violet",
+    "games": ["Scarlet", "Violet"],
+    "title_suffix": "the Treasure Hunter",
+    "sprite_key": "itemfinder-mark",
+    "sort_order": 21
+  },
+  {
+    "name": "Uncommon Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained with a 1/50 chance when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of Great Stature",
+    "sprite_key": "uncommon-mark",
+    "sort_order": 22
+  },
+  {
+    "name": "Rare Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained with a 1/1000 chance when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of Rarity",
+    "sprite_key": "rare-mark",
+    "sort_order": 23
+  },
+  {
+    "name": "Rowdy Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Rowdy",
+    "sprite_key": "rowdy-mark",
+    "sort_order": 24
+  },
+  {
+    "name": "Absent-Minded Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That Spaces Out",
+    "sprite_key": "absent-minded-mark",
+    "sort_order": 25
+  },
+  {
+    "name": "Jittery Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That Can't Stay Still",
+    "sprite_key": "jittery-mark",
+    "sort_order": 26
+  },
+  {
+    "name": "Excited Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Pumped",
+    "sprite_key": "excited-mark",
+    "sort_order": 27
+  },
+  {
+    "name": "Charismatic Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Radiant",
+    "sprite_key": "charismatic-mark",
+    "sort_order": 28
+  },
+  {
+    "name": "Calmness Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Serene",
+    "sprite_key": "calmness-mark",
+    "sort_order": 29
+  },
+  {
+    "name": "Intense Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Fired Up",
+    "sprite_key": "intense-mark",
+    "sort_order": 30
+  },
+  {
+    "name": "Zoned-Out Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon in La-La Land",
+    "sprite_key": "zoned-out-mark",
+    "sort_order": 31
+  },
+  {
+    "name": "Joyful Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That Beams",
+    "sprite_key": "joyful-mark",
+    "sort_order": 32
+  },
+  {
+    "name": "Angry Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That Fumes",
+    "sprite_key": "angry-mark",
+    "sort_order": 33
+  },
+  {
+    "name": "Smiley Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That Grins",
+    "sprite_key": "smiley-mark",
+    "sort_order": 34
+  },
+  {
+    "name": "Teary Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That Sobs",
+    "sprite_key": "teary-mark",
+    "sort_order": 35
+  },
+  {
+    "name": "Upbeat Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Peppy",
+    "sprite_key": "upbeat-mark",
+    "sort_order": 36
+  },
+  {
+    "name": "Peeved Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Ticked Off",
+    "sprite_key": "peeved-mark",
+    "sort_order": 37
+  },
+  {
+    "name": "Intellectual Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of Great Wisdom",
+    "sprite_key": "intellectual-mark",
+    "sort_order": 38
+  },
+  {
+    "name": "Ferocious Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of Great Bravery",
+    "sprite_key": "ferocious-mark",
+    "sort_order": 39
+  },
+  {
+    "name": "Crafty Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of Great Cunning",
+    "sprite_key": "crafty-mark",
+    "sort_order": 40
+  },
+  {
+    "name": "Scowling Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That Glares",
+    "sprite_key": "scowling-mark",
+    "sort_order": 41
+  },
+  {
+    "name": "Kindly Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon with a Kind Heart",
+    "sprite_key": "kindly-mark",
+    "sort_order": 42
+  },
+  {
+    "name": "Flustered Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Easily Flustered",
+    "sprite_key": "flustered-mark",
+    "sort_order": 43
+  },
+  {
+    "name": "Pumped-Up Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Full of Energy",
+    "sprite_key": "pumped-up-mark",
+    "sort_order": 44
+  },
+  {
+    "name": "Zero Energy Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That Lacks Energy",
+    "sprite_key": "zero-energy-mark",
+    "sort_order": 45
+  },
+  {
+    "name": "Prideful Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Proud",
+    "sprite_key": "prideful-mark",
+    "sort_order": 46
+  },
+  {
+    "name": "Unsure Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That Hesitates",
+    "sprite_key": "unsure-mark",
+    "sort_order": 47
+  },
+  {
+    "name": "Humble Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon of Great Humility",
+    "sprite_key": "humble-mark",
+    "sort_order": 48
+  },
+  {
+    "name": "Thorny Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Prickly",
+    "sprite_key": "thorny-mark",
+    "sort_order": 49
+  },
+  {
+    "name": "Vigor Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Vigorous",
+    "sprite_key": "vigor-mark",
+    "sort_order": 50
+  },
+  {
+    "name": "Slump Mark",
+    "category": "personality",
+    "how_to_obtain": "Randomly obtained based on personality when catching a Pokemon",
+    "games": ["Sword", "Shield", "Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's in a Slump",
+    "sprite_key": "slump-mark",
+    "sort_order": 51
+  },
+  {
+    "name": "Jumbo Mark",
+    "category": "size",
+    "how_to_obtain": "Catch a Pokemon with an exceptionally large size in Scarlet/Violet",
+    "games": ["Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Larger Than Life",
+    "sprite_key": "jumbo-mark",
+    "sort_order": 52
+  },
+  {
+    "name": "Mini Mark",
+    "category": "size",
+    "how_to_obtain": "Catch a Pokemon with an exceptionally small size in Scarlet/Violet",
+    "games": ["Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Teeny",
+    "sprite_key": "mini-mark",
+    "sort_order": 53
+  },
+  {
+    "name": "Sociable Mark",
+    "category": "event",
+    "how_to_obtain": "Earn through Union Circle play in Scarlet/Violet DLC",
+    "games": ["Scarlet", "Violet"],
+    "title_suffix": "the Pokemon That's Sociable",
+    "sprite_key": "sociable-mark",
+    "sort_order": 54
+  }
+]

@@ -1,0 +1,128 @@
+{
+  "manifestVersion": 1,
+  "alacrityMinVersion": "0.1.0",
+  "emulators": {
+    "mgba": {
+      "displayName": "mGBA",
+      "version": "0.10.3",
+      "license": "MPL-2.0",
+      "licenseUrl": "https://github.com/mgba-emu/mgba/blob/master/LICENSE",
+      "homepageUrl": "https://mgba.io",
+      "description": "Game Boy / Game Boy Color / Game Boy Advance emulator. Required for Gen 1–3 play and shiny hunts.",
+      "coreAbiLock": true,
+      "coreAbiLockMessage": "Alacrity's shiny hunt engine is compiled against this exact version of mGBA. It cannot be changed without rebuilding Alacrity.",
+      "platforms": {
+        "linux-x64": {
+          "downloadUrl": "https://github.com/mgba-emu/mgba/releases/download/0.10.3/mGBA-0.10.3-appimage-x64.appimage",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "sizeBytes": 28340992,
+          "archive": "appimage",
+          "binaryRelPath": "mGBA.AppImage",
+          "chmod": true
+        },
+        "macos-arm64": {
+          "downloadUrl": "https://github.com/mgba-emu/mgba/releases/download/0.10.3/mGBA-0.10.3-macos.dmg",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "dmg",
+          "dmgVolumeName": "mGBA 0.10.3",
+          "binaryRelPath": "mGBA.app/Contents/MacOS/mGBA"
+        },
+        "windows-x64": {
+          "downloadUrl": "https://github.com/mgba-emu/mgba/releases/download/0.10.3/mGBA-0.10.3-win64.7z",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "7z",
+          "binaryRelPath": "mGBA-0.10.3-win64/mGBA.exe"
+        }
+      }
+    },
+    "bgb": {
+      "displayName": "BGB",
+      "version": "1.6.6",
+      "license": "Freeware (proprietary)",
+      "licenseUrl": "https://bgb.bircd.org",
+      "homepageUrl": "https://bgb.bircd.org",
+      "description": "Game Boy / Game Boy Color emulator with reliable link cable networking. Used for Gen 1↔2 trades.",
+      "platforms": {
+        "windows-x64": {
+          "downloadUrl": "https://bgb.bircd.org/bgb.zip",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "zip",
+          "binaryRelPath": "bgb.exe"
+        },
+        "linux-x64": {
+          "downloadUrl": "https://bgb.bircd.org/bgb.zip",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "zip",
+          "binaryRelPath": "bgb.exe",
+          "requiresWine": true
+        },
+        "macos-arm64": {
+          "downloadUrl": "https://bgb.bircd.org/bgb.zip",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "zip",
+          "binaryRelPath": "bgb.exe",
+          "requiresWine": true
+        }
+      }
+    },
+    "melonds": {
+      "displayName": "melonDS",
+      "version": "0.9.5",
+      "license": "GPL-3.0",
+      "licenseUrl": "https://github.com/melonDS-emu/melonDS/blob/master/LICENSE",
+      "homepageUrl": "https://melonds.kuribo64.net",
+      "description": "Nintendo DS emulator. Required for Gen 4–5 play and hunts. Works best with real DS firmware files (configured in BIOS directory).",
+      "platforms": {
+        "linux-x64": {
+          "downloadUrl": "https://github.com/melonDS-emu/melonDS/releases/download/0.9.5/melonDS_0.9.5_linux_x64.zip",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "zip",
+          "binaryRelPath": "melonDS",
+          "chmod": true
+        },
+        "macos-arm64": {
+          "downloadUrl": "https://github.com/melonDS-emu/melonDS/releases/download/0.9.5/melonDS_0.9.5_mac_UB2.dmg",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "dmg",
+          "dmgVolumeName": "melonDS",
+          "binaryRelPath": "melonDS.app/Contents/MacOS/melonDS"
+        },
+        "windows-x64": {
+          "downloadUrl": "https://github.com/melonDS-emu/melonDS/releases/download/0.9.5/melonDS_0.9.5_win_x64.zip",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "zip",
+          "binaryRelPath": "melonDS.exe"
+        }
+      }
+    },
+    "azahar": {
+      "displayName": "Azahar",
+      "version": "2125.0.1",
+      "license": "GPL-2.0",
+      "licenseUrl": "https://github.com/azahar-emu/azahar/blob/master/license.txt",
+      "homepageUrl": "https://github.com/azahar-emu/azahar",
+      "description": "Nintendo 3DS emulator (Citra fork). Required for Gen 6–7 play and hunts. Linux AppImage is Wayland-only — X11 users may need XWayland.",
+      "platforms": {
+        "linux-x64": {
+          "downloadUrl": "https://github.com/azahar-emu/azahar/releases/download/2125.0.1/azahar-wayland.AppImage",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "appimage",
+          "binaryRelPath": "azahar-wayland.AppImage",
+          "chmod": true
+        },
+        "macos-arm64": {
+          "downloadUrl": "https://github.com/azahar-emu/azahar/releases/download/2125.0.1/azahar-macos-arm64-2125.0.1.zip",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "zip",
+          "binaryRelPath": "azahar-macos-arm64-2125.0.1/Azahar.app/Contents/MacOS/azahar"
+        },
+        "windows-x64": {
+          "downloadUrl": "https://github.com/azahar-emu/azahar/releases/download/2125.0.1/azahar-windows-msvc-2125.0.1.zip",
+          "sha256": "PLACEHOLDER_FROZEN_AT_RELEASE",
+          "archive": "zip",
+          "binaryRelPath": "azahar-windows-msvc-2125.0.1/azahar.exe"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,170 @@
+[
+  {
+    "name": "Poke Ball",
+    "games": ["Red", "Blue", "Yellow", "Gold", "Silver", "Crystal", "Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Let's Go Pikachu", "Let's Go Eevee", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Legends Arceus", "Scarlet", "Violet"],
+    "sprite_key": "poke-ball",
+    "sort_order": 1
+  },
+  {
+    "name": "Great Ball",
+    "games": ["Red", "Blue", "Yellow", "Gold", "Silver", "Crystal", "Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Let's Go Pikachu", "Let's Go Eevee", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Legends Arceus", "Scarlet", "Violet"],
+    "sprite_key": "great-ball",
+    "sort_order": 2
+  },
+  {
+    "name": "Ultra Ball",
+    "games": ["Red", "Blue", "Yellow", "Gold", "Silver", "Crystal", "Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Let's Go Pikachu", "Let's Go Eevee", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Legends Arceus", "Scarlet", "Violet"],
+    "sprite_key": "ultra-ball",
+    "sort_order": 3
+  },
+  {
+    "name": "Master Ball",
+    "games": ["Red", "Blue", "Yellow", "Gold", "Silver", "Crystal", "Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Let's Go Pikachu", "Let's Go Eevee", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Legends Arceus", "Scarlet", "Violet"],
+    "sprite_key": "master-ball",
+    "sort_order": 4
+  },
+  {
+    "name": "Safari Ball",
+    "games": ["Red", "Blue", "Yellow", "Gold", "Silver", "Crystal", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "safari-ball",
+    "sort_order": 5
+  },
+  {
+    "name": "Net Ball",
+    "games": ["Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "net-ball",
+    "sort_order": 6
+  },
+  {
+    "name": "Dive Ball",
+    "games": ["Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "dive-ball",
+    "sort_order": 7
+  },
+  {
+    "name": "Nest Ball",
+    "games": ["Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "nest-ball",
+    "sort_order": 8
+  },
+  {
+    "name": "Repeat Ball",
+    "games": ["Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "repeat-ball",
+    "sort_order": 9
+  },
+  {
+    "name": "Timer Ball",
+    "games": ["Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "timer-ball",
+    "sort_order": 10
+  },
+  {
+    "name": "Luxury Ball",
+    "games": ["Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "luxury-ball",
+    "sort_order": 11
+  },
+  {
+    "name": "Premier Ball",
+    "games": ["Ruby", "Sapphire", "Emerald", "FireRed", "LeafGreen", "Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Let's Go Pikachu", "Let's Go Eevee", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Legends Arceus", "Scarlet", "Violet"],
+    "sprite_key": "premier-ball",
+    "sort_order": 12
+  },
+  {
+    "name": "Dusk Ball",
+    "games": ["Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "dusk-ball",
+    "sort_order": 13
+  },
+  {
+    "name": "Heal Ball",
+    "games": ["Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "heal-ball",
+    "sort_order": 14
+  },
+  {
+    "name": "Quick Ball",
+    "games": ["Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "quick-ball",
+    "sort_order": 15
+  },
+  {
+    "name": "Cherish Ball",
+    "games": ["Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "cherish-ball",
+    "sort_order": 16
+  },
+  {
+    "name": "Fast Ball",
+    "games": ["Gold", "Silver", "Crystal", "HeartGold", "SoulSilver", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "fast-ball",
+    "sort_order": 17
+  },
+  {
+    "name": "Level Ball",
+    "games": ["Gold", "Silver", "Crystal", "HeartGold", "SoulSilver", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "level-ball",
+    "sort_order": 18
+  },
+  {
+    "name": "Lure Ball",
+    "games": ["Gold", "Silver", "Crystal", "HeartGold", "SoulSilver", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "lure-ball",
+    "sort_order": 19
+  },
+  {
+    "name": "Heavy Ball",
+    "games": ["Gold", "Silver", "Crystal", "HeartGold", "SoulSilver", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "heavy-ball",
+    "sort_order": 20
+  },
+  {
+    "name": "Love Ball",
+    "games": ["Gold", "Silver", "Crystal", "HeartGold", "SoulSilver", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "love-ball",
+    "sort_order": 21
+  },
+  {
+    "name": "Friend Ball",
+    "games": ["Gold", "Silver", "Crystal", "HeartGold", "SoulSilver", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "friend-ball",
+    "sort_order": 22
+  },
+  {
+    "name": "Moon Ball",
+    "games": ["Gold", "Silver", "Crystal", "HeartGold", "SoulSilver", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "moon-ball",
+    "sort_order": 23
+  },
+  {
+    "name": "Sport Ball",
+    "games": ["Gold", "Silver", "Crystal", "HeartGold", "SoulSilver", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "sport-ball",
+    "sort_order": 24
+  },
+  {
+    "name": "Dream Ball",
+    "games": ["Black", "White", "Black 2", "White 2", "X", "Y", "Omega Ruby", "Alpha Sapphire", "Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Brilliant Diamond", "Shining Pearl", "Scarlet", "Violet"],
+    "sprite_key": "dream-ball",
+    "sort_order": 25
+  },
+  {
+    "name": "Beast Ball",
+    "games": ["Sun", "Moon", "Ultra Sun", "Ultra Moon", "Sword", "Shield", "Scarlet", "Violet"],
+    "sprite_key": "beast-ball",
+    "sort_order": 26
+  },
+  {
+    "name": "Park Ball",
+    "games": ["Diamond", "Pearl", "Platinum", "HeartGold", "SoulSilver", "Black", "White", "Black 2", "White 2"],
+    "sprite_key": "park-ball",
+    "sort_order": 27
+  },
+  {
+    "name": "Strange Ball",
+    "games": ["Legends Arceus"],
+    "sprite_key": "strange-ball",
+    "sort_order": 28
+  }
+]

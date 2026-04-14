@@ -4,7 +4,6 @@ import { join } from 'path';
 import { paths } from '../paths.js';
 import { seedOriginRequirements } from './seedOriginRequirements.js';
 import { seedCollectionLegs, seedSpecimenTargets, seedSpecimenTasks, generateAllWalkthroughs } from './seedCollectionPlanner.js';
-import { runCompletionScan } from '../services/completionPipeline.js';
 import { seedRegionData } from './seedRegionData.js';
 
 function loadJson(filename: string) {
@@ -62,5 +61,4 @@ export function seedGuide(): void {
   seedSpecimenTargets();
   seedSpecimenTasks();
   generateAllWalkthroughs();
-  runCompletionScan();
 }

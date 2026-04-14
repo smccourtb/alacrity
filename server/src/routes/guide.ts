@@ -4,7 +4,6 @@ import { join } from 'path';
 import db from '../db.js';
 import { paths } from '../paths.js';
 import { computeProgress } from '../services/guideProgress.js';
-import { runCompletionScan } from '../services/completionPipeline.js';
 import { loadFlagDefinitions } from '../services/flagParsers/index.js';
 import type { FlagDefinition } from '../services/flagParsers/types.js';
 import { resolveCollection } from '../services/identityService.js';
@@ -709,12 +708,6 @@ router.get('/species-search', (req, res) => {
   `).all(game, `%${q}%`);
 
   res.json(species);
-});
-
-// POST /api/guide/scan-completion — re-run completion pipeline
-router.post('/scan-completion', (_req, res) => {
-  const result = runCompletionScan();
-  res.json(result);
 });
 
 export default router;

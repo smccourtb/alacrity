@@ -19,45 +19,6 @@ CREATE TABLE IF NOT EXISTS species (
   growth_rate INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS pokemon (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  species_id INTEGER NOT NULL REFERENCES species(id),
-  nickname TEXT,
-  is_shiny INTEGER NOT NULL DEFAULT 0,
-  level INTEGER,
-  nature TEXT,
-  ability TEXT,
-  ball TEXT,
-  held_item TEXT,
-  origin_game TEXT,
-  ot_name TEXT,
-  ot_tid INTEGER,
-  iv_hp INTEGER,
-  iv_attack INTEGER,
-  iv_defense INTEGER,
-  iv_speed INTEGER,
-  iv_sp_attack INTEGER,
-  iv_sp_defense INTEGER,
-  ev_hp INTEGER DEFAULT 0,
-  ev_attack INTEGER DEFAULT 0,
-  ev_defense INTEGER DEFAULT 0,
-  ev_speed INTEGER DEFAULT 0,
-  ev_sp_attack INTEGER DEFAULT 0,
-  ev_sp_defense INTEGER DEFAULT 0,
-  move1 TEXT,
-  move2 TEXT,
-  move3 TEXT,
-  move4 TEXT,
-  notes TEXT,
-  caught_date TEXT,
-  has_pokerus INTEGER NOT NULL DEFAULT 0,
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE INDEX IF NOT EXISTS idx_pokemon_species ON pokemon(species_id);
-CREATE INDEX IF NOT EXISTS idx_pokemon_shiny ON pokemon(is_shiny);
-
 CREATE TABLE IF NOT EXISTS save_files (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   filename TEXT NOT NULL,
@@ -86,9 +47,8 @@ CREATE TABLE IF NOT EXISTS hunts (
   game TEXT NOT NULL,
   rom_path TEXT NOT NULL,
   sav_path TEXT NOT NULL,
-  lua_script TEXT NOT NULL,
   num_instances INTEGER NOT NULL DEFAULT 30,
-  engine TEXT NOT NULL DEFAULT 'core', -- 'core', 'wild', or 'rng'
+  engine TEXT NOT NULL DEFAULT 'core', -- 'core' or 'rng'
   hunt_mode TEXT NOT NULL DEFAULT 'gift',
   walk_dir TEXT NOT NULL DEFAULT 'ns',
   target_shiny INTEGER NOT NULL DEFAULT 1,
@@ -320,6 +280,8 @@ CREATE TABLE IF NOT EXISTS checkpoints (
   needs_confirmation INTEGER NOT NULL DEFAULT 0,
   snapshot TEXT,
   notes TEXT,
+  include_in_collection INTEGER NOT NULL DEFAULT 0,
+  include_explicit INTEGER NOT NULL DEFAULT 0,
   created_at TEXT DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_checkpoints_playthrough ON checkpoints(playthrough_id);
@@ -382,7 +344,7 @@ CREATE TABLE IF NOT EXISTS specimen_progress (
   current_location TEXT,
   save_file_id INTEGER REFERENCES save_files(id),
   checkpoint_id INTEGER REFERENCES checkpoints(id),
-  pokemon_id INTEGER REFERENCES pokemon(id),
+  pokemon_id INTEGER,
   notes TEXT,
   UNIQUE(target_id)
 );

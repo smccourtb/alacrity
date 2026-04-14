@@ -63,9 +63,6 @@ router.patch('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const id = Number(req.params.id);
 
-  // Nullify pokemon references (don't delete the pokemon)
-  db.prepare('UPDATE pokemon SET playthrough_id = NULL, checkpoint_id = NULL WHERE playthrough_id = ?').run(id);
-
   // Delete guide_progress for this playthrough
   db.prepare('DELETE FROM guide_progress WHERE playthrough_id = ?').run(id);
 

@@ -1,0 +1,7758 @@
+[
+  {
+    "index": 1,
+    "name": "FLAG_TEMP_1",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 2,
+    "name": "FLAG_TEMP_2",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 3,
+    "name": "FLAG_TEMP_3",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 4,
+    "name": "FLAG_TEMP_4",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 5,
+    "name": "FLAG_TEMP_5",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 6,
+    "name": "FLAG_TEMP_6",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 7,
+    "name": "FLAG_TEMP_7",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 8,
+    "name": "FLAG_TEMP_8",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 9,
+    "name": "FLAG_TEMP_9",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 10,
+    "name": "FLAG_TEMP_A",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 11,
+    "name": "FLAG_TEMP_B",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 12,
+    "name": "FLAG_TEMP_C",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 13,
+    "name": "FLAG_TEMP_D",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 14,
+    "name": "FLAG_TEMP_E",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 15,
+    "name": "FLAG_TEMP_F",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 16,
+    "name": "FLAG_TEMP_10",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 17,
+    "name": "FLAG_TEMP_11",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 18,
+    "name": "FLAG_TEMP_12",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 19,
+    "name": "FLAG_TEMP_13",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 20,
+    "name": "FLAG_TEMP_14",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 21,
+    "name": "FLAG_TEMP_15",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 22,
+    "name": "FLAG_TEMP_16",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 23,
+    "name": "FLAG_TEMP_17",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 24,
+    "name": "FLAG_TEMP_18",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 25,
+    "name": "FLAG_TEMP_19",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 26,
+    "name": "FLAG_TEMP_1A",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 27,
+    "name": "FLAG_TEMP_1B",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 28,
+    "name": "FLAG_TEMP_1C",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 29,
+    "name": "FLAG_TEMP_1D",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 30,
+    "name": "FLAG_TEMP_1E",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 31,
+    "name": "FLAG_TEMP_1F",
+    "category": "temp",
+    "source": "event"
+  },
+  {
+    "index": 32,
+    "name": "FLAG_UNUSED_0x020",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 33,
+    "name": "FLAG_UNUSED_0x021",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 34,
+    "name": "FLAG_UNUSED_0x022",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 35,
+    "name": "FLAG_UNUSED_0x023",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 36,
+    "name": "FLAG_UNUSED_0x024",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 37,
+    "name": "FLAG_UNUSED_0x025",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 38,
+    "name": "FLAG_UNUSED_0x026",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 39,
+    "name": "FLAG_UNUSED_0x027",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 40,
+    "name": "FLAG_UNUSED_0x028",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 41,
+    "name": "FLAG_UNUSED_0x029",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 42,
+    "name": "FLAG_UNUSED_0x02A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 43,
+    "name": "FLAG_UNUSED_0x02B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 44,
+    "name": "FLAG_UNUSED_0x02C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 45,
+    "name": "FLAG_UNUSED_0x02D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 46,
+    "name": "FLAG_UNUSED_0x02E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 47,
+    "name": "FLAG_UNUSED_0x02F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 48,
+    "name": "FLAG_UNUSED_0x030",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 49,
+    "name": "FLAG_UNUSED_0x031",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 50,
+    "name": "FLAG_UNUSED_0x032",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 51,
+    "name": "FLAG_UNUSED_0x033",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 52,
+    "name": "FLAG_UNUSED_0x034",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 53,
+    "name": "FLAG_UNUSED_0x035",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 54,
+    "name": "FLAG_UNUSED_0x036",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 55,
+    "name": "FLAG_UNUSED_0x037",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 56,
+    "name": "FLAG_UNUSED_0x038",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 57,
+    "name": "FLAG_UNUSED_0x039",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 58,
+    "name": "FLAG_UNUSED_0x03A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 59,
+    "name": "FLAG_UNUSED_0x03B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 60,
+    "name": "FLAG_UNUSED_0x03C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 61,
+    "name": "FLAG_UNUSED_0x03D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 62,
+    "name": "FLAG_UNUSED_0x03E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 63,
+    "name": "FLAG_UNUSED_0x03F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 64,
+    "name": "FLAG_UNUSED_0x040",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 65,
+    "name": "FLAG_UNUSED_0x041",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 66,
+    "name": "FLAG_UNUSED_0x042",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 67,
+    "name": "FLAG_UNUSED_0x043",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 68,
+    "name": "FLAG_UNUSED_0x044",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 69,
+    "name": "FLAG_UNUSED_0x045",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 70,
+    "name": "FLAG_UNUSED_0x046",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 71,
+    "name": "FLAG_UNUSED_0x047",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 72,
+    "name": "FLAG_UNUSED_0x048",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 73,
+    "name": "FLAG_UNUSED_0x049",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 74,
+    "name": "FLAG_UNUSED_0x04A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 75,
+    "name": "FLAG_UNUSED_0x04B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 76,
+    "name": "FLAG_UNUSED_0x04C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 77,
+    "name": "FLAG_UNUSED_0x04D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 78,
+    "name": "FLAG_UNUSED_0x04E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 79,
+    "name": "FLAG_UNUSED_0x04F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 80,
+    "name": "FLAG_HIDE_SKY_PILLAR_TOP_RAYQUAZA_STILL",
+    "category": "event",
+    "location_key": "sky-pillar",
+    "source": "event"
+  },
+  {
+    "index": 81,
+    "name": "FLAG_SET_WALL_CLOCK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 82,
+    "name": "FLAG_RESCUED_BIRCH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 83,
+    "name": "FLAG_LEGENDARIES_IN_SOOTOPOLIS",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 84,
+    "name": "FLAG_UNUSED_0x054",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 85,
+    "name": "FLAG_UNUSED_0x055",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 86,
+    "name": "FLAG_HIDE_CONTEST_POKE_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 87,
+    "name": "FLAG_MET_RIVAL_MOM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 88,
+    "name": "FLAG_BIRCH_AIDE_MET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 89,
+    "name": "FLAG_DECLINED_BIKE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 90,
+    "name": "FLAG_RECEIVED_BIKE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 91,
+    "name": "FLAG_WATTSON_REMATCH_AVAILABLE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 92,
+    "name": "FLAG_COLLECTED_ALL_SILVER_SYMBOLS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 93,
+    "name": "FLAG_GOOD_LUCK_SAFARI_ZONE",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 94,
+    "name": "FLAG_RECEIVED_WAILMER_PAIL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 95,
+    "name": "FLAG_RECEIVED_POKEBLOCK_CASE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 96,
+    "name": "FLAG_RECEIVED_SECRET_POWER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 97,
+    "name": "FLAG_MET_TEAM_AQUA_HARBOR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 98,
+    "name": "FLAG_TV_EXPLAINED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 99,
+    "name": "FLAG_MAUVILLE_GYM_BARRIERS_STATE",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 100,
+    "name": "FLAG_MOSSDEEP_GYM_SWITCH_1",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 101,
+    "name": "FLAG_MOSSDEEP_GYM_SWITCH_2",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 102,
+    "name": "FLAG_MOSSDEEP_GYM_SWITCH_3",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 103,
+    "name": "FLAG_MOSSDEEP_GYM_SWITCH_4",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 104,
+    "name": "FLAG_UNUSED_0x068",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 105,
+    "name": "FLAG_OCEANIC_MUSEUM_MET_REPORTER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 106,
+    "name": "FLAG_RECEIVED_HM_STRENGTH",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 107,
+    "name": "FLAG_RECEIVED_HM_ROCK_SMASH",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 108,
+    "name": "FLAG_WHITEOUT_TO_LAVARIDGE",
+    "category": "event",
+    "location_key": "lavaridge-town",
+    "source": "event"
+  },
+  {
+    "index": 109,
+    "name": "FLAG_RECEIVED_HM_FLASH",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 110,
+    "name": "FLAG_RECEIVED_HM_FLY",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 111,
+    "name": "FLAG_GROUDON_AWAKENED_MAGMA_HIDEOUT",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 112,
+    "name": "FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 113,
+    "name": "FLAG_UNUSED_RS_LEGENDARY_BATTLE_DONE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 114,
+    "name": "FLAG_SCOTT_CALL_BATTLE_FRONTIER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 115,
+    "name": "FLAG_RECEIVED_METEORITE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 116,
+    "name": "FLAG_ADVENTURE_STARTED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 117,
+    "name": "FLAG_DEFEATED_MAGMA_SPACE_CENTER",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 118,
+    "name": "FLAG_MET_HIDDEN_POWER_GIVER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 119,
+    "name": "FLAG_CANCEL_BATTLE_ROOM_CHALLENGE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 120,
+    "name": "FLAG_LANDMARK_MIRAGE_TOWER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 121,
+    "name": "FLAG_RECEIVED_TM_BRICK_BREAK",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 122,
+    "name": "FLAG_RECEIVED_HM_SURF",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 123,
+    "name": "FLAG_RECEIVED_HM_DIVE",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 124,
+    "name": "FLAG_REGISTER_RIVAL_POKENAV",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 125,
+    "name": "FLAG_DEFEATED_RIVAL_ROUTE_104",
+    "category": "trainer",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 126,
+    "name": "FLAG_DEFEATED_WALLY_VICTORY_ROAD",
+    "category": "trainer",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 127,
+    "name": "FLAG_MET_PRETTY_PETAL_SHOP_OWNER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 128,
+    "name": "FLAG_ENABLE_ROXANNE_FIRST_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 129,
+    "name": "FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN",
+    "category": "event",
+    "location_key": "seafloor-cavern",
+    "source": "event"
+  },
+  {
+    "index": 130,
+    "name": "FLAG_DEFEATED_RIVAL_ROUTE103",
+    "category": "trainer",
+    "location_key": "route-103",
+    "source": "event"
+  },
+  {
+    "index": 131,
+    "name": "FLAG_RECEIVED_DOLL_LANETTE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 132,
+    "name": "FLAG_RECEIVED_POTION_OLDALE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 133,
+    "name": "FLAG_RECEIVED_AMULET_COIN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 134,
+    "name": "FLAG_PENDING_DAYCARE_EGG",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 135,
+    "name": "FLAG_THANKED_FOR_PLAYING_WITH_WALLY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 136,
+    "name": "FLAG_ENABLE_FIRST_WALLY_POKENAV_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 137,
+    "name": "FLAG_RECEIVED_HM_CUT",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 138,
+    "name": "FLAG_SCOTT_CALL_FORTREE_GYM",
+    "category": "event",
+    "location_key": "fortree-city",
+    "source": "event"
+  },
+  {
+    "index": 139,
+    "name": "FLAG_DEFEATED_EVIL_TEAM_MT_CHIMNEY",
+    "category": "trainer",
+    "location_key": "mt-chimney",
+    "source": "event"
+  },
+  {
+    "index": 140,
+    "name": "FLAG_RECEIVED_6_SODA_POP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 141,
+    "name": "FLAG_DEFEATED_SEASHORE_HOUSE",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 142,
+    "name": "FLAG_DEVON_GOODS_STOLEN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 143,
+    "name": "FLAG_RECOVERED_DEVON_GOODS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 144,
+    "name": "FLAG_RETURNED_DEVON_GOODS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 145,
+    "name": "FLAG_CAUGHT_LUGIA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 146,
+    "name": "FLAG_CAUGHT_HO_OH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 147,
+    "name": "FLAG_MR_BRINEY_SAILING_INTRO",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 148,
+    "name": "FLAG_DOCK_REJECTED_DEVON_GOODS",
+    "category": "event",
+    "location_key": "vermilion-city",
+    "source": "event"
+  },
+  {
+    "index": 149,
+    "name": "FLAG_DELIVERED_DEVON_GOODS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 150,
+    "name": "FLAG_RECEIVED_CONTEST_PASS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 151,
+    "name": "FLAG_RECEIVED_CASTFORM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 152,
+    "name": "FLAG_RECEIVED_SUPER_ROD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 153,
+    "name": "FLAG_RUSTBORO_NPC_TRADE_COMPLETED",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 154,
+    "name": "FLAG_PACIFIDLOG_NPC_TRADE_COMPLETED",
+    "category": "event",
+    "location_key": "pacifidlog-town",
+    "source": "event"
+  },
+  {
+    "index": 155,
+    "name": "FLAG_FORTREE_NPC_TRADE_COMPLETED",
+    "category": "event",
+    "location_key": "fortree-city",
+    "source": "event"
+  },
+  {
+    "index": 156,
+    "name": "FLAG_BATTLE_FRONTIER_TRADE_DONE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 157,
+    "name": "FLAG_FORCE_MIRAGE_TOWER_VISIBLE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 158,
+    "name": "FLAG_SOOTOPOLIS_ARCHIE_MAXIE_LEAVE",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 159,
+    "name": "FLAG_INTERACTED_WITH_DEVON_EMPLOYEE_GOODS_STOLEN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 160,
+    "name": "FLAG_COOL_PAINTING_MADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 161,
+    "name": "FLAG_BEAUTY_PAINTING_MADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 162,
+    "name": "FLAG_CUTE_PAINTING_MADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 163,
+    "name": "FLAG_SMART_PAINTING_MADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 164,
+    "name": "FLAG_TOUGH_PAINTING_MADE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 165,
+    "name": "FLAG_RECEIVED_TM_ROCK_TOMB",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 166,
+    "name": "FLAG_RECEIVED_TM_BULK_UP",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 167,
+    "name": "FLAG_RECEIVED_TM_SHOCK_WAVE",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 168,
+    "name": "FLAG_RECEIVED_TM_OVERHEAT",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 169,
+    "name": "FLAG_RECEIVED_TM_FACADE",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 170,
+    "name": "FLAG_RECEIVED_TM_AERIAL_ACE",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 171,
+    "name": "FLAG_RECEIVED_TM_CALM_MIND",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 172,
+    "name": "FLAG_RECEIVED_TM_WATER_PULSE",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 173,
+    "name": "FLAG_HIDE_SECRET_BASE_TRAINER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 174,
+    "name": "FLAG_DECORATION_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 175,
+    "name": "FLAG_DECORATION_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 176,
+    "name": "FLAG_DECORATION_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 177,
+    "name": "FLAG_DECORATION_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 178,
+    "name": "FLAG_DECORATION_5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 179,
+    "name": "FLAG_DECORATION_6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 180,
+    "name": "FLAG_DECORATION_7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 181,
+    "name": "FLAG_DECORATION_8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 182,
+    "name": "FLAG_DECORATION_9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 183,
+    "name": "FLAG_DECORATION_10",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 184,
+    "name": "FLAG_DECORATION_11",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 185,
+    "name": "FLAG_DECORATION_12",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 186,
+    "name": "FLAG_DECORATION_13",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 187,
+    "name": "FLAG_DECORATION_14",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 188,
+    "name": "FLAG_RECEIVED_POKENAV",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 189,
+    "name": "FLAG_DELIVERED_STEVEN_LETTER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 190,
+    "name": "FLAG_DEFEATED_WALLY_MAUVILLE",
+    "category": "trainer",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 191,
+    "name": "FLAG_DEFEATED_GRUNT_SPACE_CENTER_1F",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 192,
+    "name": "FLAG_RECEIVED_SUN_STONE_MOSSDEEP",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 193,
+    "name": "FLAG_WALLY_SPEECH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 194,
+    "name": "FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_1",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 195,
+    "name": "FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_2",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 196,
+    "name": "FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_3",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 197,
+    "name": "FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_4",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 198,
+    "name": "FLAG_TRICK_HOUSE_PUZZLE_7_SWITCH_5",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 199,
+    "name": "FLAG_RUSTURF_TUNNEL_OPENED",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 200,
+    "name": "FLAG_RECEIVED_RED_SCARF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 201,
+    "name": "FLAG_RECEIVED_BLUE_SCARF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 202,
+    "name": "FLAG_RECEIVED_PINK_SCARF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 203,
+    "name": "FLAG_RECEIVED_GREEN_SCARF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 204,
+    "name": "FLAG_RECEIVED_YELLOW_SCARF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 205,
+    "name": "FLAG_INTERACTED_WITH_STEVEN_SPACE_CENTER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 206,
+    "name": "FLAG_ENCOUNTERED_LATIAS_OR_LATIOS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 207,
+    "name": "FLAG_MET_ARCHIE_METEOR_FALLS",
+    "category": "event",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 208,
+    "name": "FLAG_GOT_BASEMENT_KEY_FROM_WATTSON",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 209,
+    "name": "FLAG_GOT_TM_THUNDERBOLT_FROM_WATTSON",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 210,
+    "name": "FLAG_FAN_CLUB_STRENGTH_SHARED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 211,
+    "name": "FLAG_DEFEATED_RIVAL_RUSTBORO",
+    "category": "trainer",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 212,
+    "name": "FLAG_RECEIVED_RED_OR_BLUE_ORB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 213,
+    "name": "FLAG_RECEIVED_PREMIER_BALL_RUSTBORO",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 214,
+    "name": "FLAG_ENABLE_WALLY_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 215,
+    "name": "FLAG_ENABLE_SCOTT_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 216,
+    "name": "FLAG_ENABLE_MOM_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 217,
+    "name": "FLAG_MET_DIVING_TREASURE_HUNTER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 218,
+    "name": "FLAG_MET_WAILMER_TRAINER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 219,
+    "name": "FLAG_EVIL_LEADER_PLEASE_STOP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 220,
+    "name": "FLAG_NEVER_SET_0x0DC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 221,
+    "name": "FLAG_RECEIVED_GO_GOGGLES",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 222,
+    "name": "FLAG_WINGULL_SENT_ON_ERRAND",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 223,
+    "name": "FLAG_RECEIVED_MENTAL_HERB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 224,
+    "name": "FLAG_WINGULL_DELIVERED_MAIL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 225,
+    "name": "FLAG_RECEIVED_20_COINS",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 226,
+    "name": "FLAG_RECEIVED_STARTER_DOLL",
+    "category": "event",
+    "location_key": "pallet-town",
+    "source": "event"
+  },
+  {
+    "index": 227,
+    "name": "FLAG_RECEIVED_GOOD_ROD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 228,
+    "name": "FLAG_REGI_DOORS_OPENED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 229,
+    "name": "FLAG_RECEIVED_TM_RETURN",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 230,
+    "name": "FLAG_RECEIVED_TM_SLUDGE_BOMB",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 231,
+    "name": "FLAG_RECEIVED_TM_ROAR",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 232,
+    "name": "FLAG_RECEIVED_TM_GIGA_DRAIN",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 233,
+    "name": "FLAG_UNUSED_0x0E9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 234,
+    "name": "FLAG_RECEIVED_TM_REST",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 235,
+    "name": "FLAG_RECEIVED_TM_ATTRACT",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 236,
+    "name": "FLAG_RECEIVED_GLASS_ORNAMENT",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 237,
+    "name": "FLAG_RECEIVED_SILVER_SHIELD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 238,
+    "name": "FLAG_RECEIVED_GOLD_SHIELD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 239,
+    "name": "FLAG_USED_STORAGE_KEY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 240,
+    "name": "FLAG_USED_ROOM_1_KEY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 241,
+    "name": "FLAG_USED_ROOM_2_KEY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 242,
+    "name": "FLAG_USED_ROOM_4_KEY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 243,
+    "name": "FLAG_USED_ROOM_6_KEY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 244,
+    "name": "FLAG_MET_PROF_COZMO",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 245,
+    "name": "FLAG_RECEIVED_WAILMER_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 246,
+    "name": "FLAG_RECEIVED_CHESTO_BERRY_ROUTE_104",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 247,
+    "name": "FLAG_DEFEATED_SS_TIDAL_TRAINERS",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 248,
+    "name": "FLAG_RECEIVED_SPELON_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 249,
+    "name": "FLAG_RECEIVED_PAMTRE_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 250,
+    "name": "FLAG_RECEIVED_WATMEL_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 251,
+    "name": "FLAG_RECEIVED_DURIN_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 252,
+    "name": "FLAG_RECEIVED_BELUE_BERRY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 253,
+    "name": "FLAG_ENABLE_RIVAL_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 254,
+    "name": "FLAG_RECEIVED_CHARCOAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 255,
+    "name": "FLAG_LATIOS_OR_LATIAS_ROAMING",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 256,
+    "name": "FLAG_RECEIVED_REPEAT_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 257,
+    "name": "FLAG_RECEIVED_OLD_ROD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 258,
+    "name": "FLAG_RECEIVED_COIN_CASE",
+    "category": "event",
+    "location_key": "celadon-city",
+    "source": "event"
+  },
+  {
+    "index": 259,
+    "name": "FLAG_RETURNED_RED_OR_BLUE_ORB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 260,
+    "name": "FLAG_RECEIVED_TM_SNATCH",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 261,
+    "name": "FLAG_RECEIVED_TM_DIG",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 262,
+    "name": "FLAG_RECEIVED_TM_BULLET_SEED",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 263,
+    "name": "FLAG_ENTERED_ELITE_FOUR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 264,
+    "name": "FLAG_RECEIVED_TM_HIDDEN_POWER",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 265,
+    "name": "FLAG_RECEIVED_TM_TORMENT",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 266,
+    "name": "FLAG_RECEIVED_LAVARIDGE_EGG",
+    "category": "event",
+    "location_key": "lavaridge-town",
+    "source": "event"
+  },
+  {
+    "index": 267,
+    "name": "FLAG_RECEIVED_REVIVED_FOSSIL_MON",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 268,
+    "name": "FLAG_SECRET_BASE_REGISTRY_ENABLED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 269,
+    "name": "FLAG_RECEIVED_TM_THIEF",
+    "category": "tm",
+    "source": "event"
+  },
+  {
+    "index": 270,
+    "name": "FLAG_CONTEST_SKETCH_CREATED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 271,
+    "name": "FLAG_EVIL_TEAM_ESCAPED_STERN_SPOKE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 272,
+    "name": "FLAG_RECEIVED_EXP_SHARE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 273,
+    "name": "FLAG_POKERUS_EXPLAINED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 274,
+    "name": "FLAG_RECEIVED_RUNNING_SHOES",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 275,
+    "name": "FLAG_RECEIVED_QUICK_CLAW",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 276,
+    "name": "FLAG_RECEIVED_KINGS_ROCK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 277,
+    "name": "FLAG_RECEIVED_MACHO_BRACE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 278,
+    "name": "FLAG_RECEIVED_SOOTHE_BELL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 279,
+    "name": "FLAG_RECEIVED_WHITE_HERB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 280,
+    "name": "FLAG_RECEIVED_SOFT_SAND",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 281,
+    "name": "FLAG_ENABLE_PROF_BIRCH_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 282,
+    "name": "FLAG_RECEIVED_CLEANSE_TAG",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 283,
+    "name": "FLAG_RECEIVED_FOCUS_BAND",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 284,
+    "name": "FLAG_DECLINED_WALLY_BATTLE_MAUVILLE",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 285,
+    "name": "FLAG_RECEIVED_DEVON_SCOPE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 286,
+    "name": "FLAG_DECLINED_RIVAL_BATTLE_LILYCOVE",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 287,
+    "name": "FLAG_MET_DEVON_EMPLOYEE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 288,
+    "name": "FLAG_MET_RIVAL_RUSTBORO",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 289,
+    "name": "FLAG_RECEIVED_SILK_SCARF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 290,
+    "name": "FLAG_NOT_READY_FOR_BATTLE_ROUTE_120",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 291,
+    "name": "FLAG_RECEIVED_SS_TICKET",
+    "category": "event",
+    "location_key": "vermilion-city",
+    "source": "event"
+  },
+  {
+    "index": 292,
+    "name": "FLAG_MET_RIVAL_LILYCOVE",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 293,
+    "name": "FLAG_MET_RIVAL_IN_HOUSE_AFTER_LILYCOVE",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 294,
+    "name": "FLAG_EXCHANGED_SCANNER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 295,
+    "name": "FLAG_KECLEON_FLED_FORTREE",
+    "category": "event",
+    "location_key": "fortree-city",
+    "source": "event"
+  },
+  {
+    "index": 296,
+    "name": "FLAG_PETALBURG_MART_EXPANDED_ITEMS",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 297,
+    "name": "FLAG_RECEIVED_MIRACLE_SEED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 298,
+    "name": "FLAG_RECEIVED_BELDUM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 299,
+    "name": "FLAG_RECEIVED_FANCLUB_TM_THIS_WEEK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 300,
+    "name": "FLAG_MET_FANCLUB_YOUNGER_BROTHER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 301,
+    "name": "FLAG_RIVAL_LEFT_FOR_ROUTE103",
+    "category": "event",
+    "location_key": "route-103",
+    "source": "event"
+  },
+  {
+    "index": 302,
+    "name": "FLAG_OMIT_DIVE_FROM_STEVEN_LETTER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 303,
+    "name": "FLAG_HAS_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 304,
+    "name": "FLAG_ADDED_MATCH_CALL_TO_POKENAV",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 305,
+    "name": "FLAG_REGISTERED_STEVEN_POKENAV",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 306,
+    "name": "FLAG_ENABLE_NORMAN_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 307,
+    "name": "FLAG_STEVEN_GUIDES_TO_CAVE_OF_ORIGIN",
+    "category": "event",
+    "location_key": "cave-of-origin",
+    "source": "event"
+  },
+  {
+    "index": 308,
+    "name": "FLAG_MET_ARCHIE_SOOTOPOLIS",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 309,
+    "name": "FLAG_MET_MAXIE_SOOTOPOLIS",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 310,
+    "name": "FLAG_MET_SCOTT_RUSTBORO",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 311,
+    "name": "FLAG_WALLACE_GOES_TO_SKY_PILLAR",
+    "category": "event",
+    "location_key": "sky-pillar",
+    "source": "event"
+  },
+  {
+    "index": 312,
+    "name": "FLAG_RECEIVED_HM_WATERFALL",
+    "category": "hm",
+    "source": "event"
+  },
+  {
+    "index": 313,
+    "name": "FLAG_BEAT_MAGMA_GRUNT_JAGGED_PASS",
+    "category": "event",
+    "location_key": "jagged-pass",
+    "source": "event"
+  },
+  {
+    "index": 314,
+    "name": "FLAG_RECEIVED_AURORA_TICKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 315,
+    "name": "FLAG_RECEIVED_MYSTIC_TICKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 316,
+    "name": "FLAG_RECEIVED_OLD_SEA_MAP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 317,
+    "name": "FLAG_WONDER_CARD_UNUSED_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 318,
+    "name": "FLAG_WONDER_CARD_UNUSED_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 319,
+    "name": "FLAG_WONDER_CARD_UNUSED_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 320,
+    "name": "FLAG_WONDER_CARD_UNUSED_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 321,
+    "name": "FLAG_WONDER_CARD_UNUSED_5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 322,
+    "name": "FLAG_WONDER_CARD_UNUSED_6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 323,
+    "name": "FLAG_WONDER_CARD_UNUSED_7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 324,
+    "name": "FLAG_WONDER_CARD_UNUSED_8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 325,
+    "name": "FLAG_WONDER_CARD_UNUSED_9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 326,
+    "name": "FLAG_WONDER_CARD_UNUSED_10",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 327,
+    "name": "FLAG_WONDER_CARD_UNUSED_11",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 328,
+    "name": "FLAG_WONDER_CARD_UNUSED_12",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 329,
+    "name": "FLAG_WONDER_CARD_UNUSED_13",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 330,
+    "name": "FLAG_WONDER_CARD_UNUSED_14",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 331,
+    "name": "FLAG_WONDER_CARD_UNUSED_15",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 332,
+    "name": "FLAG_WONDER_CARD_UNUSED_16",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 333,
+    "name": "FLAG_WONDER_CARD_UNUSED_17",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 334,
+    "name": "FLAG_MIRAGE_TOWER_VISIBLE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 335,
+    "name": "FLAG_CHOSE_ROOT_FOSSIL",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 336,
+    "name": "FLAG_CHOSE_CLAW_FOSSIL",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 337,
+    "name": "FLAG_RECEIVED_POWDER_JAR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 338,
+    "name": "FLAG_CHOSEN_MULTI_BATTLE_NPC_PARTNER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 339,
+    "name": "FLAG_MET_BATTLE_FRONTIER_BREEDER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 340,
+    "name": "FLAG_MET_BATTLE_FRONTIER_MANIAC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 341,
+    "name": "FLAG_ENTERED_CONTEST",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 342,
+    "name": "FLAG_MET_SLATEPORT_FANCLUB_CHAIRMAN",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 343,
+    "name": "FLAG_MET_BATTLE_FRONTIER_GAMBLER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 344,
+    "name": "FLAG_ENABLE_MR_STONE_POKENAV",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 345,
+    "name": "FLAG_NURSE_MENTIONS_GOLD_CARD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 346,
+    "name": "FLAG_MET_FRONTIER_BEAUTY_MOVE_TUTOR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 347,
+    "name": "FLAG_MET_FRONTIER_SWIMMER_MOVE_TUTOR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 426,
+    "name": "FLAG_UNUSED_0x1AA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 427,
+    "name": "FLAG_UNUSED_0x1AB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 428,
+    "name": "FLAG_DEFEATED_DEOXYS",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 429,
+    "name": "FLAG_BATTLED_DEOXYS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 430,
+    "name": "FLAG_SHOWN_EON_TICKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 431,
+    "name": "FLAG_SHOWN_AURORA_TICKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 432,
+    "name": "FLAG_SHOWN_OLD_SEA_MAP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 433,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_SWAGGER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 434,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_ROLLOUT",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 435,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_FURY_CUTTER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 436,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_MIMIC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 437,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_METRONOME",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 438,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_SLEEP_TALK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 439,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_SUBSTITUTE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 440,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_DYNAMICPUNCH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 441,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_DOUBLE_EDGE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 442,
+    "name": "FLAG_MOVE_TUTOR_TAUGHT_EXPLOSION",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 443,
+    "name": "FLAG_DEFEATED_REGIROCK",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 444,
+    "name": "FLAG_DEFEATED_REGICE",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 445,
+    "name": "FLAG_DEFEATED_REGISTEEL",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 446,
+    "name": "FLAG_DEFEATED_KYOGRE",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 447,
+    "name": "FLAG_DEFEATED_GROUDON",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 448,
+    "name": "FLAG_DEFEATED_RAYQUAZA",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 449,
+    "name": "FLAG_DEFEATED_VOLTORB_1_NEW_MAUVILLE",
+    "category": "trainer",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 450,
+    "name": "FLAG_DEFEATED_VOLTORB_2_NEW_MAUVILLE",
+    "category": "trainer",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 451,
+    "name": "FLAG_DEFEATED_VOLTORB_3_NEW_MAUVILLE",
+    "category": "trainer",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 452,
+    "name": "FLAG_DEFEATED_ELECTRODE_1_AQUA_HIDEOUT",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 453,
+    "name": "FLAG_DEFEATED_ELECTRODE_2_AQUA_HIDEOUT",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 454,
+    "name": "FLAG_DEFEATED_SUDOWOODO",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 455,
+    "name": "FLAG_DEFEATED_MEW",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 456,
+    "name": "FLAG_DEFEATED_LATIAS_OR_LATIOS",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 457,
+    "name": "FLAG_CAUGHT_LATIAS_OR_LATIOS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 458,
+    "name": "FLAG_CAUGHT_MEW",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 459,
+    "name": "FLAG_MET_SCOTT_AFTER_OBTAINING_STONE_BADGE",
+    "category": "badge",
+    "source": "event"
+  },
+  {
+    "index": 460,
+    "name": "FLAG_MET_SCOTT_IN_VERDANTURF",
+    "category": "event",
+    "location_key": "verdanturf-town",
+    "source": "event"
+  },
+  {
+    "index": 461,
+    "name": "FLAG_MET_SCOTT_IN_FALLARBOR",
+    "category": "event",
+    "location_key": "fallarbor-town",
+    "source": "event"
+  },
+  {
+    "index": 462,
+    "name": "FLAG_MET_SCOTT_IN_LILYCOVE",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 463,
+    "name": "FLAG_MET_SCOTT_IN_EVERGRANDE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 464,
+    "name": "FLAG_MET_SCOTT_ON_SS_TIDAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 465,
+    "name": "FLAG_SCOTT_GIVES_BATTLE_POINTS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 466,
+    "name": "FLAG_COLLECTED_ALL_GOLD_SYMBOLS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 467,
+    "name": "FLAG_ENABLE_ROXANNE_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 468,
+    "name": "FLAG_ENABLE_BRAWLY_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 469,
+    "name": "FLAG_ENABLE_WATTSON_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 470,
+    "name": "FLAG_ENABLE_FLANNERY_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 471,
+    "name": "FLAG_ENABLE_WINONA_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 472,
+    "name": "FLAG_ENABLE_TATE_AND_LIZA_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 473,
+    "name": "FLAG_ENABLE_JUAN_MATCH_CALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 474,
+    "name": "FLAG_UNUSED_0x1DA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 475,
+    "name": "FLAG_SHOWN_MYSTIC_TICKET",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 476,
+    "name": "FLAG_DEFEATED_HO_OH",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 477,
+    "name": "FLAG_DEFEATED_LUGIA",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 478,
+    "name": "FLAG_UNUSED_0x1DE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 479,
+    "name": "FLAG_UNUSED_0x1DF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 480,
+    "name": "FLAG_UNUSED_0x1E0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 481,
+    "name": "FLAG_UNUSED_0x1E1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 482,
+    "name": "FLAG_UNUSED_0x1E2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 483,
+    "name": "FLAG_UNUSED_0x1E3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 484,
+    "name": "FLAG_MYSTERY_GIFT_DONE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 485,
+    "name": "FLAG_MYSTERY_GIFT_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 486,
+    "name": "FLAG_MYSTERY_GIFT_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 487,
+    "name": "FLAG_MYSTERY_GIFT_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 488,
+    "name": "FLAG_MYSTERY_GIFT_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 489,
+    "name": "FLAG_MYSTERY_GIFT_5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 490,
+    "name": "FLAG_MYSTERY_GIFT_6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 491,
+    "name": "FLAG_MYSTERY_GIFT_7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 492,
+    "name": "FLAG_MYSTERY_GIFT_8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 493,
+    "name": "FLAG_MYSTERY_GIFT_9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 494,
+    "name": "FLAG_MYSTERY_GIFT_10",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 495,
+    "name": "FLAG_MYSTERY_GIFT_11",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 496,
+    "name": "FLAG_MYSTERY_GIFT_12",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 497,
+    "name": "FLAG_MYSTERY_GIFT_13",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 498,
+    "name": "FLAG_MYSTERY_GIFT_14",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 499,
+    "name": "FLAG_MYSTERY_GIFT_15",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 500,
+    "name": "FLAG_HIDDEN_ITEMS_START",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 501,
+    "name": "FLAG_HIDDEN_ITEM_TRICK_HOUSE_NUGGET",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 502,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_111_STARDUST",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 503,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_113_ETHER",
+    "category": "event",
+    "location_key": "route-113",
+    "source": "event"
+  },
+  {
+    "index": 504,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_114_CARBOS",
+    "category": "event",
+    "location_key": "route-114",
+    "source": "event"
+  },
+  {
+    "index": 505,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_119_CALCIUM",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 506,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_119_ULTRA_BALL",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 507,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_123_SUPER_REPEL",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 508,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_124_CARBOS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 509,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_124_GREEN_SHARD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 510,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_124_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 511,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_124_BIG_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 512,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_126_BLUE_SHARD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 513,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_124_HEART_SCALE_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 514,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_126_HEART_SCALE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 515,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_126_ULTRA_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 516,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_126_STARDUST",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 517,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_126_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 518,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_126_YELLOW_SHARD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 519,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_126_IRON",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 520,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_126_BIG_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 521,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_127_STAR_PIECE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 522,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_127_HP_UP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 523,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_127_HEART_SCALE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 524,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_127_RED_SHARD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 525,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_128_PROTEIN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 526,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_128_PEARL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 527,
+    "name": "FLAG_HIDDEN_ITEM_LILYCOVE_CITY_HEART_SCALE",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 528,
+    "name": "FLAG_HIDDEN_ITEM_FALLARBOR_TOWN_NUGGET",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 529,
+    "name": "FLAG_HIDDEN_ITEM_MT_PYRE_EXTERIOR_ULTRA_BALL",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 530,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_113_TM_DOUBLE_TEAM",
+    "category": "event",
+    "location_key": "route-113",
+    "source": "event"
+  },
+  {
+    "index": 531,
+    "name": "FLAG_HIDDEN_ITEM_ABANDONED_SHIP_RM_1_KEY",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 532,
+    "name": "FLAG_HIDDEN_ITEM_ABANDONED_SHIP_RM_2_KEY",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 533,
+    "name": "FLAG_HIDDEN_ITEM_ABANDONED_SHIP_RM_4_KEY",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 534,
+    "name": "FLAG_HIDDEN_ITEM_ABANDONED_SHIP_RM_6_KEY",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 535,
+    "name": "FLAG_HIDDEN_ITEM_SS_TIDAL_LOWER_DECK_LEFTOVERS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 536,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_124_CALCIUM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 537,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_104_POTION",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 538,
+    "name": "FLAG_HIDDEN_ITEM_UNDERWATER_124_HEART_SCALE_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 539,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_121_HP_UP",
+    "category": "event",
+    "location_key": "route-121",
+    "source": "event"
+  },
+  {
+    "index": 540,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_121_NUGGET",
+    "category": "event",
+    "location_key": "route-121",
+    "source": "event"
+  },
+  {
+    "index": 541,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_123_REVIVE",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 542,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_114_REVIVE",
+    "category": "event",
+    "location_key": "route-114",
+    "source": "event"
+  },
+  {
+    "index": 543,
+    "name": "FLAG_HIDDEN_ITEM_LILYCOVE_CITY_PP_UP",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 544,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_104_SUPER_POTION",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 545,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_116_SUPER_POTION",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 546,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_106_STARDUST",
+    "category": "event",
+    "location_key": "route-106",
+    "source": "event"
+  },
+  {
+    "index": 547,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_106_HEART_SCALE",
+    "category": "event",
+    "location_key": "route-106",
+    "source": "event"
+  },
+  {
+    "index": 548,
+    "name": "FLAG_HIDDEN_ITEM_GRANITE_CAVE_B2F_EVERSTONE_1",
+    "category": "event",
+    "location_key": "granite-cave",
+    "source": "event"
+  },
+  {
+    "index": 549,
+    "name": "FLAG_HIDDEN_ITEM_GRANITE_CAVE_B2F_EVERSTONE_2",
+    "category": "event",
+    "location_key": "granite-cave",
+    "source": "event"
+  },
+  {
+    "index": 550,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_109_REVIVE",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 551,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_109_GREAT_BALL",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 552,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_109_HEART_SCALE_1",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 553,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_110_GREAT_BALL",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 554,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_110_REVIVE",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 555,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_110_FULL_HEAL",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 556,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_111_PROTEIN",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 557,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_111_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 558,
+    "name": "FLAG_HIDDEN_ITEM_PETALBURG_WOODS_POTION",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 559,
+    "name": "FLAG_HIDDEN_ITEM_PETALBURG_WOODS_TINY_MUSHROOM_1",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 560,
+    "name": "FLAG_HIDDEN_ITEM_PETALBURG_WOODS_TINY_MUSHROOM_2",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 561,
+    "name": "FLAG_HIDDEN_ITEM_PETALBURG_WOODS_POKE_BALL",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 562,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_104_POKE_BALL",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 563,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_106_POKE_BALL",
+    "category": "event",
+    "location_key": "route-106",
+    "source": "event"
+  },
+  {
+    "index": 564,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_109_ETHER",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 565,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_110_POKE_BALL",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 566,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_118_HEART_SCALE",
+    "category": "event",
+    "location_key": "route-118",
+    "source": "event"
+  },
+  {
+    "index": 567,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_118_IRON",
+    "category": "event",
+    "location_key": "route-118",
+    "source": "event"
+  },
+  {
+    "index": 568,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_119_FULL_HEAL",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 569,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_120_RARE_CANDY_2",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 570,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_120_ZINC",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 571,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_120_RARE_CANDY_1",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 572,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_117_REPEL",
+    "category": "event",
+    "location_key": "route-117",
+    "source": "event"
+  },
+  {
+    "index": 573,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_121_FULL_HEAL",
+    "category": "event",
+    "location_key": "route-121",
+    "source": "event"
+  },
+  {
+    "index": 574,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_123_HYPER_POTION",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 575,
+    "name": "FLAG_HIDDEN_ITEM_LILYCOVE_CITY_POKE_BALL",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 576,
+    "name": "FLAG_HIDDEN_ITEM_JAGGED_PASS_GREAT_BALL",
+    "category": "event",
+    "location_key": "jagged-pass",
+    "source": "event"
+  },
+  {
+    "index": 577,
+    "name": "FLAG_HIDDEN_ITEM_JAGGED_PASS_FULL_HEAL",
+    "category": "event",
+    "location_key": "jagged-pass",
+    "source": "event"
+  },
+  {
+    "index": 578,
+    "name": "FLAG_HIDDEN_ITEM_MT_PYRE_EXTERIOR_MAX_ETHER",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 579,
+    "name": "FLAG_HIDDEN_ITEM_MT_PYRE_SUMMIT_ZINC",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 580,
+    "name": "FLAG_HIDDEN_ITEM_MT_PYRE_SUMMIT_RARE_CANDY",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 581,
+    "name": "FLAG_HIDDEN_ITEM_VICTORY_ROAD_1F_ULTRA_BALL",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 582,
+    "name": "FLAG_HIDDEN_ITEM_VICTORY_ROAD_B2F_ELIXIR",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 583,
+    "name": "FLAG_HIDDEN_ITEM_VICTORY_ROAD_B2F_MAX_REPEL",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 584,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_120_REVIVE",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 585,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_104_ANTIDOTE",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 586,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_108_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-108",
+    "source": "event"
+  },
+  {
+    "index": 587,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_119_MAX_ETHER",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 588,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_104_HEART_SCALE",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 589,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_105_HEART_SCALE",
+    "category": "event",
+    "location_key": "route-105",
+    "source": "event"
+  },
+  {
+    "index": 590,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_109_HEART_SCALE_2",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 591,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_109_HEART_SCALE_3",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 592,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_128_HEART_SCALE_1",
+    "category": "event",
+    "location_key": "route-128",
+    "source": "event"
+  },
+  {
+    "index": 593,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_128_HEART_SCALE_2",
+    "category": "event",
+    "location_key": "route-128",
+    "source": "event"
+  },
+  {
+    "index": 594,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_128_HEART_SCALE_3",
+    "category": "event",
+    "location_key": "route-128",
+    "source": "event"
+  },
+  {
+    "index": 595,
+    "name": "FLAG_HIDDEN_ITEM_PETALBURG_CITY_RARE_CANDY",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 596,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_116_BLACK_GLASSES",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 597,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_115_HEART_SCALE",
+    "category": "event",
+    "location_key": "route-115",
+    "source": "event"
+  },
+  {
+    "index": 598,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_113_NUGGET",
+    "category": "event",
+    "location_key": "route-113",
+    "source": "event"
+  },
+  {
+    "index": 599,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_123_PP_UP",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 600,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_121_MAX_REVIVE",
+    "category": "event",
+    "location_key": "route-121",
+    "source": "event"
+  },
+  {
+    "index": 601,
+    "name": "FLAG_HIDDEN_ITEM_ARTISAN_CAVE_B1F_CALCIUM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 602,
+    "name": "FLAG_HIDDEN_ITEM_ARTISAN_CAVE_B1F_ZINC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 603,
+    "name": "FLAG_HIDDEN_ITEM_ARTISAN_CAVE_B1F_PROTEIN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 604,
+    "name": "FLAG_HIDDEN_ITEM_ARTISAN_CAVE_B1F_IRON",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 605,
+    "name": "FLAG_HIDDEN_ITEM_SAFARI_ZONE_SOUTH_EAST_FULL_RESTORE",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 606,
+    "name": "FLAG_HIDDEN_ITEM_SAFARI_ZONE_NORTH_EAST_RARE_CANDY",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 607,
+    "name": "FLAG_HIDDEN_ITEM_SAFARI_ZONE_NORTH_EAST_ZINC",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 608,
+    "name": "FLAG_HIDDEN_ITEM_SAFARI_ZONE_SOUTH_EAST_PP_UP",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 609,
+    "name": "FLAG_HIDDEN_ITEM_NAVEL_ROCK_TOP_SACRED_ASH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 610,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_123_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 611,
+    "name": "FLAG_HIDDEN_ITEM_ROUTE_105_BIG_PEARL",
+    "category": "event",
+    "location_key": "route-105",
+    "source": "event"
+  },
+  {
+    "index": 612,
+    "name": "FLAG_UNUSED_0x264",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 613,
+    "name": "FLAG_UNUSED_0x265",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 614,
+    "name": "FLAG_UNUSED_0x266",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 615,
+    "name": "FLAG_UNUSED_0x267",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 616,
+    "name": "FLAG_UNUSED_0x268",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 617,
+    "name": "FLAG_UNUSED_0x269",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 618,
+    "name": "FLAG_UNUSED_0x26A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 619,
+    "name": "FLAG_UNUSED_0x26B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 620,
+    "name": "FLAG_UNUSED_0x26C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 621,
+    "name": "FLAG_UNUSED_0x26D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 622,
+    "name": "FLAG_UNUSED_0x26E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 623,
+    "name": "FLAG_UNUSED_0x26F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 624,
+    "name": "FLAG_UNUSED_0x270",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 625,
+    "name": "FLAG_UNUSED_0x271",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 626,
+    "name": "FLAG_UNUSED_0x272",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 627,
+    "name": "FLAG_UNUSED_0x273",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 628,
+    "name": "FLAG_UNUSED_0x274",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 629,
+    "name": "FLAG_UNUSED_0x275",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 630,
+    "name": "FLAG_UNUSED_0x276",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 631,
+    "name": "FLAG_UNUSED_0x277",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 632,
+    "name": "FLAG_UNUSED_0x278",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 633,
+    "name": "FLAG_UNUSED_0x279",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 634,
+    "name": "FLAG_UNUSED_0x27A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 635,
+    "name": "FLAG_UNUSED_0x27B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 636,
+    "name": "FLAG_UNUSED_0x27C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 637,
+    "name": "FLAG_UNUSED_0x27D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 638,
+    "name": "FLAG_UNUSED_0x27E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 639,
+    "name": "FLAG_UNUSED_0x27F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 640,
+    "name": "FLAG_UNUSED_0x280",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 641,
+    "name": "FLAG_UNUSED_0x281",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 642,
+    "name": "FLAG_UNUSED_0x282",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 643,
+    "name": "FLAG_UNUSED_0x283",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 644,
+    "name": "FLAG_UNUSED_0x284",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 645,
+    "name": "FLAG_UNUSED_0x285",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 646,
+    "name": "FLAG_UNUSED_0x286",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 647,
+    "name": "FLAG_UNUSED_0x287",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 648,
+    "name": "FLAG_UNUSED_0x288",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 649,
+    "name": "FLAG_UNUSED_0x289",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 650,
+    "name": "FLAG_UNUSED_0x28A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 651,
+    "name": "FLAG_UNUSED_0x28B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 652,
+    "name": "FLAG_UNUSED_0x28C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 653,
+    "name": "FLAG_UNUSED_0x28D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 654,
+    "name": "FLAG_UNUSED_0x28E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 655,
+    "name": "FLAG_UNUSED_0x28F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 656,
+    "name": "FLAG_UNUSED_0x290",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 657,
+    "name": "FLAG_UNUSED_0x291",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 658,
+    "name": "FLAG_UNUSED_0x292",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 659,
+    "name": "FLAG_UNUSED_0x293",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 660,
+    "name": "FLAG_UNUSED_0x294",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 661,
+    "name": "FLAG_UNUSED_0x295",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 662,
+    "name": "FLAG_UNUSED_0x296",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 663,
+    "name": "FLAG_UNUSED_0x297",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 664,
+    "name": "FLAG_UNUSED_0x298",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 665,
+    "name": "FLAG_UNUSED_0x299",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 666,
+    "name": "FLAG_UNUSED_0x29A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 667,
+    "name": "FLAG_UNUSED_0x29B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 668,
+    "name": "FLAG_UNUSED_0x29C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 669,
+    "name": "FLAG_UNUSED_0x29D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 670,
+    "name": "FLAG_UNUSED_0x29E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 671,
+    "name": "FLAG_UNUSED_0x29F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 672,
+    "name": "FLAG_UNUSED_0x2A0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 673,
+    "name": "FLAG_UNUSED_0x2A1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 674,
+    "name": "FLAG_UNUSED_0x2A2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 675,
+    "name": "FLAG_UNUSED_0x2A3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 676,
+    "name": "FLAG_UNUSED_0x2A4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 677,
+    "name": "FLAG_UNUSED_0x2A5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 678,
+    "name": "FLAG_UNUSED_0x2A6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 679,
+    "name": "FLAG_UNUSED_0x2A7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 680,
+    "name": "FLAG_UNUSED_0x2A8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 681,
+    "name": "FLAG_UNUSED_0x2A9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 682,
+    "name": "FLAG_UNUSED_0x2AA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 683,
+    "name": "FLAG_UNUSED_0x2AB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 684,
+    "name": "FLAG_UNUSED_0x2AC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 685,
+    "name": "FLAG_UNUSED_0x2AD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 686,
+    "name": "FLAG_UNUSED_0x2AE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 687,
+    "name": "FLAG_UNUSED_0x2AF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 688,
+    "name": "FLAG_UNUSED_0x2B0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 689,
+    "name": "FLAG_UNUSED_0x2B1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 690,
+    "name": "FLAG_UNUSED_0x2B2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 691,
+    "name": "FLAG_UNUSED_0x2B3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 692,
+    "name": "FLAG_UNUSED_0x2B4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 693,
+    "name": "FLAG_UNUSED_0x2B5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 694,
+    "name": "FLAG_UNUSED_0x2B6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 695,
+    "name": "FLAG_UNUSED_0x2B7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 696,
+    "name": "FLAG_UNUSED_0x2B8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 697,
+    "name": "FLAG_UNUSED_0x2B9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 698,
+    "name": "FLAG_UNUSED_0x2BA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 699,
+    "name": "FLAG_UNUSED_0x2BB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 700,
+    "name": "FLAG_HIDE_ROUTE_101_BIRCH_STARTERS_BAG",
+    "category": "event",
+    "location_key": "route-101",
+    "source": "event"
+  },
+  {
+    "index": 701,
+    "name": "FLAG_HIDE_APPRENTICE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 702,
+    "name": "FLAG_HIDE_POKEMON_CENTER_2F_MYSTERY_GIFT_MAN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 703,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 704,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 705,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 706,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 707,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 708,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 709,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 710,
+    "name": "FLAG_HIDE_UNION_ROOM_PLAYER_8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 711,
+    "name": "FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_1",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 712,
+    "name": "FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_2",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 713,
+    "name": "FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_3",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 714,
+    "name": "FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_4",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 715,
+    "name": "FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_5",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 716,
+    "name": "FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_6",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 717,
+    "name": "FLAG_HIDE_SAFARI_ZONE_SOUTH_CONSTRUCTION_WORKERS",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 718,
+    "name": "FLAG_HIDE_MEW",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 719,
+    "name": "FLAG_HIDE_ROUTE_104_RIVAL",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 720,
+    "name": "FLAG_HIDE_ROUTE_101_BIRCH_ZIGZAGOON_BATTLE",
+    "category": "event",
+    "location_key": "route-101",
+    "source": "event"
+  },
+  {
+    "index": 721,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_BIRCH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 722,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_BEDROOM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 723,
+    "name": "FLAG_HIDE_ROUTE_103_RIVAL",
+    "category": "event",
+    "location_key": "route-103",
+    "source": "event"
+  },
+  {
+    "index": 724,
+    "name": "FLAG_HIDE_PETALBURG_WOODS_DEVON_EMPLOYEE",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 725,
+    "name": "FLAG_HIDE_PETALBURG_WOODS_AQUA_GRUNT",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 726,
+    "name": "FLAG_HIDE_PETALBURG_CITY_WALLY",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 727,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_STEVENS_HOUSE_INVISIBLE_NINJA_BOY",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 728,
+    "name": "FLAG_HIDE_PETALBURG_CITY_WALLYS_MOM",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 729,
+    "name": "FLAG_UNUSED_0x2D9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 730,
+    "name": "FLAG_HIDE_LILYCOVE_FAN_CLUB_INTERVIEWER",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 731,
+    "name": "FLAG_HIDE_RUSTBORO_CITY_AQUA_GRUNT",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 732,
+    "name": "FLAG_HIDE_RUSTBORO_CITY_DEVON_EMPLOYEE_1",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 733,
+    "name": "FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_KYOGRE_ASLEEP",
+    "category": "event",
+    "location_key": "seafloor-cavern",
+    "source": "event"
+  },
+  {
+    "index": 734,
+    "name": "FLAG_HIDE_PLAYERS_HOUSE_DAD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 735,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_SIBLING",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 736,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_SIBLING",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 737,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_SPACE_CENTER_MAGMA_NOTE",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 738,
+    "name": "FLAG_HIDE_ROUTE_104_MR_BRINEY",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 739,
+    "name": "FLAG_HIDE_BRINEYS_HOUSE_MR_BRINEY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 740,
+    "name": "FLAG_HIDE_MR_BRINEY_DEWFORD_TOWN",
+    "category": "event",
+    "location_key": "dewford-town",
+    "source": "event"
+  },
+  {
+    "index": 741,
+    "name": "FLAG_HIDE_ROUTE_109_MR_BRINEY",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 742,
+    "name": "FLAG_HIDE_ROUTE_104_MR_BRINEY_BOAT",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 743,
+    "name": "FLAG_HIDE_MR_BRINEY_BOAT_DEWFORD_TOWN",
+    "category": "event",
+    "location_key": "dewford-town",
+    "source": "event"
+  },
+  {
+    "index": 744,
+    "name": "FLAG_HIDE_ROUTE_109_MR_BRINEY_BOAT",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 745,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_BRENDAN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 746,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_MAY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 747,
+    "name": "FLAG_HIDE_SAFARI_ZONE_SOUTH_EAST_EXPANSION",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 748,
+    "name": "FLAG_HIDE_LILYCOVE_HARBOR_EVENT_TICKET_TAKER",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 749,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_SCOTT",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 750,
+    "name": "FLAG_HIDE_ROUTE_101_ZIGZAGOON",
+    "category": "event",
+    "location_key": "route-101",
+    "source": "event"
+  },
+  {
+    "index": 751,
+    "name": "FLAG_HIDE_VICTORY_ROAD_EXIT_WALLY",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 752,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_MOM_OUTSIDE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 753,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_SPACE_CENTER_1F_STEVEN",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 754,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 755,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 756,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_SPACE_CENTER_1F_TEAM_MAGMA",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 757,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_BEDROOM_MOM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 758,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_MOM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 759,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_MOM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 760,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_BEDROOM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 761,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 762,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 763,
+    "name": "FLAG_HIDE_DEOXYS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 764,
+    "name": "FLAG_HIDE_BIRTH_ISLAND_DEOXYS_TRIANGLE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 765,
+    "name": "FLAG_HIDE_MAUVILLE_CITY_SCOTT",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 766,
+    "name": "FLAG_HIDE_VERDANTURF_TOWN_SCOTT",
+    "category": "event",
+    "location_key": "verdanturf-town",
+    "source": "event"
+  },
+  {
+    "index": 767,
+    "name": "FLAG_HIDE_FALLARBOR_TOWN_BATTLE_TENT_SCOTT",
+    "category": "event",
+    "location_key": "fallarbor-town",
+    "source": "event"
+  },
+  {
+    "index": 768,
+    "name": "FLAG_HIDE_ROUTE_111_VICTOR_WINSTRATE",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 769,
+    "name": "FLAG_HIDE_ROUTE_111_VICTORIA_WINSTRATE",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 770,
+    "name": "FLAG_HIDE_ROUTE_111_VIVI_WINSTRATE",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 771,
+    "name": "FLAG_HIDE_ROUTE_111_VICKY_WINSTRATE",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 772,
+    "name": "FLAG_HIDE_PETALBURG_GYM_NORMAN",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 773,
+    "name": "FLAG_HIDE_SKY_PILLAR_TOP_RAYQUAZA",
+    "category": "event",
+    "location_key": "sky-pillar",
+    "source": "event"
+  },
+  {
+    "index": 774,
+    "name": "FLAG_HIDE_LILYCOVE_CONTEST_HALL_CONTEST_ATTENDANT_1",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 775,
+    "name": "FLAG_HIDE_LILYCOVE_MUSEUM_CURATOR",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 776,
+    "name": "FLAG_HIDE_LILYCOVE_MUSEUM_PATRON_1",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 777,
+    "name": "FLAG_HIDE_LILYCOVE_MUSEUM_PATRON_2",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 778,
+    "name": "FLAG_HIDE_LILYCOVE_MUSEUM_PATRON_3",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 779,
+    "name": "FLAG_HIDE_LILYCOVE_MUSEUM_PATRON_4",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 780,
+    "name": "FLAG_HIDE_LILYCOVE_MUSEUM_TOURISTS",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 781,
+    "name": "FLAG_HIDE_PETALBURG_GYM_GREETER",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 782,
+    "name": "FLAG_HIDE_MARINE_CAVE_KYOGRE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 783,
+    "name": "FLAG_HIDE_TERRA_CAVE_GROUDON",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 784,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_MOM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 785,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_RIVAL_MOM",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 786,
+    "name": "FLAG_HIDE_ROUTE_119_SCOTT",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 787,
+    "name": "FLAG_HIDE_LILYCOVE_MOTEL_SCOTT",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 788,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_SCOTT",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 789,
+    "name": "FLAG_HIDE_FANCLUB_OLD_LADY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 790,
+    "name": "FLAG_HIDE_FANCLUB_BOY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 791,
+    "name": "FLAG_HIDE_FANCLUB_LITTLE_BOY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 792,
+    "name": "FLAG_HIDE_FANCLUB_LADY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 793,
+    "name": "FLAG_HIDE_EVER_GRANDE_POKEMON_CENTER_1F_SCOTT",
+    "category": "event",
+    "location_key": "ever-grande-city",
+    "source": "event"
+  },
+  {
+    "index": 794,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_RIVAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 795,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BIRCH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 796,
+    "name": "FLAG_HIDE_ROUTE_111_GABBY_AND_TY_1",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 797,
+    "name": "FLAG_HIDE_ROUTE_118_GABBY_AND_TY_1",
+    "category": "event",
+    "location_key": "route-118",
+    "source": "event"
+  },
+  {
+    "index": 798,
+    "name": "FLAG_HIDE_ROUTE_120_GABBY_AND_TY_1",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 799,
+    "name": "FLAG_HIDE_ROUTE_111_GABBY_AND_TY_2",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 800,
+    "name": "FLAG_HIDE_LUGIA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 801,
+    "name": "FLAG_HIDE_HO_OH",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 802,
+    "name": "FLAG_HIDE_LILYCOVE_CONTEST_HALL_REPORTER",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 803,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_CONTEST_REPORTER",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 804,
+    "name": "FLAG_HIDE_MAUVILLE_CITY_WALLY",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 805,
+    "name": "FLAG_HIDE_MAUVILLE_CITY_WALLYS_UNCLE",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 806,
+    "name": "FLAG_HIDE_VERDANTURF_TOWN_WANDAS_HOUSE_WALLY",
+    "category": "event",
+    "location_key": "verdanturf-town",
+    "source": "event"
+  },
+  {
+    "index": 807,
+    "name": "FLAG_HIDE_RUSTURF_TUNNEL_WANDAS_BOYFRIEND",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 808,
+    "name": "FLAG_HIDE_VERDANTURF_TOWN_WANDAS_HOUSE_WANDAS_BOYFRIEND",
+    "category": "event",
+    "location_key": "verdanturf-town",
+    "source": "event"
+  },
+  {
+    "index": 809,
+    "name": "FLAG_HIDE_VERDANTURF_TOWN_WANDAS_HOUSE_WALLYS_UNCLE",
+    "category": "event",
+    "location_key": "verdanturf-town",
+    "source": "event"
+  },
+  {
+    "index": 810,
+    "name": "FLAG_HIDE_SS_TIDAL_CORRIDOR_SCOTT",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 811,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_POKEBALL_CYNDAQUIL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 812,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_POKEBALL_TOTODILE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 813,
+    "name": "FLAG_HIDE_ROUTE_116_DROPPED_GLASSES_MAN",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 814,
+    "name": "FLAG_HIDE_RUSTBORO_CITY_RIVAL",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 815,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F_SWABLU_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 816,
+    "name": "FLAG_HIDE_SOOTOPOLIS_CITY_WALLACE",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 817,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F_POKE_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 818,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_2F_POKE_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 819,
+    "name": "FLAG_HIDE_ROUTE_112_TEAM_MAGMA",
+    "category": "event",
+    "location_key": "route-112",
+    "source": "event"
+  },
+  {
+    "index": 820,
+    "name": "FLAG_HIDE_CAVE_OF_ORIGIN_B1F_WALLACE",
+    "category": "event",
+    "location_key": "cave-of-origin",
+    "source": "event"
+  },
+  {
+    "index": 821,
+    "name": "FLAG_HIDE_AQUA_HIDEOUT_1F_GRUNT_1_BLOCKING_ENTRANCE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 822,
+    "name": "FLAG_HIDE_AQUA_HIDEOUT_1F_GRUNT_2_BLOCKING_ENTRANCE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 823,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_TEAM_MAGMA",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 824,
+    "name": "FLAG_HIDE_PETALBURG_GYM_WALLYS_DAD",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 825,
+    "name": "FLAG_HIDE_LEGEND_MON_CAVE_OF_ORIGIN",
+    "category": "event",
+    "location_key": "cave-of-origin",
+    "source": "event"
+  },
+  {
+    "index": 826,
+    "name": "FLAG_HIDE_SOOTOPOLIS_CITY_ARCHIE",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 827,
+    "name": "FLAG_HIDE_SOOTOPOLIS_CITY_MAXIE",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 828,
+    "name": "FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_ARCHIE",
+    "category": "event",
+    "location_key": "seafloor-cavern",
+    "source": "event"
+  },
+  {
+    "index": 829,
+    "name": "FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_MAXIE",
+    "category": "event",
+    "location_key": "seafloor-cavern",
+    "source": "event"
+  },
+  {
+    "index": 830,
+    "name": "FLAG_HIDE_PETALBURG_CITY_WALLYS_DAD",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 831,
+    "name": "FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_MAGMA_GRUNTS",
+    "category": "event",
+    "location_key": "seafloor-cavern",
+    "source": "event"
+  },
+  {
+    "index": 832,
+    "name": "FLAG_HIDE_LILYCOVE_CONTEST_HALL_BLEND_MASTER",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 833,
+    "name": "FLAG_HIDE_GRANITE_CAVE_STEVEN",
+    "category": "event",
+    "location_key": "granite-cave",
+    "source": "event"
+  },
+  {
+    "index": 834,
+    "name": "FLAG_HIDE_ROUTE_128_STEVEN",
+    "category": "event",
+    "location_key": "route-128",
+    "source": "event"
+  },
+  {
+    "index": 835,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_GABBY_AND_TY",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 836,
+    "name": "FLAG_HIDE_BATTLE_FRONTIER_RECEPTION_GATE_SCOTT",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 837,
+    "name": "FLAG_HIDE_ROUTE_110_BIRCH",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 838,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_POKEBALL_CHIKORITA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 839,
+    "name": "FLAG_HIDE_SOOTOPOLIS_CITY_MAN_1",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 840,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_CAPTAIN_STERN",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 841,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_HARBOR_CAPTAIN_STERN",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 842,
+    "name": "FLAG_HIDE_BATTLE_FRONTIER_SUDOWOODO",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 843,
+    "name": "FLAG_HIDE_ROUTE_111_ROCK_SMASH_TIP_GUY",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 844,
+    "name": "FLAG_HIDE_RUSTBORO_CITY_SCIENTIST",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 845,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_HARBOR_AQUA_GRUNT",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 846,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_HARBOR_ARCHIE",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 847,
+    "name": "FLAG_HIDE_JAGGED_PASS_MAGMA_GUARD",
+    "category": "event",
+    "location_key": "jagged-pass",
+    "source": "event"
+  },
+  {
+    "index": 848,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_HARBOR_SUBMARINE_SHADOW",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 849,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_2F_PICHU_DOLL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 850,
+    "name": "FLAG_HIDE_MAGMA_HIDEOUT_4F_GROUDON_ASLEEP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 851,
+    "name": "FLAG_HIDE_ROUTE_119_RIVAL",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 852,
+    "name": "FLAG_HIDE_LILYCOVE_CITY_AQUA_GRUNTS",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 853,
+    "name": "FLAG_HIDE_MAGMA_HIDEOUT_4F_GROUDON",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 854,
+    "name": "FLAG_HIDE_SOOTOPOLIS_CITY_RESIDENTS",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 855,
+    "name": "FLAG_HIDE_SKY_PILLAR_WALLACE",
+    "category": "event",
+    "location_key": "sky-pillar",
+    "source": "event"
+  },
+  {
+    "index": 856,
+    "name": "FLAG_HIDE_MT_PYRE_SUMMIT_MAXIE",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 857,
+    "name": "FLAG_HIDE_MAGMA_HIDEOUT_GRUNTS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 858,
+    "name": "FLAG_HIDE_VICTORY_ROAD_ENTRANCE_WALLY",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 859,
+    "name": "FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_KYOGRE",
+    "category": "event",
+    "location_key": "seafloor-cavern",
+    "source": "event"
+  },
+  {
+    "index": 860,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_HARBOR_SS_TIDAL",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 861,
+    "name": "FLAG_HIDE_LILYCOVE_HARBOR_SSTIDAL",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 862,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_SPACE_CENTER_2F_TEAM_MAGMA",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 863,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_SPACE_CENTER_2F_STEVEN",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 864,
+    "name": "FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_ALT_1",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 865,
+    "name": "FLAG_HIDE_BATTLE_TOWER_MULTI_BATTLE_PARTNER_ALT_2",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 866,
+    "name": "FLAG_HIDE_PETALBURG_GYM_WALLY",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 867,
+    "name": "FLAG_UNKNOWN_0x363",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 868,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_FAT_MAN",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 869,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_STERNS_SHIPYARD_MR_BRINEY",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 870,
+    "name": "FLAG_HIDE_LANETTES_HOUSE_LANETTE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 871,
+    "name": "FLAG_HIDE_FALLARBOR_POKEMON_CENTER_LANETTE",
+    "category": "event",
+    "location_key": "fallarbor-town",
+    "source": "event"
+  },
+  {
+    "index": 872,
+    "name": "FLAG_HIDE_TRICK_HOUSE_ENTRANCE_MAN",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 873,
+    "name": "FLAG_HIDE_LILYCOVE_CONTEST_HALL_BLEND_MASTER_REPLACEMENT",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 874,
+    "name": "FLAG_HIDE_DESERT_UNDERPASS_FOSSIL",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 875,
+    "name": "FLAG_HIDE_ROUTE_111_PLAYER_DESCENT",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 876,
+    "name": "FLAG_HIDE_ROUTE_111_DESERT_FOSSIL",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 877,
+    "name": "FLAG_HIDE_MT_CHIMNEY_TRAINERS",
+    "category": "event",
+    "location_key": "mt-chimney",
+    "source": "event"
+  },
+  {
+    "index": 878,
+    "name": "FLAG_HIDE_RUSTURF_TUNNEL_AQUA_GRUNT",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 879,
+    "name": "FLAG_HIDE_RUSTURF_TUNNEL_BRINEY",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 880,
+    "name": "FLAG_HIDE_RUSTURF_TUNNEL_PEEKO",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 881,
+    "name": "FLAG_HIDE_BRINEYS_HOUSE_PEEKO",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 882,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_TEAM_AQUA",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 883,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_AQUA_GRUNTS",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 884,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_2F_AQUA_GRUNT_1",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 885,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_2F_AQUA_GRUNT_2",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 886,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_2F_ARCHIE",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 887,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_2F_CAPTAIN_STERN",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 888,
+    "name": "FLAG_HIDE_BATTLE_TOWER_OPPONENT",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 889,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_RIVAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 890,
+    "name": "FLAG_HIDE_ROUTE_119_TEAM_AQUA",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 891,
+    "name": "FLAG_HIDE_ROUTE_116_MR_BRINEY",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 892,
+    "name": "FLAG_HIDE_WEATHER_INSTITUTE_1F_WORKERS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 893,
+    "name": "FLAG_HIDE_WEATHER_INSTITUTE_2F_WORKERS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 894,
+    "name": "FLAG_HIDE_ROUTE_116_WANDAS_BOYFRIEND",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 895,
+    "name": "FLAG_HIDE_LILYCOVE_CONTEST_HALL_CONTEST_ATTENDANT_2",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 896,
+    "name": "FLAG_HIDE_LITTLEROOT_TOWN_BIRCHS_LAB_UNKNOWN_0x380",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 897,
+    "name": "FLAG_HIDE_ROUTE_101_BIRCH",
+    "category": "event",
+    "location_key": "route-101",
+    "source": "event"
+  },
+  {
+    "index": 898,
+    "name": "FLAG_HIDE_ROUTE_103_BIRCH",
+    "category": "event",
+    "location_key": "route-103",
+    "source": "event"
+  },
+  {
+    "index": 899,
+    "name": "FLAG_HIDE_TRICK_HOUSE_END_MAN",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 900,
+    "name": "FLAG_HIDE_ROUTE_110_TEAM_AQUA",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 901,
+    "name": "FLAG_HIDE_ROUTE_118_GABBY_AND_TY_2",
+    "category": "event",
+    "location_key": "route-118",
+    "source": "event"
+  },
+  {
+    "index": 902,
+    "name": "FLAG_HIDE_ROUTE_120_GABBY_AND_TY_2",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 903,
+    "name": "FLAG_HIDE_ROUTE_111_GABBY_AND_TY_3",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 904,
+    "name": "FLAG_HIDE_ROUTE_118_GABBY_AND_TY_3",
+    "category": "event",
+    "location_key": "route-118",
+    "source": "event"
+  },
+  {
+    "index": 905,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_HARBOR_PATRONS",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 906,
+    "name": "FLAG_HIDE_ROUTE_104_WHITE_HERB_FLORIST",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 907,
+    "name": "FLAG_HIDE_FALLARBOR_AZURILL",
+    "category": "event",
+    "location_key": "fallarbor-town",
+    "source": "event"
+  },
+  {
+    "index": 908,
+    "name": "FLAG_HIDE_LILYCOVE_HARBOR_FERRY_ATTENDANT",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 909,
+    "name": "FLAG_HIDE_LILYCOVE_HARBOR_FERRY_SAILOR",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 910,
+    "name": "FLAG_HIDE_SOUTHERN_ISLAND_EON_STONE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 911,
+    "name": "FLAG_HIDE_SOUTHERN_ISLAND_UNCHOSEN_EON_DUO_MON",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 912,
+    "name": "FLAG_HIDE_MAUVILLE_CITY_WATTSON",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 913,
+    "name": "FLAG_HIDE_MAUVILLE_GYM_WATTSON",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 914,
+    "name": "FLAG_HIDE_ROUTE_121_TEAM_AQUA_GRUNTS",
+    "category": "event",
+    "location_key": "route-121",
+    "source": "event"
+  },
+  {
+    "index": 915,
+    "name": "FLAG_UNKNOWN_0x393",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 916,
+    "name": "FLAG_HIDE_MT_PYRE_SUMMIT_ARCHIE",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 917,
+    "name": "FLAG_HIDE_MT_PYRE_SUMMIT_TEAM_AQUA",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 918,
+    "name": "FLAG_HIDE_BATTLE_TOWER_REPORTER",
+    "category": "event",
+    "location_key": "battle-tower",
+    "source": "event"
+  },
+  {
+    "index": 919,
+    "name": "FLAG_HIDE_ROUTE_110_RIVAL",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 920,
+    "name": "FLAG_HIDE_CHAMPIONS_ROOM_RIVAL",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 921,
+    "name": "FLAG_HIDE_CHAMPIONS_ROOM_BIRCH",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 922,
+    "name": "FLAG_HIDE_ROUTE_110_RIVAL_ON_BIKE",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 923,
+    "name": "FLAG_HIDE_ROUTE_119_RIVAL_ON_BIKE",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 924,
+    "name": "FLAG_HIDE_AQUA_HIDEOUT_GRUNTS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 925,
+    "name": "FLAG_HIDE_LILYCOVE_MOTEL_GAME_DESIGNERS",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 926,
+    "name": "FLAG_HIDE_MT_CHIMNEY_TEAM_AQUA",
+    "category": "event",
+    "location_key": "mt-chimney",
+    "source": "event"
+  },
+  {
+    "index": 927,
+    "name": "FLAG_HIDE_MT_CHIMNEY_TEAM_MAGMA",
+    "category": "event",
+    "location_key": "mt-chimney",
+    "source": "event"
+  },
+  {
+    "index": 928,
+    "name": "FLAG_HIDE_FALLARBOR_HOUSE_PROF_COZMO",
+    "category": "event",
+    "location_key": "fallarbor-town",
+    "source": "event"
+  },
+  {
+    "index": 929,
+    "name": "FLAG_HIDE_LAVARIDGE_TOWN_RIVAL",
+    "category": "event",
+    "location_key": "lavaridge-town",
+    "source": "event"
+  },
+  {
+    "index": 930,
+    "name": "FLAG_HIDE_LAVARIDGE_TOWN_RIVAL_ON_BIKE",
+    "category": "event",
+    "location_key": "lavaridge-town",
+    "source": "event"
+  },
+  {
+    "index": 931,
+    "name": "FLAG_HIDE_RUSTURF_TUNNEL_ROCK_1",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 932,
+    "name": "FLAG_HIDE_RUSTURF_TUNNEL_ROCK_2",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 933,
+    "name": "FLAG_HIDE_FORTREE_CITY_HOUSE_4_WINGULL",
+    "category": "event",
+    "location_key": "fortree-city",
+    "source": "event"
+  },
+  {
+    "index": 934,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_HOUSE_2_WINGULL",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 935,
+    "name": "FLAG_HIDE_REGIROCK",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 936,
+    "name": "FLAG_HIDE_REGICE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 937,
+    "name": "FLAG_HIDE_REGISTEEL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 938,
+    "name": "FLAG_HIDE_METEOR_FALLS_TEAM_AQUA",
+    "category": "event",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 939,
+    "name": "FLAG_HIDE_METEOR_FALLS_TEAM_MAGMA",
+    "category": "event",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 940,
+    "name": "FLAG_HIDE_DEWFORD_HALL_SLUDGE_BOMB_MAN",
+    "category": "event",
+    "location_key": "dewford-town",
+    "source": "event"
+  },
+  {
+    "index": 941,
+    "name": "FLAG_HIDE_SEAFLOOR_CAVERN_ENTRANCE_AQUA_GRUNT",
+    "category": "event",
+    "location_key": "seafloor-cavern",
+    "source": "event"
+  },
+  {
+    "index": 942,
+    "name": "FLAG_HIDE_METEOR_FALLS_1F_1R_COZMO",
+    "category": "event",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 943,
+    "name": "FLAG_HIDE_AQUA_HIDEOUT_B2F_SUBMARINE_SHADOW",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 944,
+    "name": "FLAG_HIDE_ROUTE_128_ARCHIE",
+    "category": "event",
+    "location_key": "route-128",
+    "source": "event"
+  },
+  {
+    "index": 945,
+    "name": "FLAG_HIDE_ROUTE_128_MAXIE",
+    "category": "event",
+    "location_key": "route-128",
+    "source": "event"
+  },
+  {
+    "index": 946,
+    "name": "FLAG_HIDE_SEAFLOOR_CAVERN_AQUA_GRUNTS",
+    "category": "event",
+    "location_key": "seafloor-cavern",
+    "source": "event"
+  },
+  {
+    "index": 947,
+    "name": "FLAG_HIDE_ROUTE_116_DEVON_EMPLOYEE",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 948,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_TM_SALESMAN",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 949,
+    "name": "FLAG_HIDE_RUSTBORO_CITY_DEVON_CORP_3F_EMPLOYEE",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 950,
+    "name": "FLAG_HIDE_SS_TIDAL_CORRIDOR_MR_BRINEY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 951,
+    "name": "FLAG_HIDE_SS_TIDAL_ROOMS_SNATCH_GIVER",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 952,
+    "name": "FLAG_RECEIVED_SHOAL_SALT_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 953,
+    "name": "FLAG_RECEIVED_SHOAL_SALT_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 954,
+    "name": "FLAG_RECEIVED_SHOAL_SALT_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 955,
+    "name": "FLAG_RECEIVED_SHOAL_SALT_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 956,
+    "name": "FLAG_RECEIVED_SHOAL_SHELL_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 957,
+    "name": "FLAG_RECEIVED_SHOAL_SHELL_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 958,
+    "name": "FLAG_RECEIVED_SHOAL_SHELL_3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 959,
+    "name": "FLAG_RECEIVED_SHOAL_SHELL_4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 960,
+    "name": "FLAG_HIDE_ROUTE_111_SECRET_POWER_MAN",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 961,
+    "name": "FLAG_HIDE_SLATEPORT_MUSEUM_POPULATION",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 962,
+    "name": "FLAG_HIDE_LILYCOVE_DEPARTMENT_STORE_ROOFTOP_SALE_WOMAN",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 963,
+    "name": "FLAG_HIDE_MIRAGE_TOWER_ROOT_FOSSIL",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 964,
+    "name": "FLAG_HIDE_MIRAGE_TOWER_CLAW_FOSSIL",
+    "category": "event",
+    "location_key": "cinnabar-island",
+    "source": "event"
+  },
+  {
+    "index": 965,
+    "name": "FLAG_HIDE_SLATEPORT_CITY_OCEANIC_MUSEUM_FAMILIAR_AQUA_GRUNT",
+    "category": "event",
+    "location_key": "slateport-city",
+    "source": "event"
+  },
+  {
+    "index": 966,
+    "name": "FLAG_HIDE_ROUTE_118_STEVEN",
+    "category": "event",
+    "location_key": "route-118",
+    "source": "event"
+  },
+  {
+    "index": 967,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_STEVENS_HOUSE_STEVEN",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 968,
+    "name": "FLAG_HIDE_MOSSDEEP_CITY_STEVENS_HOUSE_BELDUM_POKEBALL",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 969,
+    "name": "FLAG_HIDE_FORTREE_CITY_KECLEON",
+    "category": "event",
+    "location_key": "fortree-city",
+    "source": "event"
+  },
+  {
+    "index": 970,
+    "name": "FLAG_HIDE_ROUTE_120_KECLEON_BRIDGE",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 971,
+    "name": "FLAG_HIDE_LILYCOVE_CITY_RIVAL",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 972,
+    "name": "FLAG_HIDE_ROUTE_120_STEVEN",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 973,
+    "name": "FLAG_HIDE_SOOTOPOLIS_CITY_STEVEN",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 974,
+    "name": "FLAG_HIDE_NEW_MAUVILLE_VOLTORB_1",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 975,
+    "name": "FLAG_HIDE_NEW_MAUVILLE_VOLTORB_2",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 976,
+    "name": "FLAG_HIDE_NEW_MAUVILLE_VOLTORB_3",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 977,
+    "name": "FLAG_HIDE_AQUA_HIDEOUT_B1F_ELECTRODE_1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 978,
+    "name": "FLAG_HIDE_AQUA_HIDEOUT_B1F_ELECTRODE_2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 979,
+    "name": "FLAG_HIDE_OLDALE_TOWN_RIVAL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 980,
+    "name": "FLAG_HIDE_UNDERWATER_SEA_FLOOR_CAVERN_STOLEN_SUBMARINE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 981,
+    "name": "FLAG_HIDE_ROUTE_120_KECLEON_BRIDGE_SHADOW",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 982,
+    "name": "FLAG_HIDE_ROUTE_120_KECLEON_1",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 983,
+    "name": "FLAG_HIDE_RUSTURF_TUNNEL_WANDA",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 984,
+    "name": "FLAG_HIDE_VERDANTURF_TOWN_WANDAS_HOUSE_WANDA",
+    "category": "event",
+    "location_key": "verdanturf-town",
+    "source": "event"
+  },
+  {
+    "index": 985,
+    "name": "FLAG_HIDE_ROUTE_120_KECLEON_2",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 986,
+    "name": "FLAG_HIDE_ROUTE_120_KECLEON_3",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 987,
+    "name": "FLAG_HIDE_ROUTE_120_KECLEON_4",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 988,
+    "name": "FLAG_HIDE_ROUTE_120_KECLEON_5",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 989,
+    "name": "FLAG_HIDE_ROUTE_119_KECLEON_1",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 990,
+    "name": "FLAG_HIDE_ROUTE_119_KECLEON_2",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 991,
+    "name": "FLAG_HIDE_ROUTE_101_BOY",
+    "category": "event",
+    "location_key": "route-101",
+    "source": "event"
+  },
+  {
+    "index": 992,
+    "name": "FLAG_HIDE_WEATHER_INSTITUTE_2F_AQUA_GRUNT_M",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 993,
+    "name": "FLAG_HIDE_LILYCOVE_POKEMON_CENTER_CONTEST_LADY_MON",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 994,
+    "name": "FLAG_HIDE_MT_CHIMNEY_LAVA_COOKIE_LADY",
+    "category": "event",
+    "location_key": "mt-chimney",
+    "source": "event"
+  },
+  {
+    "index": 995,
+    "name": "FLAG_HIDE_PETALBURG_CITY_SCOTT",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 996,
+    "name": "FLAG_HIDE_SOOTOPOLIS_CITY_RAYQUAZA",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 997,
+    "name": "FLAG_HIDE_SOOTOPOLIS_CITY_KYOGRE",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 998,
+    "name": "FLAG_HIDE_SOOTOPOLIS_CITY_GROUDON",
+    "category": "event",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 999,
+    "name": "FLAG_HIDE_RUSTBORO_CITY_POKEMON_SCHOOL_SCOTT",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 1000,
+    "name": "FLAG_ITEM_ROUTE_102_POTION",
+    "category": "event",
+    "location_key": "route-102",
+    "source": "event"
+  },
+  {
+    "index": 1001,
+    "name": "FLAG_ITEM_ROUTE_116_X_SPECIAL",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 1002,
+    "name": "FLAG_ITEM_ROUTE_104_PP_UP",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 1003,
+    "name": "FLAG_ITEM_ROUTE_105_IRON",
+    "category": "event",
+    "location_key": "route-105",
+    "source": "event"
+  },
+  {
+    "index": 1004,
+    "name": "FLAG_ITEM_ROUTE_106_PROTEIN",
+    "category": "event",
+    "location_key": "route-106",
+    "source": "event"
+  },
+  {
+    "index": 1005,
+    "name": "FLAG_ITEM_ROUTE_109_PP_UP",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 1006,
+    "name": "FLAG_ITEM_ROUTE_110_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 1007,
+    "name": "FLAG_ITEM_ROUTE_110_DIRE_HIT",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 1008,
+    "name": "FLAG_ITEM_ROUTE_111_TM_SANDSTORM",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 1009,
+    "name": "FLAG_ITEM_ROUTE_111_STARDUST",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 1010,
+    "name": "FLAG_ITEM_ROUTE_111_HP_UP",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 1011,
+    "name": "FLAG_ITEM_ROUTE_112_NUGGET",
+    "category": "event",
+    "location_key": "route-112",
+    "source": "event"
+  },
+  {
+    "index": 1012,
+    "name": "FLAG_ITEM_ROUTE_113_MAX_ETHER",
+    "category": "event",
+    "location_key": "route-113",
+    "source": "event"
+  },
+  {
+    "index": 1013,
+    "name": "FLAG_ITEM_ROUTE_113_SUPER_REPEL",
+    "category": "event",
+    "location_key": "route-113",
+    "source": "event"
+  },
+  {
+    "index": 1014,
+    "name": "FLAG_ITEM_ROUTE_114_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-114",
+    "source": "event"
+  },
+  {
+    "index": 1015,
+    "name": "FLAG_ITEM_ROUTE_114_PROTEIN",
+    "category": "event",
+    "location_key": "route-114",
+    "source": "event"
+  },
+  {
+    "index": 1016,
+    "name": "FLAG_ITEM_ROUTE_115_SUPER_POTION",
+    "category": "event",
+    "location_key": "route-115",
+    "source": "event"
+  },
+  {
+    "index": 1017,
+    "name": "FLAG_ITEM_ROUTE_115_TM_FOCUS_PUNCH",
+    "category": "event",
+    "location_key": "route-115",
+    "source": "event"
+  },
+  {
+    "index": 1018,
+    "name": "FLAG_ITEM_ROUTE_115_IRON",
+    "category": "event",
+    "location_key": "route-115",
+    "source": "event"
+  },
+  {
+    "index": 1019,
+    "name": "FLAG_ITEM_ROUTE_116_ETHER",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 1020,
+    "name": "FLAG_ITEM_ROUTE_116_REPEL",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 1021,
+    "name": "FLAG_ITEM_ROUTE_116_HP_UP",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 1022,
+    "name": "FLAG_ITEM_ROUTE_117_GREAT_BALL",
+    "category": "event",
+    "location_key": "route-117",
+    "source": "event"
+  },
+  {
+    "index": 1023,
+    "name": "FLAG_ITEM_ROUTE_117_REVIVE",
+    "category": "event",
+    "location_key": "route-117",
+    "source": "event"
+  },
+  {
+    "index": 1024,
+    "name": "FLAG_ITEM_ROUTE_119_SUPER_REPEL",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 1025,
+    "name": "FLAG_ITEM_ROUTE_119_ZINC",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 1026,
+    "name": "FLAG_ITEM_ROUTE_119_ELIXIR_1",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 1027,
+    "name": "FLAG_ITEM_ROUTE_119_LEAF_STONE",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 1028,
+    "name": "FLAG_ITEM_ROUTE_119_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 1029,
+    "name": "FLAG_ITEM_ROUTE_119_HYPER_POTION_1",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 1030,
+    "name": "FLAG_ITEM_ROUTE_120_NUGGET",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 1031,
+    "name": "FLAG_ITEM_ROUTE_120_FULL_HEAL",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 1032,
+    "name": "FLAG_ITEM_ROUTE_123_CALCIUM",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 1033,
+    "name": "FLAG_ITEM_ROUTE_123_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 1034,
+    "name": "FLAG_ITEM_ROUTE_127_ZINC",
+    "category": "event",
+    "location_key": "route-127",
+    "source": "event"
+  },
+  {
+    "index": 1035,
+    "name": "FLAG_ITEM_ROUTE_127_CARBOS",
+    "category": "event",
+    "location_key": "route-127",
+    "source": "event"
+  },
+  {
+    "index": 1036,
+    "name": "FLAG_ITEM_ROUTE_132_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-132",
+    "source": "event"
+  },
+  {
+    "index": 1037,
+    "name": "FLAG_ITEM_ROUTE_133_BIG_PEARL",
+    "category": "event",
+    "location_key": "route-133",
+    "source": "event"
+  },
+  {
+    "index": 1038,
+    "name": "FLAG_ITEM_ROUTE_133_STAR_PIECE",
+    "category": "event",
+    "location_key": "route-133",
+    "source": "event"
+  },
+  {
+    "index": 1039,
+    "name": "FLAG_ITEM_PETALBURG_CITY_MAX_REVIVE",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 1040,
+    "name": "FLAG_ITEM_PETALBURG_CITY_ETHER",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 1041,
+    "name": "FLAG_ITEM_RUSTBORO_CITY_X_DEFEND",
+    "category": "event",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 1042,
+    "name": "FLAG_ITEM_LILYCOVE_CITY_MAX_REPEL",
+    "category": "event",
+    "location_key": "lilycove-city",
+    "source": "event"
+  },
+  {
+    "index": 1043,
+    "name": "FLAG_ITEM_MOSSDEEP_CITY_NET_BALL",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 1044,
+    "name": "FLAG_ITEM_METEOR_FALLS_1F_1R_TM_IRON_TAIL",
+    "category": "event",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 1045,
+    "name": "FLAG_ITEM_METEOR_FALLS_1F_1R_FULL_HEAL",
+    "category": "event",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 1046,
+    "name": "FLAG_ITEM_METEOR_FALLS_1F_1R_MOON_STONE",
+    "category": "event",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 1047,
+    "name": "FLAG_ITEM_METEOR_FALLS_1F_1R_PP_UP",
+    "category": "event",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 1048,
+    "name": "FLAG_ITEM_RUSTURF_TUNNEL_POKE_BALL",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 1049,
+    "name": "FLAG_ITEM_RUSTURF_TUNNEL_MAX_ETHER",
+    "category": "event",
+    "location_key": "rusturf-tunnel",
+    "source": "event"
+  },
+  {
+    "index": 1050,
+    "name": "FLAG_ITEM_GRANITE_CAVE_1F_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "granite-cave",
+    "source": "event"
+  },
+  {
+    "index": 1051,
+    "name": "FLAG_ITEM_GRANITE_CAVE_B1F_POKE_BALL",
+    "category": "event",
+    "location_key": "granite-cave",
+    "source": "event"
+  },
+  {
+    "index": 1052,
+    "name": "FLAG_ITEM_MT_PYRE_5F_LAX_INCENSE",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 1053,
+    "name": "FLAG_ITEM_GRANITE_CAVE_B2F_REPEL",
+    "category": "event",
+    "location_key": "granite-cave",
+    "source": "event"
+  },
+  {
+    "index": 1054,
+    "name": "FLAG_ITEM_GRANITE_CAVE_B2F_RARE_CANDY",
+    "category": "event",
+    "location_key": "granite-cave",
+    "source": "event"
+  },
+  {
+    "index": 1055,
+    "name": "FLAG_ITEM_PETALBURG_WOODS_X_ATTACK",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 1056,
+    "name": "FLAG_ITEM_PETALBURG_WOODS_GREAT_BALL",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 1057,
+    "name": "FLAG_ITEM_ROUTE_104_POKE_BALL",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 1058,
+    "name": "FLAG_ITEM_PETALBURG_WOODS_ETHER",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 1059,
+    "name": "FLAG_ITEM_MAGMA_HIDEOUT_3F_3R_ECAPE_ROPE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1060,
+    "name": "FLAG_ITEM_TRICK_HOUSE_PUZZLE_1_ORANGE_MAIL",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 1061,
+    "name": "FLAG_ITEM_TRICK_HOUSE_PUZZLE_2_HARBOR_MAIL",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 1062,
+    "name": "FLAG_ITEM_TRICK_HOUSE_PUZZLE_2_WAVE_MAIL",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 1063,
+    "name": "FLAG_ITEM_TRICK_HOUSE_PUZZLE_3_SHADOW_MAIL",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 1064,
+    "name": "FLAG_ITEM_TRICK_HOUSE_PUZZLE_3_WOOD_MAIL",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 1065,
+    "name": "FLAG_ITEM_TRICK_HOUSE_PUZZLE_4_MECH_MAIL",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 1066,
+    "name": "FLAG_ITEM_ROUTE_124_YELLOW_SHARD",
+    "category": "event",
+    "location_key": "route-124",
+    "source": "event"
+  },
+  {
+    "index": 1067,
+    "name": "FLAG_ITEM_TRICK_HOUSE_PUZZLE_6_GLITTER_MAIL",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 1068,
+    "name": "FLAG_ITEM_TRICK_HOUSE_PUZZLE_7_TROPIC_MAIL",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 1069,
+    "name": "FLAG_ITEM_TRICK_HOUSE_PUZZLE_8_BEAD_MAIL",
+    "category": "event",
+    "location_key": "trick-house",
+    "source": "event"
+  },
+  {
+    "index": 1070,
+    "name": "FLAG_ITEM_JAGGED_PASS_BURN_HEAL",
+    "category": "event",
+    "location_key": "jagged-pass",
+    "source": "event"
+  },
+  {
+    "index": 1071,
+    "name": "FLAG_ITEM_AQUA_HIDEOUT_B1F_MAX_ELIXIR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1072,
+    "name": "FLAG_ITEM_AQUA_HIDEOUT_B2F_NEST_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1073,
+    "name": "FLAG_ITEM_MT_PYRE_EXTERIOR_MAX_POTION",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 1074,
+    "name": "FLAG_ITEM_MT_PYRE_EXTERIOR_TM_SKILL_SWAP",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 1075,
+    "name": "FLAG_ITEM_NEW_MAUVILLE_ULTRA_BALL",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 1076,
+    "name": "FLAG_ITEM_NEW_MAUVILLE_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 1077,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_HIDDEN_FLOOR_ROOM_6_LUXURY_BALL",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1078,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_HIDDEN_FLOOR_ROOM_2_SCANNER",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1079,
+    "name": "FLAG_ITEM_SCORCHED_SLAB_TM_SUNNY_DAY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1080,
+    "name": "FLAG_ITEM_METEOR_FALLS_B1F_2R_TM_DRAGON_CLAW",
+    "category": "event",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 1081,
+    "name": "FLAG_ITEM_SHOAL_CAVE_ENTRANCE_BIG_PEARL",
+    "category": "event",
+    "location_key": "shoal-cave",
+    "source": "event"
+  },
+  {
+    "index": 1082,
+    "name": "FLAG_ITEM_SHOAL_CAVE_INNER_ROOM_RARE_CANDY",
+    "category": "event",
+    "location_key": "shoal-cave",
+    "source": "event"
+  },
+  {
+    "index": 1083,
+    "name": "FLAG_ITEM_SHOAL_CAVE_STAIRS_ROOM_ICE_HEAL",
+    "category": "event",
+    "location_key": "shoal-cave",
+    "source": "event"
+  },
+  {
+    "index": 1084,
+    "name": "FLAG_ITEM_VICTORY_ROAD_1F_MAX_ELIXIR",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 1085,
+    "name": "FLAG_ITEM_VICTORY_ROAD_1F_PP_UP",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 1086,
+    "name": "FLAG_ITEM_VICTORY_ROAD_B1F_TM_PSYCHIC",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 1087,
+    "name": "FLAG_ITEM_VICTORY_ROAD_B1F_FULL_RESTORE",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 1088,
+    "name": "FLAG_ITEM_VICTORY_ROAD_B2F_FULL_HEAL",
+    "category": "event",
+    "location_key": "victory-road",
+    "source": "event"
+  },
+  {
+    "index": 1089,
+    "name": "FLAG_ITEM_MT_PYRE_6F_TM_SHADOW_BALL",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 1090,
+    "name": "FLAG_ITEM_SEAFLOOR_CAVERN_ROOM_9_TM_EARTHQUAKE",
+    "category": "event",
+    "location_key": "seafloor-cavern",
+    "source": "event"
+  },
+  {
+    "index": 1091,
+    "name": "FLAG_ITEM_FIERY_PATH_TM_TOXIC",
+    "category": "event",
+    "location_key": "fiery-path",
+    "source": "event"
+  },
+  {
+    "index": 1092,
+    "name": "FLAG_ITEM_ROUTE_124_RED_SHARD",
+    "category": "event",
+    "location_key": "route-124",
+    "source": "event"
+  },
+  {
+    "index": 1093,
+    "name": "FLAG_ITEM_ROUTE_124_BLUE_SHARD",
+    "category": "event",
+    "location_key": "route-124",
+    "source": "event"
+  },
+  {
+    "index": 1094,
+    "name": "FLAG_ITEM_SAFARI_ZONE_NORTH_WEST_TM_SOLAR_BEAM",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 1095,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_ROOMS_1F_HARBOR_MAIL",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1096,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_ROOMS_B1F_ESCAPE_ROPE",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1097,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_ROOMS_2_B1F_DIVE_BALL",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1098,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_ROOMS_B1F_TM_ICE_BEAM",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1099,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_ROOMS_2_1F_REVIVE",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1100,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_CAPTAINS_OFFICE_STORAGE_KEY",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1101,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_HIDDEN_FLOOR_ROOM_3_WATER_STONE",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1102,
+    "name": "FLAG_ITEM_ABANDONED_SHIP_HIDDEN_FLOOR_ROOM_1_TM_RAIN_DANCE",
+    "category": "event",
+    "location_key": "abandoned-ship",
+    "source": "event"
+  },
+  {
+    "index": 1103,
+    "name": "FLAG_ITEM_ROUTE_121_CARBOS",
+    "category": "event",
+    "location_key": "route-121",
+    "source": "event"
+  },
+  {
+    "index": 1104,
+    "name": "FLAG_ITEM_ROUTE_123_ULTRA_BALL",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 1105,
+    "name": "FLAG_ITEM_ROUTE_126_GREEN_SHARD",
+    "category": "event",
+    "location_key": "route-126",
+    "source": "event"
+  },
+  {
+    "index": 1106,
+    "name": "FLAG_ITEM_ROUTE_119_HYPER_POTION_2",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 1107,
+    "name": "FLAG_ITEM_ROUTE_120_HYPER_POTION",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 1108,
+    "name": "FLAG_ITEM_ROUTE_120_NEST_BALL",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 1109,
+    "name": "FLAG_ITEM_ROUTE_123_ELIXIR",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 1110,
+    "name": "FLAG_ITEM_NEW_MAUVILLE_THUNDER_STONE",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 1111,
+    "name": "FLAG_ITEM_FIERY_PATH_FIRE_STONE",
+    "category": "event",
+    "location_key": "fiery-path",
+    "source": "event"
+  },
+  {
+    "index": 1112,
+    "name": "FLAG_ITEM_SHOAL_CAVE_ICE_ROOM_TM_HAIL",
+    "category": "event",
+    "location_key": "shoal-cave",
+    "source": "event"
+  },
+  {
+    "index": 1113,
+    "name": "FLAG_ITEM_SHOAL_CAVE_ICE_ROOM_NEVER_MELT_ICE",
+    "category": "event",
+    "location_key": "shoal-cave",
+    "source": "event"
+  },
+  {
+    "index": 1114,
+    "name": "FLAG_ITEM_ROUTE_103_GUARD_SPEC",
+    "category": "event",
+    "location_key": "route-103",
+    "source": "event"
+  },
+  {
+    "index": 1115,
+    "name": "FLAG_ITEM_ROUTE_104_X_ACCURACY",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 1116,
+    "name": "FLAG_ITEM_MAUVILLE_CITY_X_SPEED",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 1117,
+    "name": "FLAG_ITEM_PETALBURG_WOODS_PARALYZE_HEAL",
+    "category": "event",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 1118,
+    "name": "FLAG_ITEM_ROUTE_115_GREAT_BALL",
+    "category": "event",
+    "location_key": "route-115",
+    "source": "event"
+  },
+  {
+    "index": 1119,
+    "name": "FLAG_ITEM_SAFARI_ZONE_NORTH_CALCIUM",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 1120,
+    "name": "FLAG_ITEM_MT_PYRE_3F_SUPER_REPEL",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 1121,
+    "name": "FLAG_ITEM_ROUTE_118_HYPER_POTION",
+    "category": "event",
+    "location_key": "route-118",
+    "source": "event"
+  },
+  {
+    "index": 1122,
+    "name": "FLAG_ITEM_NEW_MAUVILLE_FULL_HEAL",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 1123,
+    "name": "FLAG_ITEM_NEW_MAUVILLE_PARALYZE_HEAL",
+    "category": "event",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 1124,
+    "name": "FLAG_ITEM_AQUA_HIDEOUT_B1F_MASTER_BALL",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1125,
+    "name": "FLAG_ITEM_OLD_MAGMA_HIDEOUT_B1F_MASTER_BALL",
+    "category": "event",
+    "location_key": "silph-co",
+    "source": "event"
+  },
+  {
+    "index": 1126,
+    "name": "FLAG_ITEM_OLD_MAGMA_HIDEOUT_B1F_MAX_ELIXIR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1127,
+    "name": "FLAG_ITEM_OLD_MAGMA_HIDEOUT_B2F_NEST_BALL",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1128,
+    "name": "FLAG_UNUSED_0x468",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1129,
+    "name": "FLAG_ITEM_MT_PYRE_2F_ULTRA_BALL",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 1130,
+    "name": "FLAG_ITEM_MT_PYRE_4F_SEA_INCENSE",
+    "category": "event",
+    "location_key": "mt-pyre",
+    "source": "event"
+  },
+  {
+    "index": 1131,
+    "name": "FLAG_ITEM_SAFARI_ZONE_SOUTH_WEST_MAX_REVIVE",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 1132,
+    "name": "FLAG_ITEM_AQUA_HIDEOUT_B1F_NUGGET",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 1133,
+    "name": "FLAG_ITEM_MOSSDEEP_STEVENS_HOUSE_HM08",
+    "category": "event",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 1134,
+    "name": "FLAG_ITEM_ROUTE_119_NUGGET",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 1135,
+    "name": "FLAG_ITEM_ROUTE_104_POTION",
+    "category": "event",
+    "location_key": "route-104",
+    "source": "event"
+  },
+  {
+    "index": 1136,
+    "name": "FLAG_UNUSED_0x470",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1137,
+    "name": "FLAG_ITEM_ROUTE_103_PP_UP",
+    "category": "event",
+    "location_key": "route-103",
+    "source": "event"
+  },
+  {
+    "index": 1138,
+    "name": "FLAG_UNUSED_0x472",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1139,
+    "name": "FLAG_ITEM_ROUTE_108_STAR_PIECE",
+    "category": "event",
+    "location_key": "route-108",
+    "source": "event"
+  },
+  {
+    "index": 1140,
+    "name": "FLAG_ITEM_ROUTE_109_POTION",
+    "category": "event",
+    "location_key": "route-109",
+    "source": "event"
+  },
+  {
+    "index": 1141,
+    "name": "FLAG_ITEM_ROUTE_110_ELIXIR",
+    "category": "event",
+    "location_key": "route-110",
+    "source": "event"
+  },
+  {
+    "index": 1142,
+    "name": "FLAG_ITEM_ROUTE_111_ELIXIR",
+    "category": "event",
+    "location_key": "route-111",
+    "source": "event"
+  },
+  {
+    "index": 1143,
+    "name": "FLAG_ITEM_ROUTE_113_HYPER_POTION",
+    "category": "event",
+    "location_key": "route-113",
+    "source": "event"
+  },
+  {
+    "index": 1144,
+    "name": "FLAG_ITEM_ROUTE_115_HEAL_POWDER",
+    "category": "event",
+    "location_key": "route-115",
+    "source": "event"
+  },
+  {
+    "index": 1145,
+    "name": "FLAG_UNUSED_0x479",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1146,
+    "name": "FLAG_ITEM_ROUTE_116_POTION",
+    "category": "event",
+    "location_key": "route-116",
+    "source": "event"
+  },
+  {
+    "index": 1147,
+    "name": "FLAG_ITEM_ROUTE_119_ELIXIR_2",
+    "category": "event",
+    "location_key": "route-119",
+    "source": "event"
+  },
+  {
+    "index": 1148,
+    "name": "FLAG_ITEM_ROUTE_120_REVIVE",
+    "category": "event",
+    "location_key": "route-120",
+    "source": "event"
+  },
+  {
+    "index": 1149,
+    "name": "FLAG_ITEM_ROUTE_121_REVIVE",
+    "category": "event",
+    "location_key": "route-121",
+    "source": "event"
+  },
+  {
+    "index": 1150,
+    "name": "FLAG_ITEM_ROUTE_121_ZINC",
+    "category": "event",
+    "location_key": "route-121",
+    "source": "event"
+  },
+  {
+    "index": 1151,
+    "name": "FLAG_ITEM_MAGMA_HIDEOUT_1F_RARE_CANDY",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1152,
+    "name": "FLAG_ITEM_ROUTE_123_PP_UP",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 1153,
+    "name": "FLAG_ITEM_ROUTE_123_REVIVAL_HERB",
+    "category": "event",
+    "location_key": "route-123",
+    "source": "event"
+  },
+  {
+    "index": 1154,
+    "name": "FLAG_ITEM_ROUTE_125_BIG_PEARL",
+    "category": "event",
+    "location_key": "route-125",
+    "source": "event"
+  },
+  {
+    "index": 1155,
+    "name": "FLAG_ITEM_ROUTE_127_RARE_CANDY",
+    "category": "event",
+    "location_key": "route-127",
+    "source": "event"
+  },
+  {
+    "index": 1156,
+    "name": "FLAG_ITEM_ROUTE_132_PROTEIN",
+    "category": "event",
+    "location_key": "route-132",
+    "source": "event"
+  },
+  {
+    "index": 1157,
+    "name": "FLAG_ITEM_ROUTE_133_MAX_REVIVE",
+    "category": "event",
+    "location_key": "route-133",
+    "source": "event"
+  },
+  {
+    "index": 1158,
+    "name": "FLAG_ITEM_ROUTE_134_CARBOS",
+    "category": "event",
+    "location_key": "route-134",
+    "source": "event"
+  },
+  {
+    "index": 1159,
+    "name": "FLAG_ITEM_ROUTE_134_STAR_PIECE",
+    "category": "event",
+    "location_key": "route-134",
+    "source": "event"
+  },
+  {
+    "index": 1160,
+    "name": "FLAG_ITEM_ROUTE_114_ENERGY_POWDER",
+    "category": "event",
+    "location_key": "route-114",
+    "source": "event"
+  },
+  {
+    "index": 1161,
+    "name": "FLAG_ITEM_ROUTE_115_PP_UP",
+    "category": "event",
+    "location_key": "route-115",
+    "source": "event"
+  },
+  {
+    "index": 1162,
+    "name": "FLAG_ITEM_ARTISAN_CAVE_B1F_HP_UP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1163,
+    "name": "FLAG_ITEM_ARTISAN_CAVE_1F_CARBOS",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1164,
+    "name": "FLAG_ITEM_MAGMA_HIDEOUT_2F_2R_MAX_ELIXIR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1165,
+    "name": "FLAG_ITEM_MAGMA_HIDEOUT_2F_2R_FULL_RESTORE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1166,
+    "name": "FLAG_ITEM_MAGMA_HIDEOUT_3F_1R_NUGGET",
+    "category": "event",
+    "location_key": "cerulean-city",
+    "source": "event"
+  },
+  {
+    "index": 1167,
+    "name": "FLAG_ITEM_MAGMA_HIDEOUT_3F_2R_PP_MAX",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1168,
+    "name": "FLAG_ITEM_MAGMA_HIDEOUT_4F_MAX_REVIVE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1169,
+    "name": "FLAG_ITEM_SAFARI_ZONE_NORTH_EAST_NUGGET",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 1170,
+    "name": "FLAG_ITEM_SAFARI_ZONE_SOUTH_EAST_BIG_PEARL",
+    "category": "event",
+    "location_key": "safari-zone",
+    "source": "event"
+  },
+  {
+    "index": 1171,
+    "name": "FLAG_UNUSED_0x493",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1172,
+    "name": "FLAG_UNUSED_0x494",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1173,
+    "name": "FLAG_UNUSED_0x495",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1174,
+    "name": "FLAG_UNUSED_0x496",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1175,
+    "name": "FLAG_UNUSED_0x497",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1176,
+    "name": "FLAG_UNUSED_0x498",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1177,
+    "name": "FLAG_UNUSED_0x499",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1178,
+    "name": "FLAG_UNUSED_0x49A",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1179,
+    "name": "FLAG_UNUSED_0x49B",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1180,
+    "name": "FLAG_UNUSED_0x49C",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1181,
+    "name": "FLAG_UNUSED_0x49D",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1182,
+    "name": "FLAG_UNUSED_0x49E",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1183,
+    "name": "FLAG_UNUSED_0x49F",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1184,
+    "name": "FLAG_UNUSED_0x4A0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1185,
+    "name": "FLAG_UNUSED_0x4A1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1186,
+    "name": "FLAG_UNUSED_0x4A2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1187,
+    "name": "FLAG_UNUSED_0x4A3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1188,
+    "name": "FLAG_UNUSED_0x4A4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1189,
+    "name": "FLAG_UNUSED_0x4A5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1190,
+    "name": "FLAG_UNUSED_0x4A6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1191,
+    "name": "FLAG_UNUSED_0x4A7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1192,
+    "name": "FLAG_UNUSED_0x4A8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1193,
+    "name": "FLAG_UNUSED_0x4A9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1194,
+    "name": "FLAG_UNUSED_0x4AA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1195,
+    "name": "FLAG_UNUSED_0x4AB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1196,
+    "name": "FLAG_UNUSED_0x4AC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1197,
+    "name": "FLAG_UNUSED_0x4AD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1198,
+    "name": "FLAG_UNUSED_0x4AE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1199,
+    "name": "FLAG_UNUSED_0x4AF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1200,
+    "name": "FLAG_UNUSED_0x4B0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1201,
+    "name": "FLAG_UNUSED_0x4B1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1202,
+    "name": "FLAG_UNUSED_0x4B2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1203,
+    "name": "FLAG_UNUSED_0x4B3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1204,
+    "name": "FLAG_UNUSED_0x4B4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1205,
+    "name": "FLAG_UNUSED_0x4B5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1206,
+    "name": "FLAG_UNUSED_0x4B6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1207,
+    "name": "FLAG_UNUSED_0x4B7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1208,
+    "name": "FLAG_UNUSED_0x4B8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1209,
+    "name": "FLAG_UNUSED_0x4B9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1210,
+    "name": "FLAG_UNUSED_0x4BA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1211,
+    "name": "FLAG_UNUSED_0x4BB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1212,
+    "name": "FLAG_UNUSED_0x4BC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1213,
+    "name": "FLAG_UNUSED_0x4BD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1214,
+    "name": "FLAG_UNUSED_0x4BE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1215,
+    "name": "FLAG_UNUSED_0x4BF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1216,
+    "name": "FLAG_UNUSED_0x4C0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1217,
+    "name": "FLAG_UNUSED_0x4C1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1218,
+    "name": "FLAG_UNUSED_0x4C2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1219,
+    "name": "FLAG_UNUSED_0x4C3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1220,
+    "name": "FLAG_UNUSED_0x4C4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1221,
+    "name": "FLAG_UNUSED_0x4C5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1222,
+    "name": "FLAG_UNUSED_0x4C6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1223,
+    "name": "FLAG_UNUSED_0x4C7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1224,
+    "name": "FLAG_UNUSED_0x4C8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1225,
+    "name": "FLAG_UNUSED_0x4C9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1226,
+    "name": "FLAG_UNUSED_0x4CA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1227,
+    "name": "FLAG_UNUSED_0x4CB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1228,
+    "name": "FLAG_UNUSED_0x4CC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1229,
+    "name": "FLAG_UNUSED_0x4CD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1230,
+    "name": "FLAG_UNUSED_0x4CE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1231,
+    "name": "FLAG_UNUSED_0x4CF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1232,
+    "name": "FLAG_UNUSED_0x4D0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1233,
+    "name": "FLAG_UNUSED_0x4D1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1234,
+    "name": "FLAG_UNUSED_0x4D2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1235,
+    "name": "FLAG_UNUSED_0x4D3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1236,
+    "name": "FLAG_UNUSED_0x4D4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1237,
+    "name": "FLAG_UNUSED_0x4D5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1238,
+    "name": "FLAG_UNUSED_0x4D6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1239,
+    "name": "FLAG_UNUSED_0x4D7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1240,
+    "name": "FLAG_UNUSED_0x4D8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1241,
+    "name": "FLAG_UNUSED_0x4D9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1242,
+    "name": "FLAG_UNUSED_0x4DA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1243,
+    "name": "FLAG_UNUSED_0x4DB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1244,
+    "name": "FLAG_UNUSED_0x4DC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1245,
+    "name": "FLAG_UNUSED_0x4DD",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1246,
+    "name": "FLAG_UNUSED_0x4DE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1247,
+    "name": "FLAG_UNUSED_0x4DF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1248,
+    "name": "FLAG_UNUSED_0x4E0",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1249,
+    "name": "FLAG_UNUSED_0x4E1",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1250,
+    "name": "FLAG_UNUSED_0x4E2",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1251,
+    "name": "FLAG_UNUSED_0x4E3",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1252,
+    "name": "FLAG_UNUSED_0x4E4",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1253,
+    "name": "FLAG_UNUSED_0x4E5",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1254,
+    "name": "FLAG_UNUSED_0x4E6",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1255,
+    "name": "FLAG_UNUSED_0x4E7",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1256,
+    "name": "FLAG_UNUSED_0x4E8",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1257,
+    "name": "FLAG_UNUSED_0x4E9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1258,
+    "name": "FLAG_UNUSED_0x4EA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1259,
+    "name": "FLAG_UNUSED_0x4EB",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1260,
+    "name": "FLAG_UNUSED_0x4EC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1261,
+    "name": "FLAG_UNUSED_0x4ED",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1262,
+    "name": "FLAG_UNUSED_0x4EE",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1263,
+    "name": "FLAG_UNUSED_0x4EF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1264,
+    "name": "FLAG_DEFEATED_RUSTBORO_GYM",
+    "category": "trainer",
+    "location_key": "rustboro-city",
+    "source": "event"
+  },
+  {
+    "index": 1265,
+    "name": "FLAG_DEFEATED_DEWFORD_GYM",
+    "category": "trainer",
+    "location_key": "dewford-town",
+    "source": "event"
+  },
+  {
+    "index": 1266,
+    "name": "FLAG_DEFEATED_MAUVILLE_GYM",
+    "category": "trainer",
+    "location_key": "mauville-city",
+    "source": "event"
+  },
+  {
+    "index": 1267,
+    "name": "FLAG_DEFEATED_LAVARIDGE_GYM",
+    "category": "trainer",
+    "location_key": "lavaridge-town",
+    "source": "event"
+  },
+  {
+    "index": 1268,
+    "name": "FLAG_DEFEATED_PETALBURG_GYM",
+    "category": "trainer",
+    "location_key": "petalburg-city",
+    "source": "event"
+  },
+  {
+    "index": 1269,
+    "name": "FLAG_DEFEATED_FORTREE_GYM",
+    "category": "trainer",
+    "location_key": "fortree-city",
+    "source": "event"
+  },
+  {
+    "index": 1270,
+    "name": "FLAG_DEFEATED_MOSSDEEP_GYM",
+    "category": "trainer",
+    "location_key": "mossdeep-city",
+    "source": "event"
+  },
+  {
+    "index": 1271,
+    "name": "FLAG_DEFEATED_SOOTOPOLIS_GYM",
+    "category": "trainer",
+    "location_key": "sootopolis-city",
+    "source": "event"
+  },
+  {
+    "index": 1272,
+    "name": "FLAG_DEFEATED_METEOR_FALLS_STEVEN",
+    "category": "trainer",
+    "location_key": "meteor-falls",
+    "source": "event"
+  },
+  {
+    "index": 1273,
+    "name": "FLAG_UNUSED_0x4F9",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1274,
+    "name": "FLAG_UNUSED_0x4FA",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 1275,
+    "name": "FLAG_DEFEATED_ELITE_4_SIDNEY",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 1276,
+    "name": "FLAG_DEFEATED_ELITE_4_PHOEBE",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 1277,
+    "name": "FLAG_DEFEATED_ELITE_4_GLACIA",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 1278,
+    "name": "FLAG_DEFEATED_ELITE_4_DRAKE",
+    "category": "trainer",
+    "source": "event"
+  },
+  {
+    "index": 1279,
+    "name": "FLAG_UNUSED_0x4FF",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 16384,
+    "name": "FLAG_HIDE_MAP_NAME_POPUP",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 16385,
+    "name": "FLAG_DONT_TRANSITION_MUSIC",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 16386,
+    "name": "FLAG_ENABLE_MULTI_CORRIDOR_DOOR",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 16387,
+    "name": "FLAG_SPECIAL_FLAG_UNUSED_0x4003",
+    "category": "event",
+    "source": "event"
+  },
+  {
+    "index": 16388,
+    "name": "FLAG_STORING_ITEMS_IN_PYRAMID_BAG",
+    "category": "event",
+    "source": "event"
+  }
+]

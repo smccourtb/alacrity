@@ -15,8 +15,10 @@ roms/
 saves/
 # Hunt instance data is per-user runtime state
 hunts/
+# Auto-installed emulators live here (per-checkout, per-OS)
+emulators/
 # Local SQLite database is a build artifact
-data/
+/data/
 server/data/
 server/pokemon.db
 
@@ -34,11 +36,16 @@ server/src/scripts/.cache/
 # ─── Compiled sidecar (huge, built by CI) ────────
 src-tauri/binaries/alacrity-server-*-*
 !src-tauri/binaries/alacrity-server-dev-wrapper
+# bun build --compile intermediate files (stray .bun-build artifacts)
+.*.bun-build
 
-# ─── Compiled C hunt binaries (built on each platform) ───
+# ─── Compiled C hunt binaries + bundled libmgba (built on each platform) ───
 scripts/shiny_hunter_core
 scripts/shiny_hunter_wild
 scripts/shiny_hunter_egg
+scripts/libmgba.so*
+scripts/libmgba*.dylib
+scripts/mgba*.dll
 
 # ─── Secrets / local config ──────────────────────
 .env

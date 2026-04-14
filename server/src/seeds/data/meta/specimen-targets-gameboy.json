@@ -1,0 +1,3256 @@
+[
+  {
+    "species_id": 1,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "modest"
+    },
+    "description": "Shiny ♂ Bulbasaur — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "HA Chlorophyll on transfer. Male only for shiny (87.5M, Atk DV conflict). Trade from Yellow to Crystal, breed with shiny Ditto."
+  },
+  {
+    "species_id": 1,
+    "source_game": "red",
+    "category": "mandatory",
+    "target_type": "tm_move",
+    "constraints": {
+      "nature": "adamant",
+      "moves": [
+        "swords-dance"
+      ]
+    },
+    "description": "Bulbasaur with Swords Dance (TM03) — Gen 1 exclusive TM move",
+    "priority": 2,
+    "notes": null
+  },
+  {
+    "species_id": 2,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Ivysaur — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Bulbasaur at Lv 16."
+  },
+  {
+    "species_id": 3,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Venusaur — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Ivysaur at Lv 32."
+  },
+  {
+    "species_id": 4,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "timid"
+    },
+    "description": "Shiny ♂ Charmander — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "HA Solar Power on transfer. Timid for standard/Mega Y; Adamant for Mega X."
+  },
+  {
+    "species_id": 5,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Charmeleon — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Charmander at Lv 16."
+  },
+  {
+    "species_id": 6,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Charizard — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Charmeleon at Lv 36."
+  },
+  {
+    "species_id": 7,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "modest"
+    },
+    "description": "Shiny ♂ Squirtle — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "HA Rain Dish on transfer."
+  },
+  {
+    "species_id": 8,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Wartortle — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Squirtle at Lv 16."
+  },
+  {
+    "species_id": 9,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Blastoise — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Wartortle at Lv 36."
+  },
+  {
+    "species_id": 10,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Caterpie — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Available in Crystal headbutt trees, Ilex Forest."
+  },
+  {
+    "species_id": 11,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Metapod — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Caterpie at Lv 7."
+  },
+  {
+    "species_id": 12,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Butterfree — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Metapod at Lv 10. Gmax form in SwSh."
+  },
+  {
+    "species_id": 13,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Weedle — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Available in Crystal Route 30/31 grass."
+  },
+  {
+    "species_id": 14,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Kakuna — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Weedle at Lv 7."
+  },
+  {
+    "species_id": 15,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Beedrill — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Kakuna at Lv 10. Mega in ORAS."
+  },
+  {
+    "species_id": 16,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Pidgey — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 29-31 in Crystal, extremely common."
+  },
+  {
+    "species_id": 17,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Pidgeotto — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Pidgey at Lv 18."
+  },
+  {
+    "species_id": 18,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Pidgeot — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Pidgeotto at Lv 36. Mega in ORAS."
+  },
+  {
+    "species_id": 19,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Rattata — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 29-31 in Crystal. Alolan form in SM/USUM."
+  },
+  {
+    "species_id": 20,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Raticate — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Rattata at Lv 20."
+  },
+  {
+    "species_id": 21,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Spearow — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 42, Route 46 in Crystal."
+  },
+  {
+    "species_id": 22,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Fearow — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Spearow at Lv 20."
+  },
+  {
+    "species_id": 23,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Ekans — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 32-33 in Crystal (morning/day)."
+  },
+  {
+    "species_id": 24,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Arbok — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Ekans at Lv 22."
+  },
+  {
+    "species_id": 25,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Pikachu — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Breed in Crystal for shiny (1/64). Yellow starter gives HA Lightning Rod but 1/8192 shiny odds."
+  },
+  {
+    "species_id": 25,
+    "source_game": "yellow",
+    "category": "mandatory",
+    "target_type": "tm_move",
+    "constraints": {
+      "nature": "hasty",
+      "moves": [
+        "mega-punch",
+        "mega-kick",
+        "pay-day"
+      ]
+    },
+    "description": "Pikachu with Yellow-exclusive TMs: Mega Punch, Mega Kick, Pay Day",
+    "priority": 2,
+    "notes": null
+  },
+  {
+    "species_id": 26,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Raichu — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Pikachu with Thunder Stone. VC Pikachu evolved in Alola = GB mark Alolan Raichu (prestige)."
+  },
+  {
+    "species_id": 27,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Sandshrew — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Union Cave in Crystal. Alolan form in SM/USUM."
+  },
+  {
+    "species_id": 28,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Sandslash — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Sandshrew at Lv 22."
+  },
+  {
+    "species_id": 29,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny ♀ Nidoran♀ — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 35-36 in Crystal. Only Nidoran-F can breed (Nidorina/Nidoqueen cannot)."
+  },
+  {
+    "species_id": 30,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Nidorina — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Cannot breed (Undiscovered group). Evolve from bred Nidoran♀ at Lv 16."
+  },
+  {
+    "species_id": 31,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Nidoqueen — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Nidorina with Moon Stone. Cannot breed. HA Sheer Force."
+  },
+  {
+    "species_id": 32,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny ♂ Nidoran♂ — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 35-36 in Crystal."
+  },
+  {
+    "species_id": 33,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Nidorino — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Nidoran♂ at Lv 16."
+  },
+  {
+    "species_id": 34,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Nidoking — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Nidorino with Moon Stone. HA Sheer Force."
+  },
+  {
+    "species_id": 35,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Clefairy — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Mt. Moon in Crystal (Kanto). Moon Ball thematic in HGSS."
+  },
+  {
+    "species_id": 36,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Clefable — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Clefairy with Moon Stone. HA Unaware."
+  },
+  {
+    "species_id": 37,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Vulpix — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 36-37 in Crystal. Alolan form in SM/USUM."
+  },
+  {
+    "species_id": 38,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Ninetales — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Vulpix with Fire Stone."
+  },
+  {
+    "species_id": 39,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Jigglypuff — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 34, 46 in Crystal."
+  },
+  {
+    "species_id": 40,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Wigglytuff — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Jigglypuff with Moon Stone."
+  },
+  {
+    "species_id": 41,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Zubat — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Every cave in Crystal."
+  },
+  {
+    "species_id": 42,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Golbat — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Zubat at Lv 22."
+  },
+  {
+    "species_id": 43,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Oddish — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 34 in Crystal (night). Ilex Forest."
+  },
+  {
+    "species_id": 44,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Gloom — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Oddish at Lv 21. Also evolves into Bellossom."
+  },
+  {
+    "species_id": 45,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Vileplume — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Gloom with Leaf Stone."
+  },
+  {
+    "species_id": 46,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Paras — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Ilex Forest, National Park in Crystal."
+  },
+  {
+    "species_id": 47,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Parasect — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Paras at Lv 24."
+  },
+  {
+    "species_id": 48,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Venonat — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 43 in Crystal (night)."
+  },
+  {
+    "species_id": 49,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Venomoth — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Venonat at Lv 31."
+  },
+  {
+    "species_id": 50,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Diglett — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Diglett's Cave in Crystal (Kanto). Alolan form in SM/USUM."
+  },
+  {
+    "species_id": 51,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Dugtrio — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Diglett at Lv 26."
+  },
+  {
+    "species_id": 52,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Meowth — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 38-39 in Crystal. Alolan + Galarian forms."
+  },
+  {
+    "species_id": 53,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Persian — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Meowth at Lv 28."
+  },
+  {
+    "species_id": 54,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Psyduck — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 35 in Crystal. Common surf/fish."
+  },
+  {
+    "species_id": 55,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Golduck — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Psyduck at Lv 33."
+  },
+  {
+    "species_id": 56,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Mankey — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 9 in Crystal (Kanto). Primeape → Annihilape in Gen 9."
+  },
+  {
+    "species_id": 57,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Primeape — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Mankey at Lv 28."
+  },
+  {
+    "species_id": 58,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Growlithe — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 35-37 in Crystal. Hisuian form in PLA."
+  },
+  {
+    "species_id": 59,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Arcanine — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Growlithe with Fire Stone."
+  },
+  {
+    "species_id": 60,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Poliwag — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Various fishing in Crystal."
+  },
+  {
+    "species_id": 61,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Poliwhirl — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Poliwag at Lv 25. Also evolves into Politoed."
+  },
+  {
+    "species_id": 62,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Poliwrath — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Poliwhirl with Water Stone."
+  },
+  {
+    "species_id": 63,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Abra — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 34, Goldenrod Game Corner in Crystal. HA Magic Guard."
+  },
+  {
+    "species_id": 64,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Kadabra — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Abra at Lv 16. Trade evo for Alakazam."
+  },
+  {
+    "species_id": 65,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Alakazam — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Trade evolve Kadabra. Mega in Gen 6."
+  },
+  {
+    "species_id": 66,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Machop — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Mt. Mortar in Crystal."
+  },
+  {
+    "species_id": 66,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "tm_move",
+    "constraints": {
+      "nature": "adamant",
+      "moves": [
+        "flamethrower"
+      ]
+    },
+    "description": "Machop with Flamethrower — Crystal move tutor legacy move (lost access Gen 9)",
+    "priority": 2,
+    "notes": null
+  },
+  {
+    "species_id": 67,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Machoke — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Machop at Lv 28. Trade evo for Machamp."
+  },
+  {
+    "species_id": 68,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Machamp — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Trade evolve Machoke. Gmax in SwSh."
+  },
+  {
+    "species_id": 69,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Bellsprout — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 31, 44 in Crystal."
+  },
+  {
+    "species_id": 70,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Weepinbell — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Bellsprout at Lv 21."
+  },
+  {
+    "species_id": 71,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Victreebel — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Weepinbell with Leaf Stone."
+  },
+  {
+    "species_id": 72,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Tentacool — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Surf routes in Crystal, very common."
+  },
+  {
+    "species_id": 73,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Tentacruel — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Tentacool at Lv 30."
+  },
+  {
+    "species_id": 74,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Geodude — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Multiple caves in Crystal. Alolan form in SM/USUM."
+  },
+  {
+    "species_id": 75,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Graveler — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Geodude at Lv 25. Trade evo for Golem."
+  },
+  {
+    "species_id": 76,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Golem — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Trade evolve Graveler."
+  },
+  {
+    "species_id": 77,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Ponyta — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 26-27 in Crystal (Kanto). Galarian form in SwSh."
+  },
+  {
+    "species_id": 78,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Rapidash — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Ponyta at Lv 40."
+  },
+  {
+    "species_id": 79,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Slowpoke — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Slowpoke Well in Crystal. HA Regenerator."
+  },
+  {
+    "species_id": 80,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Slowbro — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Slowpoke at Lv 37. Mega in ORAS."
+  },
+  {
+    "species_id": 81,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Magnemite — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 38-39 in Crystal. Genderless, breeds with Ditto."
+  },
+  {
+    "species_id": 82,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Magneton — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Magnemite at Lv 30."
+  },
+  {
+    "species_id": 83,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Farfetch'd — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 38-39 in Crystal. Galarian form → Sirfetch'd."
+  },
+  {
+    "species_id": 84,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Doduo — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 34 in Crystal."
+  },
+  {
+    "species_id": 85,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Dodrio — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Doduo at Lv 31."
+  },
+  {
+    "species_id": 86,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "calm"
+    },
+    "description": "Shiny Seel — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Whirl Islands in Crystal."
+  },
+  {
+    "species_id": 87,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "calm"
+    },
+    "description": "Dewgong — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Seel at Lv 34."
+  },
+  {
+    "species_id": 88,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Grimer — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 16-17 in Crystal (Kanto). Alolan form in SM/USUM."
+  },
+  {
+    "species_id": 89,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Muk — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Grimer at Lv 38."
+  },
+  {
+    "species_id": 90,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Shellder — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Fishing in Crystal (Olivine City). Shell Smash + Skill Link."
+  },
+  {
+    "species_id": 91,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Cloyster — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Shellder with Water Stone."
+  },
+  {
+    "species_id": 92,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Gastly — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Sprout Tower, Route 32 in Crystal (night). Moon Ball thematic."
+  },
+  {
+    "species_id": 93,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Haunter — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Gastly at Lv 25. Trade evo for Gengar."
+  },
+  {
+    "species_id": 94,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Gengar — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Trade evolve Haunter. Mega + Gmax in later gens."
+  },
+  {
+    "species_id": 95,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "impish"
+    },
+    "description": "Shiny Onix — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Union Cave, Mt. Mortar in Crystal. → Steelix (Metal Coat trade)."
+  },
+  {
+    "species_id": 96,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "calm"
+    },
+    "description": "Shiny Drowzee — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 34-35 in Crystal."
+  },
+  {
+    "species_id": 97,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "calm"
+    },
+    "description": "Hypno — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Drowzee at Lv 26."
+  },
+  {
+    "species_id": 98,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Krabby — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Various fishing in Crystal. Gmax Kingler in SwSh."
+  },
+  {
+    "species_id": 99,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Kingler — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Krabby at Lv 28."
+  },
+  {
+    "species_id": 100,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Voltorb — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 43 in Crystal. Genderless, breeds with Ditto. Hisuian form in PLA."
+  },
+  {
+    "species_id": 101,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Electrode — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Voltorb at Lv 30."
+  },
+  {
+    "species_id": 102,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Exeggcute — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Headbutt trees in Crystal. VC → Alola = GB mark Alolan Exeggutor."
+  },
+  {
+    "species_id": 103,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Exeggutor — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve with Leaf Stone. Alolan form (Grass/Dragon)."
+  },
+  {
+    "species_id": 104,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Cubone — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Rock Tunnel in Crystal (Kanto). VC → Alola night = GB mark Alolan Marowak."
+  },
+  {
+    "species_id": 104,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "tm_move",
+    "constraints": {
+      "nature": "adamant",
+      "moves": [
+        "flamethrower"
+      ]
+    },
+    "description": "Cubone with Flamethrower — Crystal move tutor legacy move (lost access Gen 9)",
+    "priority": 2,
+    "notes": null
+  },
+  {
+    "species_id": 105,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Marowak — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Cubone at Lv 28. Alolan form (Fire/Ghost)."
+  },
+  {
+    "species_id": 106,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny ♂ Hitmonlee — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Breed Tyrogue/Hitmonlee with Ditto. Evolve Tyrogue with Atk > Def at Lv 20. HA Unburden."
+  },
+  {
+    "species_id": 107,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny ♂ Hitmonchan — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Breed Tyrogue/Hitmonchan with Ditto. Evolve Tyrogue with Atk < Def at Lv 20. HA Inner Focus."
+  },
+  {
+    "species_id": 108,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "brave"
+    },
+    "description": "Shiny Lickitung — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 44 in Crystal. → Lickilicky."
+  },
+  {
+    "species_id": 108,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "tm_move",
+    "constraints": {
+      "nature": "brave",
+      "moves": [
+        "flamethrower"
+      ]
+    },
+    "description": "Lickitung with Flamethrower — Crystal move tutor legacy move (lost access Gen 9)",
+    "priority": 2,
+    "notes": null
+  },
+  {
+    "species_id": 109,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Koffing — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Burned Tower in Crystal. Galarian Weezing in SwSh."
+  },
+  {
+    "species_id": 110,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Weezing — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Koffing at Lv 35. Galarian form (Poison/Fairy)."
+  },
+  {
+    "species_id": 111,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Rhyhorn — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Victory Road in Crystal (Kanto). → Rhyperior."
+  },
+  {
+    "species_id": 112,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Rhydon — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Rhyhorn at Lv 42."
+  },
+  {
+    "species_id": 113,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny ♀ Chansey — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 13-15 in Crystal (Kanto, rare). HA Healer. → Blissey."
+  },
+  {
+    "species_id": 114,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Tangela — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 44 in Crystal. HA Regenerator. → Tangrowth."
+  },
+  {
+    "species_id": 115,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny ♀ Kangaskhan — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Breed with Ditto (female-only species). HA Inner Focus. Mega in Gen 6."
+  },
+  {
+    "species_id": 116,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Horsea — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Whirl Islands fishing in Crystal. → Kingdra (Dragon Scale trade)."
+  },
+  {
+    "species_id": 117,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Seadra — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Horsea at Lv 32."
+  },
+  {
+    "species_id": 118,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Goldeen — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Fishing everywhere in Crystal. HA Lightning Rod."
+  },
+  {
+    "species_id": 119,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Seaking — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Goldeen at Lv 33."
+  },
+  {
+    "species_id": 120,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Staryu — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Fishing in Crystal (Kanto). Genderless, breeds with Ditto."
+  },
+  {
+    "species_id": 121,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Starmie — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Staryu with Water Stone."
+  },
+  {
+    "species_id": 122,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Mr. Mime — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Breed Mr. Mime with Ditto in Crystal. Galarian form → Mr. Rime."
+  },
+  {
+    "species_id": 123,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Scyther — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Bug-Catching Contest in Crystal. → Scizor (Metal Coat) or Kleavor (PLA)."
+  },
+  {
+    "species_id": 124,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny ♀ Jynx — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Breed Jynx with Ditto in Crystal (Ice Path Jynx available). HA Dry Skin."
+  },
+  {
+    "species_id": 125,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Electabuzz — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 10 in Crystal (Kanto). HA Vital Spirit. → Electivire."
+  },
+  {
+    "species_id": 126,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Magmar — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Burned Tower in Crystal. HA Vital Spirit. → Magmortar."
+  },
+  {
+    "species_id": 127,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Pinsir — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Bug-Catching Contest in Crystal. Mega in Gen 6."
+  },
+  {
+    "species_id": 128,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny ♂ Tauros — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 38-39 in Crystal. HA Sheer Force. Paldean forms in SV."
+  },
+  {
+    "species_id": 129,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Magikarp — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Fishing everywhere. Old Rod."
+  },
+  {
+    "species_id": 130,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Gyarados — Crystal static encounter, GB origin",
+    "priority": 1,
+    "notes": "Lake of Rage guaranteed shiny (fixed DVs, always male). The iconic GB-origin shiny specimen."
+  },
+  {
+    "species_id": 131,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Lapras — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Breed in Crystal. Union Cave B2F (Fridays) or trade from Gen 1 Silph Co. gift. HA Hydration."
+  },
+  {
+    "species_id": 132,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Ditto — Crystal wild encounter, GB origin",
+    "priority": 1,
+    "notes": "Route 34/35 in Crystal. Shiny Ditto is THE breeding anchor — 1/64 shiny offspring with any compatible partner. Catch priority #1."
+  },
+  {
+    "species_id": 133,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "timid"
+    },
+    "description": "Shiny ♂ Eevee — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Bill's Eevee gift in GSC (Goldenrod) → breed with Ditto. HA Anticipation. Male for shiny."
+  },
+  {
+    "species_id": 134,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "calm"
+    },
+    "description": "Vaporeon — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Eevee with Water Stone."
+  },
+  {
+    "species_id": 135,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Jolteon — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Eevee with Thunder Stone."
+  },
+  {
+    "species_id": 136,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Flareon — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Eevee with Fire Stone."
+  },
+  {
+    "species_id": 137,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Porygon — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Celadon Game Corner in Crystal (Kanto). Genderless, breeds with Ditto. HA Analytic."
+  },
+  {
+    "species_id": 137,
+    "source_game": "red",
+    "category": "mandatory",
+    "target_type": "tm_move",
+    "constraints": {
+      "nature": "modest",
+      "moves": [
+        "tri-attack"
+      ],
+      "shiny": true
+    },
+    "description": "Porygon with Tri Attack (TM49) — Gen 1 exclusive TM",
+    "priority": 2,
+    "notes": null
+  },
+  {
+    "species_id": 138,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "modest"
+    },
+    "description": "Shiny ♂ Omanyte — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Trade from Gen 1 (Helix Fossil revival) → breed in Crystal. Male for shiny."
+  },
+  {
+    "species_id": 139,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Omastar — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Omanyte at Lv 40."
+  },
+  {
+    "species_id": 140,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "adamant"
+    },
+    "description": "Shiny ♂ Kabuto — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Trade from Gen 1 (Dome Fossil revival) → breed in Crystal. Male for shiny."
+  },
+  {
+    "species_id": 141,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Kabutops — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Kabuto at Lv 40."
+  },
+  {
+    "species_id": 142,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "jolly"
+    },
+    "description": "Shiny ♂ Aerodactyl — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Trade from Gen 1 (Old Amber) or GSC in-game trade (Chansey→Aerodactyl) → breed. HA Unnerve. Mega in Gen 6."
+  },
+  {
+    "species_id": 143,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "adamant"
+    },
+    "description": "Shiny ♂ Snorlax — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Route 11 Snorlax in Crystal (Poke Flute) → breed. HA Gluttony. Male for shiny. Gmax in SwSh."
+  },
+  {
+    "species_id": 144,
+    "source_game": "yellow",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Articuno — Yellow static encounter, GB origin",
+    "priority": 1,
+    "notes": "Seafoam Islands. Not in GSC — must catch in Gen 1. HA Snow Cloak. Galarian form in SwSh."
+  },
+  {
+    "species_id": 145,
+    "source_game": "yellow",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Zapdos — Yellow static encounter, GB origin",
+    "priority": 1,
+    "notes": "Power Plant. Not in GSC — must catch in Gen 1. HA Static. Galarian form in SwSh."
+  },
+  {
+    "species_id": 146,
+    "source_game": "yellow",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Moltres — Yellow static encounter, GB origin",
+    "priority": 1,
+    "notes": "Victory Road 2F. Not in GSC — must catch in Gen 1. HA Flame Body. Galarian form in SwSh."
+  },
+  {
+    "species_id": 147,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Dratini — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Dragon's Den, Game Corner in Crystal. HA Marvel Scale."
+  },
+  {
+    "species_id": 148,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Dragonair — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Dratini at Lv 30."
+  },
+  {
+    "species_id": 149,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Dragonite — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Dragonair at Lv 55. HA Multiscale."
+  },
+  {
+    "species_id": 150,
+    "source_game": "yellow",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Mewtwo — Yellow static encounter, GB origin",
+    "priority": 1,
+    "notes": "Cerulean Cave. Not in GSC — must catch in Gen 1. HA Unnerve. Mega X + Y in Gen 6."
+  },
+  {
+    "species_id": 151,
+    "source_game": "red",
+    "category": "prestige",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Mew — Red gift, GB origin",
+    "priority": 1,
+    "notes": "OT:GF event Mew only — glitch Mew does NOT pass Poke Transporter. 5 guaranteed 31 IVs on transfer."
+  },
+  {
+    "species_id": 152,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "calm"
+    },
+    "description": "Shiny ♂ Chikorita — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Crystal starter → breed with shiny Ditto. HA Leaf Guard. Male for shiny."
+  },
+  {
+    "species_id": 153,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "calm"
+    },
+    "description": "Bayleef — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Chikorita at Lv 16."
+  },
+  {
+    "species_id": 154,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "calm"
+    },
+    "description": "Meganium — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Bayleef at Lv 32."
+  },
+  {
+    "species_id": 155,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "timid"
+    },
+    "description": "Shiny ♂ Cyndaquil — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Crystal starter → breed with shiny Ditto. HA Flash Fire. Male for shiny."
+  },
+  {
+    "species_id": 156,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Quilava — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Cyndaquil at Lv 14."
+  },
+  {
+    "species_id": 157,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Typhlosion — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Quilava at Lv 36. Hisuian form in PLA."
+  },
+  {
+    "species_id": 158,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "adamant"
+    },
+    "description": "Shiny ♂ Totodile — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Crystal starter → breed with shiny Ditto. HA Sheer Force. Male for shiny."
+  },
+  {
+    "species_id": 159,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Croconaw — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Totodile at Lv 18."
+  },
+  {
+    "species_id": 160,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Feraligatr — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Croconaw at Lv 30."
+  },
+  {
+    "species_id": 161,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Sentret — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 29, 1 in Crystal."
+  },
+  {
+    "species_id": 162,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Furret — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Sentret at Lv 15."
+  },
+  {
+    "species_id": 163,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "calm"
+    },
+    "description": "Shiny Hoothoot — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 29-30 (night) in Crystal."
+  },
+  {
+    "species_id": 164,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "calm"
+    },
+    "description": "Noctowl — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Hoothoot at Lv 20. HA Tinted Lens."
+  },
+  {
+    "species_id": 165,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Ledyba — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 2, 30-31 (morning) in Crystal."
+  },
+  {
+    "species_id": 166,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Ledian — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Ledyba at Lv 18."
+  },
+  {
+    "species_id": 167,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Spinarak — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 2, 30-31 (night) in Crystal."
+  },
+  {
+    "species_id": 168,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Ariados — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Spinarak at Lv 22."
+  },
+  {
+    "species_id": 169,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Crobat — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Golbat via friendship."
+  },
+  {
+    "species_id": 170,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Chinchou — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "New Bark Town fishing in Crystal."
+  },
+  {
+    "species_id": 171,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Lanturn — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Chinchou at Lv 27."
+  },
+  {
+    "species_id": 172,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Pichu — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Breed Pikachu/Raichu. Crystal Odd Egg (~14% shiny rate overall)."
+  },
+  {
+    "species_id": 173,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Cleffa — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Breed Clefairy/Clefable. Crystal Odd Egg."
+  },
+  {
+    "species_id": 174,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Igglybuff — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Breed Jigglypuff/Wigglytuff. Crystal Odd Egg."
+  },
+  {
+    "species_id": 175,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "gender": "male",
+      "nature": "timid"
+    },
+    "description": "Shiny ♂ Togepi — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Mystery Egg from Elm's assistant or breed. HA Super Luck. Male for shiny."
+  },
+  {
+    "species_id": 176,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Togetic — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Togepi via friendship. → Togekiss (Shiny Stone)."
+  },
+  {
+    "species_id": 177,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Natu — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Ruins of Alph exterior in Crystal. HA Magic Bounce."
+  },
+  {
+    "species_id": 178,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Xatu — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Natu at Lv 25."
+  },
+  {
+    "species_id": 179,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Mareep — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 32, 42-43 in Crystal. Mega Ampharos in Gen 6."
+  },
+  {
+    "species_id": 180,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Flaaffy — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Mareep at Lv 15."
+  },
+  {
+    "species_id": 181,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Ampharos — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Flaaffy at Lv 30."
+  },
+  {
+    "species_id": 182,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Bellossom — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Gloom with Sun Stone."
+  },
+  {
+    "species_id": 183,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Marill — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Mt. Mortar, Route 42 in Crystal. Huge Power."
+  },
+  {
+    "species_id": 184,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Azumarill — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Marill at Lv 18."
+  },
+  {
+    "species_id": 185,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Sudowoodo — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 1,
+    "notes": "Route 36 static (Squirtbottle) → breed with Ditto. HA Rattled."
+  },
+  {
+    "species_id": 186,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Politoed — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Poliwhirl via King's Rock trade. HA Drizzle."
+  },
+  {
+    "species_id": 187,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Hoppip — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Routes 32-33 in Crystal (morning/day)."
+  },
+  {
+    "species_id": 188,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Skiploom — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Hoppip at Lv 18."
+  },
+  {
+    "species_id": 189,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "jolly"
+    },
+    "description": "Jumpluff — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Skiploom at Lv 27."
+  },
+  {
+    "species_id": 190,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Aipom — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Headbutt trees in Crystal. → Ambipom."
+  },
+  {
+    "species_id": 191,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Sunkern — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 24 (Kanto), National Park in Crystal."
+  },
+  {
+    "species_id": 192,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Sunflora — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Sunkern with Sun Stone."
+  },
+  {
+    "species_id": 193,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Yanma — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 35 in Crystal (rare). → Yanmega (AncientPower)."
+  },
+  {
+    "species_id": 194,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "relaxed"
+    },
+    "description": "Shiny Wooper — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 32 (night), Union Cave in Crystal. Paldean form in SV."
+  },
+  {
+    "species_id": 195,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "relaxed"
+    },
+    "description": "Quagsire — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Wooper at Lv 20. HA Unaware."
+  },
+  {
+    "species_id": 196,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Espeon — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Eevee via friendship (daytime)."
+  },
+  {
+    "species_id": 197,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "calm"
+    },
+    "description": "Umbreon — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Eevee via friendship (nighttime)."
+  },
+  {
+    "species_id": 198,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Murkrow — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 7 (night, Kanto) in Crystal. → Honchkrow."
+  },
+  {
+    "species_id": 199,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Slowking — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Slowpoke via King's Rock trade. Galarian form in SwSh."
+  },
+  {
+    "species_id": 200,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Misdreavus — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Mt. Silver cave (night) in Crystal. → Mismagius."
+  },
+  {
+    "species_id": 201,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Unown — Crystal wild encounter, GB origin",
+    "priority": 2,
+    "notes": "Ruins of Alph. Cannot breed. 28 forms. Only I and V forms can be shiny in Gen 2."
+  },
+  {
+    "species_id": 202,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Wobbuffet — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Dark Cave (after Surf) in Crystal. HA Telepathy."
+  },
+  {
+    "species_id": 203,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Girafarig — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 43 in Crystal. → Farigiraf in SV."
+  },
+  {
+    "species_id": 204,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "relaxed"
+    },
+    "description": "Shiny Pineco — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Headbutt trees (Ilex Forest) in Crystal."
+  },
+  {
+    "species_id": 205,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "relaxed"
+    },
+    "description": "Forretress — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Pineco at Lv 31."
+  },
+  {
+    "species_id": 206,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Dunsparce — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Dark Cave in Crystal. → Dudunsparce in SV."
+  },
+  {
+    "species_id": 207,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Gligar — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 45 in Crystal. → Gliscor (Razor Fang)."
+  },
+  {
+    "species_id": 208,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "impish"
+    },
+    "description": "Steelix — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Onix via Metal Coat trade."
+  },
+  {
+    "species_id": 209,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Snubbull — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 38 in Crystal (morning/day)."
+  },
+  {
+    "species_id": 210,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Granbull — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Snubbull at Lv 23."
+  },
+  {
+    "species_id": 211,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Qwilfish — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 32 fishing in Crystal. Hisuian form in PLA."
+  },
+  {
+    "species_id": 212,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Scizor — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Scyther via Metal Coat trade. Mega in Gen 6."
+  },
+  {
+    "species_id": 213,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Shuckle — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Gift from Kirk in Cianwood City → breed. HA Contrary."
+  },
+  {
+    "species_id": 214,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Heracross — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Headbutt trees in Crystal. Mega in Gen 6."
+  },
+  {
+    "species_id": 215,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Sneasel — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 28, Mt. Silver in Crystal. → Weavile. Hisuian form in PLA."
+  },
+  {
+    "species_id": 216,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Teddiursa — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 45, Mt. Silver in Crystal. → Ursaluna in PLA."
+  },
+  {
+    "species_id": 217,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Ursaring — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Teddiursa at Lv 30."
+  },
+  {
+    "species_id": 218,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Slugma — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 16-17 (Kanto) in Crystal."
+  },
+  {
+    "species_id": 219,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Magcargo — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Slugma at Lv 38."
+  },
+  {
+    "species_id": 220,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Swinub — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Ice Path in Crystal. → Mamoswine (AncientPower)."
+  },
+  {
+    "species_id": 221,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Piloswine — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Swinub at Lv 33."
+  },
+  {
+    "species_id": 222,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Corsola — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Cianwood City fishing in Crystal. Galarian form in SwSh."
+  },
+  {
+    "species_id": 223,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Remoraid — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 44 fishing in Crystal."
+  },
+  {
+    "species_id": 224,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Octillery — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Remoraid at Lv 25."
+  },
+  {
+    "species_id": 225,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Delibird — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Ice Path in Crystal."
+  },
+  {
+    "species_id": 226,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "calm"
+    },
+    "description": "Shiny Mantine — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 41 Surf in Crystal."
+  },
+  {
+    "species_id": 227,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "impish"
+    },
+    "description": "Shiny Skarmory — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 45 in Crystal."
+  },
+  {
+    "species_id": 228,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Houndour — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 7 (night, Kanto) in Crystal. Mega in Gen 6."
+  },
+  {
+    "species_id": 229,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "timid"
+    },
+    "description": "Houndoom — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Houndour at Lv 24."
+  },
+  {
+    "species_id": 230,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "modest"
+    },
+    "description": "Kingdra — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Seadra via Dragon Scale trade."
+  },
+  {
+    "species_id": 231,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Phanpy — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 45 in Crystal."
+  },
+  {
+    "species_id": 232,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Donphan — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Phanpy at Lv 25."
+  },
+  {
+    "species_id": 233,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Porygon2 — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Porygon via Up-Grade trade. Eviolite tank."
+  },
+  {
+    "species_id": 234,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Stantler — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 36-37 in Crystal. → Wyrdeer in PLA."
+  },
+  {
+    "species_id": 235,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Smeargle — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Ruins of Alph exterior in Crystal. Sketch copies any move."
+  },
+  {
+    "species_id": 236,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny ♂ Tyrogue — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Breed Hitmonlee/Hitmonchan/Hitmontop with Ditto. Crystal Odd Egg."
+  },
+  {
+    "species_id": 237,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Hitmontop — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Tyrogue at Lv 20 with Atk = Def."
+  },
+  {
+    "species_id": 238,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny ♀ Smoochum — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Breed Jynx with Ditto. Crystal Odd Egg (~2% shiny)."
+  },
+  {
+    "species_id": 239,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "jolly"
+    },
+    "description": "Shiny Elekid — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Breed Electabuzz with Ditto. Crystal Odd Egg (~2% shiny)."
+  },
+  {
+    "species_id": 240,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "modest"
+    },
+    "description": "Shiny Magby — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Breed Magmar with Ditto. Crystal Odd Egg (~2% shiny)."
+  },
+  {
+    "species_id": 241,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "impish"
+    },
+    "description": "Shiny ♀ Miltank — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Route 38-39 in Crystal."
+  },
+  {
+    "species_id": 242,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "bold"
+    },
+    "description": "Blissey — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Chansey via friendship."
+  },
+  {
+    "species_id": 243,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Raikou — Crystal static encounter, GB origin",
+    "priority": 1,
+    "notes": "Roaming Johto (Gold/Silver) or Tin Tower event (Crystal). Cannot breed. HA Inner Focus."
+  },
+  {
+    "species_id": 244,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Entei — Crystal static encounter, GB origin",
+    "priority": 1,
+    "notes": "Roaming Johto. Cannot breed. HA Inner Focus."
+  },
+  {
+    "species_id": 245,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Suicune — Crystal static encounter, GB origin",
+    "priority": 1,
+    "notes": "Crystal: static encounter at Tin Tower after storyline. Cannot breed. HA Inner Focus."
+  },
+  {
+    "species_id": 246,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Larvitar — GB origin via Crystal breeding (1/64 with shiny Ditto)",
+    "priority": 2,
+    "notes": "Mt. Silver (rare) in Crystal. Mega Tyranitar in Gen 6."
+  },
+  {
+    "species_id": 247,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Pupitar — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Larvitar at Lv 30."
+  },
+  {
+    "species_id": 248,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "nature": "adamant"
+    },
+    "description": "Tyranitar — Crystal evolution, GB origin",
+    "priority": 3,
+    "notes": "Evolve Pupitar at Lv 55."
+  },
+  {
+    "species_id": 249,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "bold"
+    },
+    "description": "Shiny Lugia — Crystal static encounter, GB origin",
+    "priority": 1,
+    "notes": "Whirl Islands. Crystal Lv 60. Cannot breed. HA Multiscale."
+  },
+  {
+    "species_id": 250,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "adamant"
+    },
+    "description": "Shiny Ho-Oh — Crystal static encounter, GB origin",
+    "priority": 1,
+    "notes": "Tin Tower. Crystal Lv 60. Cannot breed. HA Regenerator."
+  },
+  {
+    "species_id": 251,
+    "source_game": "crystal",
+    "category": "mandatory",
+    "target_type": "origin",
+    "constraints": {
+      "shiny": true,
+      "nature": "timid"
+    },
+    "description": "Shiny Celebi — Crystal static encounter, GB origin",
+    "priority": 1,
+    "notes": "GS Ball event, Ilex Forest shrine. Crystal VC exclusive. Can be shiny (1/8192). 5 guaranteed 31 IVs on transfer. The crown jewel."
+  }
+]

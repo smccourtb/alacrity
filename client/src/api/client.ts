@@ -1,4 +1,6 @@
 import { getServerBase } from '../lib/tauri.js';
+import { dependenciesApi } from './dependencies.js';
+import { configApi } from './config.js';
 
 function getBase() {
   const server = getServerBase();
@@ -166,37 +168,13 @@ export const api = {
       invalidateCache('/pokemon');
       return request<void>(`/pokemon/${id}`, { method: 'DELETE' });
     },
-    syncPreview: () => request<{
-      auto_imported_count: number;
-      manually_edited: Array<{
-        id: number;
-        species_id: number;
-        species_name: string;
-        nickname: string;
-        manual_fields: string;
-        source_save: string;
-      }>;
-    }>('/pokemon/sync/preview'),
-    sync: (keepIds?: number[]) => {
-      invalidateCache('/pokemon');
-      return request<{
-        cleared: number;
-        imported: number;
-        skipped: number;
-        total_parsed: number;
-        by_source: Record<string, number>;
-      }>('/pokemon/sync', {
-        method: 'POST',
-        body: JSON.stringify({ keep_ids: keepIds }),
-      });
-    },
   },
   hunts: {
     list: (opts?: { archived?: boolean }) => request<any[]>(opts?.archived ? '/hunts?archived=true' : '/hunts'),
     presets: () => request<any[]>('/hunts/presets'),
     gameConfigs: () => request<any[]>('/hunts/game-configs'),
     daycareInfo: (savPath: string, game: string) => request<any>('/hunts/daycare-info', { method: 'POST', body: JSON.stringify({ sav_path: savPath, game }) }),
-    files: () => request<{ roms: any[]; saves: any[]; scripts: any[] }>('/hunts/files'),
+    files: () => request<{ roms: any[]; saves: any[] }>('/hunts/files'),
     create: (data: any) => request<any>('/hunts', { method: 'POST', body: JSON.stringify(data) }),
     stop: (id: number) => request<any>(`/hunts/${id}/stop`, { method: 'POST' }),
     resume: (id: number) => request<any>(`/hunts/${id}/resume`, { method: 'POST' }),
@@ -256,7 +234,30 @@ export const api = {
       invalidateCache('/saves');
       return request<void>(`/saves/${id}`, { method: 'DELETE' });
     },
-    importDirectory: (path: string) => request<any>('/saves/import-directory', { method: 'POST', body: JSON.stringify({ path }) }),
+    importSources: {
+      add: (path: string) => {
+        invalidateCache('/saves');
+        invalidateCache('/config');
+        return request<{ index: number; result: { copied: number; skippedDuplicate: number; errors: { path: string; reason: string }[] } }>(
+          '/saves/import-sources',
+          { method: 'POST', body: JSON.stringify({ path }) },
+        );
+      },
+      rescan: (index: number) => {
+        invalidateCache('/saves');
+        return request<{ result: { copied: number; skippedDuplicate: number; errors: { path: string; reason: string }[] } }>(
+          `/saves/import-sources/${index}/rescan`,
+          { method: 'POST' },
+        );
+      },
+      remove: (index: number) => {
+        invalidateCache('/config');
+        return request<{ success: true }>(
+          `/saves/import-sources/${index}`,
+          { method: 'DELETE' },
+        );
+      },
+    },
   },
   launcher: {
     preview: (id: string) => request<any>(`/launcher/saves/${id}/preview`),
@@ -333,11 +334,6 @@ export const api = {
       return request<any>(`/guide/progress/${stepId}`, { method: 'POST', body: JSON.stringify(data) });
     },
     campaign: () => request<any>('/guide/campaign'),
-    scanCompletion: () => {
-      invalidateCache('/guide');
-      invalidateCache('/specimens');
-      return request<any>('/guide/scan-completion', { method: 'POST' });
-    },
     updateLocationPosition: (id: number, x: number, y: number) => {
       invalidateCache('/guide/locations');
       return request<{ ok: boolean }>(`/guide/locations/${id}`, {
@@ -668,4 +664,6 @@ export const api = {
     },
   },
   clientInfo: () => request<{ isLocal: boolean }>('/client-info'),
+  dependencies: dependenciesApi,
+  config: configApi,
 };

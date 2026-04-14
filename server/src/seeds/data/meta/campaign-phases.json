@@ -1,0 +1,5 @@
+[
+  { "phase": 1, "game": "red",     "label": "Red Playthrough",     "description": "Main cart — fossils, gifts, TM specimens" },
+  { "phase": 2, "game": "yellow",  "label": "Yellow Playthrough",  "description": "Pikachu + Yellow-exclusive TMs" },
+  { "phase": 3, "game": "crystal", "label": "Crystal Playthrough", "description": "Full playthrough — Ditto, breeding, tutors, legendaries" }
+]

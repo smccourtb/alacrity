@@ -11,6 +11,7 @@ import {
   type CheckpointDiff,
 } from '../services/saveSnapshot.js';
 import { prettyGameName } from '../services/pkConstants.js';
+import { scanCheckpoint, clearSightingsForCheckpoint } from '../services/identityService.js';
 
 const router = Router();
 
@@ -527,9 +528,34 @@ router.post('/scan', async (req: Request, res: Response) => {
 
 router.patch('/checkpoints/:id/collection', (req: Request, res: Response) => {
   const { include } = req.body;
-  db.prepare('UPDATE checkpoints SET include_in_collection = ? WHERE id = ?')
-    .run(include ? 1 : 0, Number(req.params.id));
-  res.json({ success: true });
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) {
+    return res.status(400).json({ error: 'Invalid checkpoint id' });
+  }
+
+  // Any user toggle is an explicit intent, regardless of direction.
+  db.prepare('UPDATE checkpoints SET include_in_collection = ?, include_explicit = 1 WHERE id = ?')
+    .run(include ? 1 : 0, id);
+
+  try {
+    if (include) {
+      const result = scanCheckpoint(id);
+      return res.json({
+        success: true,
+        action: 'scanned' as const,
+        counts: { identities: result.identities, sightings: result.sightings },
+      });
+    } else {
+      const result = clearSightingsForCheckpoint(id);
+      return res.json({
+        success: true,
+        action: 'cleared' as const,
+        counts: { deletedSightings: result.deletedSightings, gcIdentities: result.gcIdentities },
+      });
+    }
+  } catch (err: any) {
+    return res.status(500).json({ error: err.message });
+  }
 });
 
 // ── PATCH /checkpoints/:id/archive ───────────────────────────────────────────

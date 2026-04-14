@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog';
 
 import type { DiscoveredSave } from '@/lib/game-constants';
+import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
 
 interface TradeSetupProps {
   saves: DiscoveredSave[];
@@ -64,6 +65,8 @@ export default function TradeSetup({ saves, firstSave, onClose, onStarted }: Tra
             Trading from <strong>{firstSave.game} — {firstSave.label}</strong>. Pick the other side.
           </DialogDescription>
         </DialogHeader>
+
+        <InlineEmulatorWarning emulatorId="bgb" />
 
         <div className="max-h-72 overflow-y-auto -mx-1 px-1 space-y-1">
           {compatible.length === 0 && (

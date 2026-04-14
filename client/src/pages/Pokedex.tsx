@@ -6,7 +6,6 @@ import PokemonDetail from '../components/PokemonDetail';
 import FilterBar from '@/components/FilterBar';
 import ProgressRing from '../components/ProgressRing';
 import StatsDrawer from '../components/StatsDrawer';
-import SyncCollectionDialog from '../components/SyncCollectionDialog';
 import { usePokedexFilters } from '../hooks/usePokedexFilters';
 import { useCollectionGoals } from '../hooks/useCollectionGoals';
 import { GoalManager } from '@/components/pokedex/GoalManager';
@@ -59,8 +58,6 @@ export default function Pokedex() {
   const [selected, setSelected] = useState<any | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [syncDialogOpen, setSyncDialogOpen] = useState(false);
-
   const handleSelect = useCallback((item: any) => {
     if (item._isFormItem) {
       const original = species.find((s: any) => s.id === item.id);
@@ -69,11 +66,6 @@ export default function Pokedex() {
       setSelected(item);
     }
   }, [species]);
-
-  const handleSyncComplete = useCallback(() => {
-    load();
-    refreshCompletion();
-  }, [load, refreshCompletion]);
 
   return (
     <div className="-m-6 min-h-screen bg-surface-raised p-6">
@@ -127,16 +119,6 @@ export default function Pokedex() {
                     </svg>
                   </button>
                 </div>
-                <button
-                  className="p-1.5 rounded-lg transition-all bg-blue-50 text-blue-400 hover:bg-blue-100 hover:text-blue-600"
-                  onClick={() => setSyncDialogOpen(true)}
-                  title="Sync collection from saves"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
-                    <path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
-                  </svg>
-                </button>
                 <button
                   className={`p-1.5 rounded-lg transition-all ${drawerOpen ? 'bg-red-500 text-white' : 'bg-surface-sunken text-muted-foreground/40 hover:bg-surface-pressed'}`}
                   onClick={() => setDrawerOpen(prev => !prev)}
@@ -259,11 +241,6 @@ export default function Pokedex() {
         activeFilters={filters}
       />
 
-      <SyncCollectionDialog
-        open={syncDialogOpen}
-        onOpenChange={setSyncDialogOpen}
-        onSyncComplete={handleSyncComplete}
-      />
     </div>
   );
 }

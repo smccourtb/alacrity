@@ -1,0 +1,7579 @@
+[
+  {
+    "target_ref": {
+      "species_id": 1,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Bulbasaur at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 1,
+      "target_type": "tm_move",
+      "source_game": "red"
+    },
+    "tasks": [
+      {
+        "game": "red",
+        "location_key": "celadon-city",
+        "task_type": "catch",
+        "description": "Teach Swords Dance (TM03) to Bulbasaur — buy at Celadon Dept Store",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "red",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "red",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 2,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Ivysaur from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 3,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Venusaur from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 4,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Charmander at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 5,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Charmeleon from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 6,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Charizard from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 7,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Squirtle at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 8,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Wartortle from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 9,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Blastoise from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 10,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Caterpie at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 11,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Metapod from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 12,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Butterfree from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 13,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Weedle at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 14,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Kakuna from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 15,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Beedrill from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 16,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Pidgey at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 17,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Pidgeotto from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 18,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Pidgeot from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 19,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Rattata at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 20,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Raticate from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 21,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Spearow at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 22,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Fearow from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 23,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Ekans at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 24,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Arbok from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 25,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Pikachu at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 25,
+      "target_type": "tm_move",
+      "source_game": "yellow"
+    },
+    "tasks": [
+      {
+        "game": "yellow",
+        "location_key": "pallet-town",
+        "task_type": "catch",
+        "description": "Teach Pikachu Yellow-exclusive TMs: Mega Punch, Mega Kick, Pay Day",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Hasty nature (EXP mod 25 = 11)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 26,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Raichu from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 27,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Sandshrew at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 28,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Sandslash from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 29,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Nidoran♀ at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 30,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Nidorina from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 31,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Nidoqueen from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 32,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Nidoran♂ at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 33,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Nidorino from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 34,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Nidoking from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 35,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Clefairy at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 36,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Clefable from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 37,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Vulpix at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 38,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Ninetales from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 39,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Jigglypuff at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 40,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Wigglytuff from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 41,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Zubat at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 42,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Golbat from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 43,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Oddish at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 44,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Gloom from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 45,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Vileplume from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 46,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Paras at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 47,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Parasect from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 48,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Venonat at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 49,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Venomoth from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 50,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Diglett at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 51,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Dugtrio from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 52,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Meowth at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 53,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Persian from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 54,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Psyduck at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 55,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Golduck from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 56,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Mankey at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 57,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Primeape from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 58,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Growlithe at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 59,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Arcanine from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 60,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Poliwag at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 61,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Poliwhirl from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 62,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Poliwrath from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 63,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Abra at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 64,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Kadabra from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 65,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Alakazam from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 66,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Machop at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 66,
+      "target_type": "tm_move",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "catch",
+        "description": "Teach Flamethrower to Machop via Crystal move tutor",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 67,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Machoke from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 68,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Machamp from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 69,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Bellsprout at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 70,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Weepinbell from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 71,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Victreebel from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 72,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Tentacool at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 73,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Tentacruel from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 74,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Geodude at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 75,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Graveler from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 76,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Golem from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 77,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Ponyta at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 78,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Rapidash from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 79,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Slowpoke at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 80,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Slowbro from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 81,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Magnemite at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 82,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Magneton from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 83,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Farfetch'd at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 84,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Doduo at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 85,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Dodrio from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 86,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Seel at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Calm nature (EXP mod 25 = 20)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 87,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Dewgong from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 88,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Grimer at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 89,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Muk from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 90,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Shellder at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 91,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Cloyster from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 92,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Gastly at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 93,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Haunter from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 94,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Gengar from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 95,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Onix at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Impish nature (EXP mod 25 = 8)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 96,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Drowzee at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Calm nature (EXP mod 25 = 20)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 97,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Hypno from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 98,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Krabby at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 99,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Kingler from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 100,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Voltorb at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 101,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Electrode from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 102,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Exeggcute at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 103,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Exeggutor from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 104,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Cubone at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 104,
+      "target_type": "tm_move",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "catch",
+        "description": "Teach Flamethrower to Cubone via Crystal move tutor",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 105,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Marowak from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 106,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Hitmonlee at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 107,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Hitmonchan at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 108,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Lickitung at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Brave nature (EXP mod 25 = 2)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 108,
+      "target_type": "tm_move",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "catch",
+        "description": "Teach Flamethrower to Lickitung via Crystal move tutor",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Brave nature (EXP mod 25 = 2)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 109,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Koffing at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 110,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Weezing from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 111,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Rhyhorn at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 112,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Rhydon from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 113,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Chansey at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 114,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Tangela at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 115,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Kangaskhan at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 116,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Horsea at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 117,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Seadra from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 118,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Goldeen at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 119,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Seaking from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 120,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Staryu at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 121,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Starmie from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 122,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Mr. Mime at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 123,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Scyther at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 124,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Jynx at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 125,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Electabuzz at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 126,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Magmar at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 127,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Pinsir at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 128,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Tauros at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 129,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Magikarp at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 130,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "lake-of-rage",
+        "task_type": "catch",
+        "description": "Catch Gyarados at Lake of Rage — guaranteed shiny, fixed DVs",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 131,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Lapras at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 132,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "route-34",
+        "task_type": "catch",
+        "description": "Catch Ditto — wild encounter",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 133,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Eevee at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 134,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Vaporeon from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 135,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Jolteon from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 136,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Flareon from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 137,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Porygon at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 137,
+      "target_type": "tm_move",
+      "source_game": "red"
+    },
+    "tasks": [
+      {
+        "game": "red",
+        "location_key": "celadon-city",
+        "task_type": "catch",
+        "description": "Teach Tri Attack (TM49) to Porygon — buy at Celadon Dept Store",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "red",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "red",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 138,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Omanyte at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 139,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Omastar from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 140,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Kabuto at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 141,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Kabutops from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 142,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Aerodactyl at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 143,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Snorlax at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 144,
+      "target_type": "origin",
+      "source_game": "yellow"
+    },
+    "tasks": [
+      {
+        "game": "yellow",
+        "location_key": "seafoam-islands",
+        "task_type": "catch",
+        "description": "Shiny hunt Articuno — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 145,
+      "target_type": "origin",
+      "source_game": "yellow"
+    },
+    "tasks": [
+      {
+        "game": "yellow",
+        "location_key": "power-plant",
+        "task_type": "catch",
+        "description": "Shiny hunt Zapdos — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 146,
+      "target_type": "origin",
+      "source_game": "yellow"
+    },
+    "tasks": [
+      {
+        "game": "yellow",
+        "location_key": "victory-road",
+        "task_type": "catch",
+        "description": "Shiny hunt Moltres — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 147,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Dratini at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 148,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Dragonair from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 149,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Dragonite from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 150,
+      "target_type": "origin",
+      "source_game": "yellow"
+    },
+    "tasks": [
+      {
+        "game": "yellow",
+        "location_key": "cerulean-cave",
+        "task_type": "catch",
+        "description": "Shiny hunt Mewtwo — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "yellow",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 151,
+      "target_type": "origin",
+      "source_game": "red"
+    },
+    "tasks": [
+      {
+        "game": "red",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Obtain Mew — gift",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "red",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "red",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 152,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Chikorita at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Calm nature (EXP mod 25 = 20)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 153,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Bayleef from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 154,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Meganium from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 155,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Cyndaquil at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 156,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Quilava from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 157,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Typhlosion from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 158,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Totodile at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 159,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Croconaw from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 160,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Feraligatr from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 161,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Sentret at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 162,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Furret from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 163,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Hoothoot at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Calm nature (EXP mod 25 = 20)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 164,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Noctowl from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 165,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Ledyba at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 166,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Ledian from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 167,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Spinarak at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 168,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Ariados from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 169,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Crobat from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 170,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Chinchou at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 171,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Lanturn from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 172,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Pichu at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 173,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Cleffa at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 174,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Igglybuff at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 175,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Togepi at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 176,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Togetic from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 177,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Natu at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 178,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Xatu from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 179,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Mareep at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 180,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Flaaffy from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 181,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Ampharos from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 182,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Bellossom from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 183,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Marill at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 184,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Azumarill from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 185,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Sudowoodo at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 186,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Politoed from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 187,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Hoppip at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 188,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Skiploom from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 189,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Jumpluff from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 190,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Aipom at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 191,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Sunkern at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 192,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Sunflora from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 193,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Yanma at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 194,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Wooper at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Relaxed nature (EXP mod 25 = 7)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 195,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Quagsire from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 196,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Espeon from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 197,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Umbreon from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 198,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Murkrow at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 199,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Slowking from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 200,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Misdreavus at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 201,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "ruins-of-alph",
+        "task_type": "catch",
+        "description": "Catch Unown — wild encounter",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 202,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Wobbuffet at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 203,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Girafarig at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 204,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Pineco at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Relaxed nature (EXP mod 25 = 7)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 205,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Forretress from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 206,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Dunsparce at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 207,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Gligar at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 208,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Steelix from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 209,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Snubbull at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 210,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Granbull from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 211,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Qwilfish at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 212,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Scizor from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 213,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Shuckle at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 214,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Heracross at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 215,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Sneasel at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 216,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Teddiursa at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 217,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Ursaring from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 218,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Slugma at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 219,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Magcargo from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 220,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Swinub at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 221,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Piloswine from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 222,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Corsola at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 223,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Remoraid at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 224,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Octillery from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 225,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Delibird at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 226,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Mantine at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Calm nature (EXP mod 25 = 20)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 227,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Skarmory at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Impish nature (EXP mod 25 = 8)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 228,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Houndour at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 229,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Houndoom from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 230,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Kingdra from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 231,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Phanpy at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 232,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Donphan from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 233,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Porygon2 from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 234,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Stantler at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 235,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Smeargle at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 236,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Tyrogue at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 237,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Hitmontop from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 238,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Smoochum at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 239,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Elekid at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Jolly nature (EXP mod 25 = 13)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 240,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Magby at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Modest nature (EXP mod 25 = 15)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 241,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Miltank at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Impish nature (EXP mod 25 = 8)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 242,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Blissey from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 243,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Shiny hunt Raikou — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 244,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Shiny hunt Entei — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 245,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Shiny hunt Suicune — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 246,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "goldenrod-city",
+        "task_type": "breed",
+        "description": "Breed shiny Larvitar at Day Care (Route 34) with shiny Ditto — 1/64 odds",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 247,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Pupitar from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 248,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "catch",
+        "description": "Evolve into Tyranitar from pre-evolution",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 2,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 249,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "whirl-islands",
+        "task_type": "catch",
+        "description": "Shiny hunt Lugia — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Bold nature (EXP mod 25 = 5)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 250,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "tin-tower",
+        "task_type": "catch",
+        "description": "Shiny hunt Ho-Oh — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Adamant nature (EXP mod 25 = 3)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  },
+  {
+    "target_ref": {
+      "species_id": 251,
+      "target_type": "origin",
+      "source_game": "crystal"
+    },
+    "tasks": [
+      {
+        "game": "crystal",
+        "location_key": "ilex-forest",
+        "task_type": "catch",
+        "description": "Shiny hunt Celebi — static encounter (save before, reset for shiny DVs)",
+        "task_order": 1,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "nature_grind",
+        "description": "Grind EXP to Timid nature (EXP mod 25 = 10)",
+        "task_order": 2,
+        "required": 1
+      },
+      {
+        "game": "crystal",
+        "location_key": null,
+        "task_type": "transfer",
+        "description": "Transfer via Poke Transporter → Pokemon Bank",
+        "task_order": 3,
+        "required": 1
+      }
+    ]
+  }
+]
