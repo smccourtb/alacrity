@@ -368,6 +368,7 @@ const stmtSetIncludeAutoOn = db.prepare(`
   SET include_in_collection = 1
   WHERE id = ?
     AND include_explicit = 0
+    AND include_in_collection = 0
 `);
 
 const stmtSetIncludeAutoOff = db.prepare(`
@@ -375,6 +376,7 @@ const stmtSetIncludeAutoOff = db.prepare(`
   SET include_in_collection = 0
   WHERE id = ?
     AND include_explicit = 0
+    AND include_in_collection = 1
 `);
 
 const stmtListCheckpointsNeedingScan = db.prepare<{ id: number }, []>(`
