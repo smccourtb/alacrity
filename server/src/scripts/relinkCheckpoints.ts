@@ -89,7 +89,7 @@ function relinkPlaythrough(playthroughId: number) {
     for (const p of parsed) {
       const parentId = findBestParent(p.snapshot, placed, p.mtime);
       update.run(parentId, p.id);
-      placed.push({ id: p.id, snapshot: p.snapshot, file_mtime: p.mtime });
+      placed.push({ id: p.id, snapshot: p.snapshot, file_mtime: p.mtime, parent_id: parentId });
     }
   });
   tx();

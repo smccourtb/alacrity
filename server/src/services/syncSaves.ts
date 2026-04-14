@@ -330,16 +330,16 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
 
   // Load existing checkpoints so new saves can parent to them
   const existing = db.prepare(`
-    SELECT c.id, c.snapshot, p.game, p.ot_name, p.ot_tid, sf.file_mtime
+    SELECT c.id, c.snapshot, c.parent_checkpoint_id, p.game, p.ot_name, p.ot_tid, sf.file_mtime
     FROM checkpoints c
     JOIN playthroughs p ON p.id = c.playthrough_id
     JOIN save_files sf ON sf.id = c.save_file_id
     WHERE c.snapshot IS NOT NULL
-  `).all() as Array<{ id: number; snapshot: string; game: string; ot_name: string; ot_tid: number; file_mtime: string | null }>;
+  `).all() as Array<{ id: number; snapshot: string; parent_checkpoint_id: number | null; game: string; ot_name: string; ot_tid: number; file_mtime: string | null }>;
   for (const ec of existing) {
     const key = `${ec.game}|${ec.ot_name}|${ec.ot_tid}`;
     if (!placedByPt.has(key)) placedByPt.set(key, []);
-    try { placedByPt.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: ec.file_mtime }); } catch {}
+    try { placedByPt.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: ec.file_mtime, parent_id: ec.parent_checkpoint_id }); } catch {}
   }
 
   let linked = 0;
@@ -372,7 +372,7 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
     const cpId = Number(cpResult.lastInsertRowid);
 
     if (!placedByPt.has(ptKey)) placedByPt.set(ptKey, []);
-    placedByPt.get(ptKey)!.push({ id: cpId, snapshot, file_mtime: row.file_mtime });
+    placedByPt.get(ptKey)!.push({ id: cpId, snapshot, file_mtime: row.file_mtime, parent_id: parentId });
     updateActive.run(cpId, playthrough.id);
     linked++;
   }

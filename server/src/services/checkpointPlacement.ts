@@ -11,6 +11,10 @@ export interface PlacedCheckpoint {
   snapshot: SaveSnapshot;
   /** ISO timestamp from save_files.file_mtime — wall-clock signal for tiebreaks. */
   file_mtime: string | null;
+  /** The parent checkpoint id this save is currently assigned to in the placed
+   *  tree, or null if it's a root. Used by the chain-flattening tiebreak to
+   *  walk up the parent chain. */
+  parent_id: number | null;
 }
 
 /**

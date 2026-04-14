@@ -415,18 +415,18 @@ router.post('/scan', async (req: Request, res: Response) => {
 
   // Also load existing checkpoints so new saves can parent to them
   const existingCheckpoints = db.prepare(
-    `SELECT c.id, c.snapshot, p.game, p.ot_name, p.ot_tid, sf.file_mtime
+    `SELECT c.id, c.snapshot, c.parent_checkpoint_id, p.game, p.ot_name, p.ot_tid, sf.file_mtime
      FROM checkpoints c
      JOIN playthroughs p ON p.id = c.playthrough_id
      JOIN save_files sf ON sf.id = c.save_file_id
      WHERE c.snapshot IS NOT NULL`,
-  ).all() as Array<{ id: number; snapshot: string; game: string; ot_name: string; ot_tid: number; file_mtime: string | null }>;
+  ).all() as Array<{ id: number; snapshot: string; parent_checkpoint_id: number | null; game: string; ot_name: string; ot_tid: number; file_mtime: string | null }>;
 
   for (const ec of existingCheckpoints) {
     const key = `${ec.game}|${ec.ot_name}|${ec.ot_tid}`;
     if (!placedByPlaythrough.has(key)) placedByPlaythrough.set(key, []);
     try {
-      placedByPlaythrough.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: ec.file_mtime });
+      placedByPlaythrough.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: ec.file_mtime, parent_id: ec.parent_checkpoint_id });
     } catch { /* skip malformed */ }
   }
 
@@ -466,7 +466,7 @@ router.post('/scan', async (req: Request, res: Response) => {
 
     // Track this checkpoint for future parent matching
     if (!placedByPlaythrough.has(ptKey)) placedByPlaythrough.set(ptKey, []);
-    placedByPlaythrough.get(ptKey)!.push({ id: newCpId, snapshot, file_mtime: row.file_mtime ?? null });
+    placedByPlaythrough.get(ptKey)!.push({ id: newCpId, snapshot, file_mtime: row.file_mtime ?? null, parent_id: parentId });
 
     // Update active checkpoint to the latest one placed
     updateActive.run(newCpId, playthrough.id);
