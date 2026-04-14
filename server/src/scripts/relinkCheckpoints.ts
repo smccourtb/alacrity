@@ -65,21 +65,25 @@ function relinkPlaythrough(playthroughId: number) {
     }
   }
 
-  // Sort by progression order, matching routes/timeline.ts /scan:
-  //   (badge_count asc, play_time_seconds asc, mtime asc)
-  // The earliest in-game playtime within a badge tier is processed first
-  // so it becomes the root candidate. Daycare-presence is not in the sort
-  // key — hunt lineage is recorded directly via hunts.parent_checkpoint_id
-  // (Task 4), so we don't need heuristics for "is this a hunt branch."
+  // Sort by real-world chronology (mtime primary), then badge count, then
+  // in-game playtime as a final tiebreak.
+  //
+  // This is a deliberate reversal of the old order. Playtime turned out to
+  // be unreliable for hunt-derived saves (see the drop of the playtime hard
+  // guard in findBestParent). The only signal that reliably matches the
+  // user's real-world save history is file_mtime — "when did I last write
+  // this save file." Processing in mtime order ensures the earliest real-
+  // world save becomes a candidate parent first, which matches the user's
+  // mental model of "the first save I made is the oldest in the tree."
   parsed.sort((a, b) => {
+    const am = a.mtime ? Date.parse(a.mtime) : 0;
+    const bm = b.mtime ? Date.parse(b.mtime) : 0;
+    if (am !== bm) return am - bm;
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
     const apt = a.snapshot.play_time_seconds ?? 0;
     const bpt = b.snapshot.play_time_seconds ?? 0;
-    if (apt !== bpt) return apt - bpt;
-    const am = a.mtime ? Date.parse(a.mtime) : 0;
-    const bm = b.mtime ? Date.parse(b.mtime) : 0;
-    return am - bm;
+    return apt - bpt;
   });
 
   const placed: PlacedCheckpoint[] = [];

@@ -75,22 +75,29 @@ function buildNodeGroups(
   for (const ln of nodes) byId.set(ln.node.id, ln);
 
   // A child is a "branch child" of its parent if their remapped cols differ.
-  // Mainline children (same col) stay on the trunk and get their own top-level
-  // NodeGroup at the outer walker.
+  // Mainline children (same col) stay on the trunk at the top-level walker;
+  // inside a nested subtree (buildGroupFor) the distinction doesn't matter —
+  // every descendant is visually a nested row in the branch card.
   function isBranchChild(parent: LayoutNode, child: LayoutNode): boolean {
     return remappedCol(parent) !== remappedCol(child);
   }
 
-  // Build a NodeGroup for one node: the node itself is the mainline, and each
-  // of its BRANCH children becomes a recursively-built nested NodeGroup.
+  // Build a NodeGroup for one node: the node itself is the mainline, and
+  // ALL of its children become recursively-built nested NodeGroups.
+  //
+  // NOTE: we do NOT filter by isBranchChild here. That check is only needed
+  // at the trunk level (walkTrunk). Inside a branch subtree, a "mainline
+  // child" from computeLayout's perspective is just the first-visited child
+  // in the DFS — it has no visual significance once we're inside a branch
+  // card. If we filtered it out here, deep mainline descendants of a branch
+  // (e.g. Abra under Ditto where Ditto is itself a branch of the root)
+  // would silently disappear.
   function buildGroupFor(ln: LayoutNode): NodeGroup {
     const branches: NodeGroup[] = [];
     for (const childNode of ln.node.children) {
       const childLn = byId.get(childNode.id);
       if (!childLn) continue;
-      if (isBranchChild(ln, childLn)) {
-        branches.push(buildGroupFor(childLn));
-      }
+      branches.push(buildGroupFor(childLn));
     }
     return { mainline: ln, branches };
   }

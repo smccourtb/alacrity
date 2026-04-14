@@ -369,29 +369,24 @@ router.post('/scan', async (req: Request, res: Response) => {
     }
   }
 
-  // ── Phase 2: sort by progression (badge count asc, then playtime, then mtime)
+  // ── Phase 2: sort by real-world chronology (mtime primary) ────────────────
   //
-  // NOTE: a prior version of this sort put non-daycare saves before daycare
-  // ones at the same badge level, on the theory that daycare presence
-  // indicated a hunt/breeding branch that should be processed after the
-  // mainline. The Crystal acceptance test for save-placement-v2 caught this:
-  // Crystal's true root (Charmander_hunt3, playtime 42720) has a daycare,
-  // and the no-daycare Ditto_hunt15 (playtime 64320) was processed first,
-  // became a root, and then the playtime hard guard in findBestParent
-  // prevented anything from re-parenting to it. Now that Task 4 gives us
-  // hunts.parent_checkpoint_id as a hard lineage signal for real hunt-derived
-  // saves, the daycare-presence heuristic is both unnecessary and wrong for
-  // breeding-heavy playthroughs.
+  // Playtime turned out to be unreliable for hunt-derived saves (hunt binaries
+  // copy a base save and produce catches with the base's playtime, which can
+  // be disconnected from real chronology). The user's actual save history is
+  // most reliably captured in file_mtime — when the save file was last
+  // written. Process in mtime order so the earliest real-world save becomes
+  // a candidate parent first.
 
   parsed.sort((a, b) => {
+    const am = a.row.file_mtime ? Date.parse(a.row.file_mtime) : 0;
+    const bm = b.row.file_mtime ? Date.parse(b.row.file_mtime) : 0;
+    if (am !== bm) return am - bm;
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
     const apt = a.snapshot.play_time_seconds ?? 0;
     const bpt = b.snapshot.play_time_seconds ?? 0;
-    if (apt !== bpt) return apt - bpt;
-    const am = a.row.file_mtime ? Date.parse(a.row.file_mtime) : 0;
-    const bm = b.row.file_mtime ? Date.parse(b.row.file_mtime) : 0;
-    return am - bm;
+    return apt - bpt;
   });
 
   // ── Phase 3: place each save, finding best parent via snapshot similarity ─

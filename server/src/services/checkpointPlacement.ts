@@ -71,9 +71,16 @@ export function findBestParent(
   for (const cp of placed) {
     const s = cp.snapshot;
 
-    // Hard guards: a parent in the timeline can never be "ahead" of its child.
+    // Hard guard: badge counts only go up in a playthrough.
     if (s.badge_count > snapshot.badge_count) continue;
-    if ((s.play_time_seconds ?? 0) > (snapshot.play_time_seconds ?? 0)) continue;
+
+    // NOTE: the play_time_seconds hard guard was dropped. It turned out to
+    // be unreliable for hunt-derived saves — the shiny-hunter binaries copy
+    // a base save and its recorded playtime can be disconnected from
+    // real-world chronology (a dev/test save at "17h" can contain post-E4
+    // content because of save manipulation). Dropping the guard lets real-
+    // world-earlier saves (per mtime) become ancestors of real-world-later
+    // saves even when the in-game playtime counter disagrees.
 
     const score = scoreCandidate(snapshot, cp, childParty, childMtime);
 

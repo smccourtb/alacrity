@@ -299,16 +299,19 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
     }
   }
 
-  // Phase 2: sort by badge count ascending, then play time ascending, then mtime ascending
+  // Phase 2: sort by real-world chronology — mtime primary, badge/playtime
+  // as tiebreaks. Playtime can't be primary because hunt-derived saves have
+  // their base save's playtime, which can be disconnected from real-world
+  // chronology. mtime is the most reliable "when was this save made" signal.
   parsed.sort((a, b) => {
+    const am = a.row.file_mtime ? Date.parse(a.row.file_mtime) : 0;
+    const bm = b.row.file_mtime ? Date.parse(b.row.file_mtime) : 0;
+    if (am !== bm) return am - bm;
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
     const apt = a.snapshot.play_time_seconds ?? 0;
     const bpt = b.snapshot.play_time_seconds ?? 0;
-    if (apt !== bpt) return apt - bpt;
-    const am = a.row.file_mtime ? Date.parse(a.row.file_mtime) : 0;
-    const bm = b.row.file_mtime ? Date.parse(b.row.file_mtime) : 0;
-    return am - bm;
+    return apt - bpt;
   });
 
   // Phase 3: place each save, finding best parent via snapshot similarity
