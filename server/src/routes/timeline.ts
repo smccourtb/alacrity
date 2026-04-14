@@ -374,10 +374,12 @@ router.post('/scan', async (req: Request, res: Response) => {
   parsed.sort((a, b) => {
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
-    // Non-daycare before daycare (progression saves before hunt branches)
-    const aHasDc = a.snapshot.daycare ? 1 : 0;
-    const bHasDc = b.snapshot.daycare ? 1 : 0;
-    return aHasDc - bHasDc;
+    const apt = a.snapshot.play_time_seconds ?? 0;
+    const bpt = b.snapshot.play_time_seconds ?? 0;
+    if (apt !== bpt) return apt - bpt;
+    const am = a.row.file_mtime ? Date.parse(a.row.file_mtime) : 0;
+    const bm = b.row.file_mtime ? Date.parse(b.row.file_mtime) : 0;
+    return am - bm;
   });
 
   // ── Phase 3: place each save, finding best parent via snapshot similarity ─
@@ -401,17 +403,18 @@ router.post('/scan', async (req: Request, res: Response) => {
 
   // Also load existing checkpoints so new saves can parent to them
   const existingCheckpoints = db.prepare(
-    `SELECT c.id, c.snapshot, p.game, p.ot_name, p.ot_tid
+    `SELECT c.id, c.snapshot, p.game, p.ot_name, p.ot_tid, sf.file_mtime
      FROM checkpoints c
      JOIN playthroughs p ON p.id = c.playthrough_id
+     JOIN save_files sf ON sf.id = c.save_file_id
      WHERE c.snapshot IS NOT NULL`,
-  ).all() as Array<{ id: number; snapshot: string; game: string; ot_name: string; ot_tid: number }>;
+  ).all() as Array<{ id: number; snapshot: string; game: string; ot_name: string; ot_tid: number; file_mtime: string | null }>;
 
   for (const ec of existingCheckpoints) {
     const key = `${ec.game}|${ec.ot_name}|${ec.ot_tid}`;
     if (!placedByPlaythrough.has(key)) placedByPlaythrough.set(key, []);
     try {
-      placedByPlaythrough.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: null });
+      placedByPlaythrough.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: ec.file_mtime });
     } catch { /* skip malformed */ }
   }
 
@@ -435,7 +438,7 @@ router.post('/scan', async (req: Request, res: Response) => {
     const placed = placedByPlaythrough.get(ptKey) ?? [];
 
     // Find best parent by snapshot similarity
-    const parentId = findBestParent(snapshot, placed);
+    const parentId = findBestParent(snapshot, placed, row.file_mtime);
 
     const cpResult = createCheckpoint.run(
       playthrough.id,
@@ -451,7 +454,7 @@ router.post('/scan', async (req: Request, res: Response) => {
 
     // Track this checkpoint for future parent matching
     if (!placedByPlaythrough.has(ptKey)) placedByPlaythrough.set(ptKey, []);
-    placedByPlaythrough.get(ptKey)!.push({ id: newCpId, snapshot, file_mtime: null });
+    placedByPlaythrough.get(ptKey)!.push({ id: newCpId, snapshot, file_mtime: row.file_mtime ?? null });
 
     // Update active checkpoint to the latest one placed
     updateActive.run(newCpId, playthrough.id);

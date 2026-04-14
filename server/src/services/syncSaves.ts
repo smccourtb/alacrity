@@ -128,10 +128,10 @@ export function syncSaves(): SyncSavesResult {
   // Uses smart placement: parse snapshots, sort by badge count, then find
   // best parent for each via party overlap + badge proximity (handles branching).
   const unlinked = db.prepare(`
-    SELECT sf.id, sf.file_path, sf.game, sf.label FROM save_files sf
+    SELECT sf.id, sf.file_path, sf.game, sf.label, sf.file_mtime FROM save_files sf
     WHERE sf.game IS NOT NULL AND sf.game != 'Unknown' AND sf.stale = 0
       AND NOT EXISTS (SELECT 1 FROM checkpoints c WHERE c.save_file_id = sf.id)
-  `).all() as Array<{ id: number; file_path: string; game: string; label: string | null }>;
+  `).all() as Array<{ id: number; file_path: string; game: string; label: string | null; file_mtime: string | null }>;
 
   if (unlinked.length > 0) {
     smartPlaceSaves(unlinked);
@@ -248,7 +248,7 @@ function cleanUnreferencedStale(): number {
 // Smart save placement — same algorithm as timeline /scan
 // ---------------------------------------------------------------------------
 
-function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: string; label: string | null }>) {
+function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: string; label: string | null; file_mtime: string | null }>) {
   // Phase 1: parse snapshots
   interface ParsedSave { row: typeof saves[0]; snapshot: SaveSnapshot; label: string }
   const parsed: ParsedSave[] = [];
@@ -270,11 +270,16 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
     }
   }
 
-  // Phase 2: sort by badge count ascending, then play time ascending
+  // Phase 2: sort by badge count ascending, then play time ascending, then mtime ascending
   parsed.sort((a, b) => {
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
-    return (a.snapshot.play_time_seconds ?? 0) - (b.snapshot.play_time_seconds ?? 0);
+    const apt = a.snapshot.play_time_seconds ?? 0;
+    const bpt = b.snapshot.play_time_seconds ?? 0;
+    if (apt !== bpt) return apt - bpt;
+    const am = a.row.file_mtime ? Date.parse(a.row.file_mtime) : 0;
+    const bm = b.row.file_mtime ? Date.parse(b.row.file_mtime) : 0;
+    return am - bm;
   });
 
   // Phase 3: place each save, finding best parent via snapshot similarity
@@ -296,14 +301,16 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
 
   // Load existing checkpoints so new saves can parent to them
   const existing = db.prepare(`
-    SELECT c.id, c.snapshot, p.game, p.ot_name, p.ot_tid
-    FROM checkpoints c JOIN playthroughs p ON p.id = c.playthrough_id
+    SELECT c.id, c.snapshot, p.game, p.ot_name, p.ot_tid, sf.file_mtime
+    FROM checkpoints c
+    JOIN playthroughs p ON p.id = c.playthrough_id
+    JOIN save_files sf ON sf.id = c.save_file_id
     WHERE c.snapshot IS NOT NULL
-  `).all() as Array<{ id: number; snapshot: string; game: string; ot_name: string; ot_tid: number }>;
+  `).all() as Array<{ id: number; snapshot: string; game: string; ot_name: string; ot_tid: number; file_mtime: string | null }>;
   for (const ec of existing) {
     const key = `${ec.game}|${ec.ot_name}|${ec.ot_tid}`;
     if (!placedByPt.has(key)) placedByPt.set(key, []);
-    try { placedByPt.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: null }); } catch {}
+    try { placedByPt.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: ec.file_mtime }); } catch {}
   }
 
   let linked = 0;
@@ -321,7 +328,7 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
 
     const ptKey = `${g}|${snapshot.ot_name}|${snapshot.ot_tid}`;
     const placed = placedByPt.get(ptKey) ?? [];
-    const parentId = findBestParent(snapshot, placed);
+    const parentId = findBestParent(snapshot, placed, row.file_mtime);
 
     const cpResult = createCheckpoint.run(
       playthrough.id, row.id, parentId, label,
@@ -330,7 +337,7 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
     const cpId = Number(cpResult.lastInsertRowid);
 
     if (!placedByPt.has(ptKey)) placedByPt.set(ptKey, []);
-    placedByPt.get(ptKey)!.push({ id: cpId, snapshot, file_mtime: null });
+    placedByPt.get(ptKey)!.push({ id: cpId, snapshot, file_mtime: row.file_mtime });
     updateActive.run(cpId, playthrough.id);
     linked++;
   }

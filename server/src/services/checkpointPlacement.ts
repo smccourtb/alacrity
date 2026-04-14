@@ -28,10 +28,12 @@ export interface PlacedCheckpoint {
  *   - badge proximity      penalty per badge of distance, weight -10        [soft signal]
  *   - daycare parent pair  +20 if both saves have the same egg parents      [soft signal]
  *                          -5 if both have a daycare but it differs
+ *   - wall-clock mtime     bonus +0..+5 for recent, non-future candidates   [tiebreak]
  */
 export function findBestParent(
   snapshot: SaveSnapshot,
   placed: PlacedCheckpoint[],
+  childMtime: string | null = null,
 ): number | null {
   if (placed.length === 0) return null;
 
@@ -63,7 +65,23 @@ export function findBestParent(
     if (curDcKey && parentDcKey && curDcKey === parentDcKey) dcBonus = 20;
     else if (curDcKey && parentDcKey && curDcKey !== parentDcKey) dcBonus = -5;
 
-    const score = overlapRatio * 100 - badgeDiff * 10 + dcBonus;
+    // Wall-clock proximity: when scores are otherwise close, prefer the
+    // candidate whose mtime is closest to (but not after) the new save's
+    // mtime. Max +5 at zero age, linear decay at -1/6 per day, floored
+    // at 0. Zero contribution if either timestamp is missing or the
+    // candidate is newer than the child.
+    let mtimeBonus = 0;
+    const parentMtime = cp.file_mtime;
+    if (childMtime && parentMtime) {
+      const childMs = Date.parse(childMtime);
+      const parentMs = Date.parse(parentMtime);
+      if (Number.isFinite(childMs) && Number.isFinite(parentMs) && parentMs <= childMs) {
+        const ageDays = (childMs - parentMs) / 86_400_000;
+        mtimeBonus = Math.max(0, 5 - ageDays / 6);
+      }
+    }
+
+    const score = overlapRatio * 100 - badgeDiff * 10 + dcBonus + mtimeBonus;
 
     if (score > bestScore) {
       bestScore = score;
