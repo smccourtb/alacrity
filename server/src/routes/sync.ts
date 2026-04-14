@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { syncFrom3DS, discover3DS } from '../services/ftpSync.js';
-import { parseAndImportAll } from '../services/saveParser.js';
 import { autoLinkSave } from '../services/autoLinkage.js';
 import db from '../db.js';
 
@@ -42,9 +41,7 @@ router.post('/sync', (req, res) => {
   (async () => {
     try {
       const result = await syncFrom3DS(ip, port || 5000);
-      syncStatus = { state: 'parsing', message: `Downloaded ${result.files.length} files. Parsing...`, files: result.files, errors: result.errors };
-
-      const parseResult = await parseAndImportAll();
+      syncStatus = { state: 'parsing', message: `Downloaded ${result.files.length} files. Auto-linking...`, files: result.files, errors: result.errors };
 
       // Auto-link any save_files that have a game set but haven't been linked yet
       let linked = 0;
@@ -75,11 +72,9 @@ router.post('/sync', (req, res) => {
 
       syncStatus = {
         state: 'done',
-        message: `Sync complete. Imported ${parseResult.imported} pokemon, ${parseResult.skipped} duplicates skipped. Linked ${linked} saves.`,
+        message: `Sync complete. Linked ${linked} saves.`,
         files: result.files,
         errors: result.errors,
-        imported: parseResult.imported,
-        skipped: parseResult.skipped,
       };
     } catch (e: any) {
       syncStatus = { state: 'error', message: e.message, files: syncStatus.files, errors: [...syncStatus.errors, e.message] };
@@ -89,15 +84,6 @@ router.post('/sync', (req, res) => {
 
 router.get('/status', (_req, res) => {
   res.json(syncStatus);
-});
-
-router.post('/parse', async (_req, res) => {
-  try {
-    const result = await parseAndImportAll();
-    res.json(result);
-  } catch (e: any) {
-    res.status(500).json({ error: e.message });
-  }
 });
 
 export default router;

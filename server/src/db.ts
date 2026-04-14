@@ -33,10 +33,6 @@ const speciesColumns = db.prepare(`PRAGMA table_info(species)`).all() as { name:
 const speciesColNames = new Set(speciesColumns.map(c => c.name));
 if (!speciesColNames.has('gender_rate')) db.exec(`ALTER TABLE species ADD COLUMN gender_rate INTEGER NOT NULL DEFAULT -1`);
 
-// Playthrough integration columns on pokemon
-try { db.exec('ALTER TABLE pokemon ADD COLUMN checkpoint_id INTEGER REFERENCES checkpoints(id)'); } catch {}
-try { db.exec('ALTER TABLE pokemon ADD COLUMN playthrough_id INTEGER REFERENCES playthroughs(id)'); } catch {}
-
 // Playthrough column on guide_progress
 try { db.exec('ALTER TABLE guide_progress ADD COLUMN playthrough_id INTEGER REFERENCES playthroughs(id)'); } catch {}
 
@@ -154,12 +150,6 @@ if (viewMatch) {
   try { db.exec(viewMatch[0]); } catch {}
 }
 
-// Migrate: pokemon identity_id
-const pokemonCols = (db.prepare('PRAGMA table_info(pokemon)').all() as any[]).map((c: any) => c.name);
-if (!pokemonCols.includes('identity_id')) {
-  db.exec('ALTER TABLE pokemon ADD COLUMN identity_id INTEGER REFERENCES pokemon_identity(id)');
-}
-
 // Migrate: checkpoints include_in_collection, archived
 const checkpointCols = (db.prepare('PRAGMA table_info(checkpoints)').all() as any[]).map((c: any) => c.name);
 if (!checkpointCols.includes('include_in_collection')) {
@@ -268,17 +258,6 @@ if (!allTables) {
     CREATE INDEX IF NOT EXISTS idx_collection_manual_species ON collection_manual(species_id);
   `);
 
-  // Migrate existing manual entries from pokemon table if any exist
-  try {
-    const pokemonCount = (db.prepare('SELECT COUNT(*) as c FROM pokemon').get() as any)?.c ?? 0;
-    if (pokemonCount > 0) {
-      db.exec(`
-        INSERT INTO collection_manual (species_id, is_shiny, level, gender, nature, ability, ball, origin_game, nickname, ot_name, ot_tid, form_id, ribbons, marks, notes, created_at)
-        SELECT species_id, is_shiny, level, gender, nature, ability, ball, origin_game, nickname, ot_name, ot_tid, form_id, ribbons, marks, notes, created_at
-        FROM pokemon
-      `);
-    }
-  } catch {}
 }
 
 export default db;

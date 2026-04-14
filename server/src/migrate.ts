@@ -9,24 +9,12 @@ export function runMigrations(db: Database) {
     try { db.exec('ALTER TABLE hunts DROP COLUMN lua_script'); } catch {}
   }
 
-  const columns = (db.prepare('PRAGMA table_info(pokemon)').all() as any[]).map((c: any) => c.name);
-
-  const newCols: [string, string][] = [
-    ['ot_sid', 'TEXT'],
-    ['ot_gender', 'TEXT'],
-    ['ribbons', "TEXT DEFAULT '[]'"],
-    ['marks', "TEXT DEFAULT '[]'"],
-    ['source', "TEXT DEFAULT 'manual'"],
-    ['manual_fields', "TEXT DEFAULT '[]'"],
-    ['form_id', 'INTEGER REFERENCES species_forms(id)'],
-    ['gender', 'TEXT'],
-  ];
-
-  for (const [name, type] of newCols) {
-    if (!columns.includes(name)) {
-      db.exec(`ALTER TABLE pokemon ADD COLUMN ${name} ${type}`);
-    }
-  }
+  // Drop deprecated pokemon table (retired 2026-04-13 along with the parallel
+  // parseAndImportAll / runCompletionScan / /sync pipeline). The new collection
+  // system (collection_saves + collection_bank + collection_manual) has been
+  // canonical since the identity service landed.
+  try { db.exec('DROP TABLE IF EXISTS pokemon'); } catch {}
+  try { db.exec('DROP INDEX IF EXISTS idx_pokemon_unique'); } catch {}
 
   // Species table legality columns
   const speciesCols = (db.prepare('PRAGMA table_info(species)').all() as any[]).map((c: any) => c.name);
