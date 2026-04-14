@@ -127,14 +127,32 @@ export function syncSaves(): SyncSavesResult {
   // Uses smart placement: parse snapshots, sort by badge count, then find
   // best parent for each via party overlap + badge proximity (handles branching).
   const unlinked = db.prepare(`
-    SELECT sf.id, sf.file_path, sf.game FROM save_files sf
+    SELECT sf.id, sf.file_path, sf.game, sf.label FROM save_files sf
     WHERE sf.game IS NOT NULL AND sf.game != 'Unknown' AND sf.stale = 0
       AND NOT EXISTS (SELECT 1 FROM checkpoints c WHERE c.save_file_id = sf.id)
-  `).all() as Array<{ id: number; file_path: string; game: string }>;
+  `).all() as Array<{ id: number; file_path: string; game: string; label: string | null }>;
 
   if (unlinked.length > 0) {
     smartPlaceSaves(unlinked);
   }
+
+  // Backfill: an earlier version of smartPlaceSaves derived checkpoint labels
+  // from the parent directory, which for a flat file in `library/Crystal/foo.sav`
+  // is the game folder ("Crystal"). That made every loose library save appear
+  // as an indistinguishable "Crystal" row in the timeline. Heal those rows by
+  // copying the (now-correct) save_files.label, but only where the checkpoint
+  // label literally matches the game name — anything else may be user-edited.
+  const healed = db.prepare(`
+    UPDATE checkpoints
+    SET label = (SELECT label FROM save_files WHERE id = checkpoints.save_file_id)
+    WHERE save_file_id IN (
+      SELECT sf.id FROM save_files sf
+      WHERE sf.label IS NOT NULL AND sf.label != ''
+        AND lower(sf.label) != lower(sf.game)
+        AND lower((SELECT label FROM checkpoints WHERE save_file_id = sf.id)) = lower(sf.game)
+    )
+  `).run();
+  if (healed.changes > 0) console.log(`[syncSaves] Healed ${healed.changes} checkpoint labels that were stuck on the game name`);
 
   // Re-link checkpoints pointing at stale saves to their non-stale replacements
   const relinked = relinkStaleCheckpoints();
@@ -265,16 +283,22 @@ function findBestParent(
   return bestId;
 }
 
-function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: string }>) {
+function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: string; label: string | null }>) {
   // Phase 1: parse snapshots
   interface ParsedSave { row: typeof saves[0]; snapshot: SaveSnapshot; label: string }
   const parsed: ParsedSave[] = [];
   for (const row of saves) {
     try {
       const snapshot = buildSnapshot(row.file_path, row.game);
-      const parts = row.file_path.split('/');
-      const dirName = parts[parts.length - 2] || '';
-      const label = dirName || `${snapshot.badge_count} Badges — ${snapshot.location}`;
+      // Prefer the label saveDiscovery already computed (it knows how to
+      // distinguish "library/Crystal/foo.sav" → "foo" from "library/Crystal/
+      // Lugia/sav.dat" → "Lugia"). Fall back only if it's missing or matches
+      // the bare game folder name.
+      const sfLabel = row.label?.trim() ?? '';
+      const looksLikeGameFolder = sfLabel.toLowerCase() === row.game.toLowerCase();
+      const label = sfLabel && !looksLikeGameFolder
+        ? sfLabel
+        : `${snapshot.badge_count} Badges — ${snapshot.location}`;
       parsed.push({ row, snapshot, label });
     } catch {
       // Can't parse — skip
