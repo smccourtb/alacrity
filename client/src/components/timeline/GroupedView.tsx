@@ -184,7 +184,7 @@ function SortableSaveRow(props: SortableSaveRowProps) {
     opacity: isDragging ? 0.4 : 1,
   };
   return (
-    <div ref={setNodeRef} style={style}>
+    <div ref={setNodeRef} style={style} data-save-file-id={props.node.save_file_id}>
       <SaveRow {...props} dragAttributes={attributes} dragListeners={listeners} />
     </div>
   );
@@ -459,9 +459,11 @@ interface GroupedViewProps {
   roots: CheckpointNode[];
   selectedId: number | null;
   onSelect: (node: CheckpointNode) => void;
+  scrollToSaveFileId?: number | null;
+  pulseSaveFileId?: number | null;
 }
 
-export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
+export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, pulseSaveFileId }: GroupedViewProps) {
   const allNodes = useMemo(() => flattenTree(roots), [roots]);
 
   const [meta, setMeta] = useState<MetaMap>({});
@@ -504,6 +506,46 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     });
     return () => { cancelled = true; };
   }, []);
+
+  useEffect(() => {
+    if (scrollToSaveFileId == null && pulseSaveFileId == null) return;
+    if (roots.length === 0) return;
+    const targetId = scrollToSaveFileId ?? pulseSaveFileId;
+
+    let rafId: number | null = null;
+    let clearTimer: number | null = null;
+    let attempts = 0;
+
+    const apply = () => {
+      const wrapper = document.querySelector<HTMLElement>(
+        `[data-save-file-id="${targetId}"]`,
+      );
+      if (!wrapper) {
+        // Row may not be mounted yet on the same frame the effect fires.
+        if (attempts++ < 20) rafId = requestAnimationFrame(apply);
+        return;
+      }
+      const card = (wrapper.firstElementChild as HTMLElement | null) ?? wrapper;
+
+      if (scrollToSaveFileId != null) {
+        wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      if (pulseSaveFileId != null) {
+        const classes = ['ring-4', 'ring-primary', 'ring-offset-2', 'transition-all'];
+        card.classList.add(...classes);
+        clearTimer = window.setTimeout(() => {
+          card.classList.remove(...classes);
+        }, 3000);
+      }
+    };
+
+    apply();
+
+    return () => {
+      if (rafId != null) cancelAnimationFrame(rafId);
+      if (clearTimer != null) clearTimeout(clearTimer);
+    };
+  }, [scrollToSaveFileId, pulseSaveFileId, roots]);
 
   const defaultSectionColor = tagColors[RESERVED_DEFAULT] ?? DEFAULT_DEFAULT_COLOR;
   const huntsSectionColor = tagColors[RESERVED_HUNTS] ?? DEFAULT_HUNTS_COLOR;

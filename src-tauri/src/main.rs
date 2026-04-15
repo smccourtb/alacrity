@@ -22,6 +22,81 @@ fn get_server_port(state: State<'_, ServerPort>) -> Result<u16, String> {
     state.0.lock().unwrap().ok_or_else(|| "Server not ready".into())
 }
 
+#[tauri::command]
+async fn copy_file_to_clipboard(path: String) -> Result<(), String> {
+    let pb = std::path::PathBuf::from(&path);
+    if !pb.is_file() {
+        return Err(format!("Not a file: {path}"));
+    }
+    if !pb.is_absolute() {
+        return Err(format!("Path must be absolute: {path}"));
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        // Use AppleScriptObjC to write an NSURL to NSPasteboard as
+        // public.file-url. A plain `set the clipboard to POSIX file "..."`
+        // produces a string reference that Finder will not paste as a file.
+        // Path is passed via argv to sidestep all AppleScript string escaping.
+        let output = std::process::Command::new("osascript")
+            .args([
+                "-e", "use framework \"Foundation\"",
+                "-e", "use framework \"AppKit\"",
+                "-e", "on run argv",
+                "-e", "set thePath to item 1 of argv",
+                "-e", "set theURL to current application's NSURL's fileURLWithPath:thePath",
+                "-e", "set pb to current application's NSPasteboard's generalPasteboard()",
+                "-e", "pb's clearContents()",
+                "-e", "pb's writeObjects:{theURL}",
+                "-e", "end run",
+                "--",
+                &path,
+            ])
+            .output()
+            .map_err(|e| format!("osascript failed: {e}"))?;
+        if !output.status.success() {
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            return Err(format!("osascript exited with status {}: {}", output.status, stderr));
+        }
+    }
+
+    #[cfg(target_os = "windows")]
+    {
+        let escaped = path.replace('\'', "''");
+        let script = format!("Set-Clipboard -Path '{escaped}'");
+        let status = std::process::Command::new("powershell")
+            .args(["-NoProfile", "-NonInteractive", "-Command", &script])
+            .status()
+            .map_err(|e| format!("powershell failed: {e}"))?;
+        if !status.success() {
+            return Err(format!("powershell exited with status {status}"));
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    {
+        use std::io::Write;
+        let uri = format!("file://{path}\n");
+        let mut child = std::process::Command::new("xclip")
+            .args(["-selection", "clipboard", "-t", "text/uri-list", "-i"])
+            .stdin(std::process::Stdio::piped())
+            .spawn()
+            .map_err(|e| format!("xclip not available: {e}"))?;
+        child
+            .stdin
+            .as_mut()
+            .ok_or_else(|| "failed to open xclip stdin".to_string())?
+            .write_all(uri.as_bytes())
+            .map_err(|e| format!("xclip write failed: {e}"))?;
+        let status = child.wait().map_err(|e| format!("xclip wait failed: {e}"))?;
+        if !status.success() {
+            return Err(format!("xclip exited with status {status}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn current_exe_directory() -> Option<std::path::PathBuf> {
     // Linux AppImage: APPIMAGE env var holds the path to the .AppImage file.
     // current_exe() during AppImage execution returns the temporary AppRun path
@@ -69,7 +144,7 @@ fn main() {
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_dialog::init())
         .manage(ServerPort(Mutex::new(None)))
-        .invoke_handler(tauri::generate_handler![get_server_port])
+        .invoke_handler(tauri::generate_handler![get_server_port, copy_file_to_clipboard])
         .setup(|app| {
             let handle = app.handle().clone();
 
