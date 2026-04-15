@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
-import { XIcon, PaletteIcon } from 'lucide-react';
+import { XIcon, PaletteIcon, GripVerticalIcon } from 'lucide-react';
 import type { CheckpointNode } from './types';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { Badge } from '@/components/ui/badge';
@@ -202,13 +202,6 @@ function SaveRow({
 
   return (
     <div
-      draggable
-      onDragStart={(e) => {
-        e.dataTransfer.effectAllowed = 'move';
-        try { e.dataTransfer.setData('text/plain', String(node.save_file_id)); } catch {}
-        onDragStart();
-      }}
-      onDragEnd={onDragEnd}
       onDragOver={onRowDragOver}
       onDrop={(e) => {
         e.preventDefault();
@@ -217,15 +210,33 @@ function SaveRow({
       }}
       onClick={(e) => {
         if ((e.target as HTMLElement).closest('[data-tag-editor]')) return;
+        if ((e.target as HTMLElement).closest('[data-drag-handle]')) return;
         onSelect();
       }}
       className={`
-        group flex items-center gap-2.5 px-2 py-1.5 rounded-md cursor-grab active:cursor-grabbing transition-colors
+        group flex items-center gap-1 px-1 py-1.5 rounded-md transition-colors
         ${isSelected ? 'bg-primary/5' : 'hover:bg-muted/40'}
         ${isDragging ? 'opacity-40' : ''}
         ${isDragHover ? 'bg-primary/10 ring-1 ring-primary/40' : ''}
       `}
     >
+      {/* Drag handle — the ONLY draggable element. Keeping the handle small
+          and explicit avoids any click-vs-drag confusion with the rest of
+          the row. */}
+      <div
+        data-drag-handle
+        draggable
+        onDragStart={(e) => {
+          e.dataTransfer.effectAllowed = 'move';
+          try { e.dataTransfer.setData('text/plain', String(node.save_file_id)); } catch {}
+          onDragStart();
+        }}
+        onDragEnd={onDragEnd}
+        className="shrink-0 cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground px-0.5 py-1 rounded"
+        title="Drag to reorder or move to another section"
+      >
+        <GripVerticalIcon className="size-3.5" />
+      </div>
       <div className="flex-1 min-w-0 flex items-center gap-2">
         <span className={`text-sm font-medium truncate ${isCatch ? 'text-emerald-600' : 'text-foreground'} ${small ? 'opacity-80' : ''}`}>
           {isCatch && '★ '}{node.label}
@@ -759,6 +770,16 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
 
   return (
     <div className="space-y-3">
+      {/* Drag diagnostic: shows current drag state. Remove once drag is
+          confirmed working end-to-end. */}
+      {draggedSaveId != null && (
+        <div className="fixed top-4 right-4 z-50 bg-black text-white text-xs px-3 py-2 rounded-lg shadow-lg font-mono">
+          Dragging save #{draggedSaveId}
+          {rowHoverSaveId != null && <> → row #{rowHoverSaveId}</>}
+          {bucketHoverKey != null && <> → bucket {bucketHoverKey}</>}
+        </div>
+      )}
+
       {/* Recent — its own standalone card so it pops */}
       {recent.length > 0 && (
         <Card className="py-3 gap-2">
