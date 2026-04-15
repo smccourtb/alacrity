@@ -64,6 +64,9 @@ export interface CollectionEntry {
   is_home: boolean;
   game: string | null;
   playthrough_id: number | null;
+  save_file_id: number | null;
+  save_filename: string | null;
+  save_file_path: string | null;
   ot_name: string | null;
   ot_tid: number | null;
 }
@@ -514,6 +517,9 @@ interface SightingRow {
   created_at: string;
   game: string | null;
   playthrough_id: number | null;
+  save_file_id: number | null;
+  save_filename: string | null;
+  save_file_path: string | null;
 }
 
 export function resolveCollection(scope?: ResolveScope): CollectionEntry[] {
@@ -531,11 +537,15 @@ export function resolveCollection(scope?: ResolveScope): CollectionEntry[] {
       NULL as bank_file_id,
       s.created_at,
       pt.game,
-      pt.id as playthrough_id
+      pt.id as playthrough_id,
+      sf.id as save_file_id,
+      sf.filename as save_filename,
+      sf.file_path as save_file_path
     FROM collection_saves s
     JOIN pokemon_identity pi ON pi.id = s.identity_id
     JOIN checkpoints c ON c.id = s.checkpoint_id
     JOIN playthroughs pt ON pt.id = c.playthrough_id
+    JOIN save_files sf ON sf.id = c.save_file_id
     WHERE c.include_in_collection = 1
       AND c.archived = 0
       AND pt.include_in_collection = 1
@@ -566,7 +576,10 @@ export function resolveCollection(scope?: ResolveScope): CollectionEntry[] {
       s.bank_file_id,
       s.created_at,
       sf.game,
-      NULL as playthrough_id
+      NULL as playthrough_id,
+      NULL as save_file_id,
+      NULL as save_filename,
+      NULL as save_file_path
     FROM collection_bank s
     JOIN pokemon_identity pi ON pi.id = s.identity_id
     JOIN save_files sf ON sf.id = s.bank_file_id
@@ -624,6 +637,9 @@ export function resolveCollection(scope?: ResolveScope): CollectionEntry[] {
       is_home: true, // most recent sighting is "home"
       game: sighting.game,
       playthrough_id: sighting.playthrough_id,
+      save_file_id: sighting.save_file_id,
+      save_filename: sighting.save_filename,
+      save_file_path: sighting.save_file_path,
       ot_name: ot?.ot_name ?? null,
       ot_tid: ot?.ot_tid ?? null,
     });
