@@ -40,6 +40,17 @@ CREATE TABLE IF NOT EXISTS save_files (
 );
 CREATE UNIQUE INDEX IF NOT EXISTS idx_save_files_path ON save_files(file_path);
 
+-- User-authored metadata for saves: tag (custom group name) and
+-- user_sort_order (higher = earlier). Phase 1b of the save-visibility
+-- rework. One row per save, or no row if the user hasn't touched it.
+CREATE TABLE IF NOT EXISTS save_user_meta (
+  save_file_id INTEGER PRIMARY KEY REFERENCES save_files(id) ON DELETE CASCADE,
+  tag TEXT,
+  user_sort_order INTEGER,
+  updated_at TEXT DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_save_user_meta_tag ON save_user_meta(tag);
+
 CREATE TABLE IF NOT EXISTS hunts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   target_species_id INTEGER REFERENCES species(id),
