@@ -1,6 +1,15 @@
 import { BallIcon, OriginMark, GamePill, TypePill } from '@/components/icons';
 import { TYPE_COLORS } from '@/lib/pokemon-constants';
 import InlineEdit from './InlineEdit';
+import { useNavigate } from 'react-router-dom';
+import { invoke } from '@tauri-apps/api/core';
+import { MoreVertical } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 function capitalize(s: string) {
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
@@ -68,6 +77,7 @@ interface Props {
 }
 
 export default function SummaryCard({ entry, species, onUpdate, onBallClick }: Props) {
+  const navigate = useNavigate();
   const natureMod = NATURE_STATS[entry.nature];
   const type1Color = TYPE_COLORS[(species?.type1 ?? '').toLowerCase()] ?? '#a8a878';
 
@@ -94,6 +104,20 @@ export default function SummaryCard({ entry, species, onUpdate, onBallClick }: P
   const spriteUrl = entry.is_shiny
     ? (entry.shiny_sprite_url || species?.shiny_sprite_url)
     : (gameSpriteUrl || entry.sprite_url || species?.sprite_url);
+
+  const handleShowOnPlayPage = () => {
+    if (entry.save_file_id == null) return;
+    navigate(`/play?save=${entry.save_file_id}`);
+  };
+
+  const handleCopySaveFile = async () => {
+    if (!entry.save_file_path) return;
+    try {
+      await invoke('copy_file_to_clipboard', { path: entry.save_file_path });
+    } catch (err: any) {
+      window.alert(`Failed to copy save file: ${err?.toString?.() ?? 'unknown error'}`);
+    }
+  };
 
   return (
     <div className="bg-gradient-to-br from-muted/30 to-muted/10 rounded-lg p-4 border border-border/50 mb-3">
@@ -278,12 +302,36 @@ export default function SummaryCard({ entry, species, onUpdate, onBallClick }: P
               </div>
               {entry.save_file_path && <div className="text-muted-foreground/40 truncate">{entry.save_file_path}</div>}
             </div>
-            <button
-              onClick={() => onUpdate({ source_save: null, checkpoint_id: null })}
-              className="text-muted-foreground/30 hover:text-red-500 transition-colors text-2xs font-semibold"
-            >
-              Unlink
-            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className="text-muted-foreground/40 hover:text-foreground transition-colors p-1 rounded"
+                aria-label="Save file actions"
+              >
+                <MoreVertical className="w-3.5 h-3.5" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuItem
+                  onClick={handleShowOnPlayPage}
+                  disabled={entry.save_file_id == null}
+                >
+                  Show on Play page
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleCopySaveFile}
+                  disabled={!entry.save_file_path}
+                >
+                  Copy save file
+                </DropdownMenuItem>
+                {entry.source === 'manual' && (
+                  <DropdownMenuItem
+                    onClick={() => onUpdate({ source_save: null, checkpoint_id: null })}
+                    className="text-red-600 focus:text-red-600"
+                  >
+                    Unlink
+                  </DropdownMenuItem>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         ) : (
           <button
