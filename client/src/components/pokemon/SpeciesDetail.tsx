@@ -69,6 +69,10 @@ export default function SpeciesDetail({ species, onClose, onSave }: Props) {
             source: e.checkpoint_id ? 'save' : 'bank',
             identity_id: e.identity_id,
             checkpoint_id: e.checkpoint_id,
+            save_file_id: e.save_file_id ?? null,
+            save_filename: e.save_filename ?? null,
+            save_file_path: e.save_file_path ?? null,
+            game: e.game ?? null,
             _readonly: true,  // Flag: identity entries can't be edited
           };
         });
