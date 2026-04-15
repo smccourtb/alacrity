@@ -234,6 +234,37 @@ export const api = {
       invalidateCache('/saves');
       return request<void>(`/saves/${id}`, { method: 'DELETE' });
     },
+    // ── User metadata (tag + user_sort_order) for Grouped view ───────────
+    meta: {
+      /** Batch-fetch user meta for the given save ids. */
+      list: (ids: number[]) => {
+        if (ids.length === 0) return Promise.resolve({} as Record<string, { tag: string | null; user_sort_order: number | null; updated_at: string }>);
+        return request<Record<string, { tag: string | null; user_sort_order: number | null; updated_at: string }>>(
+          `/saves/meta?ids=${ids.join(',')}`,
+        );
+      },
+      /** Upsert meta for one save. Pass null to clear a field. */
+      update: (id: number, data: { tag?: string | null; user_sort_order?: number | null }) => {
+        invalidateCache('/saves/meta');
+        return request<{ save_file_id: number; tag: string | null; user_sort_order: number | null; updated_at: string }>(
+          `/saves/${id}/meta`,
+          { method: 'PATCH', body: JSON.stringify(data) },
+        );
+      },
+    },
+    // ── Per-tag metadata (color) ─────────────────────────────────────────
+    tags: {
+      /** List all tag metadata (colors, etc.). */
+      list: () => request<Record<string, { color: string | null }>>('/saves/tags'),
+      /** Upsert metadata for a tag. */
+      update: (tag: string, data: { color?: string | null }) => {
+        invalidateCache('/saves/tags');
+        return request<{ tag: string; color: string | null; updated_at: string }>(
+          `/saves/tags/${encodeURIComponent(tag)}`,
+          { method: 'PATCH', body: JSON.stringify(data) },
+        );
+      },
+    },
     importSources: {
       add: (path: string) => {
         invalidateCache('/saves');

@@ -3,9 +3,12 @@ import { api } from '@/api/client';
 import { computeLayout } from '@/components/timeline/GitGraph';
 import { NodeDetail } from '@/components/timeline/NodeDetail';
 import { GroupedView } from '@/components/timeline/GroupedView';
+// TreeView intentionally NOT imported — the tree view is hidden as of
+// Phase 1 of the save-visibility rework. The code still exists at
+// components/timeline/TreeViewLayouts.tsx as dead code for possible
+// later revival.
 import { OrphanSidebar } from '@/components/timeline/OrphanSidebar';
 import { TreeControls } from '@/components/timeline/TreeControls';
-import { TreeView } from '@/components/timeline/TreeViewLayouts';
 import type { CheckpointNode, Playthrough } from '@/components/timeline/types';
 import { useTimelineFilters } from '@/hooks/useTimelineFilters';
 import { Card, CardContent } from '@/components/ui/card';
@@ -44,7 +47,7 @@ export default function PlayPage() {
   const [orphans, setOrphans] = useState<Array<Record<string, unknown>>>([]);
   const [orphanTotal, setOrphanTotal] = useState(0);
   const [scanning, setScanning] = useState(false);
-  const [viewMode, setViewMode] = useState<'tree' | 'grouped'>('tree');
+  // Tree view removed in Phase 1 rework. Grouped is the only view now.
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
   const [detailNodeId, setDetailNodeId] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -151,14 +154,14 @@ export default function PlayPage() {
     if (allGames.length > 0) {
       // Prefer the first playthrough's game, then first available
       const firstPtGame = playthroughs.length > 0 ? playthroughs[0].game : null;
-      setSelectedGame(firstPtGame ?? allGames[0]);
+      setSelectedGame(firstPtGame ? normalizeGameName(firstPtGame) : allGames[0]);
     }
   }, [playthroughs, allGames, selectedGame]);
 
   // --- Auto-select first playthrough when game changes ---
   useEffect(() => {
     if (!selectedGame) return;
-    const matching = playthroughs.filter(p => p.game === selectedGame);
+    const matching = playthroughs.filter(p => normalizeGameName(p.game) === selectedGame);
     if (matching.length > 0) {
       // Keep selection if it already matches the game
       if (selectedPlaythrough && selectedPlaythrough.game === selectedGame) return;
@@ -388,15 +391,11 @@ export default function PlayPage() {
         }}
       />
 
-      {/* Tree controls (view mode, search, filters) */}
+      {/* Controls bar (search + orphan sidebar toggle) */}
       {selectedPlaythrough && (
         <TreeControls
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
-          activeFilters={activeFilters}
-          onToggleFilter={toggleFilter}
           isMobile={isMobile}
           hasOrphans={hasOrphans}
           orphanCount={orphanTotal || orphans.length}
@@ -450,40 +449,8 @@ export default function PlayPage() {
               </Card>
             )}
 
-            {/* Tree view */}
-            {treeRoots.length > 0 && viewMode === 'tree' && layout && (
-              <div className="flex gap-4 items-start">
-                <Card className="flex-1 min-w-0 py-0 gap-0">
-                  <TreeView
-                    roots={treeRoots}
-                    layout={layout}
-                    filteredNodes={filteredNodes}
-                    searchQuery={searchQuery}
-                    activeFilters={activeFilters}
-                    selectedNodeId={selectedNodeId}
-                    isMobile={isMobile}
-                    desktopLayout={desktopLayout}
-                    isLocal={isLocal}
-                    onSelect={handleNodeSelect}
-                    onSetActive={handleSetActive}
-                    onPlay={(node) => handleDesktopPlay(node)}
-                    onStreamPlay={(node) => handleStreamPlay(node)}
-                    onWebPlay={(node) => handleWebPlay(node)}
-                    onTrade={(node) => handleTrade(node)}
-                  />
-                </Card>
-
-                {/* Floating detail panel (desktop only) */}
-                {!isMobile && detailNode && (
-                  <Card className="w-[300px] shrink-0 sticky top-4 max-h-[80vh] overflow-y-auto shadow-lg z-20 py-0 gap-0">
-                    {renderNodeDetail(detailNode, () => setDetailNodeId(null))}
-                  </Card>
-                )}
-              </div>
-            )}
-
-            {/* Grouped view */}
-            {viewMode === 'grouped' && (
+            {/* Grouped view (only view mode as of Phase 1 rework) */}
+            {treeRoots.length > 0 && (
               <div className="flex gap-4 items-start">
                 <Card className="flex-1 min-w-0 p-5 py-5 gap-0">
                   <GroupedView

@@ -1,260 +1,459 @@
-import type { CheckpointNode, CheckpointType } from './types';
+import { useEffect, useMemo, useState } from 'react';
+import { XIcon, PaletteIcon, GripVerticalIcon } from 'lucide-react';
+import type { CheckpointNode } from './types';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { api } from '@/api/client';
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+  useDroppable,
+  type DragStartEvent,
+  type DragEndEvent,
+  type DragOverEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
-// Category definitions
-interface Category {
-  key: string;
-  label: string;
-  color: string;
-  types: CheckpointType[];
+// ── Source detection ────────────────────────────────────────────────────────
+
+type SaveSource = 'library' | 'hunt-catch' | 'hunt-base' | 'hunt-instance' | 'other';
+
+interface SaveSourceInfo {
+  source: SaveSource;
+  huntFolder: string | null;
+  role: 'setup' | 'catch' | 'library' | 'other';
 }
 
-const CATEGORIES: Category[] = [
-  { key: 'catches', label: 'Catches', color: '#10b981', types: ['catch'] },
-  { key: 'progression', label: 'Progression', color: '#f59e0b', types: ['root', 'progression'] },
-  { key: 'snapshots', label: 'Snapshots', color: '#64748b', types: ['snapshot', 'hunt_base', 'daycare_swap'] },
-];
+function detectSource(filePath: string): SaveSourceInfo {
+  const p = filePath.replace(/\\/g, '/');
+  if (p.includes('/hunts/')) {
+    return { source: 'hunt-instance', huntFolder: null, role: 'other' };
+  }
+  const catchMatch = p.match(/\/saves\/catches\/[^/]+\/([^/]+)\/(base|catch)\.sav$/);
+  if (catchMatch) {
+    const huntFolder = catchMatch[1];
+    const filename = catchMatch[2];
+    return {
+      source: filename === 'base' ? 'hunt-base' : 'hunt-catch',
+      huntFolder,
+      role: filename === 'base' ? 'setup' : 'catch',
+    };
+  }
+  if (p.includes('/saves/library/')) {
+    return { source: 'library', huntFolder: null, role: 'library' };
+  }
+  return { source: 'other', huntFolder: null, role: 'other' };
+}
+
+// ── Time helpers ────────────────────────────────────────────────────────────
+
+function mtimeMs(node: CheckpointNode): number {
+  const raw = node.file_mtime ?? node.created_at;
+  if (!raw) return 0;
+  const d = new Date(raw.includes('T') || raw.includes('Z') ? raw : raw + 'Z');
+  const t = d.getTime();
+  return Number.isFinite(t) ? t : 0;
+}
+
+function formatRelativeMtime(node: CheckpointNode): string {
+  const ms = mtimeMs(node);
+  if (ms === 0) return '';
+  const diffMs = Date.now() - ms;
+  const minutes = Math.round(diffMs / 60_000);
+  if (minutes < 1) return 'just now';
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return `${hours} hr ago`;
+  const days = Math.round(hours / 24);
+  if (days < 7) return `${days}d ago`;
+  return new Date(ms).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+// ── Tree flattening ─────────────────────────────────────────────────────────
 
 function flattenTree(roots: CheckpointNode[]): CheckpointNode[] {
-  const result: CheckpointNode[] = [];
+  const out: CheckpointNode[] = [];
   function walk(node: CheckpointNode) {
-    result.push(node);
+    out.push(node);
     for (const child of node.children) walk(child);
   }
   for (const root of roots) walk(root);
-  return result;
+  return out;
 }
 
-function matchesSearch(node: CheckpointNode, query: string): boolean {
-  if (!query.trim()) return true;
-  const q = query.toLowerCase();
-  if (node.label.toLowerCase().includes(q)) return true;
-  const snap = node.snapshot;
-  if (!snap) return false;
-  if (snap.location?.toLowerCase().includes(q)) return true;
-  for (const p of snap.party) {
-    if (p.species_name?.toLowerCase().includes(q)) return true;
+// ── Meta types ──────────────────────────────────────────────────────────────
+
+interface SaveMeta {
+  tag: string | null;
+  user_sort_order: number | null;
+}
+type MetaMap = Record<string, SaveMeta>;
+type TagColorMap = Record<string, string | null>;
+
+function getMeta(map: MetaMap, saveFileId: number): SaveMeta {
+  return map[String(saveFileId)] ?? { tag: null, user_sort_order: null };
+}
+
+function compareSaves(a: CheckpointNode, b: CheckpointNode, map: MetaMap): number {
+  const am = getMeta(map, a.save_file_id);
+  const bm = getMeta(map, b.save_file_id);
+  if (am.user_sort_order != null && bm.user_sort_order == null) return -1;
+  if (am.user_sort_order == null && bm.user_sort_order != null) return 1;
+  if (am.user_sort_order != null && bm.user_sort_order != null) {
+    if (am.user_sort_order !== bm.user_sort_order) return bm.user_sort_order - am.user_sort_order;
   }
-  if (snap.daycare) {
-    const { parent1, parent2, offspring } = snap.daycare;
-    if (
-      parent1?.species_name?.toLowerCase().includes(q) ||
-      parent2?.species_name?.toLowerCase().includes(q) ||
-      offspring?.species_name?.toLowerCase().includes(q)
-    ) return true;
-  }
-  return false;
+  return mtimeMs(b) - mtimeMs(a);
 }
 
-function parseDate(raw: string): Date {
-  // SQLite timestamps lack timezone — treat as UTC
-  const d = new Date(raw.includes('T') || raw.includes('Z') ? raw : raw + 'Z');
-  return d;
+// ── Role → Badge variant ────────────────────────────────────────────────────
+
+const ROLE_BADGE_VARIANT: Record<string, 'success' | 'info' | 'warning' | 'default' | 'secondary'> = {
+  catch: 'success',
+  setup: 'info',
+  library: 'warning',
+  other: 'secondary',
+};
+
+// ── Color constants ────────────────────────────────────────────────────────
+
+const DEFAULT_TAG_COLOR = '#a855f7';
+const DEFAULT_DEFAULT_COLOR = '#94a3b8';
+const DEFAULT_HUNTS_COLOR = '#10b981';
+const SECTION_COLORS = {
+  recent: '#ec4899',
+} as const;
+const RESERVED_DEFAULT = '__default';
+const RESERVED_HUNTS = '__hunts';
+const RESERVED_KEYS = new Set([RESERVED_DEFAULT, RESERVED_HUNTS]);
+
+const COLOR_PALETTE = [
+  '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16',
+  '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6',
+  '#6366f1', '#8b5cf6', '#a855f7', '#ec4899', '#94a3b8',
+];
+
+// ── Section key encoding ────────────────────────────────────────────────────
+//
+// Each section (tag / default / hunts) has a stable string key so dnd-kit can
+// identify which container a dragged item belongs to.
+//   'tag:<tag name>'  → user tag section, reorderable, drop target
+//   'default'          → untagged default bucket, reorderable, drop target
+//   'hunts'            → hunts section, NOT reorderable, NOT a drop target
+// Sortable item ids are 'save:<save_file_id>' so they can't collide with
+// section keys.
+
+function saveId(saveFileId: number): string {
+  return `save:${saveFileId}`;
 }
 
-function formatDate(raw: string): string {
-  return parseDate(raw).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  });
+function parseSaveId(id: string): number | null {
+  if (!id.startsWith('save:')) return null;
+  return Number(id.slice(5));
 }
 
-/** Safe location display */
-function safeLocation(location: string | null | undefined): string | null {
-  if (!location || location === 'unknown') return null;
-  return location;
-}
+// ── Sortable row component ─────────────────────────────────────────────────
 
-// --- Grouped node with same-type children ---
-
-interface GroupedNode {
+interface SortableSaveRowProps {
   node: CheckpointNode;
-  sameTypeChildren: CheckpointNode[];
-}
-
-/** Build grouped nodes: nest saves under their nearest ancestor in the same category.
- *  Walks up through cross-type nodes to find the relationship. */
-function buildGroupedNodes(nodes: CheckpointNode[], allNodes: CheckpointNode[]): GroupedNode[] {
-  const nodeIds = new Set(nodes.map(n => n.id));
-  const nodeMap = new Map(nodes.map(n => [n.id, n]));
-
-  // Build parent map across entire tree
-  const parentMap = new Map<number, CheckpointNode>();
-  function mapParents(node: CheckpointNode) {
-    for (const child of node.children) {
-      parentMap.set(child.id, node);
-      mapParents(child);
-    }
-  }
-  for (const n of allNodes) mapParents(n);
-
-  // For each node, find its nearest ancestor that's also in this category
-  const ancestorInCategory = new Map<number, number | null>();
-  for (const n of nodes) {
-    let current = parentMap.get(n.id);
-    let found: number | null = null;
-    while (current) {
-      if (nodeIds.has(current.id)) {
-        found = current.id;
-        break;
-      }
-      current = parentMap.get(current.id);
-    }
-    ancestorInCategory.set(n.id, found);
-  }
-
-  // Nodes with an ancestor in the category are children; the rest are top-level
-  const childrenOf = new Map<number, CheckpointNode[]>();
-  const topLevel: CheckpointNode[] = [];
-
-  for (const n of nodes) {
-    const ancestorId = ancestorInCategory.get(n.id);
-    if (ancestorId != null) {
-      if (!childrenOf.has(ancestorId)) childrenOf.set(ancestorId, []);
-      childrenOf.get(ancestorId)!.push(n);
-    } else {
-      topLevel.push(n);
-    }
-  }
-
-  return topLevel.map(n => ({
-    node: n,
-    sameTypeChildren: childrenOf.get(n.id) ?? [],
-  }));
-}
-
-// --- Row component ---
-
-interface SaveRowProps {
-  node: CheckpointNode;
-  color: string;
+  meta: SaveMeta;
+  roleLabel: string | null;
   isSelected: boolean;
   onSelect: () => void;
+  onTagChange: (next: string | null) => void;
   small?: boolean;
 }
 
-function SaveRow({ node, color, isSelected, onSelect, small }: SaveRowProps) {
-  const snap = node.snapshot;
+function SortableSaveRow(props: SortableSaveRowProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: saveId(props.node.save_file_id),
+  });
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+  };
+  return (
+    <div ref={setNodeRef} style={style}>
+      <SaveRow {...props} dragAttributes={attributes} dragListeners={listeners} />
+    </div>
+  );
+}
+
+// ── Plain row component (no sortable state) ───────────────────────────────
+
+interface SaveRowProps {
+  node: CheckpointNode;
+  meta: SaveMeta;
+  roleLabel: string | null;
+  isSelected: boolean;
+  onSelect: () => void;
+  onTagChange: (next: string | null) => void;
+  small?: boolean;
+  // dnd-kit types these as SyntheticListenerMap — accept as loose objects
+  // and spread onto the drag handle element.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dragAttributes?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dragListeners?: any;
+  isOverlay?: boolean;
+}
+
+function SaveRow({
+  node,
+  meta,
+  roleLabel,
+  isSelected,
+  onSelect,
+  onTagChange,
+  small,
+  dragAttributes,
+  dragListeners,
+  isOverlay,
+}: SaveRowProps) {
+  const [editingTag, setEditingTag] = useState(false);
+  const [tagDraft, setTagDraft] = useState(meta.tag ?? '');
   const isCatch = node.type === 'catch';
-  const location = safeLocation(snap?.location);
-  const dotSize = small ? 6 : 8;
+  const relTime = formatRelativeMtime(node);
+  const variant = roleLabel ? ROLE_BADGE_VARIANT[roleLabel] ?? 'secondary' : 'secondary';
+
+  function commitTag() {
+    const next = tagDraft.trim() || null;
+    setEditingTag(false);
+    if (next !== meta.tag) onTagChange(next);
+  }
 
   return (
     <div
-      onClick={onSelect}
+      onClick={(e) => {
+        if ((e.target as HTMLElement).closest('[data-tag-editor]')) return;
+        if ((e.target as HTMLElement).closest('[data-drag-handle]')) return;
+        onSelect();
+      }}
       className={`
-        flex items-center gap-2.5 px-3 py-2 cursor-pointer transition-colors rounded-lg
+        group flex items-center gap-1 px-1 py-1.5 rounded-md transition-colors
         ${isSelected ? 'bg-primary/5' : 'hover:bg-muted/40'}
+        ${isOverlay ? 'bg-card shadow-lg ring-1 ring-border' : ''}
       `}
     >
+      {/* Drag handle — only this element is the drag listener target */}
       <div
-        className="rounded-full shrink-0"
-        style={{ width: dotSize, height: dotSize, backgroundColor: color, opacity: 0.7 }}
-      />
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1.5">
-          <span className={`text-sm font-semibold truncate ${isCatch ? 'text-emerald-600' : 'text-foreground'} ${small ? 'opacity-70' : ''}`}>
-            {isCatch && '★ '}{node.label}
-          </span>
-          {node.is_active && (
-            <span className="text-2xs px-1 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200 leading-none shrink-0 font-semibold">
-              active
-            </span>
-          )}
-          {!node.file_exists && (
-            <span className="text-2xs px-1 py-0.5 rounded bg-red-50 text-red-600 leading-none shrink-0 font-semibold">
-              missing
-            </span>
-          )}
-        </div>
-        {location && !small && (
-          <span className="text-2xs text-muted-foreground">{location}</span>
-        )}
+        data-drag-handle
+        {...(dragAttributes ?? {})}
+        {...(dragListeners ?? {})}
+        className="shrink-0 cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground px-0.5 py-1 rounded touch-none"
+        title="Drag to reorder or move to another section"
+      >
+        <GripVerticalIcon className="size-3.5" />
       </div>
+      <div className="flex-1 min-w-0 flex items-center gap-2">
+        <span className={`text-sm font-medium truncate ${isCatch ? 'text-emerald-600' : 'text-foreground'} ${small ? 'opacity-80' : ''}`}>
+          {isCatch && '★ '}{node.label}
+        </span>
+
+        {roleLabel && <Badge variant={variant}>{roleLabel}</Badge>}
+
+        {meta.tag && !editingTag && (
+          <Badge
+            variant="outline"
+            data-tag-editor
+            className="gap-1 cursor-pointer hover:bg-surface-raised"
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+              setTagDraft(meta.tag ?? '');
+              setEditingTag(true);
+            }}
+          >
+            <span>{meta.tag}</span>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onTagChange(null); }}
+              className="opacity-60 hover:opacity-100"
+              title="Remove tag"
+              aria-label="Remove tag"
+            >
+              <XIcon className="size-3" />
+            </button>
+          </Badge>
+        )}
+
+        {node.is_active && <Badge variant="warning">active</Badge>}
+        {!node.file_exists && <Badge variant="destructive">missing</Badge>}
+      </div>
+
+      {editingTag ? (
+        <input
+          autoFocus
+          data-tag-editor
+          type="text"
+          value={tagDraft}
+          placeholder="tag..."
+          onChange={(e) => setTagDraft(e.target.value)}
+          onBlur={commitTag}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') commitTag();
+            if (e.key === 'Escape') { setEditingTag(false); setTagDraft(meta.tag ?? ''); }
+          }}
+          onClick={(e) => e.stopPropagation()}
+          className="text-2xs px-1.5 py-0.5 rounded border border-border bg-background w-24 shrink-0"
+        />
+      ) : !meta.tag && !isOverlay ? (
+        <button
+          data-tag-editor
+          onClick={(e) => { e.stopPropagation(); setTagDraft(''); setEditingTag(true); }}
+          className="text-2xs text-muted-foreground/0 group-hover:text-muted-foreground/60 hover:text-foreground! shrink-0 px-1 transition-opacity"
+          title="Add tag"
+        >
+          +tag
+        </button>
+      ) : null}
+
       <span className="text-2xs text-muted-foreground shrink-0 tabular-nums">
-        {formatDate(node.created_at)}
+        {relTime}
       </span>
     </div>
   );
 }
 
-// --- Category section ---
+// ── Color picker ────────────────────────────────────────────────────────────
 
-interface CategorySectionProps {
-  category: Category;
-  groupedNodes: GroupedNode[];
-  selectedId: number | null;
-  onSelect: (node: CheckpointNode) => void;
+interface ColorPickerProps {
+  currentColor: string;
+  onPick: (color: string) => void;
+  onClose: () => void;
 }
 
-function CategorySection({ category, groupedNodes, selectedId, onSelect }: CategorySectionProps) {
-  const totalCount = groupedNodes.reduce((sum, g) => sum + 1 + g.sameTypeChildren.length, 0);
-
-  if (groupedNodes.length === 0) return null;
-
+function ColorPicker({ currentColor, onPick, onClose }: ColorPickerProps) {
   return (
-    <Collapsible defaultOpen={true}>
-      {/* Category header */}
-      <CollapsibleTrigger className="w-full flex items-center gap-2.5 px-3 py-2 text-left hover:bg-muted/30 rounded-lg transition-colors">
-        <div
-          className="w-2.5 h-2.5 rounded-full shrink-0"
-          style={{ backgroundColor: category.color }}
+    <div
+      className="bg-popover border border-border rounded-lg shadow-lg p-2 grid grid-cols-5 gap-1.5"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {COLOR_PALETTE.map((c) => (
+        <button
+          key={c}
+          type="button"
+          className={`w-6 h-6 rounded-full transition-all hover:scale-110 ${currentColor === c ? 'ring-2 ring-foreground ring-offset-2 ring-offset-popover' : ''}`}
+          style={{ backgroundColor: c }}
+          onClick={() => { onPick(c); onClose(); }}
+          aria-label={`Pick color ${c}`}
         />
-        <span className="text-sm font-semibold text-foreground flex-1">{category.label}</span>
-        <span className="text-xs font-medium text-muted-foreground tabular-nums mr-1">
-          {totalCount}
-        </span>
-      </CollapsibleTrigger>
-
-      {/* Rows */}
-      <CollapsibleContent className="mt-0.5 space-y-0.5">
-        {groupedNodes.map(({ node, sameTypeChildren }) => (
-          <div key={node.id}>
-            <SaveRow
-              node={node}
-              color={category.color}
-              isSelected={selectedId === node.id}
-              onSelect={() => onSelect(node)}
-            />
-            {/* Nested same-type children as a card */}
-            {sameTypeChildren.length > 0 && (
-              <div className="mx-3 mb-1.5 rounded-lg border border-border/40 bg-muted/15 overflow-hidden">
-                <div className="flex items-center gap-1.5 px-2.5 py-1 border-b border-border/25">
-                  <div className="flex -space-x-1">
-                    {sameTypeChildren.slice(0, 3).map((c) => (
-                      <div
-                        key={c.id}
-                        className="rounded-full border border-white"
-                        style={{ width: 6, height: 6, backgroundColor: category.color, opacity: 0.6 }}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-2xs text-muted-foreground font-medium">
-                    {sameTypeChildren.length} branch{sameTypeChildren.length !== 1 ? 'es' : ''} from <span className="text-foreground font-semibold">{node.label}</span>
-                  </span>
-                </div>
-                <div className="divide-y divide-border/15">
-                  {sameTypeChildren.map((child) => (
-                    <SaveRow
-                      key={child.id}
-                      node={child}
-                      color={category.color}
-                      isSelected={selectedId === child.id}
-                      onSelect={() => onSelect(child)}
-                      small
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-      </CollapsibleContent>
-    </Collapsible>
+      ))}
+    </div>
   );
 }
 
-// --- Main export ---
+// ── Section wrapper ────────────────────────────────────────────────────────
+
+interface SectionProps {
+  title: string;
+  count: number;
+  color: string;
+  sectionKey: string;           // dnd-kit droppable id
+  isDropTarget: boolean;         // true = section accepts drops (re-tag)
+  onPickColor?: (color: string) => void;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}
+
+function Section({
+  title,
+  count,
+  color,
+  sectionKey,
+  isDropTarget,
+  onPickColor,
+  defaultOpen = true,
+  children,
+}: SectionProps) {
+  const [pickerOpen, setPickerOpen] = useState(false);
+
+  // Register the section as a dnd-kit droppable so the container itself can
+  // receive drops (moving a save into a tag section, etc).
+  const { isOver, setNodeRef } = useDroppable({
+    id: sectionKey,
+    disabled: !isDropTarget,
+  });
+
+  const hasContent = count > 0 || isDropTarget;
+  if (!hasContent) return null;
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`
+        relative rounded-lg transition-colors
+        ${isOver && isDropTarget ? 'bg-muted/50' : ''}
+      `}
+    >
+      <div className="flex items-start">
+        {onPickColor ? (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setPickerOpen((o) => !o);
+            }}
+            className="flex items-center gap-1 pl-3 pr-1.5 py-2.5 hover:bg-muted/30 rounded-l-lg transition-colors shrink-0"
+            title="Change tag color"
+            aria-label="Change tag color"
+          >
+            <span
+              className="w-3 h-3 rounded-full shrink-0 ring-1 ring-border"
+              style={{ backgroundColor: color }}
+            />
+            <PaletteIcon className="size-3 text-muted-foreground/60 shrink-0" />
+          </button>
+        ) : (
+          <div className="flex items-center pl-3 pr-1.5 py-2.5 shrink-0">
+            <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: color }} />
+          </div>
+        )}
+
+        <Collapsible defaultOpen={defaultOpen} className="flex-1 min-w-0">
+          <CollapsibleTrigger className="w-full flex items-center gap-2 pr-3 py-2.5 text-left hover:bg-muted/30 rounded-r-lg transition-colors">
+            <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide truncate">{title}</span>
+            <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className="ml-4 pb-1 space-y-0.5">
+              {count === 0 ? (
+                <div className="px-2 py-4 text-center text-xs text-muted-foreground/60 italic">
+                  {isOver && isDropTarget ? `Drop to add to "${title}"` : 'Drop saves here to tag them'}
+                </div>
+              ) : children}
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+
+      {pickerOpen && onPickColor && (
+        <>
+          <div className="fixed inset-0 z-10" onClick={() => setPickerOpen(false)} />
+          <div className="absolute top-11 left-3 z-20">
+            <ColorPicker
+              currentColor={color}
+              onPick={onPickColor}
+              onClose={() => setPickerOpen(false)}
+            />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ── Main export ─────────────────────────────────────────────────────────────
 
 interface GroupedViewProps {
   roots: CheckpointNode[];
@@ -263,34 +462,402 @@ interface GroupedViewProps {
 }
 
 export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
-  const allNodes = flattenTree(roots);
+  const allNodes = useMemo(() => flattenTree(roots), [roots]);
 
-  // Group by category, then build nested groups
-  const grouped = new Map<string, GroupedNode[]>();
-  for (const cat of CATEGORIES) {
-    const catNodes = allNodes.filter(n => (cat.types as string[]).includes(n.type));
-    grouped.set(cat.key, buildGroupedNodes(catNodes, allNodes));
+  const [meta, setMeta] = useState<MetaMap>({});
+  const [tagColors, setTagColors] = useState<TagColorMap>({});
+  const [activeDragId, setActiveDragId] = useState<number | null>(null);
+
+  // Require a small pointer movement before drag activates, so clicks still
+  // work on the row (tag editor, select, color button).
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
+  );
+
+  // Fetch save meta whenever save ids change.
+  useEffect(() => {
+    const ids = allNodes.map(n => n.save_file_id).filter(id => !!id);
+    if (ids.length === 0) {
+      setMeta({});
+      return;
+    }
+    let cancelled = false;
+    api.saves.meta.list(ids).then((m) => {
+      if (!cancelled) setMeta(m);
+    }).catch((err) => {
+      console.error('[GroupedView] failed to fetch save meta:', err);
+    });
+    return () => { cancelled = true; };
+  }, [allNodes]);
+
+  // Fetch tag colors once.
+  useEffect(() => {
+    let cancelled = false;
+    api.saves.tags.list().then((m) => {
+      if (!cancelled) {
+        const out: TagColorMap = {};
+        for (const [tag, v] of Object.entries(m)) out[tag] = v?.color ?? null;
+        setTagColors(out);
+      }
+    }).catch((err) => {
+      console.error('[GroupedView] failed to fetch tag colors:', err);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  const defaultSectionColor = tagColors[RESERVED_DEFAULT] ?? DEFAULT_DEFAULT_COLOR;
+  const huntsSectionColor = tagColors[RESERVED_HUNTS] ?? DEFAULT_HUNTS_COLOR;
+
+  const enriched = useMemo(() => {
+    return allNodes
+      .map((node) => ({ node, info: detectSource(node.file_path) }))
+      .filter(({ info }) => info.source !== 'hunt-instance');
+  }, [allNodes]);
+
+  const recent = useMemo(() => {
+    return [...enriched].sort((a, b) => mtimeMs(b.node) - mtimeMs(a.node)).slice(0, 3);
+  }, [enriched]);
+
+  const { tagSections, defaultBucket, hunts, saveToSection } = useMemo(() => {
+    const tagMap = new Map<string, { node: CheckpointNode; info: SaveSourceInfo }[]>();
+    const untagged: typeof enriched = [];
+    const keyFor = new Map<number, string>();
+
+    for (const row of enriched) {
+      const m = getMeta(meta, row.node.save_file_id);
+      if (m.tag) {
+        if (!tagMap.has(m.tag)) tagMap.set(m.tag, []);
+        tagMap.get(m.tag)!.push(row);
+        keyFor.set(row.node.save_file_id, `tag:${m.tag}`);
+      } else {
+        untagged.push(row);
+      }
+    }
+
+    const tagSections = Array.from(tagMap.entries())
+      .filter(([tag]) => !RESERVED_KEYS.has(tag))
+      .map(([tag, rows]) => ({
+        tag,
+        rows: rows.sort((a, b) => compareSaves(a.node, b.node, meta)),
+      }))
+      .sort((a, b) => a.tag.localeCompare(b.tag));
+
+    // Hunts: untagged saves in a catches folder, grouped by folder.
+    const huntFolders = new Map<string, { folder: string; members: typeof enriched }>();
+    for (const row of untagged) {
+      if (row.info.source !== 'hunt-base' && row.info.source !== 'hunt-catch') continue;
+      const key = row.info.huntFolder ?? 'unknown';
+      if (!huntFolders.has(key)) huntFolders.set(key, { folder: key, members: [] });
+      huntFolders.get(key)!.members.push(row);
+    }
+    const hunts = Array.from(huntFolders.values())
+      .map((g) => ({
+        folder: g.folder,
+        members: g.members.sort((a, b) => {
+          const order: Record<string, number> = { setup: 0, catch: 1, other: 2, library: 3 };
+          return (order[a.info.role] ?? 99) - (order[b.info.role] ?? 99);
+        }),
+      }))
+      .sort((a, b) => {
+        const am = Math.max(...a.members.map(m => mtimeMs(m.node)));
+        const bm = Math.max(...b.members.map(m => mtimeMs(m.node)));
+        return bm - am;
+      });
+    for (const g of hunts) {
+      for (const m of g.members) keyFor.set(m.node.save_file_id, 'hunts');
+    }
+
+    // Default bucket: everything else untagged.
+    const defaultBucket = untagged
+      .filter(({ info }) => info.source !== 'hunt-base' && info.source !== 'hunt-catch')
+      .sort((a, b) => compareSaves(a.node, b.node, meta));
+    for (const r of defaultBucket) keyFor.set(r.node.save_file_id, 'default');
+
+    return { tagSections, defaultBucket, hunts, saveToSection: keyFor };
+  }, [enriched, meta]);
+
+  const totalVisible = enriched.length;
+
+  // ── Mutations ─────────────────────────────────────────────────────────
+
+  function updateTag(saveFileId: number, nextTag: string | null) {
+    setMeta((prev) => ({
+      ...prev,
+      [String(saveFileId)]: { tag: nextTag, user_sort_order: null },
+    }));
+    api.saves.meta.update(saveFileId, { tag: nextTag, user_sort_order: null }).catch((err) => {
+      console.error('[GroupedView] failed to update tag:', err);
+    });
   }
 
-  return (
-    <div className="flex flex-col gap-1 py-2">
-      {CATEGORIES.map((cat) => (
-        <CategorySection
-          key={cat.key}
-          category={cat}
-          groupedNodes={grouped.get(cat.key) ?? []}
-          selectedId={selectedId}
-          onSelect={onSelect}
-        />
-      ))}
+  function updateTagColor(tag: string, color: string) {
+    setTagColors((prev) => ({ ...prev, [tag]: color }));
+    api.saves.tags.update(tag, { color }).catch((err) => {
+      console.error('[GroupedView] failed to update tag color:', err);
+    });
+  }
 
-      {/* Empty state */}
-      {allNodes.length === 0 && (
-        <div className="text-center py-12 text-muted-foreground">
-          <p className="text-sm font-medium">No saves yet</p>
-          <p className="text-xs text-muted-foreground/60 mt-1">Play with checkpoint tracking to populate this view</p>
-        </div>
-      )}
-    </div>
+  function persistOrder(sectionIds: number[]) {
+    // Renumber the whole section: highest goes first, spacing of 100 so
+    // future single insertions can fit between without a full renumber.
+    const updates: Array<{ id: number; order: number }> = [];
+    let order = sectionIds.length * 100;
+    for (const id of sectionIds) {
+      updates.push({ id, order });
+      order -= 100;
+    }
+    setMeta((prev) => {
+      const next = { ...prev };
+      for (const { id, order } of updates) {
+        next[String(id)] = {
+          tag: prev[String(id)]?.tag ?? null,
+          user_sort_order: order,
+        };
+      }
+      return next;
+    });
+    Promise.all(
+      updates.map(({ id, order }) =>
+        api.saves.meta.update(id, { user_sort_order: order }).catch((err) => {
+          console.error(`[GroupedView] failed to update sort order for save ${id}:`, err);
+        }),
+      ),
+    );
+  }
+
+  // ── dnd-kit handlers ─────────────────────────────────────────────────
+
+  function handleDragStart(event: DragStartEvent) {
+    const id = parseSaveId(String(event.active.id));
+    if (id != null) setActiveDragId(id);
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    setActiveDragId(null);
+    if (!over) return;
+
+    const activeSaveFileId = parseSaveId(String(active.id));
+    if (activeSaveFileId == null) return;
+
+    const overIdStr = String(over.id);
+    const overSaveFileId = parseSaveId(overIdStr);
+
+    // Drop on another save row
+    if (overSaveFileId != null) {
+      if (overSaveFileId === activeSaveFileId) return;
+      const sourceSection = saveToSection.get(activeSaveFileId);
+      const targetSection = saveToSection.get(overSaveFileId);
+      if (!sourceSection || !targetSection) return;
+
+      // Cross-section: set tag based on target's section.
+      if (sourceSection !== targetSection) {
+        if (targetSection.startsWith('tag:')) {
+          updateTag(activeSaveFileId, targetSection.slice(4));
+        } else if (targetSection === 'default') {
+          updateTag(activeSaveFileId, null);
+        }
+        return;
+      }
+
+      // Same section → reorder.
+      const ids = sectionIdsFor(targetSection);
+      if (ids.length === 0) return;
+      const oldIndex = ids.indexOf(activeSaveFileId);
+      const newIndex = ids.indexOf(overSaveFileId);
+      if (oldIndex < 0 || newIndex < 0) return;
+      const newOrder = arrayMove(ids, oldIndex, newIndex);
+      persistOrder(newOrder);
+      return;
+    }
+
+    // Drop on a section container (not on a specific row)
+    if (overIdStr.startsWith('tag:')) {
+      updateTag(activeSaveFileId, overIdStr.slice(4));
+    } else if (overIdStr === 'default') {
+      updateTag(activeSaveFileId, null);
+    }
+    // 'hunts' is disabled as a drop target via useDroppable({ disabled: true })
+  }
+
+  function handleDragOver(_event: DragOverEvent) {
+    // Reserved for future cross-section live-preview. Empty for now —
+    // dnd-kit's sortable strategy handles same-section item shifting
+    // automatically.
+  }
+
+  // Helper: the current save_file_id list for a given section key.
+  function sectionIdsFor(key: string): number[] {
+    if (key.startsWith('tag:')) {
+      const tag = key.slice(4);
+      return tagSections.find(s => s.tag === tag)?.rows.map(r => r.node.save_file_id) ?? [];
+    }
+    if (key === 'default') return defaultBucket.map(r => r.node.save_file_id);
+    return [];
+  }
+
+  // ── Rendering helpers ────────────────────────────────────────────────
+
+  function renderSortableRow(
+    node: CheckpointNode,
+    roleLabel: string | null,
+    small = false,
+  ) {
+    return (
+      <SortableSaveRow
+        key={node.save_file_id}
+        node={node}
+        meta={getMeta(meta, node.save_file_id)}
+        roleLabel={roleLabel}
+        isSelected={selectedId === node.id}
+        onSelect={() => onSelect(node)}
+        onTagChange={(next) => updateTag(node.save_file_id, next)}
+        small={small}
+      />
+    );
+  }
+
+  // The currently-dragged node, for rendering in the DragOverlay
+  const activeNode = activeDragId != null
+    ? allNodes.find(n => n.save_file_id === activeDragId) ?? null
+    : null;
+  const activeRoleLabel = activeNode
+    ? (() => {
+        const info = detectSource(activeNode.file_path);
+        return info.role === 'other' ? null : info.role;
+      })()
+    : null;
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="space-y-3">
+        {/* Recent — standalone, not sortable, not a drop target */}
+        {recent.length > 0 && (
+          <Card className="py-3 gap-2">
+            <div className="flex items-center gap-3 px-3 py-1">
+              <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: SECTION_COLORS.recent }} />
+              <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide">Recent</span>
+              <span className="text-xs font-semibold text-muted-foreground tabular-nums">{recent.length}</span>
+            </div>
+            <div className="ml-4 space-y-0.5">
+              {recent.map(({ node, info }) => (
+                <SaveRow
+                  key={`recent-${node.id}`}
+                  node={node}
+                  meta={getMeta(meta, node.save_file_id)}
+                  roleLabel={info.role === 'other' ? null : info.role}
+                  isSelected={selectedId === node.id}
+                  onSelect={() => onSelect(node)}
+                  onTagChange={(next) => updateTag(node.save_file_id, next)}
+                />
+              ))}
+            </div>
+          </Card>
+        )}
+
+        <Card className="py-3 gap-1">
+          {/* User tag sections */}
+          {tagSections.map(({ tag, rows }) => {
+            const color = tagColors[tag] ?? DEFAULT_TAG_COLOR;
+            const sectionKey = `tag:${tag}`;
+            const ids = rows.map(r => saveId(r.node.save_file_id));
+            return (
+              <Section
+                key={sectionKey}
+                title={tag}
+                count={rows.length}
+                color={color}
+                sectionKey={sectionKey}
+                isDropTarget={true}
+                onPickColor={(c) => updateTagColor(tag, c)}
+              >
+                <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+                  {rows.map(({ node, info }) => renderSortableRow(node, info.role === 'other' ? null : info.role))}
+                </SortableContext>
+              </Section>
+            );
+          })}
+
+          {/* Hunts — auto-grouped by folder, NOT a drop target, NOT reorderable */}
+          <Section
+            title="Hunts"
+            count={hunts.length}
+            color={huntsSectionColor}
+            sectionKey="hunts"
+            isDropTarget={false}
+            onPickColor={(c) => updateTagColor(RESERVED_HUNTS, c)}
+          >
+            {hunts.map((group) => (
+              <div key={`hunt-${group.folder}`} className="mb-1.5 rounded-md border border-border/40 bg-muted/15 overflow-hidden">
+                <div className="flex items-center gap-2 px-2.5 py-1.5 border-b border-border/25">
+                  <span className="text-sm font-semibold text-foreground flex-1 truncate">{group.folder}</span>
+                </div>
+                <div className="divide-y divide-border/15">
+                  {group.members.map(({ node, info }) => (
+                    <SaveRow
+                      key={`hunt-${group.folder}-${node.id}`}
+                      node={node}
+                      meta={getMeta(meta, node.save_file_id)}
+                      roleLabel={info.role}
+                      isSelected={selectedId === node.id}
+                      onSelect={() => onSelect(node)}
+                      onTagChange={(next) => updateTag(node.save_file_id, next)}
+                      small
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </Section>
+
+          {/* Default bucket — untagged saves */}
+          <Section
+            title="Saves"
+            count={defaultBucket.length}
+            color={defaultSectionColor}
+            sectionKey="default"
+            isDropTarget={true}
+            onPickColor={(c) => updateTagColor(RESERVED_DEFAULT, c)}
+          >
+            <SortableContext
+              items={defaultBucket.map(r => saveId(r.node.save_file_id))}
+              strategy={verticalListSortingStrategy}
+            >
+              {defaultBucket.map(({ node, info }) => renderSortableRow(node, info.role === 'other' ? null : info.role))}
+            </SortableContext>
+          </Section>
+
+          {totalVisible === 0 && (
+            <div className="text-center py-12 text-muted-foreground">
+              <p className="text-sm font-medium">No saves yet</p>
+              <p className="text-xs text-muted-foreground/60 mt-1">Import or play with checkpoint tracking to populate this view</p>
+            </div>
+          )}
+        </Card>
+      </div>
+
+      {/* Floating drag preview that follows the cursor during a drag */}
+      <DragOverlay>
+        {activeNode && (
+          <div className="pointer-events-none max-w-md">
+            <SaveRow
+              node={activeNode}
+              meta={getMeta(meta, activeNode.save_file_id)}
+              roleLabel={activeRoleLabel}
+              isSelected={false}
+              onSelect={() => {}}
+              onTagChange={() => {}}
+              isOverlay
+            />
+          </div>
+        )}
+      </DragOverlay>
+    </DndContext>
   );
 }

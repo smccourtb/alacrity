@@ -9,6 +9,15 @@ export function runMigrations(db: Database) {
     try { db.exec('ALTER TABLE hunts DROP COLUMN lua_script'); } catch {}
   }
 
+  // Add parent_checkpoint_id column for hunt-spawn lineage tracking
+  // (2026-04-14, save-placement-v2 plan). Hunts now record which checkpoint
+  // they branched from so smartPlaceSaves doesn't have to infer it.
+  // Fail fast: a silent ALTER failure here would cause every subsequent
+  // INSERT INTO hunts to crash with "no such column", far from the root cause.
+  if (!huntsColumns.includes('parent_checkpoint_id')) {
+    db.exec('ALTER TABLE hunts ADD COLUMN parent_checkpoint_id INTEGER REFERENCES checkpoints(id)');
+  }
+
   // Drop deprecated pokemon table (retired 2026-04-13 along with the parallel
   // parseAndImportAll / runCompletionScan / /sync pipeline). The new collection
   // system (collection_saves + collection_bank + collection_manual) has been

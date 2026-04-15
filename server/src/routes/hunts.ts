@@ -628,19 +628,31 @@ router.post('/', (req, res) => {
 
     const huntDirName = generateHuntDirName(game, target_name);
 
+    // Look up the checkpoint this hunt is branching from. The launch save is
+    // identified by sav_path; whichever checkpoint currently references that
+    // save_file is the parent.
+    const parentCheckpoint = db.prepare(`
+      SELECT c.id FROM checkpoints c
+      JOIN save_files sf ON sf.id = c.save_file_id
+      WHERE sf.file_path = ? LIMIT 1
+    `).get(sav_path) as { id: number } | undefined;
+    const parentCheckpointId = parentCheckpoint?.id ?? null;
+
     const result = db.prepare(`
       INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path,
         num_instances, engine, hunt_mode, walk_dir,
         target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc,
         hunt_dir, status, started_at,
         encounter_type, target_nature, target_ability, target_ivs,
-        perfect_iv_count, is_shiny_locked, has_shiny_charm)
+        perfect_iv_count, is_shiny_locked, has_shiny_charm,
+        parent_checkpoint_id)
       VALUES (?, ?, ?, ?, ?,
         1, 'rng', ?, '',
         ?, 0, ?, 0, 0, 0, 0,
         ?, 'running', datetime('now'),
         ?, ?, ?, ?,
-        ?, ?, ?)
+        ?, ?, ?,
+        ?)
     `).run(
       target_name, target_species_id || null, game, rom_path, sav_path,
       encounter_type || 'stationary',
@@ -648,7 +660,8 @@ router.post('/', (req, res) => {
       huntDirName,
       encounter_type || null, target_nature || null, target_ability || null,
       target_ivs ? JSON.stringify(target_ivs) : null,
-      perfect_iv_count || 0, is_shiny_locked ? 1 : 0, has_shiny_charm ? 1 : 0
+      perfect_iv_count || 0, is_shiny_locked ? 1 : 0, has_shiny_charm ? 1 : 0,
+      parentCheckpointId
     );
 
     const huntId = result.lastInsertRowid as number;
@@ -742,12 +755,25 @@ router.post('/', (req, res) => {
 
   const huntDirName = generateHuntDirName(game, target_name);
 
+  // Look up the checkpoint this hunt is branching from. The launch save is
+  // identified by sav_path; whichever checkpoint currently references that
+  // save_file is the parent.
+  const parentCheckpoint = db.prepare(`
+    SELECT c.id FROM checkpoints c
+    JOIN save_files sf ON sf.id = c.save_file_id
+    WHERE sf.file_path = ? LIMIT 1
+  `).get(sav_path) as { id: number } | undefined;
+  const parentCheckpointId = parentCheckpoint?.id ?? null;
+
   const result = db.prepare(`
     INSERT INTO hunts (target_name, target_species_id, game, rom_path, sav_path, num_instances, engine, hunt_mode, walk_dir,
-      target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc, hunt_dir, status, started_at)
-    VALUES (?, ?, ?, ?, ?, ?, 'core', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', datetime('now'))
+      target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc, hunt_dir, status, started_at,
+      parent_checkpoint_id)
+    VALUES (?, ?, ?, ?, ?, ?, 'core', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', datetime('now'),
+      ?)
   `).run(target_name, target_species_id || null, game, rom_path, sav_path, instances, hunt_mode || 'gift', walk_dir || 'ns',
-    target_shiny ?? 1, target_perfect ?? 0, target_gender || 'any', min_atk ?? 0, min_def ?? 0, min_spd ?? 0, min_spc ?? 0, huntDirName);
+    target_shiny ?? 1, target_perfect ?? 0, target_gender || 'any', min_atk ?? 0, min_def ?? 0, min_spd ?? 0, min_spc ?? 0, huntDirName,
+    parentCheckpointId);
 
   const huntId = result.lastInsertRowid as number;
   const huntDir = join(HUNTS_DIR, huntDirName);

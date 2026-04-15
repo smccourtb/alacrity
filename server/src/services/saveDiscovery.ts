@@ -199,9 +199,16 @@ function scanLibrary(): DiscoveredSave[] {
         const game = detected?.game || 'Unknown';
         const gen = detected?.gen || null;
 
-        // Label from parent dir or filename
+        // Label from parent dir or filename. Generic basenames like `sav`
+        // (from sav.dat) or `main` carry no information — fall back to the
+        // parent directory name in that case (e.g. library/Crystal/Lugia/sav.dat
+        // → "Lugia" rather than "sav"). If the parent dir is itself the game
+        // folder, the filename is the only meaningful label we have.
         const parentDir = basename(join(fullPath, '..'));
-        const label = isMain ? parentDir : basename(entry, ext);
+        const baseNoExt = basename(entry, ext);
+        const isGenericBasename = isMain || baseNoExt === 'sav' || baseNoExt === 'data';
+        const useParent = isGenericBasename && parentDir && parentDir !== game;
+        const label = useParent ? parentDir : baseNoExt;
 
         const romRel = gen ? ROM_MAP[game] ?? null : null;
         const romPath = romRel ? join(paths.resourcesDir, romRel) : null;

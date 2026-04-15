@@ -6,6 +6,7 @@ import { autoLinkSave } from './autoLinkage.js';
 import { buildSnapshot, type SaveSnapshot } from './saveSnapshot.js';
 import { prettyGameName } from './pkConstants.js';
 import { reconcileTipsInclusion } from './identityService.js';
+import { findBestParent, type PlacedCheckpoint } from './checkpointPlacement.js';
 
 export interface SyncSavesResult {
   added: number;
@@ -127,14 +128,32 @@ export function syncSaves(): SyncSavesResult {
   // Uses smart placement: parse snapshots, sort by badge count, then find
   // best parent for each via party overlap + badge proximity (handles branching).
   const unlinked = db.prepare(`
-    SELECT sf.id, sf.file_path, sf.game FROM save_files sf
+    SELECT sf.id, sf.file_path, sf.game, sf.label, sf.file_mtime FROM save_files sf
     WHERE sf.game IS NOT NULL AND sf.game != 'Unknown' AND sf.stale = 0
       AND NOT EXISTS (SELECT 1 FROM checkpoints c WHERE c.save_file_id = sf.id)
-  `).all() as Array<{ id: number; file_path: string; game: string }>;
+  `).all() as Array<{ id: number; file_path: string; game: string; label: string | null; file_mtime: string | null }>;
 
   if (unlinked.length > 0) {
     smartPlaceSaves(unlinked);
   }
+
+  // Backfill: an earlier version of smartPlaceSaves derived checkpoint labels
+  // from the parent directory, which for a flat file in `library/Crystal/foo.sav`
+  // is the game folder ("Crystal"). That made every loose library save appear
+  // as an indistinguishable "Crystal" row in the timeline. Heal those rows by
+  // copying the (now-correct) save_files.label, but only where the checkpoint
+  // label literally matches the game name — anything else may be user-edited.
+  const healed = db.prepare(`
+    UPDATE checkpoints
+    SET label = (SELECT label FROM save_files WHERE id = checkpoints.save_file_id)
+    WHERE save_file_id IN (
+      SELECT sf.id FROM save_files sf
+      WHERE sf.label IS NOT NULL AND sf.label != ''
+        AND lower(sf.label) != lower(sf.game)
+        AND lower((SELECT label FROM checkpoints WHERE save_file_id = sf.id)) = lower(sf.game)
+    )
+  `).run();
+  if (healed.changes > 0) console.log(`[syncSaves] Healed ${healed.changes} checkpoint labels that were stuck on the game name`);
 
   // Re-link checkpoints pointing at stale saves to their non-stale replacements
   const relinked = relinkStaleCheckpoints();
@@ -226,66 +245,73 @@ function cleanUnreferencedStale(): number {
 }
 
 // ---------------------------------------------------------------------------
+// Hunt-spawn lineage: look up the recorded parent checkpoint for a save
+// that was produced by a hunt (instance backups in hunts/<hunt_dir>/open_*/).
+// ---------------------------------------------------------------------------
+
+/**
+ * Return the hunt row (id + parent_checkpoint_id) whose hunt_dir is a path
+ * component of `filePath`, meaning this save was produced by that hunt.
+ *
+ * `hunt_dir` is stored as a bare name (e.g. "Crystal-Charmander-2026-04-13"),
+ * while `filePath` is an absolute path. We check whether the string
+ * `/hunts/<hunt_dir>/` appears inside `filePath` using SQLite's `instr`.
+ *
+ * Catch saves (saves/catches/<game>/<target>/) are NOT matched here because
+ * their path contains no hunt_dir component. Those fall through to
+ * findBestParent inference, which already has a strong fingerprint signal
+ * from party + box pokemon. This is an intentional gap — documented here so
+ * a future task can add a catches-path matcher if needed.
+ */
+function findHuntForSavePath(filePath: string): { id: number; parent_checkpoint_id: number | null } | null {
+  const row = db.prepare(`
+    SELECT id, parent_checkpoint_id FROM hunts
+    WHERE hunt_dir IS NOT NULL
+      AND instr(?, '/hunts/' || hunt_dir || '/') > 0
+    LIMIT 1
+  `).get(filePath) as { id: number; parent_checkpoint_id: number | null } | undefined;
+  return row ?? null;
+}
+
+// ---------------------------------------------------------------------------
 // Smart save placement — same algorithm as timeline /scan
 // ---------------------------------------------------------------------------
 
-function findBestParent(
-  snapshot: SaveSnapshot,
-  placed: Array<{ id: number; snapshot: SaveSnapshot }>,
-): number | null {
-  if (placed.length === 0) return null;
-
-  const curPartyIds = new Set(snapshot.party.map(p => p.species_id));
-  let bestId: number | null = null;
-  let bestScore = -Infinity;
-
-  for (const cp of placed) {
-    const s = cp.snapshot;
-    if (s.badge_count > snapshot.badge_count) continue;
-
-    // Play time: parent can't have more play time than child
-    if ((s.play_time_seconds ?? 0) > (snapshot.play_time_seconds ?? 0)) continue;
-
-    const parentPartyIds = new Set(s.party.map(p => p.species_id));
-    let overlap = 0;
-    for (const id of curPartyIds) {
-      if (parentPartyIds.has(id)) overlap++;
-    }
-    const maxParty = Math.max(curPartyIds.size, parentPartyIds.size, 1);
-    const overlapRatio = overlap / maxParty;
-    const badgeDiff = snapshot.badge_count - s.badge_count;
-
-    const score = overlapRatio * 100 - badgeDiff * 10;
-    if (score > bestScore) {
-      bestScore = score;
-      bestId = cp.id;
-    }
-  }
-
-  return bestId;
-}
-
-function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: string }>) {
+function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: string; label: string | null; file_mtime: string | null }>) {
   // Phase 1: parse snapshots
   interface ParsedSave { row: typeof saves[0]; snapshot: SaveSnapshot; label: string }
   const parsed: ParsedSave[] = [];
   for (const row of saves) {
     try {
       const snapshot = buildSnapshot(row.file_path, row.game);
-      const parts = row.file_path.split('/');
-      const dirName = parts[parts.length - 2] || '';
-      const label = dirName || `${snapshot.badge_count} Badges — ${snapshot.location}`;
+      // Prefer the label saveDiscovery already computed (it knows how to
+      // distinguish "library/Crystal/foo.sav" → "foo" from "library/Crystal/
+      // Lugia/sav.dat" → "Lugia"). Fall back only if it's missing or matches
+      // the bare game folder name.
+      const sfLabel = row.label?.trim() ?? '';
+      const looksLikeGameFolder = sfLabel.toLowerCase() === row.game.toLowerCase();
+      const label = sfLabel && !looksLikeGameFolder
+        ? sfLabel
+        : `${snapshot.badge_count} Badges — ${snapshot.location}`;
       parsed.push({ row, snapshot, label });
     } catch {
       // Can't parse — skip
     }
   }
 
-  // Phase 2: sort by badge count ascending, then play time ascending
+  // Phase 2: sort by real-world chronology — mtime primary, badge/playtime
+  // as tiebreaks. Playtime can't be primary because hunt-derived saves have
+  // their base save's playtime, which can be disconnected from real-world
+  // chronology. mtime is the most reliable "when was this save made" signal.
   parsed.sort((a, b) => {
+    const am = a.row.file_mtime ? Date.parse(a.row.file_mtime) : 0;
+    const bm = b.row.file_mtime ? Date.parse(b.row.file_mtime) : 0;
+    if (am !== bm) return am - bm;
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
-    return (a.snapshot.play_time_seconds ?? 0) - (b.snapshot.play_time_seconds ?? 0);
+    const apt = a.snapshot.play_time_seconds ?? 0;
+    const bpt = b.snapshot.play_time_seconds ?? 0;
+    return apt - bpt;
   });
 
   // Phase 3: place each save, finding best parent via snapshot similarity
@@ -303,18 +329,20 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
     "UPDATE playthroughs SET active_checkpoint_id = ?, updated_at = datetime('now') WHERE id = ?",
   );
 
-  const placedByPt = new Map<string, Array<{ id: number; snapshot: SaveSnapshot }>>();
+  const placedByPt = new Map<string, PlacedCheckpoint[]>();
 
   // Load existing checkpoints so new saves can parent to them
   const existing = db.prepare(`
-    SELECT c.id, c.snapshot, p.game, p.ot_name, p.ot_tid
-    FROM checkpoints c JOIN playthroughs p ON p.id = c.playthrough_id
+    SELECT c.id, c.snapshot, c.parent_checkpoint_id, p.game, p.ot_name, p.ot_tid, sf.file_mtime
+    FROM checkpoints c
+    JOIN playthroughs p ON p.id = c.playthrough_id
+    JOIN save_files sf ON sf.id = c.save_file_id
     WHERE c.snapshot IS NOT NULL
-  `).all() as Array<{ id: number; snapshot: string; game: string; ot_name: string; ot_tid: number }>;
+  `).all() as Array<{ id: number; snapshot: string; parent_checkpoint_id: number | null; game: string; ot_name: string; ot_tid: number; file_mtime: string | null }>;
   for (const ec of existing) {
     const key = `${ec.game}|${ec.ot_name}|${ec.ot_tid}`;
     if (!placedByPt.has(key)) placedByPt.set(key, []);
-    try { placedByPt.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot) }); } catch {}
+    try { placedByPt.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: ec.file_mtime, parent_id: ec.parent_checkpoint_id }); } catch {}
   }
 
   let linked = 0;
@@ -332,7 +360,13 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
 
     const ptKey = `${g}|${snapshot.ot_name}|${snapshot.ot_tid}`;
     const placed = placedByPt.get(ptKey) ?? [];
-    const parentId = findBestParent(snapshot, placed);
+    // Short-circuit: if this save lives under a known hunt's directory, use the
+    // hunt's recorded parent checkpoint directly instead of inferring via
+    // findBestParent. Falls back to inference if parent_checkpoint_id is null
+    // (legacy hunt created before this column existed).
+    const huntMatch = findHuntForSavePath(row.file_path);
+    const parentId = huntMatch?.parent_checkpoint_id
+      ?? findBestParent(snapshot, placed, row.file_mtime);
 
     const cpResult = createCheckpoint.run(
       playthrough.id, row.id, parentId, label,
@@ -341,7 +375,7 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
     const cpId = Number(cpResult.lastInsertRowid);
 
     if (!placedByPt.has(ptKey)) placedByPt.set(ptKey, []);
-    placedByPt.get(ptKey)!.push({ id: cpId, snapshot });
+    placedByPt.get(ptKey)!.push({ id: cpId, snapshot, file_mtime: row.file_mtime, parent_id: parentId });
     updateActive.run(cpId, playthrough.id);
     linked++;
   }

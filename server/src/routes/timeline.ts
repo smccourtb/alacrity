@@ -12,6 +12,7 @@ import {
 } from '../services/saveSnapshot.js';
 import { prettyGameName } from '../services/pkConstants.js';
 import { scanCheckpoint, clearSightingsForCheckpoint } from '../services/identityService.js';
+import { findBestParent, type PlacedCheckpoint } from '../services/checkpointPlacement.js';
 
 const router = Router();
 
@@ -292,68 +293,6 @@ router.get('/orphans', (req: Request, res: Response) => {
   res.json({ saves: enriched, total });
 });
 
-// ── Snapshot similarity scoring ──────────────────────────────────────────────
-
-/**
- * Find the best parent checkpoint for a new save by comparing snapshots.
- * Returns the checkpoint ID with the highest similarity, or null if none qualify.
- *
- * Signals used:
- * - Party composition overlap (strongest signal)
- * - Badge count proximity (parent must have ≤ badges)
- * - Daycare state match/mismatch
- */
-function findBestParent(
-  snapshot: SaveSnapshot,
-  placed: Array<{ id: number; snapshot: SaveSnapshot }>,
-): number | null {
-  if (placed.length === 0) return null;
-
-  const curPartyIds = new Set(snapshot.party.map(p => p.species_id));
-  const curDcKey = snapshot.daycare
-    ? [snapshot.daycare.parent1?.species_id ?? 0, snapshot.daycare.parent2?.species_id ?? 0].sort().join(',')
-    : null;
-
-  let bestId: number | null = null;
-  let bestScore = -Infinity;
-
-  for (const cp of placed) {
-    const s = cp.snapshot;
-
-    // Parent can't have more badges than child
-    if (s.badge_count > snapshot.badge_count) continue;
-
-    // Party overlap (0..1)
-    const parentPartyIds = new Set(s.party.map(p => p.species_id));
-    let overlap = 0;
-    for (const id of curPartyIds) {
-      if (parentPartyIds.has(id)) overlap++;
-    }
-    const maxParty = Math.max(curPartyIds.size, parentPartyIds.size, 1);
-    const overlapRatio = overlap / maxParty;
-
-    // Badge proximity penalty (prefer closer badge counts)
-    const badgeDiff = snapshot.badge_count - s.badge_count;
-
-    // Daycare match bonus
-    const parentDcKey = s.daycare
-      ? [s.daycare.parent1?.species_id ?? 0, s.daycare.parent2?.species_id ?? 0].sort().join(',')
-      : null;
-    let dcBonus = 0;
-    if (curDcKey && parentDcKey && curDcKey === parentDcKey) dcBonus = 20;
-    else if (curDcKey && parentDcKey && curDcKey !== parentDcKey) dcBonus = -5;
-
-    const score = overlapRatio * 100 - badgeDiff * 10 + dcBonus;
-
-    if (score > bestScore) {
-      bestScore = score;
-      bestId = cp.id;
-    }
-  }
-
-  return bestId;
-}
-
 // ── POST /scan — bulk auto-link existing saves ──────────────────────────────
 
 router.post('/scan', async (req: Request, res: Response) => {
@@ -430,15 +369,24 @@ router.post('/scan', async (req: Request, res: Response) => {
     }
   }
 
-  // ── Phase 2: sort by progression (badge count asc, non-daycare first) ─────
+  // ── Phase 2: sort by real-world chronology (mtime primary) ────────────────
+  //
+  // Playtime turned out to be unreliable for hunt-derived saves (hunt binaries
+  // copy a base save and produce catches with the base's playtime, which can
+  // be disconnected from real chronology). The user's actual save history is
+  // most reliably captured in file_mtime — when the save file was last
+  // written. Process in mtime order so the earliest real-world save becomes
+  // a candidate parent first.
 
   parsed.sort((a, b) => {
+    const am = a.row.file_mtime ? Date.parse(a.row.file_mtime) : 0;
+    const bm = b.row.file_mtime ? Date.parse(b.row.file_mtime) : 0;
+    if (am !== bm) return am - bm;
     if (a.snapshot.badge_count !== b.snapshot.badge_count)
       return a.snapshot.badge_count - b.snapshot.badge_count;
-    // Non-daycare before daycare (progression saves before hunt branches)
-    const aHasDc = a.snapshot.daycare ? 1 : 0;
-    const bHasDc = b.snapshot.daycare ? 1 : 0;
-    return aHasDc - bHasDc;
+    const apt = a.snapshot.play_time_seconds ?? 0;
+    const bpt = b.snapshot.play_time_seconds ?? 0;
+    return apt - bpt;
   });
 
   // ── Phase 3: place each save, finding best parent via snapshot similarity ─
@@ -458,21 +406,22 @@ router.post('/scan', async (req: Request, res: Response) => {
   );
 
   // Track placed checkpoints per playthrough key for parent matching
-  const placedByPlaythrough = new Map<string, Array<{ id: number; snapshot: SaveSnapshot }>>();
+  const placedByPlaythrough = new Map<string, PlacedCheckpoint[]>();
 
   // Also load existing checkpoints so new saves can parent to them
   const existingCheckpoints = db.prepare(
-    `SELECT c.id, c.snapshot, p.game, p.ot_name, p.ot_tid
+    `SELECT c.id, c.snapshot, c.parent_checkpoint_id, p.game, p.ot_name, p.ot_tid, sf.file_mtime
      FROM checkpoints c
      JOIN playthroughs p ON p.id = c.playthrough_id
+     JOIN save_files sf ON sf.id = c.save_file_id
      WHERE c.snapshot IS NOT NULL`,
-  ).all() as Array<{ id: number; snapshot: string; game: string; ot_name: string; ot_tid: number }>;
+  ).all() as Array<{ id: number; snapshot: string; parent_checkpoint_id: number | null; game: string; ot_name: string; ot_tid: number; file_mtime: string | null }>;
 
   for (const ec of existingCheckpoints) {
     const key = `${ec.game}|${ec.ot_name}|${ec.ot_tid}`;
     if (!placedByPlaythrough.has(key)) placedByPlaythrough.set(key, []);
     try {
-      placedByPlaythrough.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot) });
+      placedByPlaythrough.get(key)!.push({ id: ec.id, snapshot: JSON.parse(ec.snapshot), file_mtime: ec.file_mtime, parent_id: ec.parent_checkpoint_id });
     } catch { /* skip malformed */ }
   }
 
@@ -496,7 +445,7 @@ router.post('/scan', async (req: Request, res: Response) => {
     const placed = placedByPlaythrough.get(ptKey) ?? [];
 
     // Find best parent by snapshot similarity
-    const parentId = findBestParent(snapshot, placed);
+    const parentId = findBestParent(snapshot, placed, row.file_mtime);
 
     const cpResult = createCheckpoint.run(
       playthrough.id,
@@ -512,7 +461,7 @@ router.post('/scan', async (req: Request, res: Response) => {
 
     // Track this checkpoint for future parent matching
     if (!placedByPlaythrough.has(ptKey)) placedByPlaythrough.set(ptKey, []);
-    placedByPlaythrough.get(ptKey)!.push({ id: newCpId, snapshot });
+    placedByPlaythrough.get(ptKey)!.push({ id: newCpId, snapshot, file_mtime: row.file_mtime ?? null, parent_id: parentId });
 
     // Update active checkpoint to the latest one placed
     updateActive.run(newCpId, playthrough.id);

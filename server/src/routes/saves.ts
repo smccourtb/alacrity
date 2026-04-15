@@ -169,6 +169,134 @@ router.delete('/:id', (req, res) => {
   res.json({ success: true });
 });
 
+// ── User metadata (tag + sort order) ───────────────────────────────────────
+// Phase 1b: lets users customize how saves are grouped and ordered in the
+// GroupedView. `tag` is a free-form custom group name. `user_sort_order` is
+// a user-assigned rank within a section (higher = earlier). Either may be
+// null to clear.
+
+// GET /api/saves/meta?ids=1,2,3
+// Batch fetch meta rows for the save ids currently visible in the view.
+// Returns an object keyed by save_file_id so the client can look up each
+// save's metadata in O(1). Saves with no row in save_user_meta return an
+// empty object entry (i.e. `{}` instead of being absent).
+router.get('/meta', (req, res) => {
+  const raw = req.query.ids;
+  if (typeof raw !== 'string' || raw.length === 0) {
+    return res.json({});
+  }
+  const ids = raw
+    .split(',')
+    .map(s => Number(s))
+    .filter(n => Number.isInteger(n) && n > 0);
+  if (ids.length === 0) return res.json({});
+
+  const placeholders = ids.map(() => '?').join(',');
+  const rows = db
+    .prepare(
+      `SELECT save_file_id, tag, user_sort_order, updated_at
+       FROM save_user_meta
+       WHERE save_file_id IN (${placeholders})`,
+    )
+    .all(...ids) as Array<{
+      save_file_id: number;
+      tag: string | null;
+      user_sort_order: number | null;
+      updated_at: string;
+    }>;
+
+  const out: Record<string, { tag: string | null; user_sort_order: number | null; updated_at: string }> = {};
+  for (const r of rows) {
+    out[String(r.save_file_id)] = {
+      tag: r.tag,
+      user_sort_order: r.user_sort_order,
+      updated_at: r.updated_at,
+    };
+  }
+  res.json(out);
+});
+
+// ── Per-tag metadata (color) ──────────────────────────────────────────────
+// GET /api/saves/tags — all known tag metadata
+router.get('/tags', (_req, res) => {
+  const rows = db
+    .prepare('SELECT tag, color FROM save_tag_meta')
+    .all() as Array<{ tag: string; color: string | null }>;
+  const out: Record<string, { color: string | null }> = {};
+  for (const r of rows) out[r.tag] = { color: r.color };
+  res.json(out);
+});
+
+// PATCH /api/saves/tags/:tag — upsert color for a tag
+router.patch('/tags/:tag', (req, res) => {
+  const tag = req.params.tag;
+  if (!tag || typeof tag !== 'string' || tag.length === 0) {
+    return res.status(400).json({ error: 'tag required' });
+  }
+  const body = (req.body ?? {}) as { color?: string | null };
+  const color =
+    typeof body.color === 'string' && body.color.trim().length > 0 ? body.color.trim() : null;
+
+  db.prepare(
+    `INSERT INTO save_tag_meta (tag, color, updated_at)
+     VALUES (?, ?, datetime('now'))
+     ON CONFLICT(tag) DO UPDATE SET color = excluded.color, updated_at = excluded.updated_at`,
+  ).run(tag, color);
+
+  const row = db.prepare('SELECT tag, color, updated_at FROM save_tag_meta WHERE tag = ?').get(tag);
+  res.json(row);
+});
+
+// PATCH /api/saves/:id/meta
+// Body: { tag?: string | null, user_sort_order?: number | null }
+// Upsert the user_meta row for a save. Either field may be omitted to leave
+// it unchanged, or set to null to clear it.
+router.patch('/:id/meta', (req, res) => {
+  const saveId = Number(req.params.id);
+  if (!Number.isInteger(saveId) || saveId <= 0) {
+    return res.status(400).json({ error: 'invalid save id' });
+  }
+  const save = db.prepare('SELECT id FROM save_files WHERE id = ?').get(saveId);
+  if (!save) return res.status(404).json({ error: 'Save not found' });
+
+  const body = (req.body ?? {}) as { tag?: string | null; user_sort_order?: number | null };
+  const hasTag = Object.prototype.hasOwnProperty.call(body, 'tag');
+  const hasSort = Object.prototype.hasOwnProperty.call(body, 'user_sort_order');
+  if (!hasTag && !hasSort) {
+    return res.status(400).json({ error: 'must provide at least one of: tag, user_sort_order' });
+  }
+
+  // Normalize inputs. Empty-string tag becomes null.
+  const nextTag = hasTag
+    ? (typeof body.tag === 'string' && body.tag.trim().length > 0 ? body.tag.trim() : null)
+    : undefined;
+  const nextSort = hasSort
+    ? (typeof body.user_sort_order === 'number' && Number.isFinite(body.user_sort_order) ? body.user_sort_order : null)
+    : undefined;
+
+  // Read existing row (if any) so fields not in this request are preserved.
+  const existing = db
+    .prepare('SELECT save_file_id, tag, user_sort_order FROM save_user_meta WHERE save_file_id = ?')
+    .get(saveId) as { tag: string | null; user_sort_order: number | null } | undefined;
+
+  const finalTag = hasTag ? nextTag! : (existing?.tag ?? null);
+  const finalSort = hasSort ? nextSort! : (existing?.user_sort_order ?? null);
+
+  db.prepare(
+    `INSERT INTO save_user_meta (save_file_id, tag, user_sort_order, updated_at)
+     VALUES (?, ?, ?, datetime('now'))
+     ON CONFLICT(save_file_id) DO UPDATE SET
+       tag = excluded.tag,
+       user_sort_order = excluded.user_sort_order,
+       updated_at = excluded.updated_at`,
+  ).run(saveId, finalTag, finalSort);
+
+  const row = db
+    .prepare('SELECT save_file_id, tag, user_sort_order, updated_at FROM save_user_meta WHERE save_file_id = ?')
+    .get(saveId);
+  res.json(row);
+});
+
 
 // POST /api/saves/import-sources
 // Body: { path: string }
