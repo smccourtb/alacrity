@@ -184,7 +184,7 @@ function SortableSaveRow(props: SortableSaveRowProps) {
     opacity: isDragging ? 0.4 : 1,
   };
   return (
-    <div ref={setNodeRef} style={style}>
+    <div ref={setNodeRef} style={style} data-save-file-id={props.node.save_file_id}>
       <SaveRow {...props} dragAttributes={attributes} dragListeners={listeners} />
     </div>
   );
@@ -459,9 +459,11 @@ interface GroupedViewProps {
   roots: CheckpointNode[];
   selectedId: number | null;
   onSelect: (node: CheckpointNode) => void;
+  scrollToSaveFileId?: number | null;
+  pulseSaveFileId?: number | null;
 }
 
-export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
+export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, pulseSaveFileId }: GroupedViewProps) {
   const allNodes = useMemo(() => flattenTree(roots), [roots]);
 
   const [meta, setMeta] = useState<MetaMap>({});
@@ -504,6 +506,25 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     });
     return () => { cancelled = true; };
   }, []);
+
+  useEffect(() => {
+    if (scrollToSaveFileId == null && pulseSaveFileId == null) return;
+    const targetId = scrollToSaveFileId ?? pulseSaveFileId;
+    const el = document.querySelector<HTMLElement>(
+      `[data-save-file-id="${targetId}"]`,
+    );
+    if (!el) return;
+    if (scrollToSaveFileId != null) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    if (pulseSaveFileId != null) {
+      el.classList.add('ring-2', 'ring-primary', 'transition-all');
+      const timer = setTimeout(() => {
+        el.classList.remove('ring-2', 'ring-primary', 'transition-all');
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [scrollToSaveFileId, pulseSaveFileId]);
 
   const defaultSectionColor = tagColors[RESERVED_DEFAULT] ?? DEFAULT_DEFAULT_COLOR;
   const huntsSectionColor = tagColors[RESERVED_HUNTS] ?? DEFAULT_HUNTS_COLOR;
