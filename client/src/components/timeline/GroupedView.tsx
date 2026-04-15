@@ -159,6 +159,7 @@ interface SaveRowProps {
   onDragStart: () => void;
   onDragEnd: () => void;
   onRowDragOver: (e: React.DragEvent) => void;
+  onRowDragEnter: (e: React.DragEvent) => void;
   onRowDrop: () => void;
   isDragging: boolean;
   isDragHover: boolean;
@@ -175,6 +176,7 @@ function SaveRow({
   onDragStart,
   onDragEnd,
   onRowDragOver,
+  onRowDragEnter,
   onRowDrop,
   isDragging,
   isDragHover,
@@ -202,6 +204,7 @@ function SaveRow({
 
   return (
     <div
+      onDragEnter={onRowDragEnter}
       onDragOver={onRowDragOver}
       onDrop={(e) => {
         e.preventDefault();
@@ -374,11 +377,12 @@ function Section({
   // children by reference to wire up the toggle).
   return (
     <div
+      onDragEnter={isDropTarget ? (e) => { e.preventDefault(); } : undefined}
       onDragOver={isDropTarget ? onBucketDragOver : undefined}
       onDrop={isDropTarget ? (e) => { e.preventDefault(); onBucketDrop(); } : undefined}
       className={`
-        relative rounded-lg transition-all
-        ${isBucketDragHover ? 'ring-2 ring-primary/50 bg-primary/5' : ''}
+        relative rounded-lg transition-colors
+        ${isBucketDragHover ? 'bg-muted/50' : ''}
       `}
     >
       {/* items-start pins the color button to the top of the section so it
@@ -418,10 +422,10 @@ function Section({
             <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <div
-              className="ml-5 pl-3 border-l-2 pt-0.5 pb-1 space-y-0.5"
-              style={{ borderColor: `${color}40` }}
-            >
+            {/* Tighter indent, no border line — relies on whitespace + the
+                row's left grip handle for the visual 'these belong to this
+                section' cue. */}
+            <div className="ml-4 pb-1 space-y-0.5">
               {count === 0 ? (
                 <div className="px-2 py-4 text-center text-xs text-muted-foreground/60 italic">
                   {isBucketDragHover ? `Drop to add to "${title}"` : 'Drop saves here to tag them'}
@@ -466,12 +470,9 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
   const [meta, setMeta] = useState<MetaMap>({});
   const [tagColors, setTagColors] = useState<TagColorMap>({});
 
-  // Drag state — kept in BOTH state (for re-rendering the drop-target
-  // highlight) and a ref (so that drag event handlers, which capture
-  // closures from their render, always read the CURRENT dragged id rather
-  // than a stale snapshot). Without the ref, the first onDragOver after
-  // onDragStart fires with the pre-start closure and skips preventDefault,
-  // which makes the drop target silently reject the drop.
+  // Drag state — kept in BOTH state (for re-render of drop highlights) and
+  // a ref (so handlers reading the current drag state aren't subject to
+  // closure staleness from React's async re-render cycle).
   const [draggedSaveId, setDraggedSaveId] = useState<number | null>(null);
   const [rowHoverSaveId, setRowHoverSaveId] = useState<number | null>(null);
   const [bucketHoverKey, setBucketHoverKey] = useState<string | null>(null);
@@ -717,14 +718,25 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     return {
       onDragStart: () => setDragged(saveFileId),
       onDragEnd: () => { setDragged(null); setRowHoverSaveId(null); setBucketHoverKey(null); },
-      onRowDragOver: (e: React.DragEvent) => {
-        // Read the ref, not the state closure — the closure is stale on the
-        // first dragover after dragstart because React hasn't re-rendered yet.
-        const dragged = draggedSaveIdRef.current;
-        if (dragged != null && dragged !== saveFileId) {
+      // HTML5 DnD requires BOTH dragenter and dragover to call preventDefault
+      // to register as a valid drop target. Call preventDefault UNCONDITIONALLY
+      // whenever any drag is active (including when hovering over the source
+      // row — dropping on self is a no-op but we need to keep the browser
+      // believing this is a drop target so the drop event fires when the user
+      // moves to another row and releases).
+      onRowDragEnter: (e: React.DragEvent) => {
+        if (draggedSaveIdRef.current != null) {
           e.preventDefault();
           e.stopPropagation();
-          if (rowHoverSaveId !== saveFileId) setRowHoverSaveId(saveFileId);
+        }
+      },
+      onRowDragOver: (e: React.DragEvent) => {
+        const dragged = draggedSaveIdRef.current;
+        if (dragged == null) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (dragged !== saveFileId && rowHoverSaveId !== saveFileId) {
+          setRowHoverSaveId(saveFileId);
         }
       },
       onRowDrop: () => handleRowDrop(saveFileId),
@@ -770,28 +782,15 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
 
   return (
     <div className="space-y-3">
-      {/* Drag diagnostic: shows current drag state. Remove once drag is
-          confirmed working end-to-end. */}
-      {draggedSaveId != null && (
-        <div className="fixed top-4 right-4 z-50 bg-black text-white text-xs px-3 py-2 rounded-lg shadow-lg font-mono">
-          Dragging save #{draggedSaveId}
-          {rowHoverSaveId != null && <> → row #{rowHoverSaveId}</>}
-          {bucketHoverKey != null && <> → bucket {bucketHoverKey}</>}
-        </div>
-      )}
-
       {/* Recent — its own standalone card so it pops */}
       {recent.length > 0 && (
         <Card className="py-3 gap-2">
-          <div className="flex items-center gap-3 px-3">
+          <div className="flex items-center gap-3 px-3 py-1">
             <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: SECTION_COLORS.recent }} />
             <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide">Recent</span>
             <span className="text-xs font-semibold text-muted-foreground tabular-nums">{recent.length}</span>
           </div>
-          <div
-            className="ml-5 pl-3 border-l-2 space-y-0.5"
-            style={{ borderColor: `${SECTION_COLORS.recent}40` }}
-          >
+          <div className="ml-4 space-y-0.5">
             {recent.map(({ node, info }) => renderRow(node, info.role === 'other' ? null : info.role, false, 'recent-'))}
           </div>
         </Card>
