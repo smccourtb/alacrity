@@ -117,12 +117,17 @@ type BucketKind =
 // ── Default colors (tags without a user-chosen color) ─────────────────────
 
 const DEFAULT_TAG_COLOR = '#a855f7'; // purple
+const DEFAULT_DEFAULT_COLOR = '#94a3b8';  // slate (for the Default section)
+const DEFAULT_HUNTS_COLOR = '#10b981';    // emerald (for the Hunts section)
 const SECTION_COLORS = {
   recent: '#ec4899',      // pink
-  progression: '#f59e0b',  // amber
-  hunts: '#10b981',        // emerald
-  other: '#94a3b8',        // slate
 } as const;
+
+// Reserved keys in save_tag_meta that store colors for the built-in sections
+// rather than user-authored tags. Filtered out of the user tag list.
+const RESERVED_DEFAULT = '__default';
+const RESERVED_HUNTS = '__hunts';
+const RESERVED_KEYS = new Set([RESERVED_DEFAULT, RESERVED_HUNTS]);
 
 const COLOR_PALETTE = [
   '#ef4444', // red
@@ -481,7 +486,7 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     return () => { cancelled = true; };
   }, [allNodes]);
 
-  // Fetch tag colors once (small list).
+  // Fetch tag colors once (includes user tags + reserved section colors).
   useEffect(() => {
     let cancelled = false;
     api.saves.tags.list().then((m) => {
@@ -496,6 +501,11 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     return () => { cancelled = true; };
   }, []);
 
+  // Effective color for the built-in sections (picks up user choices or
+  // falls back to the hard-coded default).
+  const defaultSectionColor = tagColors[RESERVED_DEFAULT] ?? DEFAULT_DEFAULT_COLOR;
+  const huntsSectionColor = tagColors[RESERVED_HUNTS] ?? DEFAULT_HUNTS_COLOR;
+
   const enriched = useMemo(() => {
     return allNodes
       .map((node) => ({ node, info: detectSource(node.file_path) }))
@@ -506,7 +516,7 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     return [...enriched].sort((a, b) => mtimeMs(b.node) - mtimeMs(a.node)).slice(0, 3);
   }, [enriched]);
 
-  const { tagSections, progression, hunts, other, sectionKeyForSave } = useMemo(() => {
+  const { tagSections, defaultBucket, hunts, sectionKeyForSave } = useMemo(() => {
     const tagMap = new Map<string, { node: CheckpointNode; info: SaveSourceInfo }[]>();
     const untagged: typeof enriched = [];
     const keyFor = new Map<number, string>();
@@ -529,11 +539,8 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
       }))
       .sort((a, b) => a.tag.localeCompare(b.tag));
 
-    const progression = untagged
-      .filter(({ info }) => info.source === 'library')
-      .sort((a, b) => compareSaves(a.node, b.node, meta));
-    for (const r of progression) keyFor.set(r.node.save_file_id, 'progression');
-
+    // Hunts: untagged saves that live in a catches folder (hunt-base or
+    // hunt-catch), grouped by folder.
     const huntFolders = new Map<string, { folder: string; members: typeof enriched }>();
     for (const row of untagged) {
       if (row.info.source !== 'hunt-base' && row.info.source !== 'hunt-catch') continue;
@@ -558,12 +565,14 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
       for (const m of g.members) keyFor.set(m.node.save_file_id, `hunt:${g.folder}`);
     }
 
-    const other = untagged
-      .filter(({ info }) => info.source === 'other')
+    // Default bucket: everything else untagged (library, other, anything
+    // that isn't in a hunt folder and hasn't been tagged by the user).
+    const defaultBucket = untagged
+      .filter(({ info }) => info.source !== 'hunt-base' && info.source !== 'hunt-catch')
       .sort((a, b) => compareSaves(a.node, b.node, meta));
-    for (const r of other) keyFor.set(r.node.save_file_id, 'other');
+    for (const r of defaultBucket) keyFor.set(r.node.save_file_id, 'default');
 
-    return { tagSections, progression, hunts, other, sectionKeyForSave: keyFor };
+    return { tagSections, defaultBucket, hunts, sectionKeyForSave: keyFor };
   }, [enriched, meta]);
 
   const totalVisible = enriched.length;
@@ -615,7 +624,7 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     if (sourceKey !== targetKey) {
       if (targetKey.startsWith('tag:')) {
         updateTag(dragged, targetKey.slice(4));
-      } else if (targetKey === 'progression' || targetKey === 'other') {
+      } else if (targetKey === 'default') {
         updateTag(dragged, null);
       }
       setDragged(null);
@@ -627,11 +636,9 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     const sectionRows: CheckpointNode[] =
       targetKey.startsWith('tag:')
         ? (tagSections.find(s => s.tag === targetKey.slice(4))?.rows.map(r => r.node) ?? [])
-        : targetKey === 'progression'
-          ? progression.map(r => r.node)
-          : targetKey === 'other'
-            ? other.map(r => r.node)
-            : [];
+        : targetKey === 'default'
+          ? defaultBucket.map(r => r.node)
+          : [];
 
     if (sectionRows.length === 0) {
       setDragged(null);
@@ -771,38 +778,31 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
 
       {/* All other sections in one card */}
       <Card className="py-3 gap-1">
-        {/* User tag sections */}
-        {tagSections.map(({ tag, rows }) => {
-          const color = tagColors[tag] ?? DEFAULT_TAG_COLOR;
-          return (
-            <Section
-              key={`tag-${tag}`}
-              title={tag}
-              count={rows.length}
-              color={color}
-              onPickColor={(c) => updateTagColor(tag, c)}
-              {...bucketDragProps(`tag-${tag}`, { kind: 'tag', tag })}
-            >
-              {rows.map(({ node, info }) => renderRow(node, info.role === 'other' ? null : info.role, false, `tag-${tag}-`))}
-            </Section>
-          );
-        })}
+        {/* User tag sections (filters out reserved __default / __hunts keys) */}
+        {tagSections
+          .filter(({ tag }) => !RESERVED_KEYS.has(tag))
+          .map(({ tag, rows }) => {
+            const color = tagColors[tag] ?? DEFAULT_TAG_COLOR;
+            return (
+              <Section
+                key={`tag-${tag}`}
+                title={tag}
+                count={rows.length}
+                color={color}
+                onPickColor={(c) => updateTagColor(tag, c)}
+                {...bucketDragProps(`tag-${tag}`, { kind: 'tag', tag })}
+              >
+                {rows.map(({ node, info }) => renderRow(node, info.role === 'other' ? null : info.role, false, `tag-${tag}-`))}
+              </Section>
+            );
+          })}
 
-        {/* Progression */}
-        <Section
-          title="Progression"
-          count={progression.length}
-          color={SECTION_COLORS.progression}
-          {...bucketDragProps('progression', { kind: 'untag' })}
-        >
-          {progression.map(({ node }) => renderRow(node, 'library', false, 'prog-'))}
-        </Section>
-
-        {/* Hunts — not a drop target */}
+        {/* Hunts — auto-grouped by hunt folder, not a drop target */}
         <Section
           title="Hunts"
           count={hunts.length}
-          color={SECTION_COLORS.hunts}
+          color={huntsSectionColor}
+          onPickColor={(c) => updateTagColor(RESERVED_HUNTS, c)}
           {...bucketDragProps('hunts', { kind: 'none' })}
         >
           {hunts.map((group) => (
@@ -817,15 +817,15 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
           ))}
         </Section>
 
-        {/* Other */}
+        {/* Default bucket — everything untagged and not in a hunt folder */}
         <Section
-          title="Other"
-          count={other.length}
-          color={SECTION_COLORS.other}
-          defaultOpen={false}
-          {...bucketDragProps('other', { kind: 'untag' })}
+          title="Saves"
+          count={defaultBucket.length}
+          color={defaultSectionColor}
+          onPickColor={(c) => updateTagColor(RESERVED_DEFAULT, c)}
+          {...bucketDragProps('default', { kind: 'untag' })}
         >
-          {other.map(({ node }) => renderRow(node, null, false, 'other-'))}
+          {defaultBucket.map(({ node, info }) => renderRow(node, info.role === 'other' ? null : info.role, false, 'default-'))}
         </Section>
 
         {totalVisible === 0 && (
