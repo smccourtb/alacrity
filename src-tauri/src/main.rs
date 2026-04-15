@@ -34,14 +34,29 @@ async fn copy_file_to_clipboard(path: String) -> Result<(), String> {
 
     #[cfg(target_os = "macos")]
     {
-        let escaped = path.replace('\\', "\\\\").replace('"', "\\\"");
-        let script = format!(r#"set the clipboard to (POSIX file "{escaped}")"#);
-        let status = std::process::Command::new("osascript")
-            .args(["-e", &script])
-            .status()
+        // Use AppleScriptObjC to write an NSURL to NSPasteboard as
+        // public.file-url. A plain `set the clipboard to POSIX file "..."`
+        // produces a string reference that Finder will not paste as a file.
+        // Path is passed via argv to sidestep all AppleScript string escaping.
+        let output = std::process::Command::new("osascript")
+            .args([
+                "-e", "use framework \"Foundation\"",
+                "-e", "use framework \"AppKit\"",
+                "-e", "on run argv",
+                "-e", "set thePath to item 1 of argv",
+                "-e", "set theURL to current application's NSURL's fileURLWithPath:thePath",
+                "-e", "set pb to current application's NSPasteboard's generalPasteboard()",
+                "-e", "pb's clearContents()",
+                "-e", "pb's writeObjects:{theURL}",
+                "-e", "end run",
+                "--",
+                &path,
+            ])
+            .output()
             .map_err(|e| format!("osascript failed: {e}"))?;
-        if !status.success() {
-            return Err(format!("osascript exited with status {status}"));
+        if !output.status.success() {
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            return Err(format!("osascript exited with status {}: {}", output.status, stderr));
         }
     }
 
