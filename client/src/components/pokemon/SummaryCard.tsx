@@ -107,7 +107,11 @@ export default function SummaryCard({ entry, species, onUpdate, onBallClick }: P
 
   const handleShowOnPlayPage = () => {
     if (entry.save_file_id == null) return;
-    navigate(`/play?save=${entry.save_file_id}`);
+    const params = new URLSearchParams();
+    params.set('save', String(entry.save_file_id));
+    if (entry.game) params.set('game', String(entry.game));
+    if (entry.playthrough_id != null) params.set('pt', String(entry.playthrough_id));
+    navigate(`/play?${params.toString()}`);
   };
 
   const handleCopySaveFile = async () => {

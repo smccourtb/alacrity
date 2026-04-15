@@ -50,6 +50,7 @@ export default function PlayPage() {
   const [treeRoots, setTreeRoots] = useState<CheckpointNode[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [highlightSaveId, setHighlightSaveId] = useState<number | null>(null);
+  const [pendingSaveFileId, setPendingSaveFileId] = useState<number | null>(null);
   const [orphans, setOrphans] = useState<Array<Record<string, unknown>>>([]);
   const [orphanTotal, setOrphanTotal] = useState(0);
   const [scanning, setScanning] = useState(false);
@@ -212,29 +213,47 @@ export default function PlayPage() {
     }).catch(console.error);
   }, [selectedPlaythrough]);
 
-  // --- Deep-link handoff: /play?save=<id> highlights a node in GroupedView ---
+  // Phase 1: read deep-link params, set game/playthrough, remember pending save id, clear URL.
   useEffect(() => {
     const rawSave = searchParams.get('save');
     if (!rawSave) return;
     const saveFileId = Number(rawSave);
-    if (Number.isNaN(saveFileId)) {
+    if (!Number.isFinite(saveFileId) || saveFileId <= 0) {
       setSearchParams({}, { replace: true });
       return;
     }
+
+    const rawGame = searchParams.get('game');
+    if (rawGame) setSelectedGame(normalizeGameName(rawGame));
+
+    const rawPt = searchParams.get('pt');
+    if (rawPt) {
+      const ptId = Number(rawPt);
+      if (Number.isFinite(ptId) && ptId > 0) {
+        const found = playthroughs.find((p) => p.id === ptId);
+        if (found) setSelectedPlaythrough(found);
+      }
+    }
+
+    setPendingSaveFileId(saveFileId);
+    setSearchParams({}, { replace: true });
+    // deps: only the param side. We intentionally don't depend on `playthroughs`
+    // because we want the effect to run once per URL change — if playthroughs
+    // load after this, Phase 2 will still match by scanning allNodes.
+  }, [searchParams, setSearchParams]);
+
+  // Phase 2: once tree data for the matching playthrough is loaded, find the
+  // node and fire the highlight. Clears the pending id to prevent re-runs.
+  useEffect(() => {
+    if (pendingSaveFileId == null) return;
     if (treeRoots.length === 0) return;
-
-    const match = allNodes.find((n) => n.save_file_id === saveFileId) ?? null;
-    if (!match) {
-      setSearchParams({}, { replace: true });
-      return;
-    }
-
-    if (match.snapshot?.game) setSelectedGame(normalizeGameName(match.snapshot.game));
+    const match = allNodes.find((n) => n.save_file_id === pendingSaveFileId);
+    if (!match) return; // tree may still be loading wrong playthrough; wait
     setSelectedNodeId(match.id);
     setDetailNodeId(match.id);
-    setHighlightSaveId(saveFileId);
-    setSearchParams({}, { replace: true });
-  }, [searchParams, treeRoots, allNodes, setSearchParams]);
+    setHighlightSaveId(pendingSaveFileId);
+    setPendingSaveFileId(null);
+  }, [pendingSaveFileId, treeRoots, allNodes]);
 
   // --- Clear highlight after pulse animation duration ---
   useEffect(() => {

@@ -73,6 +73,7 @@ export default function SpeciesDetail({ species, onClose, onSave }: Props) {
             save_filename: e.save_filename ?? null,
             save_file_path: e.save_file_path ?? null,
             game: e.game ?? null,
+            playthrough_id: e.playthrough_id ?? null,
             _readonly: true,  // Flag: identity entries can't be edited
           };
         });

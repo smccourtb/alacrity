@@ -28,6 +28,9 @@ async fn copy_file_to_clipboard(path: String) -> Result<(), String> {
     if !pb.is_file() {
         return Err(format!("Not a file: {path}"));
     }
+    if !pb.is_absolute() {
+        return Err(format!("Path must be absolute: {path}"));
+    }
 
     #[cfg(target_os = "macos")]
     {

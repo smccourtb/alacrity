@@ -509,6 +509,7 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
 
   useEffect(() => {
     if (scrollToSaveFileId == null && pulseSaveFileId == null) return;
+    if (roots.length === 0) return;
     const targetId = scrollToSaveFileId ?? pulseSaveFileId;
     const el = document.querySelector<HTMLElement>(
       `[data-save-file-id="${targetId}"]`,
@@ -524,7 +525,7 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [scrollToSaveFileId, pulseSaveFileId]);
+  }, [scrollToSaveFileId, pulseSaveFileId, roots]);
 
   const defaultSectionColor = tagColors[RESERVED_DEFAULT] ?? DEFAULT_DEFAULT_COLOR;
   const huntsSectionColor = tagColors[RESERVED_HUNTS] ?? DEFAULT_HUNTS_COLOR;
