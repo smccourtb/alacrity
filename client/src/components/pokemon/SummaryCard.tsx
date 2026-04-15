@@ -338,13 +338,19 @@ export default function SummaryCard({ entry, species, onUpdate, onBallClick }: P
             </DropdownMenu>
           </div>
         ) : (
-          <button
-            onClick={() => {/* TODO: open save picker */}}
-            className="flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg border border-dashed border-muted-foreground/15 text-xs text-muted-foreground/30 hover:border-primary/30 hover:text-primary/50 transition-all"
+          <div
+            className="flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg bg-muted/20 text-xs text-muted-foreground/50"
+            title={
+              entry.source === 'manual'
+                ? 'Manual entries are not backed by a save file'
+                : 'No save file linked to this entry'
+            }
           >
-            <span>💾</span>
-            <span className="font-semibold">Link a save file...</span>
-          </button>
+            <span className="opacity-60">💾</span>
+            <span className="font-semibold">
+              {entry.source === 'manual' ? 'Manual entry — no save file' : 'No save file linked'}
+            </span>
+          </div>
         )}
       </div>
     </div>
