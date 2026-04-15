@@ -22,6 +22,63 @@ fn get_server_port(state: State<'_, ServerPort>) -> Result<u16, String> {
     state.0.lock().unwrap().ok_or_else(|| "Server not ready".into())
 }
 
+#[tauri::command]
+async fn copy_file_to_clipboard(path: String) -> Result<(), String> {
+    let pb = std::path::PathBuf::from(&path);
+    if !pb.is_file() {
+        return Err(format!("Not a file: {path}"));
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        let escaped = path.replace('\\', "\\\\").replace('"', "\\\"");
+        let script = format!(r#"set the clipboard to (POSIX file "{escaped}")"#);
+        let status = std::process::Command::new("osascript")
+            .args(["-e", &script])
+            .status()
+            .map_err(|e| format!("osascript failed: {e}"))?;
+        if !status.success() {
+            return Err(format!("osascript exited with status {status}"));
+        }
+    }
+
+    #[cfg(target_os = "windows")]
+    {
+        let escaped = path.replace('\'', "''");
+        let script = format!("Set-Clipboard -Path '{escaped}'");
+        let status = std::process::Command::new("powershell")
+            .args(["-NoProfile", "-NonInteractive", "-Command", &script])
+            .status()
+            .map_err(|e| format!("powershell failed: {e}"))?;
+        if !status.success() {
+            return Err(format!("powershell exited with status {status}"));
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    {
+        use std::io::Write;
+        let uri = format!("file://{path}\n");
+        let mut child = std::process::Command::new("xclip")
+            .args(["-selection", "clipboard", "-t", "text/uri-list", "-i"])
+            .stdin(std::process::Stdio::piped())
+            .spawn()
+            .map_err(|e| format!("xclip not available: {e}"))?;
+        child
+            .stdin
+            .as_mut()
+            .ok_or_else(|| "failed to open xclip stdin".to_string())?
+            .write_all(uri.as_bytes())
+            .map_err(|e| format!("xclip write failed: {e}"))?;
+        let status = child.wait().map_err(|e| format!("xclip wait failed: {e}"))?;
+        if !status.success() {
+            return Err(format!("xclip exited with status {status}"));
+        }
+    }
+
+    Ok(())
+}
+
 fn current_exe_directory() -> Option<std::path::PathBuf> {
     // Linux AppImage: APPIMAGE env var holds the path to the .AppImage file.
     // current_exe() during AppImage execution returns the temporary AppRun path
@@ -69,7 +126,7 @@ fn main() {
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_dialog::init())
         .manage(ServerPort(Mutex::new(None)))
-        .invoke_handler(tauri::generate_handler![get_server_port])
+        .invoke_handler(tauri::generate_handler![get_server_port, copy_file_to_clipboard])
         .setup(|app| {
             let handle = app.handle().clone();
 
