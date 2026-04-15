@@ -365,7 +365,10 @@ function Section({
         ${isBucketDragHover ? 'ring-2 ring-primary/50 bg-primary/5' : ''}
       `}
     >
-      <div className="flex items-stretch">
+      {/* items-start pins the color button to the top of the section so it
+          doesn't vertically center when the accordion is open and expands
+          the Collapsible's height to include the nested content. */}
+      <div className="flex items-start">
         {/* Color-dot button: sibling of CollapsibleTrigger, not nested inside. */}
         {onPickColor ? (
           <button
@@ -374,7 +377,7 @@ function Section({
               e.stopPropagation();
               setPickerOpen((o) => !o);
             }}
-            className="flex items-center gap-1 pl-3 pr-1.5 hover:bg-muted/30 rounded-l-lg transition-colors"
+            className="flex items-center gap-1 pl-3 pr-1.5 py-2.5 hover:bg-muted/30 rounded-l-lg transition-colors shrink-0"
             title="Change tag color"
             aria-label="Change tag color"
           >
@@ -385,7 +388,7 @@ function Section({
             <PaletteIcon className="size-3 text-muted-foreground/60 shrink-0" />
           </button>
         ) : (
-          <div className="flex items-center pl-3 pr-1.5">
+          <div className="flex items-center pl-3 pr-1.5 py-2.5 shrink-0">
             <span
               className="w-3 h-3 rounded-full shrink-0"
               style={{ backgroundColor: color }}
@@ -393,9 +396,9 @@ function Section({
           </div>
         )}
 
-        <Collapsible defaultOpen={defaultOpen} className="flex-1">
+        <Collapsible defaultOpen={defaultOpen} className="flex-1 min-w-0">
           <CollapsibleTrigger className="w-full flex items-center gap-2 pr-3 py-2.5 text-left hover:bg-muted/30 rounded-r-lg transition-colors">
-            <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide">{title}</span>
+            <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide truncate">{title}</span>
             <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
           </CollapsibleTrigger>
           <CollapsibleContent>
