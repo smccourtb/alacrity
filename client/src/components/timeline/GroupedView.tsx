@@ -511,32 +511,40 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
     if (scrollToSaveFileId == null && pulseSaveFileId == null) return;
     if (roots.length === 0) return;
     const targetId = scrollToSaveFileId ?? pulseSaveFileId;
-    const wrapper = document.querySelector<HTMLElement>(
-      `[data-save-file-id="${targetId}"]`,
-    );
-    if (!wrapper) return;
-    // The wrapper is an unstyled drag-sortable div; the visible card is its
-    // first child. Apply the highlight there so the ring follows its
-    // rounded corners and shadow.
-    const card = (wrapper.firstElementChild as HTMLElement | null) ?? wrapper;
-    if (scrollToSaveFileId != null) {
-      wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-    if (pulseSaveFileId != null) {
-      const classes = [
-        'ring-4',
-        'ring-primary',
-        'ring-offset-2',
-        'ring-offset-background',
-        'animate-pulse',
-        'transition-all',
-      ];
-      card.classList.add(...classes);
-      const timer = setTimeout(() => {
-        card.classList.remove(...classes);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
+
+    let rafId: number | null = null;
+    let clearTimer: number | null = null;
+    let attempts = 0;
+
+    const apply = () => {
+      const wrapper = document.querySelector<HTMLElement>(
+        `[data-save-file-id="${targetId}"]`,
+      );
+      if (!wrapper) {
+        // Row may not be mounted yet on the same frame the effect fires.
+        if (attempts++ < 20) rafId = requestAnimationFrame(apply);
+        return;
+      }
+      const card = (wrapper.firstElementChild as HTMLElement | null) ?? wrapper;
+
+      if (scrollToSaveFileId != null) {
+        wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      if (pulseSaveFileId != null) {
+        const classes = ['ring-4', 'ring-primary', 'ring-offset-2', 'transition-all'];
+        card.classList.add(...classes);
+        clearTimer = window.setTimeout(() => {
+          card.classList.remove(...classes);
+        }, 3000);
+      }
+    };
+
+    apply();
+
+    return () => {
+      if (rafId != null) cancelAnimationFrame(rafId);
+      if (clearTimer != null) clearTimeout(clearTimer);
+    };
   }, [scrollToSaveFileId, pulseSaveFileId, roots]);
 
   const defaultSectionColor = tagColors[RESERVED_DEFAULT] ?? DEFAULT_DEFAULT_COLOR;
