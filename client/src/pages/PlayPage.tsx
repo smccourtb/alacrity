@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { api } from '@/api/client';
 import { computeLayout } from '@/components/timeline/GitGraph';
 import { NodeDetail } from '@/components/timeline/NodeDetail';
@@ -47,6 +48,8 @@ export default function PlayPage() {
   const [playthroughs, setPlaythroughs] = useState<Playthrough[]>([]);
   const [selectedPlaythrough, setSelectedPlaythrough] = useState<Playthrough | null>(null);
   const [treeRoots, setTreeRoots] = useState<CheckpointNode[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [highlightSaveId, setHighlightSaveId] = useState<number | null>(null);
   const [orphans, setOrphans] = useState<Array<Record<string, unknown>>>([]);
   const [orphanTotal, setOrphanTotal] = useState(0);
   const [scanning, setScanning] = useState(false);
@@ -208,6 +211,37 @@ export default function PlayPage() {
       setSelectedNodeId(null);
     }).catch(console.error);
   }, [selectedPlaythrough]);
+
+  // --- Deep-link handoff: /play?save=<id> highlights a node in GroupedView ---
+  useEffect(() => {
+    const rawSave = searchParams.get('save');
+    if (!rawSave) return;
+    const saveFileId = Number(rawSave);
+    if (Number.isNaN(saveFileId)) {
+      setSearchParams({}, { replace: true });
+      return;
+    }
+    if (treeRoots.length === 0) return;
+
+    const match = allNodes.find((n) => n.save_file_id === saveFileId) ?? null;
+    if (!match) {
+      setSearchParams({}, { replace: true });
+      return;
+    }
+
+    if (match.snapshot?.game) setSelectedGame(normalizeGameName(match.snapshot.game));
+    setSelectedNodeId(match.id);
+    setDetailNodeId(match.id);
+    setHighlightSaveId(saveFileId);
+    setSearchParams({}, { replace: true });
+  }, [searchParams, treeRoots, allNodes, setSearchParams]);
+
+  // --- Clear highlight after pulse animation duration ---
+  useEffect(() => {
+    if (highlightSaveId == null) return;
+    const timer = setTimeout(() => setHighlightSaveId(null), 2500);
+    return () => clearTimeout(timer);
+  }, [highlightSaveId]);
 
   // --- Poll sessions ---
   useEffect(() => {
@@ -472,6 +506,8 @@ export default function PlayPage() {
                     roots={treeRoots}
                     selectedId={selectedNodeId}
                     onSelect={handleNodeSelect}
+                    scrollToSaveFileId={highlightSaveId}
+                    pulseSaveFileId={highlightSaveId}
                   />
                 </Card>
 
