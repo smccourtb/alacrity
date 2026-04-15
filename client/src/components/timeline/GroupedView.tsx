@@ -301,7 +301,7 @@ interface ColorPickerProps {
 function ColorPicker({ currentColor, onPick, onClose }: ColorPickerProps) {
   return (
     <div
-      className="absolute top-full left-0 mt-1 z-20 bg-popover border border-border rounded-lg shadow-lg p-2 grid grid-cols-5 gap-1.5"
+      className="bg-popover border border-border rounded-lg shadow-lg p-2 grid grid-cols-5 gap-1.5"
       onClick={(e) => e.stopPropagation()}
     >
       {COLOR_PALETTE.map((c) => (
@@ -350,37 +350,37 @@ function Section({
   const hasContent = count > 0 || isDropTarget;
   if (!hasContent) return null;
 
+  // Drop handlers go on an outer wrapper div; the Collapsible sits INSIDE it
+  // so the trigger and content remain direct children of Collapsible (the
+  // Collapsible component walks children by reference equality to wire up
+  // its toggle — wrapping breaks that).
   return (
-    <Collapsible defaultOpen={defaultOpen}>
-      <div
-        onDragOver={isDropTarget ? onBucketDragOver : undefined}
-        onDrop={isDropTarget ? (e) => { e.preventDefault(); onBucketDrop(); } : undefined}
-        className={`
-          rounded-lg transition-all
-          ${isBucketDragHover ? 'ring-2 ring-primary/50 bg-primary/5' : ''}
-        `}
-      >
+    <div
+      onDragOver={isDropTarget ? onBucketDragOver : undefined}
+      onDrop={isDropTarget ? (e) => { e.preventDefault(); onBucketDrop(); } : undefined}
+      className={`
+        relative rounded-lg transition-all
+        ${isBucketDragHover ? 'ring-2 ring-primary/50 bg-primary/5' : ''}
+      `}
+    >
+      <Collapsible defaultOpen={defaultOpen}>
         <CollapsibleTrigger className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-muted/30 rounded-lg transition-colors">
-          <div className="relative shrink-0">
-            <button
-              type="button"
-              onClick={(e) => {
-                if (!onPickColor) return;
-                e.stopPropagation();
-                setPickerOpen((o) => !o);
-              }}
-              className={`w-3 h-3 rounded-full ${onPickColor ? 'cursor-pointer hover:ring-2 hover:ring-border ring-offset-1' : ''}`}
-              style={{ backgroundColor: color }}
-              title={onPickColor ? 'Change tag color' : undefined}
-            />
-            {pickerOpen && onPickColor && (
-              <ColorPicker
-                currentColor={color}
-                onPick={onPickColor}
-                onClose={() => setPickerOpen(false)}
-              />
-            )}
-          </div>
+          {/* Color dot is a span (not a button) to avoid nested <button> in
+              the CollapsibleTrigger. Its onClick does the right thing via
+              stopPropagation so it doesn't bubble to the trigger. */}
+          <span
+            onClick={(e) => {
+              if (!onPickColor) return;
+              e.stopPropagation();
+              e.preventDefault();
+              setPickerOpen((o) => !o);
+            }}
+            className={`w-3 h-3 rounded-full shrink-0 ${onPickColor ? 'cursor-pointer hover:ring-2 hover:ring-border ring-offset-1' : ''}`}
+            style={{ backgroundColor: color }}
+            title={onPickColor ? 'Change tag color' : undefined}
+            role={onPickColor ? 'button' : undefined}
+            aria-label={onPickColor ? 'Change tag color' : undefined}
+          />
           <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide">{title}</span>
           <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
           {onPickColor && (
@@ -388,8 +388,6 @@ function Section({
           )}
         </CollapsibleTrigger>
         <CollapsibleContent>
-          {/* Nested content with a vertical line guide showing accordion→rows
-              containment, similar to the old timeline trunk line */}
           <div
             className="ml-5 pl-3 border-l-2 pt-0.5 pb-1 space-y-0.5"
             style={{ borderColor: `${color}40` }}
@@ -401,8 +399,20 @@ function Section({
             ) : children}
           </div>
         </CollapsibleContent>
-      </div>
-    </Collapsible>
+      </Collapsible>
+      {/* Color picker positioned absolutely relative to the section wrapper,
+          so it floats below the trigger without interfering with click
+          handling. */}
+      {pickerOpen && onPickColor && (
+        <div className="absolute top-10 left-3 z-20">
+          <ColorPicker
+            currentColor={color}
+            onPick={onPickColor}
+            onClose={() => setPickerOpen(false)}
+          />
+        </div>
+      )}
+    </div>
   );
 }
 
