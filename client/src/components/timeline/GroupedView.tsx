@@ -350,10 +350,12 @@ function Section({
   const hasContent = count > 0 || isDropTarget;
   if (!hasContent) return null;
 
-  // Drop handlers go on an outer wrapper div; the Collapsible sits INSIDE it
-  // so the trigger and content remain direct children of Collapsible (the
-  // Collapsible component walks children by reference equality to wire up
-  // its toggle — wrapping breaks that).
+  // Layout: [color-button | CollapsibleTrigger title+count]. The color button
+  // is OUTSIDE the Collapsible trigger so it's a proper sibling button — no
+  // nested <button> HTML, and clicking it doesn't toggle the accordion.
+  // Drop handlers go on the outer wrapper so the Collapsible's children
+  // (Trigger + Content) remain direct children of Collapsible (which walks
+  // children by reference to wire up the toggle).
   return (
     <div
       onDragOver={isDropTarget ? onBucketDragOver : undefined}
@@ -363,54 +365,69 @@ function Section({
         ${isBucketDragHover ? 'ring-2 ring-primary/50 bg-primary/5' : ''}
       `}
     >
-      <Collapsible defaultOpen={defaultOpen}>
-        <CollapsibleTrigger className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-muted/30 rounded-lg transition-colors">
-          {/* Color dot is a span (not a button) to avoid nested <button> in
-              the CollapsibleTrigger. Its onClick does the right thing via
-              stopPropagation so it doesn't bubble to the trigger. */}
-          <span
+      <div className="flex items-stretch">
+        {/* Color-dot button: sibling of CollapsibleTrigger, not nested inside. */}
+        {onPickColor ? (
+          <button
+            type="button"
             onClick={(e) => {
-              if (!onPickColor) return;
               e.stopPropagation();
-              e.preventDefault();
               setPickerOpen((o) => !o);
             }}
-            className={`w-3 h-3 rounded-full shrink-0 ${onPickColor ? 'cursor-pointer hover:ring-2 hover:ring-border ring-offset-1' : ''}`}
-            style={{ backgroundColor: color }}
-            title={onPickColor ? 'Change tag color' : undefined}
-            role={onPickColor ? 'button' : undefined}
-            aria-label={onPickColor ? 'Change tag color' : undefined}
-          />
-          <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide">{title}</span>
-          <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
-          {onPickColor && (
-            <PaletteIcon className="size-3.5 text-muted-foreground/40 shrink-0" />
-          )}
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <div
-            className="ml-5 pl-3 border-l-2 pt-0.5 pb-1 space-y-0.5"
-            style={{ borderColor: `${color}40` }}
+            className="flex items-center gap-1 pl-3 pr-1.5 hover:bg-muted/30 rounded-l-lg transition-colors"
+            title="Change tag color"
+            aria-label="Change tag color"
           >
-            {count === 0 ? (
-              <div className="px-2 py-4 text-center text-xs text-muted-foreground/60 italic">
-                {isBucketDragHover ? `Drop to add to "${title}"` : 'Drop saves here to tag them'}
-              </div>
-            ) : children}
+            <span
+              className="w-3 h-3 rounded-full shrink-0 ring-1 ring-border"
+              style={{ backgroundColor: color }}
+            />
+            <PaletteIcon className="size-3 text-muted-foreground/60 shrink-0" />
+          </button>
+        ) : (
+          <div className="flex items-center pl-3 pr-1.5">
+            <span
+              className="w-3 h-3 rounded-full shrink-0"
+              style={{ backgroundColor: color }}
+            />
           </div>
-        </CollapsibleContent>
-      </Collapsible>
-      {/* Color picker positioned absolutely relative to the section wrapper,
-          so it floats below the trigger without interfering with click
-          handling. */}
+        )}
+
+        <Collapsible defaultOpen={defaultOpen} className="flex-1">
+          <CollapsibleTrigger className="w-full flex items-center gap-2 pr-3 py-2.5 text-left hover:bg-muted/30 rounded-r-lg transition-colors">
+            <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide">{title}</span>
+            <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div
+              className="ml-5 pl-3 border-l-2 pt-0.5 pb-1 space-y-0.5"
+              style={{ borderColor: `${color}40` }}
+            >
+              {count === 0 ? (
+                <div className="px-2 py-4 text-center text-xs text-muted-foreground/60 italic">
+                  {isBucketDragHover ? `Drop to add to "${title}"` : 'Drop saves here to tag them'}
+                </div>
+              ) : children}
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+
       {pickerOpen && onPickColor && (
-        <div className="absolute top-10 left-3 z-20">
-          <ColorPicker
-            currentColor={color}
-            onPick={onPickColor}
-            onClose={() => setPickerOpen(false)}
+        <>
+          {/* backdrop to catch outside-clicks */}
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setPickerOpen(false)}
           />
-        </div>
+          <div className="absolute top-11 left-3 z-20">
+            <ColorPicker
+              currentColor={color}
+              onPick={onPickColor}
+              onClose={() => setPickerOpen(false)}
+            />
+          </div>
+        </>
       )}
     </div>
   );
@@ -430,10 +447,20 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
   const [meta, setMeta] = useState<MetaMap>({});
   const [tagColors, setTagColors] = useState<TagColorMap>({});
 
-  // Drag state
+  // Drag state — kept in BOTH state (for re-rendering the drop-target
+  // highlight) and a ref (so that drag event handlers, which capture
+  // closures from their render, always read the CURRENT dragged id rather
+  // than a stale snapshot). Without the ref, the first onDragOver after
+  // onDragStart fires with the pre-start closure and skips preventDefault,
+  // which makes the drop target silently reject the drop.
   const [draggedSaveId, setDraggedSaveId] = useState<number | null>(null);
   const [rowHoverSaveId, setRowHoverSaveId] = useState<number | null>(null);
   const [bucketHoverKey, setBucketHoverKey] = useState<string | null>(null);
+  const draggedSaveIdRef = useRef<number | null>(null);
+  function setDragged(id: number | null) {
+    draggedSaveIdRef.current = id;
+    setDraggedSaveId(id);
+  }
 
   // Fetch save meta whenever the set of save ids changes.
   useEffect(() => {
@@ -565,17 +592,18 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
    * same section (compared via string key, not array reference — the old bug).
    */
   function handleRowDrop(targetSaveId: number) {
-    if (draggedSaveId == null || draggedSaveId === targetSaveId) {
-      setDraggedSaveId(null);
+    const dragged = draggedSaveIdRef.current;
+    if (dragged == null || dragged === targetSaveId) {
+      setDragged(null);
       setRowHoverSaveId(null);
       return;
     }
 
-    const sourceKey = sectionKeyForSave.get(draggedSaveId);
+    const sourceKey = sectionKeyForSave.get(dragged);
     const targetKey = sectionKeyForSave.get(targetSaveId);
 
     if (!sourceKey || !targetKey) {
-      setDraggedSaveId(null);
+      setDragged(null);
       setRowHoverSaveId(null);
       return;
     }
@@ -583,11 +611,11 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     // Cross-section row drop: move to the target's section.
     if (sourceKey !== targetKey) {
       if (targetKey.startsWith('tag:')) {
-        updateTag(draggedSaveId, targetKey.slice(4));
+        updateTag(dragged, targetKey.slice(4));
       } else if (targetKey === 'progression' || targetKey === 'other') {
-        updateTag(draggedSaveId, null);
+        updateTag(dragged, null);
       }
-      setDraggedSaveId(null);
+      setDragged(null);
       setRowHoverSaveId(null);
       return;
     }
@@ -603,20 +631,20 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
             : [];
 
     if (sectionRows.length === 0) {
-      setDraggedSaveId(null);
+      setDragged(null);
       setRowHoverSaveId(null);
       return;
     }
 
     const currentIds = sectionRows.map(n => n.save_file_id);
-    const withoutDragged = currentIds.filter(id => id !== draggedSaveId);
+    const withoutDragged = currentIds.filter(id => id !== dragged);
     const targetIdx = withoutDragged.indexOf(targetSaveId);
     if (targetIdx < 0) {
-      setDraggedSaveId(null);
+      setDragged(null);
       setRowHoverSaveId(null);
       return;
     }
-    const newOrder = [...withoutDragged.slice(0, targetIdx), draggedSaveId, ...withoutDragged.slice(targetIdx)];
+    const newOrder = [...withoutDragged.slice(0, targetIdx), dragged, ...withoutDragged.slice(targetIdx)];
 
     const updates: Array<{ id: number; order: number }> = [];
     let order = newOrder.length * 100;
@@ -635,7 +663,7 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
       }
       return next;
     });
-    setDraggedSaveId(null);
+    setDragged(null);
     setRowHoverSaveId(null);
 
     Promise.all(
@@ -649,29 +677,33 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
 
   /** Drop on a section → set or clear the tag on the dragged save. */
   function handleBucketDrop(bucket: BucketKind) {
-    if (draggedSaveId == null || bucket.kind === 'none') {
-      setDraggedSaveId(null);
+    const dragged = draggedSaveIdRef.current;
+    if (dragged == null || bucket.kind === 'none') {
+      setDragged(null);
       setBucketHoverKey(null);
       return;
     }
     if (bucket.kind === 'tag') {
-      updateTag(draggedSaveId, bucket.tag);
+      updateTag(dragged, bucket.tag);
     } else {
-      updateTag(draggedSaveId, null);
+      updateTag(dragged, null);
     }
-    setDraggedSaveId(null);
+    setDragged(null);
     setBucketHoverKey(null);
   }
 
   function rowDragProps(saveFileId: number) {
     return {
-      onDragStart: () => setDraggedSaveId(saveFileId),
-      onDragEnd: () => { setDraggedSaveId(null); setRowHoverSaveId(null); setBucketHoverKey(null); },
+      onDragStart: () => setDragged(saveFileId),
+      onDragEnd: () => { setDragged(null); setRowHoverSaveId(null); setBucketHoverKey(null); },
       onRowDragOver: (e: React.DragEvent) => {
-        if (draggedSaveId != null && draggedSaveId !== saveFileId) {
+        // Read the ref, not the state closure — the closure is stale on the
+        // first dragover after dragstart because React hasn't re-rendered yet.
+        const dragged = draggedSaveIdRef.current;
+        if (dragged != null && dragged !== saveFileId) {
           e.preventDefault();
           e.stopPropagation();
-          setRowHoverSaveId(saveFileId);
+          if (rowHoverSaveId !== saveFileId) setRowHoverSaveId(saveFileId);
         }
       },
       onRowDrop: () => handleRowDrop(saveFileId),
@@ -685,9 +717,9 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
       bucket,
       isBucketDragHover: bucketHoverKey === key && bucket.kind !== 'none',
       onBucketDragOver: (e: React.DragEvent) => {
-        if (draggedSaveId != null && bucket.kind !== 'none') {
+        if (draggedSaveIdRef.current != null && bucket.kind !== 'none') {
           e.preventDefault();
-          setBucketHoverKey(key);
+          if (bucketHoverKey !== key) setBucketHoverKey(key);
         }
       },
       onBucketDrop: () => handleBucketDrop(bucket),
