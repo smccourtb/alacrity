@@ -32,6 +32,9 @@ import type { DiscoveredSave } from '@/lib/game-constants';
 import { getSystemForGame, normalizeGameName } from '@/lib/game-constants';
 import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
 
+const LAST_GAME_KEY = 'alacrity.playPage.lastGame';
+const LAST_PLAYTHROUGH_KEY = 'alacrity.playPage.lastPlaythroughId';
+
 function getEmulatorIdForGeneration(gen: number): string | null {
   if (gen <= 3) return 'mgba';
   if (gen <= 5) return 'melonds';
@@ -148,29 +151,41 @@ export default function PlayPage() {
       .finally(() => setLoading(false));
   }, [loadLauncherData]);
 
-  // --- Auto-select first game when playthroughs/games load ---
+  // --- Auto-select game when playthroughs/games load (prefers stored selection) ---
   useEffect(() => {
     if (selectedGame) return;
-    if (allGames.length > 0) {
-      // Prefer the first playthrough's game, then first available
-      const firstPtGame = playthroughs.length > 0 ? playthroughs[0].game : null;
-      setSelectedGame(firstPtGame ? normalizeGameName(firstPtGame) : allGames[0]);
+    if (allGames.length === 0) return;
+    const stored = localStorage.getItem(LAST_GAME_KEY);
+    if (stored && allGames.includes(stored)) {
+      setSelectedGame(stored);
+      return;
     }
+    const firstPtGame = playthroughs.length > 0 ? playthroughs[0].game : null;
+    setSelectedGame(firstPtGame ? normalizeGameName(firstPtGame) : allGames[0]);
   }, [playthroughs, allGames, selectedGame]);
 
-  // --- Auto-select first playthrough when game changes ---
+  // --- Auto-select playthrough when game changes (prefers stored id, then first match) ---
   useEffect(() => {
     if (!selectedGame) return;
     const matching = playthroughs.filter(p => normalizeGameName(p.game) === selectedGame);
-    if (matching.length > 0) {
-      // Keep selection if it already matches the game
-      if (selectedPlaythrough && selectedPlaythrough.game === selectedGame) return;
-      setSelectedPlaythrough(matching[0]);
-    } else {
+    if (matching.length === 0) {
       setSelectedPlaythrough(null);
       setTreeRoots([]);
+      return;
     }
+    if (selectedPlaythrough && normalizeGameName(selectedPlaythrough.game) === selectedGame) return;
+    const storedId = Number(localStorage.getItem(LAST_PLAYTHROUGH_KEY));
+    const storedMatch = storedId ? matching.find(p => p.id === storedId) : null;
+    setSelectedPlaythrough(storedMatch ?? matching[0]);
   }, [selectedGame, playthroughs]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // --- Persist selections ---
+  useEffect(() => {
+    if (selectedGame) localStorage.setItem(LAST_GAME_KEY, selectedGame);
+  }, [selectedGame]);
+  useEffect(() => {
+    if (selectedPlaythrough) localStorage.setItem(LAST_PLAYTHROUGH_KEY, String(selectedPlaythrough.id));
+  }, [selectedPlaythrough]);
 
   // --- Fetch tree + orphans when playthrough changes ---
   useEffect(() => {
