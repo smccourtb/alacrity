@@ -293,18 +293,28 @@ export default function SummaryCard({ entry, species, onUpdate, onBallClick }: P
       {/* Save file link */}
       <div className="mt-2 pt-2 border-t border-border/30">
         {entry.save_filename || entry.source_save ? (
+          (() => {
+            const rawPath: string | null = entry.save_file_path ?? null;
+            const fileName: string | null = entry.save_filename ?? entry.source_save ?? null;
+            // Pretty label: the parent directory name (e.g. "Red" from
+            // ".../saves/library/Red/pokemon_red.sav"). Fall back to the
+            // filename if the path doesn't split usefully.
+            const parts = rawPath ? rawPath.split(/[\\/]/).filter(Boolean) : [];
+            const parentDir = parts.length >= 2 ? parts[parts.length - 2] : null;
+            const title = parentDir ?? fileName ?? 'Save file';
+            return (
           <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-muted/30 text-xs">
             <span>💾</span>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="font-semibold text-foreground/80 truncate">{entry.save_filename || entry.source_save}</span>
+                <span className="font-semibold text-foreground/80 truncate">{title}</span>
                 {entry.unique_key ? (
                   <span className="shrink-0 text-2xs px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-600 font-medium">synced</span>
                 ) : entry.source_save ? (
                   <span className="shrink-0 text-2xs px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-600 font-medium">kept</span>
                 ) : null}
               </div>
-              {entry.save_file_path && <div className="text-muted-foreground/40 truncate">{entry.save_file_path}</div>}
+              {fileName && <div className="text-muted-foreground/40 truncate">{fileName}</div>}
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger
@@ -337,6 +347,8 @@ export default function SummaryCard({ entry, species, onUpdate, onBallClick }: P
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+            );
+          })()
         ) : (
           <div
             className="flex items-center gap-2 w-full px-2.5 py-1.5 rounded-lg bg-muted/20 text-xs text-muted-foreground/50"
