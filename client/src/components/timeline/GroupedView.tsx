@@ -511,18 +511,30 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
     if (scrollToSaveFileId == null && pulseSaveFileId == null) return;
     if (roots.length === 0) return;
     const targetId = scrollToSaveFileId ?? pulseSaveFileId;
-    const el = document.querySelector<HTMLElement>(
+    const wrapper = document.querySelector<HTMLElement>(
       `[data-save-file-id="${targetId}"]`,
     );
-    if (!el) return;
+    if (!wrapper) return;
+    // The wrapper is an unstyled drag-sortable div; the visible card is its
+    // first child. Apply the highlight there so the ring follows its
+    // rounded corners and shadow.
+    const card = (wrapper.firstElementChild as HTMLElement | null) ?? wrapper;
     if (scrollToSaveFileId != null) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
     if (pulseSaveFileId != null) {
-      el.classList.add('ring-2', 'ring-primary', 'transition-all');
+      const classes = [
+        'ring-4',
+        'ring-primary',
+        'ring-offset-2',
+        'ring-offset-background',
+        'animate-pulse',
+        'transition-all',
+      ];
+      card.classList.add(...classes);
       const timer = setTimeout(() => {
-        el.classList.remove('ring-2', 'ring-primary', 'transition-all');
-      }, 2000);
+        card.classList.remove(...classes);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [scrollToSaveFileId, pulseSaveFileId, roots]);
