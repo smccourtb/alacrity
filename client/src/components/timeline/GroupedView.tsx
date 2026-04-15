@@ -1,10 +1,29 @@
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { XIcon, PaletteIcon, GripVerticalIcon } from 'lucide-react';
 import type { CheckpointNode } from './types';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { api } from '@/api/client';
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+  useDroppable,
+  type DragStartEvent,
+  type DragEndEvent,
+  type DragOverEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 // ── Source detection ────────────────────────────────────────────────────────
 
@@ -86,7 +105,6 @@ function getMeta(map: MetaMap, saveFileId: number): SaveMeta {
   return map[String(saveFileId)] ?? { tag: null, user_sort_order: null };
 }
 
-/** Composite sort: user_sort_order desc (nulls last), then mtime desc. */
 function compareSaves(a: CheckpointNode, b: CheckpointNode, map: MetaMap): number {
   const am = getMeta(map, a.save_file_id);
   const bm = getMeta(map, b.save_file_id);
@@ -98,7 +116,7 @@ function compareSaves(a: CheckpointNode, b: CheckpointNode, map: MetaMap): numbe
   return mtimeMs(b) - mtimeMs(a);
 }
 
-// ── Role → Badge variant map ────────────────────────────────────────────────
+// ── Role → Badge variant ────────────────────────────────────────────────────
 
 const ROLE_BADGE_VARIANT: Record<string, 'success' | 'info' | 'warning' | 'default' | 'secondary'> = {
   catch: 'success',
@@ -107,47 +125,72 @@ const ROLE_BADGE_VARIANT: Record<string, 'success' | 'info' | 'warning' | 'defau
   other: 'secondary',
 };
 
-// ── Drop target type ────────────────────────────────────────────────────────
+// ── Color constants ────────────────────────────────────────────────────────
 
-type BucketKind =
-  | { kind: 'tag'; tag: string }
-  | { kind: 'untag' }
-  | { kind: 'none' };
-
-// ── Default colors (tags without a user-chosen color) ─────────────────────
-
-const DEFAULT_TAG_COLOR = '#a855f7'; // purple
-const DEFAULT_DEFAULT_COLOR = '#94a3b8';  // slate (for the Default section)
-const DEFAULT_HUNTS_COLOR = '#10b981';    // emerald (for the Hunts section)
+const DEFAULT_TAG_COLOR = '#a855f7';
+const DEFAULT_DEFAULT_COLOR = '#94a3b8';
+const DEFAULT_HUNTS_COLOR = '#10b981';
 const SECTION_COLORS = {
-  recent: '#ec4899',      // pink
+  recent: '#ec4899',
 } as const;
-
-// Reserved keys in save_tag_meta that store colors for the built-in sections
-// rather than user-authored tags. Filtered out of the user tag list.
 const RESERVED_DEFAULT = '__default';
 const RESERVED_HUNTS = '__hunts';
 const RESERVED_KEYS = new Set([RESERVED_DEFAULT, RESERVED_HUNTS]);
 
 const COLOR_PALETTE = [
-  '#ef4444', // red
-  '#f97316', // orange
-  '#f59e0b', // amber
-  '#eab308', // yellow
-  '#84cc16', // lime
-  '#10b981', // emerald
-  '#14b8a6', // teal
-  '#06b6d4', // cyan
-  '#0ea5e9', // sky
-  '#3b82f6', // blue
-  '#6366f1', // indigo
-  '#8b5cf6', // violet
-  '#a855f7', // purple
-  '#ec4899', // pink
-  '#94a3b8', // slate
+  '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16',
+  '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6',
+  '#6366f1', '#8b5cf6', '#a855f7', '#ec4899', '#94a3b8',
 ];
 
-// ── Row component ───────────────────────────────────────────────────────────
+// ── Section key encoding ────────────────────────────────────────────────────
+//
+// Each section (tag / default / hunts) has a stable string key so dnd-kit can
+// identify which container a dragged item belongs to.
+//   'tag:<tag name>'  → user tag section, reorderable, drop target
+//   'default'          → untagged default bucket, reorderable, drop target
+//   'hunts'            → hunts section, NOT reorderable, NOT a drop target
+// Sortable item ids are 'save:<save_file_id>' so they can't collide with
+// section keys.
+
+function saveId(saveFileId: number): string {
+  return `save:${saveFileId}`;
+}
+
+function parseSaveId(id: string): number | null {
+  if (!id.startsWith('save:')) return null;
+  return Number(id.slice(5));
+}
+
+// ── Sortable row component ─────────────────────────────────────────────────
+
+interface SortableSaveRowProps {
+  node: CheckpointNode;
+  meta: SaveMeta;
+  roleLabel: string | null;
+  isSelected: boolean;
+  onSelect: () => void;
+  onTagChange: (next: string | null) => void;
+  small?: boolean;
+}
+
+function SortableSaveRow(props: SortableSaveRowProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: saveId(props.node.save_file_id),
+  });
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+  };
+  return (
+    <div ref={setNodeRef} style={style}>
+      <SaveRow {...props} dragAttributes={attributes} dragListeners={listeners} />
+    </div>
+  );
+}
+
+// ── Plain row component (no sortable state) ───────────────────────────────
 
 interface SaveRowProps {
   node: CheckpointNode;
@@ -156,14 +199,14 @@ interface SaveRowProps {
   isSelected: boolean;
   onSelect: () => void;
   onTagChange: (next: string | null) => void;
-  onDragStart: () => void;
-  onDragEnd: () => void;
-  onRowDragOver: (e: React.DragEvent) => void;
-  onRowDragEnter: (e: React.DragEvent) => void;
-  onRowDrop: () => void;
-  isDragging: boolean;
-  isDragHover: boolean;
   small?: boolean;
+  // dnd-kit types these as SyntheticListenerMap — accept as loose objects
+  // and spread onto the drag handle element.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dragAttributes?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dragListeners?: any;
+  isOverlay?: boolean;
 }
 
 function SaveRow({
@@ -173,28 +216,16 @@ function SaveRow({
   isSelected,
   onSelect,
   onTagChange,
-  onDragStart,
-  onDragEnd,
-  onRowDragOver,
-  onRowDragEnter,
-  onRowDrop,
-  isDragging,
-  isDragHover,
   small,
+  dragAttributes,
+  dragListeners,
+  isOverlay,
 }: SaveRowProps) {
   const [editingTag, setEditingTag] = useState(false);
   const [tagDraft, setTagDraft] = useState(meta.tag ?? '');
-  const inputRef = useRef<HTMLInputElement>(null);
   const isCatch = node.type === 'catch';
   const relTime = formatRelativeMtime(node);
   const variant = roleLabel ? ROLE_BADGE_VARIANT[roleLabel] ?? 'secondary' : 'secondary';
-
-  useEffect(() => {
-    if (editingTag) {
-      inputRef.current?.focus();
-      inputRef.current?.select();
-    }
-  }, [editingTag]);
 
   function commitTag() {
     const next = tagDraft.trim() || null;
@@ -204,13 +235,6 @@ function SaveRow({
 
   return (
     <div
-      onDragEnter={onRowDragEnter}
-      onDragOver={onRowDragOver}
-      onDrop={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onRowDrop();
-      }}
       onClick={(e) => {
         if ((e.target as HTMLElement).closest('[data-tag-editor]')) return;
         if ((e.target as HTMLElement).closest('[data-drag-handle]')) return;
@@ -219,23 +243,15 @@ function SaveRow({
       className={`
         group flex items-center gap-1 px-1 py-1.5 rounded-md transition-colors
         ${isSelected ? 'bg-primary/5' : 'hover:bg-muted/40'}
-        ${isDragging ? 'opacity-40' : ''}
-        ${isDragHover ? 'bg-primary/10 ring-1 ring-primary/40' : ''}
+        ${isOverlay ? 'bg-card shadow-lg ring-1 ring-border' : ''}
       `}
     >
-      {/* Drag handle — the ONLY draggable element. Keeping the handle small
-          and explicit avoids any click-vs-drag confusion with the rest of
-          the row. */}
+      {/* Drag handle — only this element is the drag listener target */}
       <div
         data-drag-handle
-        draggable
-        onDragStart={(e) => {
-          e.dataTransfer.effectAllowed = 'move';
-          try { e.dataTransfer.setData('text/plain', String(node.save_file_id)); } catch {}
-          onDragStart();
-        }}
-        onDragEnd={onDragEnd}
-        className="shrink-0 cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground px-0.5 py-1 rounded"
+        {...(dragAttributes ?? {})}
+        {...(dragListeners ?? {})}
+        className="shrink-0 cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground px-0.5 py-1 rounded touch-none"
         title="Drag to reorder or move to another section"
       >
         <GripVerticalIcon className="size-3.5" />
@@ -277,7 +293,7 @@ function SaveRow({
 
       {editingTag ? (
         <input
-          ref={inputRef}
+          autoFocus
           data-tag-editor
           type="text"
           value={tagDraft}
@@ -291,7 +307,7 @@ function SaveRow({
           onClick={(e) => e.stopPropagation()}
           className="text-2xs px-1.5 py-0.5 rounded border border-border bg-background w-24 shrink-0"
         />
-      ) : !meta.tag ? (
+      ) : !meta.tag && !isOverlay ? (
         <button
           data-tag-editor
           onClick={(e) => { e.stopPropagation(); setTagDraft(''); setEditingTag(true); }}
@@ -337,16 +353,14 @@ function ColorPicker({ currentColor, onPick, onClose }: ColorPickerProps) {
   );
 }
 
-// ── Section wrapper (accordion with drop target + nested vertical line) ───
+// ── Section wrapper ────────────────────────────────────────────────────────
 
 interface SectionProps {
   title: string;
   count: number;
   color: string;
-  bucket: BucketKind;
-  isBucketDragHover: boolean;
-  onBucketDragOver: (e: React.DragEvent) => void;
-  onBucketDrop: () => void;
+  sectionKey: string;           // dnd-kit droppable id
+  isDropTarget: boolean;         // true = section accepts drops (re-tag)
   onPickColor?: (color: string) => void;
   defaultOpen?: boolean;
   children: React.ReactNode;
@@ -356,40 +370,33 @@ function Section({
   title,
   count,
   color,
-  bucket,
-  isBucketDragHover,
-  onBucketDragOver,
-  onBucketDrop,
+  sectionKey,
+  isDropTarget,
   onPickColor,
   defaultOpen = true,
   children,
 }: SectionProps) {
   const [pickerOpen, setPickerOpen] = useState(false);
-  const isDropTarget = bucket.kind !== 'none';
+
+  // Register the section as a dnd-kit droppable so the container itself can
+  // receive drops (moving a save into a tag section, etc).
+  const { isOver, setNodeRef } = useDroppable({
+    id: sectionKey,
+    disabled: !isDropTarget,
+  });
+
   const hasContent = count > 0 || isDropTarget;
   if (!hasContent) return null;
 
-  // Layout: [color-button | CollapsibleTrigger title+count]. The color button
-  // is OUTSIDE the Collapsible trigger so it's a proper sibling button — no
-  // nested <button> HTML, and clicking it doesn't toggle the accordion.
-  // Drop handlers go on the outer wrapper so the Collapsible's children
-  // (Trigger + Content) remain direct children of Collapsible (which walks
-  // children by reference to wire up the toggle).
   return (
     <div
-      onDragEnter={isDropTarget ? (e) => { e.preventDefault(); } : undefined}
-      onDragOver={isDropTarget ? onBucketDragOver : undefined}
-      onDrop={isDropTarget ? (e) => { e.preventDefault(); onBucketDrop(); } : undefined}
+      ref={setNodeRef}
       className={`
         relative rounded-lg transition-colors
-        ${isBucketDragHover ? 'bg-muted/50' : ''}
+        ${isOver && isDropTarget ? 'bg-muted/50' : ''}
       `}
     >
-      {/* items-start pins the color button to the top of the section so it
-          doesn't vertically center when the accordion is open and expands
-          the Collapsible's height to include the nested content. */}
       <div className="flex items-start">
-        {/* Color-dot button: sibling of CollapsibleTrigger, not nested inside. */}
         {onPickColor ? (
           <button
             type="button"
@@ -409,10 +416,7 @@ function Section({
           </button>
         ) : (
           <div className="flex items-center pl-3 pr-1.5 py-2.5 shrink-0">
-            <span
-              className="w-3 h-3 rounded-full shrink-0"
-              style={{ backgroundColor: color }}
-            />
+            <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: color }} />
           </div>
         )}
 
@@ -422,13 +426,10 @@ function Section({
             <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            {/* Tighter indent, no border line — relies on whitespace + the
-                row's left grip handle for the visual 'these belong to this
-                section' cue. */}
             <div className="ml-4 pb-1 space-y-0.5">
               {count === 0 ? (
                 <div className="px-2 py-4 text-center text-xs text-muted-foreground/60 italic">
-                  {isBucketDragHover ? `Drop to add to "${title}"` : 'Drop saves here to tag them'}
+                  {isOver && isDropTarget ? `Drop to add to "${title}"` : 'Drop saves here to tag them'}
                 </div>
               ) : children}
             </div>
@@ -438,11 +439,7 @@ function Section({
 
       {pickerOpen && onPickColor && (
         <>
-          {/* backdrop to catch outside-clicks */}
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setPickerOpen(false)}
-          />
+          <div className="fixed inset-0 z-10" onClick={() => setPickerOpen(false)} />
           <div className="absolute top-11 left-3 z-20">
             <ColorPicker
               currentColor={color}
@@ -469,20 +466,15 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
 
   const [meta, setMeta] = useState<MetaMap>({});
   const [tagColors, setTagColors] = useState<TagColorMap>({});
+  const [activeDragId, setActiveDragId] = useState<number | null>(null);
 
-  // Drag state — kept in BOTH state (for re-render of drop highlights) and
-  // a ref (so handlers reading the current drag state aren't subject to
-  // closure staleness from React's async re-render cycle).
-  const [draggedSaveId, setDraggedSaveId] = useState<number | null>(null);
-  const [rowHoverSaveId, setRowHoverSaveId] = useState<number | null>(null);
-  const [bucketHoverKey, setBucketHoverKey] = useState<string | null>(null);
-  const draggedSaveIdRef = useRef<number | null>(null);
-  function setDragged(id: number | null) {
-    draggedSaveIdRef.current = id;
-    setDraggedSaveId(id);
-  }
+  // Require a small pointer movement before drag activates, so clicks still
+  // work on the row (tag editor, select, color button).
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
+  );
 
-  // Fetch save meta whenever the set of save ids changes.
+  // Fetch save meta whenever save ids change.
   useEffect(() => {
     const ids = allNodes.map(n => n.save_file_id).filter(id => !!id);
     if (ids.length === 0) {
@@ -498,7 +490,7 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     return () => { cancelled = true; };
   }, [allNodes]);
 
-  // Fetch tag colors once (includes user tags + reserved section colors).
+  // Fetch tag colors once.
   useEffect(() => {
     let cancelled = false;
     api.saves.tags.list().then((m) => {
@@ -513,8 +505,6 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     return () => { cancelled = true; };
   }, []);
 
-  // Effective color for the built-in sections (picks up user choices or
-  // falls back to the hard-coded default).
   const defaultSectionColor = tagColors[RESERVED_DEFAULT] ?? DEFAULT_DEFAULT_COLOR;
   const huntsSectionColor = tagColors[RESERVED_HUNTS] ?? DEFAULT_HUNTS_COLOR;
 
@@ -528,7 +518,7 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     return [...enriched].sort((a, b) => mtimeMs(b.node) - mtimeMs(a.node)).slice(0, 3);
   }, [enriched]);
 
-  const { tagSections, defaultBucket, hunts, sectionKeyForSave } = useMemo(() => {
+  const { tagSections, defaultBucket, hunts, saveToSection } = useMemo(() => {
     const tagMap = new Map<string, { node: CheckpointNode; info: SaveSourceInfo }[]>();
     const untagged: typeof enriched = [];
     const keyFor = new Map<number, string>();
@@ -545,14 +535,14 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     }
 
     const tagSections = Array.from(tagMap.entries())
+      .filter(([tag]) => !RESERVED_KEYS.has(tag))
       .map(([tag, rows]) => ({
         tag,
         rows: rows.sort((a, b) => compareSaves(a.node, b.node, meta)),
       }))
       .sort((a, b) => a.tag.localeCompare(b.tag));
 
-    // Hunts: untagged saves that live in a catches folder (hunt-base or
-    // hunt-catch), grouped by folder.
+    // Hunts: untagged saves in a catches folder, grouped by folder.
     const huntFolders = new Map<string, { folder: string; members: typeof enriched }>();
     for (const row of untagged) {
       if (row.info.source !== 'hunt-base' && row.info.source !== 'hunt-catch') continue;
@@ -574,17 +564,16 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
         return bm - am;
       });
     for (const g of hunts) {
-      for (const m of g.members) keyFor.set(m.node.save_file_id, `hunt:${g.folder}`);
+      for (const m of g.members) keyFor.set(m.node.save_file_id, 'hunts');
     }
 
-    // Default bucket: everything else untagged (library, other, anything
-    // that isn't in a hunt folder and hasn't been tagged by the user).
+    // Default bucket: everything else untagged.
     const defaultBucket = untagged
       .filter(({ info }) => info.source !== 'hunt-base' && info.source !== 'hunt-catch')
       .sort((a, b) => compareSaves(a.node, b.node, meta));
     for (const r of defaultBucket) keyFor.set(r.node.save_file_id, 'default');
 
-    return { tagSections, defaultBucket, hunts, sectionKeyForSave: keyFor };
+    return { tagSections, defaultBucket, hunts, saveToSection: keyFor };
   }, [enriched, meta]);
 
   const totalVisible = enriched.length;
@@ -594,10 +583,7 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
   function updateTag(saveFileId: number, nextTag: string | null) {
     setMeta((prev) => ({
       ...prev,
-      [String(saveFileId)]: {
-        tag: nextTag,
-        user_sort_order: null,
-      },
+      [String(saveFileId)]: { tag: nextTag, user_sort_order: null },
     }));
     api.saves.meta.update(saveFileId, { tag: nextTag, user_sort_order: null }).catch((err) => {
       console.error('[GroupedView] failed to update tag:', err);
@@ -611,70 +597,15 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     });
   }
 
-  /**
-   * Drop on a row. Behavior depends on whether source and target are in the
-   * same section (compared via string key, not array reference — the old bug).
-   */
-  function handleRowDrop(targetSaveId: number) {
-    const dragged = draggedSaveIdRef.current;
-    if (dragged == null || dragged === targetSaveId) {
-      setDragged(null);
-      setRowHoverSaveId(null);
-      return;
-    }
-
-    const sourceKey = sectionKeyForSave.get(dragged);
-    const targetKey = sectionKeyForSave.get(targetSaveId);
-
-    if (!sourceKey || !targetKey) {
-      setDragged(null);
-      setRowHoverSaveId(null);
-      return;
-    }
-
-    // Cross-section row drop: move to the target's section.
-    if (sourceKey !== targetKey) {
-      if (targetKey.startsWith('tag:')) {
-        updateTag(dragged, targetKey.slice(4));
-      } else if (targetKey === 'default') {
-        updateTag(dragged, null);
-      }
-      setDragged(null);
-      setRowHoverSaveId(null);
-      return;
-    }
-
-    // Same section → reorder.
-    const sectionRows: CheckpointNode[] =
-      targetKey.startsWith('tag:')
-        ? (tagSections.find(s => s.tag === targetKey.slice(4))?.rows.map(r => r.node) ?? [])
-        : targetKey === 'default'
-          ? defaultBucket.map(r => r.node)
-          : [];
-
-    if (sectionRows.length === 0) {
-      setDragged(null);
-      setRowHoverSaveId(null);
-      return;
-    }
-
-    const currentIds = sectionRows.map(n => n.save_file_id);
-    const withoutDragged = currentIds.filter(id => id !== dragged);
-    const targetIdx = withoutDragged.indexOf(targetSaveId);
-    if (targetIdx < 0) {
-      setDragged(null);
-      setRowHoverSaveId(null);
-      return;
-    }
-    const newOrder = [...withoutDragged.slice(0, targetIdx), dragged, ...withoutDragged.slice(targetIdx)];
-
+  function persistOrder(sectionIds: number[]) {
+    // Renumber the whole section: highest goes first, spacing of 100 so
+    // future single insertions can fit between without a full renumber.
     const updates: Array<{ id: number; order: number }> = [];
-    let order = newOrder.length * 100;
-    for (const id of newOrder) {
+    let order = sectionIds.length * 100;
+    for (const id of sectionIds) {
       updates.push({ id, order });
       order -= 100;
     }
-
     setMeta((prev) => {
       const next = { ...prev };
       for (const { id, order } of updates) {
@@ -685,9 +616,6 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
       }
       return next;
     });
-    setDragged(null);
-    setRowHoverSaveId(null);
-
     Promise.all(
       updates.map(({ id, order }) =>
         api.saves.meta.update(id, { user_sort_order: order }).catch((err) => {
@@ -697,164 +625,239 @@ export function GroupedView({ roots, selectedId, onSelect }: GroupedViewProps) {
     );
   }
 
-  /** Drop on a section → set or clear the tag on the dragged save. */
-  function handleBucketDrop(bucket: BucketKind) {
-    const dragged = draggedSaveIdRef.current;
-    if (dragged == null || bucket.kind === 'none') {
-      setDragged(null);
-      setBucketHoverKey(null);
+  // ── dnd-kit handlers ─────────────────────────────────────────────────
+
+  function handleDragStart(event: DragStartEvent) {
+    const id = parseSaveId(String(event.active.id));
+    if (id != null) setActiveDragId(id);
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    setActiveDragId(null);
+    if (!over) return;
+
+    const activeSaveFileId = parseSaveId(String(active.id));
+    if (activeSaveFileId == null) return;
+
+    const overIdStr = String(over.id);
+    const overSaveFileId = parseSaveId(overIdStr);
+
+    // Drop on another save row
+    if (overSaveFileId != null) {
+      if (overSaveFileId === activeSaveFileId) return;
+      const sourceSection = saveToSection.get(activeSaveFileId);
+      const targetSection = saveToSection.get(overSaveFileId);
+      if (!sourceSection || !targetSection) return;
+
+      // Cross-section: set tag based on target's section.
+      if (sourceSection !== targetSection) {
+        if (targetSection.startsWith('tag:')) {
+          updateTag(activeSaveFileId, targetSection.slice(4));
+        } else if (targetSection === 'default') {
+          updateTag(activeSaveFileId, null);
+        }
+        return;
+      }
+
+      // Same section → reorder.
+      const ids = sectionIdsFor(targetSection);
+      if (ids.length === 0) return;
+      const oldIndex = ids.indexOf(activeSaveFileId);
+      const newIndex = ids.indexOf(overSaveFileId);
+      if (oldIndex < 0 || newIndex < 0) return;
+      const newOrder = arrayMove(ids, oldIndex, newIndex);
+      persistOrder(newOrder);
       return;
     }
-    if (bucket.kind === 'tag') {
-      updateTag(dragged, bucket.tag);
-    } else {
-      updateTag(dragged, null);
+
+    // Drop on a section container (not on a specific row)
+    if (overIdStr.startsWith('tag:')) {
+      updateTag(activeSaveFileId, overIdStr.slice(4));
+    } else if (overIdStr === 'default') {
+      updateTag(activeSaveFileId, null);
     }
-    setDragged(null);
-    setBucketHoverKey(null);
+    // 'hunts' is disabled as a drop target via useDroppable({ disabled: true })
   }
 
-  function rowDragProps(saveFileId: number) {
-    return {
-      onDragStart: () => setDragged(saveFileId),
-      onDragEnd: () => { setDragged(null); setRowHoverSaveId(null); setBucketHoverKey(null); },
-      // HTML5 DnD requires BOTH dragenter and dragover to call preventDefault
-      // to register as a valid drop target. Call preventDefault UNCONDITIONALLY
-      // whenever any drag is active (including when hovering over the source
-      // row — dropping on self is a no-op but we need to keep the browser
-      // believing this is a drop target so the drop event fires when the user
-      // moves to another row and releases).
-      onRowDragEnter: (e: React.DragEvent) => {
-        if (draggedSaveIdRef.current != null) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      },
-      onRowDragOver: (e: React.DragEvent) => {
-        const dragged = draggedSaveIdRef.current;
-        if (dragged == null) return;
-        e.preventDefault();
-        e.stopPropagation();
-        if (dragged !== saveFileId && rowHoverSaveId !== saveFileId) {
-          setRowHoverSaveId(saveFileId);
-        }
-      },
-      onRowDrop: () => handleRowDrop(saveFileId),
-      isDragging: draggedSaveId === saveFileId,
-      isDragHover: rowHoverSaveId === saveFileId,
-    };
+  function handleDragOver(_event: DragOverEvent) {
+    // Reserved for future cross-section live-preview. Empty for now —
+    // dnd-kit's sortable strategy handles same-section item shifting
+    // automatically.
   }
 
-  function bucketDragProps(key: string, bucket: BucketKind) {
-    return {
-      bucket,
-      isBucketDragHover: bucketHoverKey === key && bucket.kind !== 'none',
-      onBucketDragOver: (e: React.DragEvent) => {
-        if (draggedSaveIdRef.current != null && bucket.kind !== 'none') {
-          e.preventDefault();
-          if (bucketHoverKey !== key) setBucketHoverKey(key);
-        }
-      },
-      onBucketDrop: () => handleBucketDrop(bucket),
-    };
+  // Helper: the current save_file_id list for a given section key.
+  function sectionIdsFor(key: string): number[] {
+    if (key.startsWith('tag:')) {
+      const tag = key.slice(4);
+      return tagSections.find(s => s.tag === tag)?.rows.map(r => r.node.save_file_id) ?? [];
+    }
+    if (key === 'default') return defaultBucket.map(r => r.node.save_file_id);
+    return [];
   }
 
-  function renderRow(
+  // ── Rendering helpers ────────────────────────────────────────────────
+
+  function renderSortableRow(
     node: CheckpointNode,
     roleLabel: string | null,
     small = false,
-    keyPrefix = '',
   ) {
     return (
-      <SaveRow
-        key={`${keyPrefix}${node.id}`}
+      <SortableSaveRow
+        key={node.save_file_id}
         node={node}
         meta={getMeta(meta, node.save_file_id)}
         roleLabel={roleLabel}
         isSelected={selectedId === node.id}
         onSelect={() => onSelect(node)}
         onTagChange={(next) => updateTag(node.save_file_id, next)}
-        {...rowDragProps(node.save_file_id)}
         small={small}
       />
     );
   }
 
-  return (
-    <div className="space-y-3">
-      {/* Recent — its own standalone card so it pops */}
-      {recent.length > 0 && (
-        <Card className="py-3 gap-2">
-          <div className="flex items-center gap-3 px-3 py-1">
-            <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: SECTION_COLORS.recent }} />
-            <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide">Recent</span>
-            <span className="text-xs font-semibold text-muted-foreground tabular-nums">{recent.length}</span>
-          </div>
-          <div className="ml-4 space-y-0.5">
-            {recent.map(({ node, info }) => renderRow(node, info.role === 'other' ? null : info.role, false, 'recent-'))}
-          </div>
-        </Card>
-      )}
+  // The currently-dragged node, for rendering in the DragOverlay
+  const activeNode = activeDragId != null
+    ? allNodes.find(n => n.save_file_id === activeDragId) ?? null
+    : null;
+  const activeRoleLabel = activeNode
+    ? (() => {
+        const info = detectSource(activeNode.file_path);
+        return info.role === 'other' ? null : info.role;
+      })()
+    : null;
 
-      {/* All other sections in one card */}
-      <Card className="py-3 gap-1">
-        {/* User tag sections (filters out reserved __default / __hunts keys) */}
-        {tagSections
-          .filter(({ tag }) => !RESERVED_KEYS.has(tag))
-          .map(({ tag, rows }) => {
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="space-y-3">
+        {/* Recent — standalone, not sortable, not a drop target */}
+        {recent.length > 0 && (
+          <Card className="py-3 gap-2">
+            <div className="flex items-center gap-3 px-3 py-1">
+              <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: SECTION_COLORS.recent }} />
+              <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide">Recent</span>
+              <span className="text-xs font-semibold text-muted-foreground tabular-nums">{recent.length}</span>
+            </div>
+            <div className="ml-4 space-y-0.5">
+              {recent.map(({ node, info }) => (
+                <SaveRow
+                  key={`recent-${node.id}`}
+                  node={node}
+                  meta={getMeta(meta, node.save_file_id)}
+                  roleLabel={info.role === 'other' ? null : info.role}
+                  isSelected={selectedId === node.id}
+                  onSelect={() => onSelect(node)}
+                  onTagChange={(next) => updateTag(node.save_file_id, next)}
+                />
+              ))}
+            </div>
+          </Card>
+        )}
+
+        <Card className="py-3 gap-1">
+          {/* User tag sections */}
+          {tagSections.map(({ tag, rows }) => {
             const color = tagColors[tag] ?? DEFAULT_TAG_COLOR;
+            const sectionKey = `tag:${tag}`;
+            const ids = rows.map(r => saveId(r.node.save_file_id));
             return (
               <Section
-                key={`tag-${tag}`}
+                key={sectionKey}
                 title={tag}
                 count={rows.length}
                 color={color}
+                sectionKey={sectionKey}
+                isDropTarget={true}
                 onPickColor={(c) => updateTagColor(tag, c)}
-                {...bucketDragProps(`tag-${tag}`, { kind: 'tag', tag })}
               >
-                {rows.map(({ node, info }) => renderRow(node, info.role === 'other' ? null : info.role, false, `tag-${tag}-`))}
+                <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+                  {rows.map(({ node, info }) => renderSortableRow(node, info.role === 'other' ? null : info.role))}
+                </SortableContext>
               </Section>
             );
           })}
 
-        {/* Hunts — auto-grouped by hunt folder, not a drop target */}
-        <Section
-          title="Hunts"
-          count={hunts.length}
-          color={huntsSectionColor}
-          onPickColor={(c) => updateTagColor(RESERVED_HUNTS, c)}
-          {...bucketDragProps('hunts', { kind: 'none' })}
-        >
-          {hunts.map((group) => (
-            <div key={`hunt-${group.folder}`} className="mb-1.5 rounded-md border border-border/40 bg-muted/15 overflow-hidden">
-              <div className="flex items-center gap-2 px-2.5 py-1.5 border-b border-border/25">
-                <span className="text-sm font-semibold text-foreground flex-1 truncate">{group.folder}</span>
+          {/* Hunts — auto-grouped by folder, NOT a drop target, NOT reorderable */}
+          <Section
+            title="Hunts"
+            count={hunts.length}
+            color={huntsSectionColor}
+            sectionKey="hunts"
+            isDropTarget={false}
+            onPickColor={(c) => updateTagColor(RESERVED_HUNTS, c)}
+          >
+            {hunts.map((group) => (
+              <div key={`hunt-${group.folder}`} className="mb-1.5 rounded-md border border-border/40 bg-muted/15 overflow-hidden">
+                <div className="flex items-center gap-2 px-2.5 py-1.5 border-b border-border/25">
+                  <span className="text-sm font-semibold text-foreground flex-1 truncate">{group.folder}</span>
+                </div>
+                <div className="divide-y divide-border/15">
+                  {group.members.map(({ node, info }) => (
+                    <SaveRow
+                      key={`hunt-${group.folder}-${node.id}`}
+                      node={node}
+                      meta={getMeta(meta, node.save_file_id)}
+                      roleLabel={info.role}
+                      isSelected={selectedId === node.id}
+                      onSelect={() => onSelect(node)}
+                      onTagChange={(next) => updateTag(node.save_file_id, next)}
+                      small
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="divide-y divide-border/15">
-                {group.members.map(({ node, info }) => renderRow(node, info.role, true, `hunt-${group.folder}-`))}
-              </div>
+            ))}
+          </Section>
+
+          {/* Default bucket — untagged saves */}
+          <Section
+            title="Saves"
+            count={defaultBucket.length}
+            color={defaultSectionColor}
+            sectionKey="default"
+            isDropTarget={true}
+            onPickColor={(c) => updateTagColor(RESERVED_DEFAULT, c)}
+          >
+            <SortableContext
+              items={defaultBucket.map(r => saveId(r.node.save_file_id))}
+              strategy={verticalListSortingStrategy}
+            >
+              {defaultBucket.map(({ node, info }) => renderSortableRow(node, info.role === 'other' ? null : info.role))}
+            </SortableContext>
+          </Section>
+
+          {totalVisible === 0 && (
+            <div className="text-center py-12 text-muted-foreground">
+              <p className="text-sm font-medium">No saves yet</p>
+              <p className="text-xs text-muted-foreground/60 mt-1">Import or play with checkpoint tracking to populate this view</p>
             </div>
-          ))}
-        </Section>
+          )}
+        </Card>
+      </div>
 
-        {/* Default bucket — everything untagged and not in a hunt folder */}
-        <Section
-          title="Saves"
-          count={defaultBucket.length}
-          color={defaultSectionColor}
-          onPickColor={(c) => updateTagColor(RESERVED_DEFAULT, c)}
-          {...bucketDragProps('default', { kind: 'untag' })}
-        >
-          {defaultBucket.map(({ node, info }) => renderRow(node, info.role === 'other' ? null : info.role, false, 'default-'))}
-        </Section>
-
-        {totalVisible === 0 && (
-          <div className="text-center py-12 text-muted-foreground">
-            <p className="text-sm font-medium">No saves yet</p>
-            <p className="text-xs text-muted-foreground/60 mt-1">Import or play with checkpoint tracking to populate this view</p>
+      {/* Floating drag preview that follows the cursor during a drag */}
+      <DragOverlay>
+        {activeNode && (
+          <div className="pointer-events-none max-w-md">
+            <SaveRow
+              node={activeNode}
+              meta={getMeta(meta, activeNode.save_file_id)}
+              roleLabel={activeRoleLabel}
+              isSelected={false}
+              onSelect={() => {}}
+              onTagChange={() => {}}
+              isOverlay
+            />
           </div>
         )}
-      </Card>
-    </div>
+      </DragOverlay>
+    </DndContext>
   );
 }
