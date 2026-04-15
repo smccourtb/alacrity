@@ -252,6 +252,19 @@ export const api = {
         );
       },
     },
+    // ── Per-tag metadata (color) ─────────────────────────────────────────
+    tags: {
+      /** List all tag metadata (colors, etc.). */
+      list: () => request<Record<string, { color: string | null }>>('/saves/tags'),
+      /** Upsert metadata for a tag. */
+      update: (tag: string, data: { color?: string | null }) => {
+        invalidateCache('/saves/tags');
+        return request<{ tag: string; color: string | null; updated_at: string }>(
+          `/saves/tags/${encodeURIComponent(tag)}`,
+          { method: 'PATCH', body: JSON.stringify(data) },
+        );
+      },
+    },
     importSources: {
       add: (path: string) => {
         invalidateCache('/saves');

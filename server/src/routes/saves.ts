@@ -216,6 +216,37 @@ router.get('/meta', (req, res) => {
   res.json(out);
 });
 
+// ── Per-tag metadata (color) ──────────────────────────────────────────────
+// GET /api/saves/tags — all known tag metadata
+router.get('/tags', (_req, res) => {
+  const rows = db
+    .prepare('SELECT tag, color FROM save_tag_meta')
+    .all() as Array<{ tag: string; color: string | null }>;
+  const out: Record<string, { color: string | null }> = {};
+  for (const r of rows) out[r.tag] = { color: r.color };
+  res.json(out);
+});
+
+// PATCH /api/saves/tags/:tag — upsert color for a tag
+router.patch('/tags/:tag', (req, res) => {
+  const tag = req.params.tag;
+  if (!tag || typeof tag !== 'string' || tag.length === 0) {
+    return res.status(400).json({ error: 'tag required' });
+  }
+  const body = (req.body ?? {}) as { color?: string | null };
+  const color =
+    typeof body.color === 'string' && body.color.trim().length > 0 ? body.color.trim() : null;
+
+  db.prepare(
+    `INSERT INTO save_tag_meta (tag, color, updated_at)
+     VALUES (?, ?, datetime('now'))
+     ON CONFLICT(tag) DO UPDATE SET color = excluded.color, updated_at = excluded.updated_at`,
+  ).run(tag, color);
+
+  const row = db.prepare('SELECT tag, color, updated_at FROM save_tag_meta WHERE tag = ?').get(tag);
+  res.json(row);
+});
+
 // PATCH /api/saves/:id/meta
 // Body: { tag?: string | null, user_sort_order?: number | null }
 // Upsert the user_meta row for a save. Either field may be omitted to leave

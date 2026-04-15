@@ -51,6 +51,14 @@ CREATE TABLE IF NOT EXISTS save_user_meta (
 );
 CREATE INDEX IF NOT EXISTS idx_save_user_meta_tag ON save_user_meta(tag);
 
+-- Per-tag metadata (color, etc.). Populated lazily when a user sets a
+-- color on a tag. A tag with no row here gets a default color.
+CREATE TABLE IF NOT EXISTS save_tag_meta (
+  tag TEXT PRIMARY KEY,
+  color TEXT,
+  updated_at TEXT DEFAULT (datetime('now'))
+);
+
 CREATE TABLE IF NOT EXISTS hunts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   target_species_id INTEGER REFERENCES species(id),
