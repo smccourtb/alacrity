@@ -168,6 +168,15 @@ function parseSaveId(id: string): number | null {
   return Number(id.slice(5));
 }
 
+function huntId(folder: string): string {
+  return `hunt:${folder}`;
+}
+
+function parseHuntId(id: string): string | null {
+  if (!id.startsWith('hunt:')) return null;
+  return id.slice(5);
+}
+
 // ── Sortable row component ─────────────────────────────────────────────────
 
 interface SortableSaveRowProps {
@@ -192,6 +201,61 @@ function SortableSaveRow(props: SortableSaveRowProps) {
   return (
     <div ref={setNodeRef} style={style} data-save-file-id={props.node.save_file_id}>
       <SaveRow {...props} dragAttributes={attributes} dragListeners={listeners} />
+    </div>
+  );
+}
+
+// ── Draggable hunt card (entire hunt folder as one drag unit) ─────────────
+
+function DraggableHuntCard({
+  folder,
+  members,
+  selectedId,
+  getMetaFn,
+  onSelect,
+}: {
+  folder: string;
+  members: Array<{ node: CheckpointNode; info: SaveSourceInfo }>;
+  selectedId: number | null;
+  getMetaFn: (sfId: number) => SaveMeta;
+  onSelect: (node: CheckpointNode) => void;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: huntId(folder),
+  });
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.4 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} className="mb-1.5 rounded-md border border-border/40 bg-muted/15 overflow-hidden">
+      <div className="flex items-center gap-2 px-2.5 py-1.5 border-b border-border/25">
+        <div
+          {...attributes}
+          {...listeners}
+          className="shrink-0 cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground px-0.5 py-1 rounded touch-none"
+          title="Drag hunt group to a tag section"
+        >
+          <GripVerticalIcon className="size-3.5" />
+        </div>
+        <span className="text-sm font-semibold text-foreground flex-1 truncate">{folder}</span>
+      </div>
+      <div className="divide-y divide-border/15">
+        {members.map(({ node, info }) => (
+          <SaveRow
+            key={`hunt-${folder}-${node.id}`}
+            node={node}
+            meta={getMetaFn(node.save_file_id)}
+            roleLabel={info.role}
+            isSelected={selectedId === node.id}
+            onSelect={() => onSelect(node)}
+            onTagChange={() => {}}
+            small
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -475,6 +539,7 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
   const [meta, setMeta] = useState<MetaMap>({});
   const [tagColors, setTagColors] = useState<TagColorMap>({});
   const [activeDragId, setActiveDragId] = useState<number | null>(null);
+  const [activeDragHunt, setActiveDragHunt] = useState<string | null>(null);
 
   // Require a small pointer movement before drag activates, so clicks still
   // work on the row (tag editor, select, color button).
@@ -676,29 +741,48 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
   // ── dnd-kit handlers ─────────────────────────────────────────────────
 
   function handleDragStart(event: DragStartEvent) {
-    const id = parseSaveId(String(event.active.id));
-    if (id != null) setActiveDragId(id);
+    const idStr = String(event.active.id);
+    const sid = parseSaveId(idStr);
+    if (sid != null) { setActiveDragId(sid); return; }
+    const hid = parseHuntId(idStr);
+    if (hid != null) { setActiveDragHunt(hid); return; }
   }
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     setActiveDragId(null);
+    setActiveDragHunt(null);
     if (!over) return;
 
+    const overIdStr = String(over.id);
+
+    // Hunt group drag
+    const huntFolder = parseHuntId(String(active.id));
+    if (huntFolder != null) {
+      const members = hunts.find(g => g.folder === huntFolder)?.members ?? [];
+      if (members.length === 0) return;
+
+      if (overIdStr.startsWith('tag:')) {
+        const tag = overIdStr.slice(4);
+        for (const m of members) updateTag(m.node.save_file_id, tag);
+      } else if (overIdStr === 'default') {
+        for (const m of members) updateTag(m.node.save_file_id, null);
+      }
+      return;
+    }
+
+    // Individual save drag (existing logic)
     const activeSaveFileId = parseSaveId(String(active.id));
     if (activeSaveFileId == null) return;
 
-    const overIdStr = String(over.id);
     const overSaveFileId = parseSaveId(overIdStr);
 
-    // Drop on another save row
     if (overSaveFileId != null) {
       if (overSaveFileId === activeSaveFileId) return;
       const sourceSection = saveToSection.get(activeSaveFileId);
       const targetSection = saveToSection.get(overSaveFileId);
       if (!sourceSection || !targetSection) return;
 
-      // Cross-section: set tag based on target's section.
       if (sourceSection !== targetSection) {
         if (targetSection.startsWith('tag:')) {
           updateTag(activeSaveFileId, targetSection.slice(4));
@@ -708,7 +792,6 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
         return;
       }
 
-      // Same section → reorder.
       const ids = sectionIdsFor(targetSection);
       if (ids.length === 0) return;
       const oldIndex = ids.indexOf(activeSaveFileId);
@@ -719,13 +802,11 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
       return;
     }
 
-    // Drop on a section container (not on a specific row)
     if (overIdStr.startsWith('tag:')) {
       updateTag(activeSaveFileId, overIdStr.slice(4));
     } else if (overIdStr === 'default') {
       updateTag(activeSaveFileId, null);
     }
-    // 'hunts' is disabled as a drop target via useDroppable({ disabled: true })
   }
 
   function handleDragOver(_event: DragOverEvent) {
@@ -842,25 +923,14 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
             onPickColor={(c) => updateTagColor(RESERVED_HUNTS, c)}
           >
             {hunts.map((group) => (
-              <div key={`hunt-${group.folder}`} className="mb-1.5 rounded-md border border-border/40 bg-muted/15 overflow-hidden">
-                <div className="flex items-center gap-2 px-2.5 py-1.5 border-b border-border/25">
-                  <span className="text-sm font-semibold text-foreground flex-1 truncate">{group.folder}</span>
-                </div>
-                <div className="divide-y divide-border/15">
-                  {group.members.map(({ node, info }) => (
-                    <SaveRow
-                      key={`hunt-${group.folder}-${node.id}`}
-                      node={node}
-                      meta={getMeta(meta, node.save_file_id)}
-                      roleLabel={info.role}
-                      isSelected={selectedId === node.id}
-                      onSelect={() => onSelect(node)}
-                      onTagChange={(next) => updateTag(node.save_file_id, next)}
-                      small
-                    />
-                  ))}
-                </div>
-              </div>
+              <DraggableHuntCard
+                key={`hunt-${group.folder}`}
+                folder={group.folder}
+                members={group.members}
+                selectedId={selectedId}
+                getMetaFn={(sfId) => getMeta(meta, sfId)}
+                onSelect={onSelect}
+              />
             ))}
           </Section>
 
@@ -892,7 +962,7 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
 
       {/* Floating drag preview that follows the cursor during a drag */}
       <DragOverlay>
-        {activeNode && (
+        {activeNode ? (
           <div className="pointer-events-none max-w-md">
             <SaveRow
               node={activeNode}
@@ -904,7 +974,13 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
               isOverlay
             />
           </div>
-        )}
+        ) : activeDragHunt ? (
+          <div className="bg-card shadow-lg ring-1 ring-border rounded-md px-3 py-2 flex items-center gap-2">
+            <GripVerticalIcon className="size-3.5 text-muted-foreground" />
+            <span className="text-sm font-semibold">{activeDragHunt}</span>
+            <Badge variant="secondary">{hunts.find(g => g.folder === activeDragHunt)?.members.length ?? 0}</Badge>
+          </div>
+        ) : null}
       </DragOverlay>
     </DndContext>
   );
