@@ -137,6 +137,8 @@ export function syncSaves(): SyncSavesResult {
     smartPlaceSaves(unlinked);
   }
 
+  linkEncounterSaves();
+
   // Backfill: an earlier version of smartPlaceSaves derived checkpoint labels
   // from the parent directory, which for a flat file in `library/Crystal/foo.sav`
   // is the game folder ("Crystal"). That made every loose library save appear
@@ -381,4 +383,67 @@ function smartPlaceSaves(saves: Array<{ id: number; file_path: string; game: str
   }
 
   if (linked > 0) console.log(`[syncSaves] Smart-placed ${linked}/${saves.length} saves`);
+}
+
+// ---------------------------------------------------------------------------
+// Link orphaned .ss1 encounter saves to their sibling's playthrough
+// ---------------------------------------------------------------------------
+
+/**
+ * Find `.ss1` save_files with no checkpoint and link them to the same
+ * playthrough as a sibling save (`catch.sav` or `base.sav`) in the same
+ * directory. These files are binary mGBA state that can't be parsed by
+ * buildSnapshot(), so smartPlaceSaves() silently skips them.
+ */
+function linkEncounterSaves() {
+  const orphans = db.prepare(`
+    SELECT sf.id, sf.file_path, sf.label
+    FROM save_files sf
+    WHERE sf.format = '.ss1' AND sf.stale = 0
+      AND NOT EXISTS (SELECT 1 FROM checkpoints c WHERE c.save_file_id = sf.id)
+  `).all() as Array<{ id: number; file_path: string; label: string | null }>;
+
+  if (orphans.length === 0) return;
+
+  const findSibling = db.prepare(`
+    SELECT c.playthrough_id, c.parent_checkpoint_id, c.snapshot, c.location_key, c.badge_count
+    FROM checkpoints c
+    JOIN save_files sf ON sf.id = c.save_file_id
+    WHERE sf.file_path LIKE ? AND sf.format != '.ss1'
+    ORDER BY sf.filename = 'catch.sav' DESC
+    LIMIT 1
+  `);
+
+  const createEncounterCheckpoint = db.prepare(
+    `INSERT INTO checkpoints (playthrough_id, save_file_id, parent_checkpoint_id, label, location_key, badge_count, is_branch, needs_confirmation, snapshot, include_in_collection)
+     VALUES (?, ?, ?, ?, ?, ?, 0, 0, ?, 0)`,
+  );
+
+  let linked = 0;
+  for (const orphan of orphans) {
+    const dir = orphan.file_path.substring(0, orphan.file_path.lastIndexOf('/'));
+    const sibling = findSibling.get(`${dir}/%`) as {
+      playthrough_id: number;
+      parent_checkpoint_id: number | null;
+      snapshot: string | null;
+      location_key: string | null;
+      badge_count: number | null;
+    } | undefined;
+
+    if (!sibling) continue;
+
+    const label = orphan.label?.trim() || 'Encounter';
+    createEncounterCheckpoint.run(
+      sibling.playthrough_id,
+      orphan.id,
+      sibling.parent_checkpoint_id,
+      label,
+      sibling.location_key,
+      sibling.badge_count,
+      sibling.snapshot,
+    );
+    linked++;
+  }
+
+  if (linked > 0) console.log(`[syncSaves] Linked ${linked} encounter .ss1 saves to sibling playthroughs`);
 }
