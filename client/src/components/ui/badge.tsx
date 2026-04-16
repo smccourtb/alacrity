@@ -22,6 +22,7 @@ const badgeVariants = cva(
         success: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
         warning: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
         info: "bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400",
+        shiny: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
       },
     },
     defaultVariants: {

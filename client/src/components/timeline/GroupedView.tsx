@@ -123,12 +123,18 @@ function compareSaves(a: CheckpointNode, b: CheckpointNode, map: MetaMap): numbe
 
 // ── Role → Badge variant ────────────────────────────────────────────────────
 
-const ROLE_BADGE_VARIANT: Record<string, 'success' | 'info' | 'warning' | 'default' | 'secondary'> = {
+const ROLE_BADGE_VARIANT: Record<string, 'success' | 'info' | 'warning' | 'default' | 'secondary' | 'shiny'> = {
   catch: 'success',
   setup: 'info',
-  encounter: 'warning',
+  encounter: 'shiny',
   library: 'warning',
   other: 'secondary',
+};
+
+const ROLE_DOT_COLOR: Record<string, string> = {
+  setup: '#0ea5e9',    // sky-500, matches info badge
+  encounter: '#eab308', // yellow-500, matches shiny badge
+  catch: '#22c55e',    // green-500, matches success badge
 };
 
 // ── Color constants ────────────────────────────────────────────────────────
@@ -243,12 +249,15 @@ function DraggableHuntCard({
         <span className="text-sm font-semibold text-foreground flex-1 truncate">{folder}</span>
       </div>
       <div className="relative">
-        {/* Vertical spine aligned with the drag handle */}
-        <div className="absolute left-[17px] top-0 bottom-0 w-px bg-border/40" />
+        {/* Vertical spine aligned with the drag handle center (10px pad + 2px grip pad + 7px half-icon = 19px) */}
+        <div className="absolute left-[19px] top-0 bottom-0 w-px bg-border/40" />
         {members.map(({ node, info }, i) => (
           <div key={`hunt-${folder}-${node.id}`} className="relative flex items-center">
-            {/* Node dot on the spine */}
-            <div className="absolute left-[14.5px] w-[5px] h-[5px] rounded-full bg-muted-foreground/30 z-[1]" />
+            {/* Node dot on the spine — colored by role */}
+            <div
+              className="absolute left-[16.5px] w-[5px] h-[5px] rounded-full z-[1]"
+              style={{ backgroundColor: ROLE_DOT_COLOR[info.role] ?? '#9ca3af' }}
+            />
             <div className="flex-1 min-w-0 pl-7">
               <SaveRow
                 node={node}
