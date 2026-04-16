@@ -331,7 +331,7 @@ function SaveRow({
         onSelect();
       }}
       className={`
-        group flex items-center gap-1 px-1 py-1.5 rounded-md transition-colors
+        group flex items-center gap-1 px-1 pr-3 py-1.5 rounded-md transition-colors
         ${isSelected ? 'bg-primary/5' : 'hover:bg-muted/40'}
         ${isOverlay ? 'bg-card shadow-lg ring-1 ring-border' : ''}
       `}
