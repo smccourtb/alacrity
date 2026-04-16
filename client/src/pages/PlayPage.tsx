@@ -8,7 +8,6 @@ import { GroupedView } from '@/components/timeline/GroupedView';
 // Phase 1 of the save-visibility rework. The code still exists at
 // components/timeline/TreeViewLayouts.tsx as dead code for possible
 // later revival.
-import { OrphanSidebar } from '@/components/timeline/OrphanSidebar';
 import { TreeControls } from '@/components/timeline/TreeControls';
 import type { CheckpointNode, Playthrough } from '@/components/timeline/types';
 import { useTimelineFilters } from '@/hooks/useTimelineFilters';
@@ -59,7 +58,7 @@ export default function PlayPage() {
   const [detailNodeId, setDetailNodeId] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [orphanDismissed, setOrphanDismissed] = useState(false);
   const [desktopLayout] = useState<'A' | 'B' | 'C' | 'D'>('D');
 
   // --- Game selector state ---
@@ -471,10 +470,6 @@ export default function PlayPage() {
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           isMobile={isMobile}
-          hasOrphans={hasOrphans}
-          orphanCount={orphanTotal || orphans.length}
-          sidebarOpen={sidebarOpen}
-          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
         />
       )}
 
@@ -504,6 +499,22 @@ export default function PlayPage() {
         <div className="flex gap-5">
           {/* Left: tree/grouped + detail panel */}
           <div className="flex-1 min-w-0 space-y-5">
+            {/* Orphan banner */}
+            {hasOrphans && !orphanDismissed && (
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-orange-50 border border-orange-200/60 text-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
+                <span className="text-orange-700 flex-1">
+                  {orphanTotal || orphans.length} save{(orphanTotal || orphans.length) !== 1 ? 's' : ''} couldn&apos;t be auto-linked
+                </span>
+                <button
+                  onClick={() => setOrphanDismissed(true)}
+                  className="text-orange-400 hover:text-orange-600 transition-colors shrink-0"
+                  aria-label="Dismiss"
+                >
+                  &#10005;
+                </button>
+              </div>
+            )}
             {/* Empty tree state */}
             {treeRoots.length === 0 && (
               <Card>
@@ -546,32 +557,6 @@ export default function PlayPage() {
             )}
           </div>
 
-          {/* Right: collapsible orphan sidebar (desktop only) */}
-          {hasOrphans && sidebarOpen && !isMobile && (
-            <OrphanSidebar
-              orphans={orphans as Parameters<typeof OrphanSidebar>[0]['orphans']}
-              orphanTotal={orphanTotal}
-              scanning={scanning}
-              open={sidebarOpen}
-              onToggle={() => setSidebarOpen(false)}
-              onScan={() => handleScan(selectedPlaythrough?.game)}
-              onLinked={refreshData}
-            />
-          )}
-
-          {/* Collapsed sidebar toggle (desktop only) */}
-          {hasOrphans && !sidebarOpen && !isMobile && (
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="shrink-0 w-8 self-start sticky top-4 bg-card shadow-soft rounded-lg py-3 flex flex-col items-center gap-1.5 hover:bg-surface transition-colors"
-              title="Show unlinked saves"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
-              <span className="text-2xs font-medium text-muted-foreground" style={{ writingMode: 'vertical-rl' }}>
-                Unlinked ({orphanTotal || orphans.length})
-              </span>
-            </button>
-          )}
         </div>
       )}
 
