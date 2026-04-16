@@ -110,9 +110,7 @@ function scanCatches(): DiscoveredSave[] {
           const detected = detectGame(filePath) || detectGame(entry) || detectGame(catchFolder);
           const game = detected?.game || entry; // entry is the game dir name
           const gen = detected?.gen || null;
-          const label = saveFile === 'catch.sav' ? catchFolder
-            : saveFile === 'shiny.ss1' ? `${catchFolder} (encounter)`
-            : `${catchFolder} (base)`;
+          const label = saveFile === 'base.sav' ? `${catchFolder} (base)` : catchFolder;
 
           const romRel = gen ? ROM_MAP[game] ?? null : null;
           const romPath = romRel ? join(paths.resourcesDir, romRel) : null;

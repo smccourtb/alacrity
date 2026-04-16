@@ -353,6 +353,12 @@ function SaveRow({
         </span>
 
         {roleLabel && <Badge variant={variant}>{roleLabel}</Badge>}
+        {node.file_path.endsWith('.ss1') && (
+          <span className="inline-flex items-center gap-0.5 text-2xs text-muted-foreground/50 font-medium">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+            state
+          </span>
+        )}
 
         {meta.tag && !editingTag && (
           <Badge
