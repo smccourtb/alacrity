@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { XIcon, PaletteIcon, GripVerticalIcon } from 'lucide-react';
+import { XIcon, GripVerticalIcon } from 'lucide-react';
 import type { CheckpointNode } from './types';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { Badge } from '@/components/ui/badge';
@@ -250,12 +250,12 @@ function DraggableHuntCard({
       </div>
       <div className="relative">
         {/* Vertical spine aligned with the drag handle center (10px pad + 2px grip pad + 7px half-icon = 19px) */}
-        <div className="absolute left-[19px] top-0 bottom-0 w-px bg-border/40" />
+        <div className="absolute left-[18px] top-0 bottom-0 w-px bg-border/40" />
         {members.map(({ node, info }, i) => (
           <div key={`hunt-${folder}-${node.id}`} className="relative flex items-center">
             {/* Node dot on the spine — colored by role */}
             <div
-              className="absolute left-[16.5px] w-[5px] h-[5px] rounded-full z-[1]"
+              className="absolute left-[16px] w-[5px] h-[5px] rounded-full z-[1]"
               style={{ backgroundColor: ROLE_DOT_COLOR[info.role] ?? '#9ca3af' }}
             />
             <div className="flex-1 min-w-0 pl-7">
@@ -495,15 +495,14 @@ function Section({
               e.stopPropagation();
               setPickerOpen((o) => !o);
             }}
-            className="flex items-center gap-1 pl-3 pr-1.5 py-2.5 hover:bg-muted/30 rounded-l-lg transition-colors shrink-0"
+            className="flex items-center pl-3 pr-1.5 py-2.5 hover:bg-muted/30 rounded-l-lg transition-colors shrink-0"
             title="Change tag color"
             aria-label="Change tag color"
           >
             <span
-              className="w-3 h-3 rounded-full shrink-0 ring-1 ring-border"
+              className="w-3 h-3 rounded-full shrink-0 ring-1 ring-border hover:scale-125 transition-transform"
               style={{ backgroundColor: color }}
             />
-            <PaletteIcon className="size-3 text-muted-foreground/60 shrink-0" />
           </button>
         ) : (
           <div className="flex items-center pl-3 pr-1.5 py-2.5 shrink-0">
