@@ -20,6 +20,13 @@ export interface StatSpread {
   hp: number; atk: number; def: number; spa: number; spd: number; spe: number;
 }
 
+export interface SaveRtc {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 export interface SnapshotBoxMember {
   species_id: number;
   species_name: string;
@@ -48,6 +55,7 @@ export interface SaveSnapshot {
   daycare?: SnapshotDaycare;
   key_items?: string[];
   play_time_seconds?: number;
+  save_rtc?: SaveRtc;
 }
 
 export interface CheckpointDiff {
