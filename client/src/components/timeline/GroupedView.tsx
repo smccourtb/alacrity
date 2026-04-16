@@ -647,13 +647,37 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
       }
     }
 
-    const tagSections = Array.from(tagMap.entries())
+    const rawTagSections = Array.from(tagMap.entries())
       .filter(([tag]) => !RESERVED_KEYS.has(tag))
       .map(([tag, rows]) => ({
         tag,
         rows: rows.sort((a, b) => compareSaves(a.node, b.node, meta)),
       }))
       .sort((a, b) => a.tag.localeCompare(b.tag));
+
+    const tagSections = rawTagSections.map(section => {
+      const huntGroupMap = new Map<string, typeof section.rows>();
+      const standalone: typeof section.rows = [];
+
+      for (const row of section.rows) {
+        if (row.info.huntFolder) {
+          if (!huntGroupMap.has(row.info.huntFolder)) huntGroupMap.set(row.info.huntFolder, []);
+          huntGroupMap.get(row.info.huntFolder)!.push(row);
+        } else {
+          standalone.push(row);
+        }
+      }
+
+      const huntGroups = Array.from(huntGroupMap.entries()).map(([folder, members]) => ({
+        folder,
+        members: members.sort((a, b) => {
+          const order: Record<string, number> = { setup: 0, encounter: 1, catch: 2, other: 3, library: 4 };
+          return (order[a.info.role] ?? 99) - (order[b.info.role] ?? 99);
+        }),
+      }));
+
+      return { ...section, huntGroups, standalone };
+    });
 
     // Hunts: untagged saves in a catches folder, grouped by folder.
     const huntFolders = new Map<string, { folder: string; members: typeof enriched }>();
@@ -892,10 +916,10 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
 
         <Card className="py-3 gap-1">
           {/* User tag sections */}
-          {tagSections.map(({ tag, rows }) => {
+          {tagSections.map(({ tag, rows, huntGroups, standalone }) => {
             const color = tagColors[tag] ?? DEFAULT_TAG_COLOR;
             const sectionKey = `tag:${tag}`;
-            const ids = rows.map(r => saveId(r.node.save_file_id));
+            const standaloneIds = standalone.map(r => saveId(r.node.save_file_id));
             return (
               <Section
                 key={sectionKey}
@@ -906,8 +930,41 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
                 isDropTarget={true}
                 onPickColor={(c) => updateTagColor(tag, c)}
               >
-                <SortableContext items={ids} strategy={verticalListSortingStrategy}>
-                  {rows.map(({ node, info }) => renderSortableRow(node, info.role === 'other' ? null : info.role))}
+                {/* Hunt groups within this tag */}
+                {huntGroups.map((group) => (
+                  <div key={`tagged-hunt-${group.folder}`} className="mb-1.5 rounded-md border border-border/40 bg-muted/15 overflow-hidden">
+                    <div className="flex items-center gap-2 px-2.5 py-1.5 border-b border-border/25">
+                      <span className="text-sm font-semibold text-foreground flex-1 truncate">{group.folder}</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          for (const m of group.members) updateTag(m.node.save_file_id, null);
+                        }}
+                        className="text-muted-foreground/40 hover:text-muted-foreground"
+                        title="Remove tag from hunt group"
+                      >
+                        <XIcon className="size-3.5" />
+                      </button>
+                    </div>
+                    <div className="divide-y divide-border/15">
+                      {group.members.map(({ node, info }) => (
+                        <SaveRow
+                          key={`tagged-hunt-${group.folder}-${node.id}`}
+                          node={node}
+                          meta={getMeta(meta, node.save_file_id)}
+                          roleLabel={info.role}
+                          isSelected={selectedId === node.id}
+                          onSelect={() => onSelect(node)}
+                          onTagChange={() => {}}
+                          small
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                {/* Standalone (non-hunt) saves — sortable */}
+                <SortableContext items={standaloneIds} strategy={verticalListSortingStrategy}>
+                  {standalone.map(({ node, info }) => renderSortableRow(node, info.role === 'other' ? null : info.role))}
                 </SortableContext>
               </Section>
             );
