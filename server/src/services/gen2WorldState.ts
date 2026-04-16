@@ -88,7 +88,9 @@ function parseGen2Rtc(buf: Buffer, rtcFormat: 'crystal' | 'gs'): SaveRtc | undef
     seconds = buf.readUInt32LE(GEN2_RTC_BASE + 0x00);
     minutes = buf.readUInt32LE(GEN2_RTC_BASE + 0x04);
     hours   = buf.readUInt32LE(GEN2_RTC_BASE + 0x08);
-    days    = buf.readUInt32LE(GEN2_RTC_BASE + 0x0C);
+    const daysLo = buf.readUInt32LE(GEN2_RTC_BASE + 0x0C);
+    const daysHi = buf.readUInt32LE(GEN2_RTC_BASE + 0x10);
+    days    = daysLo | (daysHi << 8);
   } else {
     // Gold/Silver compact layout: 4 × u8 (sec, min, hour, days_lo)
     if (remaining < 4) return undefined;

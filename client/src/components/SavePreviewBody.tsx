@@ -8,7 +8,7 @@ import { DaycareCard } from '@/components/pokemon/DaycareCard';
 import { StatRow } from '@/components/ui/stat-row';
 import { User, Shield, MapPin, Gamepad2, Clock } from 'lucide-react';
 import { safeSpeciesName } from '@/components/pokemon/sprites';
-import type { SaveSnapshot } from '@/components/timeline/types';
+import type { SaveSnapshot, SaveRtc } from '@/components/timeline/types';
 import type { SlotSize } from '@/components/pokemon/PokemonSlot';
 import type { SlotPokemon } from '@/components/pokemon/PokemonSlot';
 
@@ -28,7 +28,7 @@ interface SavePreviewBodyProps {
   className?: string;
 }
 
-function formatRtc(rtc: { days: number; hours: number; minutes: number; seconds: number }): string {
+function formatRtc(rtc: SaveRtc): string {
   const pad = (n: number) => n.toString().padStart(2, '0');
   return `Day ${rtc.days} · ${pad(rtc.hours)}:${pad(rtc.minutes)}:${pad(rtc.seconds)}`;
 }
