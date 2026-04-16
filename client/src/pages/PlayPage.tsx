@@ -533,6 +533,7 @@ export default function PlayPage() {
                     onSelect={handleNodeSelect}
                     scrollToSaveFileId={highlightSaveId}
                     pulseSaveFileId={highlightSaveId}
+                    searchQuery={searchQuery}
                   />
                 </Card>
 

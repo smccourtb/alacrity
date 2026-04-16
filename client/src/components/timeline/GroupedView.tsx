@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import Fuse from 'fuse.js';
 import { XIcon, GripVerticalIcon } from 'lucide-react';
 import type { CheckpointNode } from './types';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
@@ -557,10 +558,25 @@ interface GroupedViewProps {
   onSelect: (node: CheckpointNode) => void;
   scrollToSaveFileId?: number | null;
   pulseSaveFileId?: number | null;
+  searchQuery?: string;
 }
 
-export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, pulseSaveFileId }: GroupedViewProps) {
-  const allNodes = useMemo(() => flattenTree(roots), [roots]);
+export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, pulseSaveFileId, searchQuery = '' }: GroupedViewProps) {
+  const allNodesRaw = useMemo(() => flattenTree(roots), [roots]);
+
+  const fuse = useMemo(
+    () => new Fuse(allNodesRaw, {
+      keys: ['label', 'file_path'],
+      threshold: 0.4,
+      ignoreLocation: true,
+    }),
+    [allNodesRaw],
+  );
+
+  const allNodes = useMemo(() => {
+    if (!searchQuery.trim()) return allNodesRaw;
+    return fuse.search(searchQuery).map(r => r.item);
+  }, [allNodesRaw, fuse, searchQuery]);
 
   const [meta, setMeta] = useState<MetaMap>({});
   const [tagColors, setTagColors] = useState<TagColorMap>({});
