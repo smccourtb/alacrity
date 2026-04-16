@@ -3,6 +3,13 @@ export interface BallCount {
   count: number;
 }
 
+export interface SaveRtc {
+  days: number;    // total elapsed days since game start
+  hours: number;   // 0-23
+  minutes: number; // 0-59
+  seconds: number; // 0-59
+}
+
 export interface SaveWorldState {
   playerName: string;
   trainerId: number;
@@ -17,6 +24,7 @@ export interface SaveWorldState {
   hms: number[];
   balls: BallCount[];
   playTimeSeconds: number | null;
+  save_rtc?: SaveRtc;
 }
 
 export interface ParseResult<T> {
