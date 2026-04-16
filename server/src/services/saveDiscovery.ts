@@ -102,7 +102,7 @@ function scanCatches(): DiscoveredSave[] {
           continue;
         }
         // Look for catch.sav and base.sav inside the bundle folder
-        for (const saveFile of ['catch.sav', 'base.sav']) {
+        for (const saveFile of ['catch.sav', 'base.sav', 'shiny.ss1']) {
           const filePath = join(catchFolderPath, saveFile);
           if (!existsSync(filePath)) continue;
 
@@ -110,11 +110,15 @@ function scanCatches(): DiscoveredSave[] {
           const detected = detectGame(filePath) || detectGame(entry) || detectGame(catchFolder);
           const game = detected?.game || entry; // entry is the game dir name
           const gen = detected?.gen || null;
-          const label = saveFile === 'catch.sav' ? catchFolder : `${catchFolder} (base)`;
+          const label = saveFile === 'catch.sav' ? catchFolder
+            : saveFile === 'shiny.ss1' ? `${catchFolder} (encounter)`
+            : `${catchFolder} (base)`;
 
           const romRel = gen ? ROM_MAP[game] ?? null : null;
           const romPath = romRel ? join(paths.resourcesDir, romRel) : null;
-          const { playTimeSeconds, checksum } = analyzeFile(filePath, game, gen);
+          const { playTimeSeconds, checksum } = saveFile.endsWith('.ss1')
+            ? { playTimeSeconds: null, checksum: null }
+            : analyzeFile(filePath, game, gen);
 
           results.push({
             id: hashPath(filePath),
