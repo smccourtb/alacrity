@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { nodeColor } from './GitGraph';
 import { safeSpeciesName } from '@/components/pokemon/sprites';
 import { SavePreviewBody } from '@/components/SavePreviewBody';
 import { TypeBadge, ActiveBadge } from './TypeBadge';
-import type { CheckpointNode, CheckpointDiff, SaveSnapshot, CheckpointType } from './types';
+import type { CheckpointNode, CheckpointDiff, SaveSnapshot } from './types';
 import { LaunchActions } from '@/components/play/LaunchActions';
 import { GAME_ACCENTS } from '@/lib/game-constants';
 import { CollectionToggle } from './CollectionToggle';
@@ -51,13 +49,11 @@ function buildDiffSummary(diff: CheckpointDiff | null, snap: SaveSnapshot | null
 
 interface NodeDetailProps {
   node: CheckpointNode;
-  allNodes?: CheckpointNode[];
   onPlay?: () => void;
   onHunt?: () => void;
   onSetActive?: () => void;
   onEdit?: () => void;
   onDownload?: () => void;
-  onReparent?: (nodeId: number, newParentId: number | null) => void;
   onUpdate?: (nodeId: number, data: { label?: string; notes?: string }) => Promise<void>;
   onClose?: () => void;
   isLocal?: boolean;
@@ -69,13 +65,11 @@ interface NodeDetailProps {
 
 export function NodeDetail({
   node,
-  allNodes,
   onPlay,
   onHunt,
   onSetActive,
   onEdit,
   onDownload,
-  onReparent,
   onUpdate,
   onClose,
   isLocal,
@@ -84,7 +78,6 @@ export function NodeDetail({
   onTrade,
   onToggle,
 }: NodeDetailProps) {
-  const [reparenting, setReparenting] = useState(false);
   const [editingLabel, setEditingLabel] = useState(false);
   const [labelDraft, setLabelDraft] = useState(node.label);
   const [saving, setSaving] = useState(false);
@@ -93,16 +86,6 @@ export function NodeDetail({
   const diffLines = buildDiffSummary(node.diff, snap);
   const relPath = relativeFilePath(node.file_path);
   const fileName = node.file_path ? node.file_path.split('/').pop() : null;
-
-  // Collect all node IDs in this node's subtree (to prevent cycles in reparent)
-  function getDescendantIds(n: CheckpointNode): Set<number> {
-    const ids = new Set<number>();
-    function walk(c: CheckpointNode) { ids.add(c.id); c.children.forEach(walk); }
-    walk(n);
-    return ids;
-  }
-  const descendantIds = getDescendantIds(node);
-  const reparentOptions = allNodes?.filter(n => !descendantIds.has(n.id)) ?? [];
 
   return (
     <div>
@@ -161,7 +144,7 @@ export function NodeDetail({
       </div>
 
       <div className="p-4 flex flex-col gap-3">
-        {/* File info — stays in NodeDetail */}
+        {/* File info */}
         {fileName && (
           <div className="flex items-center gap-2 text-sm">
             <span className="text-muted-foreground">File:</span>
@@ -174,7 +157,7 @@ export function NodeDetail({
           </div>
         )}
 
-        {/* Shared preview body */}
+        {/* Save preview */}
         {snap ? (
           <SavePreviewBody
             snapshot={snap}
@@ -183,11 +166,10 @@ export function NodeDetail({
             notes={node.notes}
             onNotesChange={onUpdate ? async (notes) => { await onUpdate(node.id, { notes }); } : undefined}
           >
-            {/* Diff summary — NodeDetail-specific */}
             {diffLines.length > 0 && (
               <div>
                 <div className="text-xs uppercase text-muted-foreground tracking-wide font-semibold mb-2">
-                  Changes from parent
+                  Changes
                 </div>
                 <ul className="flex flex-col gap-1">
                   {diffLines.map((line, i) => (
@@ -210,47 +192,6 @@ export function NodeDetail({
         {!node.file_exists && (
           <div className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
             Save file not found on disk
-          </div>
-        )}
-
-        {/* Reparent control */}
-        {onReparent && reparenting && (
-          <div className="rounded-lg border border-border bg-surface p-3">
-            <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-2">
-              Move under a different parent
-            </div>
-            <div className="flex flex-col gap-0.5 max-h-64 overflow-y-auto">
-              <button
-                className={`text-left text-sm px-2 py-1.5 rounded-md hover:bg-white transition-colors ${
-                  node.parent_id === null ? 'font-semibold text-primary' : 'text-foreground'
-                }`}
-                onClick={() => { onReparent(node.id, null); setReparenting(false); }}
-              >
-                (Root — no parent)
-              </button>
-              {reparentOptions.map(opt => (
-                <button
-                  key={opt.id}
-                  className={`flex items-center gap-1.5 text-left text-sm px-2 py-1.5 rounded-md hover:bg-white transition-colors min-w-0 ${
-                    node.parent_id === opt.id ? 'font-semibold text-primary' : 'text-foreground'
-                  }`}
-                  title={opt.label}
-                  onClick={() => { onReparent(node.id, opt.id); setReparenting(false); }}
-                >
-                  <span
-                    className="w-1.5 h-1.5 rounded-full shrink-0"
-                    style={{ backgroundColor: nodeColor(opt.type) }}
-                  />
-                  <span className="truncate">{opt.label}</span>
-                </button>
-              ))}
-            </div>
-            <button
-              className="mt-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              onClick={() => setReparenting(false)}
-            >
-              Cancel
-            </button>
           </div>
         )}
 
@@ -279,11 +220,6 @@ export function NodeDetail({
               Set as Active
             </Button>
           )}
-          {onReparent && !reparenting && (
-            <Button size="sm" variant="ghost" className="rounded-lg" onClick={() => setReparenting(true)}>
-              Move...
-            </Button>
-          )}
           {onDownload && node.file_exists && (
             <Button size="sm" variant="ghost" className="rounded-lg" onClick={onDownload}>
               Download
@@ -291,11 +227,11 @@ export function NodeDetail({
           )}
         </div>
 
-        {/* Collection toggle */}
+        {/* Collection toggle + delete */}
         <CollectionToggle
           checkpointId={node.id}
+          label={node.label}
           included={node.include_in_collection}
-          archived={node.archived}
           isActive={node.is_active}
           onToggle={onToggle ?? (() => {})}
         />

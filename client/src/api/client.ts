@@ -640,20 +640,15 @@ export const api = {
       request<any>(`/playthroughs/checkpoints/${id}`, { method: 'PATCH', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } }),
     createCheckpoint: (playthroughId: number, data: { save_file_id: number; parent_checkpoint_id?: number; label?: string }) =>
       request<any>(`/playthroughs/${playthroughId}/checkpoints`, { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json' } }),
-    deleteCheckpoint: (id: number) =>
-      request<any>(`/playthroughs/checkpoints/${id}`, { method: 'DELETE' }),
+    deleteCheckpoint: (id: number) => {
+      invalidateCache('/timeline');
+      return request<any>(`/playthroughs/checkpoints/${id}`, { method: 'DELETE' });
+    },
     toggleCheckpointCollection: (id: number, include: boolean) => {
       invalidateCache('/timeline');
       return request<any>(`/timeline/checkpoints/${id}/collection`, {
         method: 'PATCH',
         body: JSON.stringify({ include }),
-      });
-    },
-    toggleCheckpointArchive: (id: number, archived: boolean) => {
-      invalidateCache('/timeline');
-      return request<any>(`/timeline/checkpoints/${id}/archive`, {
-        method: 'PATCH',
-        body: JSON.stringify({ archived }),
       });
     },
     togglePlaythroughCollection: (id: number, include: boolean) => {

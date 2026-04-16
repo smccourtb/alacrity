@@ -9,7 +9,7 @@ const TYPE_LABELS: Record<CheckpointType, string> = {
   daycare_swap: 'Snapshot',  // legacy — treated as snapshot
 };
 
-// Hex values match FILTER_COLORS in SaveTimeline and category colors in GroupedView
+// Hex values match category colors in GroupedView
 const TYPE_COLORS: Record<CheckpointType, { hex: string }> = {
   root: { hex: '#f59e0b' },
   progression: { hex: '#f59e0b' },

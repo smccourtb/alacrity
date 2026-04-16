@@ -1,16 +1,9 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api } from '@/api/client';
-import { computeLayout } from '@/components/timeline/GitGraph';
 import { NodeDetail } from '@/components/timeline/NodeDetail';
 import { GroupedView } from '@/components/timeline/GroupedView';
-// TreeView intentionally NOT imported — the tree view is hidden as of
-// Phase 1 of the save-visibility rework. The code still exists at
-// components/timeline/TreeViewLayouts.tsx as dead code for possible
-// later revival.
-import { TreeControls } from '@/components/timeline/TreeControls';
 import type { CheckpointNode, Playthrough } from '@/components/timeline/types';
-import { useTimelineFilters } from '@/hooks/useTimelineFilters';
 import { Card, CardContent } from '@/components/ui/card';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Input } from '@/components/ui/input';
@@ -42,29 +35,35 @@ function getEmulatorIdForGeneration(gen: number): string | null {
   return null;
 }
 
+/** Flatten a checkpoint tree into a flat list */
+function flattenTree(roots: CheckpointNode[]): CheckpointNode[] {
+  const out: CheckpointNode[] = [];
+  function walk(node: CheckpointNode) {
+    out.push(node);
+    for (const child of node.children) walk(child);
+  }
+  for (const root of roots) walk(root);
+  return out;
+}
+
 export default function PlayPage() {
-  // --- Timeline state ---
+  // --- Save state ---
   const [playthroughs, setPlaythroughs] = useState<Playthrough[]>([]);
   const [selectedPlaythrough, setSelectedPlaythrough] = useState<Playthrough | null>(null);
   const [treeRoots, setTreeRoots] = useState<CheckpointNode[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [highlightSaveId, setHighlightSaveId] = useState<number | null>(null);
   const [pendingSaveFileId, setPendingSaveFileId] = useState<number | null>(null);
-  const [orphans, setOrphans] = useState<Array<Record<string, unknown>>>([]);
-  const [orphanTotal, setOrphanTotal] = useState(0);
-  const [scanning, setScanning] = useState(false);
-  // Tree view removed in Phase 1 rework. Grouped is the only view now.
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedNodeId, setSelectedNodeId] = useState<number | null>(null);
   const [detailNodeId, setDetailNodeId] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [orphanDismissed, setOrphanDismissed] = useState(false);
-  const [desktopLayout] = useState<'A' | 'B' | 'C' | 'D'>('D');
 
   // --- Game selector state ---
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
-  // --- Launch state (from GameLauncher) ---
+  // --- Launch state ---
   const [saves, setSaves] = useState<DiscoveredSave[]>([]);
   const [sessions, setSessions] = useState<ActiveSession[]>([]);
   const [availableGames, setAvailableGames] = useState<{ game: string; system: string }[]>([]);
@@ -83,14 +82,7 @@ export default function PlayPage() {
   const [webSaveShowName, setWebSaveShowName] = useState(false);
   const [webSaveResolving, setWebSaveResolving] = useState(false);
 
-  const {
-    searchQuery,
-    setSearchQuery,
-    activeFilters,
-    toggleFilter,
-    allNodes,
-    filteredNodes,
-  } = useTimelineFilters(treeRoots);
+  const allNodes = useMemo(() => flattenTree(treeRoots), [treeRoots]);
 
   // --- Responsive ---
   useEffect(() => {
@@ -101,14 +93,13 @@ export default function PlayPage() {
     return () => mql.removeEventListener('change', handler);
   }, []);
 
-  // --- Derive all games from playthroughs + available ROMs + orphans ---
+  // --- Derive all games from playthroughs + available ROMs ---
   const allGames = [...new Set([
     ...playthroughs.map(p => normalizeGameName(p.game)),
     ...availableGames.map(g => normalizeGameName(g.game)),
-    ...(orphans as any[]).map((o: any) => normalizeGameName(o.game ?? '')).filter(Boolean),
   ])];
 
-  // Filter playthroughs by selected game (normalize for case-insensitive match)
+  // Filter playthroughs by selected game
   const gamePlaythroughs = selectedGame
     ? playthroughs.filter(p => normalizeGameName(p.game) === selectedGame)
     : [];
@@ -135,26 +126,19 @@ export default function PlayPage() {
     }
   }, []);
 
-  // --- Initial load: playthroughs + orphans + launcher data ---
+  // --- Initial load ---
   useEffect(() => {
     Promise.all([
       api.timeline.playthroughs(),
-      api.timeline.orphans(),
       loadLauncherData(),
-    ]).then(([data, orph]) => {
+    ]).then(([data]) => {
       setPlaythroughs(data);
-      if (orph && !Array.isArray(orph) && orph.saves) {
-        setOrphans(orph.saves);
-        setOrphanTotal(orph.total);
-      } else {
-        setOrphans(Array.isArray(orph) ? orph : []);
-      }
     })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [loadLauncherData]);
 
-  // --- Auto-select game when playthroughs/games load (prefers stored selection) ---
+  // --- Auto-select game when playthroughs/games load ---
   useEffect(() => {
     if (selectedGame) return;
     if (allGames.length === 0) return;
@@ -167,7 +151,7 @@ export default function PlayPage() {
     setSelectedGame(firstPtGame ? normalizeGameName(firstPtGame) : allGames[0]);
   }, [playthroughs, allGames, selectedGame]);
 
-  // --- Auto-select playthrough when game changes (prefers stored id, then first match) ---
+  // --- Auto-select playthrough when game changes ---
   useEffect(() => {
     if (!selectedGame) return;
     const matching = playthroughs.filter(p => normalizeGameName(p.game) === selectedGame);
@@ -190,29 +174,17 @@ export default function PlayPage() {
     if (selectedPlaythrough) localStorage.setItem(LAST_PLAYTHROUGH_KEY, String(selectedPlaythrough.id));
   }, [selectedPlaythrough]);
 
-  // --- Fetch tree + orphans when playthrough changes ---
+  // --- Fetch saves when playthrough changes ---
   useEffect(() => {
     if (!selectedPlaythrough) return;
-    const game = selectedPlaythrough.game;
-
-    Promise.all([
-      api.timeline.tree(selectedPlaythrough.id),
-      api.timeline.orphans(game),
-    ]).then(([tree, orph]) => {
+    api.timeline.tree(selectedPlaythrough.id).then((tree) => {
       const roots: CheckpointNode[] = Array.isArray(tree) ? tree : (tree?.roots ?? []);
       setTreeRoots(roots);
-      if (orph && !Array.isArray(orph) && orph.saves) {
-        setOrphans(orph.saves);
-        setOrphanTotal(orph.total);
-      } else {
-        setOrphans(Array.isArray(orph) ? orph : []);
-        setOrphanTotal(0);
-      }
       setSelectedNodeId(null);
     }).catch(console.error);
   }, [selectedPlaythrough]);
 
-  // Phase 1: read deep-link params, set game/playthrough, remember pending save id, clear URL.
+  // Deep-link: read URL params and select the matching save
   useEffect(() => {
     const rawSave = searchParams.get('save');
     if (!rawSave) return;
@@ -236,25 +208,21 @@ export default function PlayPage() {
 
     setPendingSaveFileId(saveFileId);
     setSearchParams({}, { replace: true });
-    // deps: only the param side. We intentionally don't depend on `playthroughs`
-    // because we want the effect to run once per URL change — if playthroughs
-    // load after this, Phase 2 will still match by scanning allNodes.
   }, [searchParams, setSearchParams]);
 
-  // Phase 2: once tree data for the matching playthrough is loaded, find the
-  // node and fire the highlight. Clears the pending id to prevent re-runs.
+  // Once saves load, find and highlight the deep-linked save
   useEffect(() => {
     if (pendingSaveFileId == null) return;
     if (treeRoots.length === 0) return;
     const match = allNodes.find((n) => n.save_file_id === pendingSaveFileId);
-    if (!match) return; // tree may still be loading wrong playthrough; wait
+    if (!match) return;
     setSelectedNodeId(match.id);
     setDetailNodeId(match.id);
     setHighlightSaveId(pendingSaveFileId);
     setPendingSaveFileId(null);
   }, [pendingSaveFileId, treeRoots, allNodes]);
 
-  // --- Clear highlight after pulse animation duration ---
+  // --- Clear highlight after pulse animation ---
   useEffect(() => {
     if (highlightSaveId == null) return;
     const timer = setTimeout(() => setHighlightSaveId(null), 2500);
@@ -294,16 +262,9 @@ export default function PlayPage() {
 
   async function refreshData() {
     try {
-      const [data, orph] = await Promise.all([
-        api.timeline.playthroughs(),
-        api.timeline.orphans(selectedPlaythrough?.game),
-      ]);
+      const data = await api.timeline.playthroughs();
       setPlaythroughs(data);
       if (data.length > 0 && !selectedPlaythrough) setSelectedPlaythrough(data[0]);
-      if (orph && !Array.isArray(orph) && orph.saves) {
-        setOrphans(orph.saves);
-        setOrphanTotal(orph.total);
-      }
       if (selectedPlaythrough) {
         const tree = await api.timeline.tree(selectedPlaythrough.id);
         setTreeRoots(Array.isArray(tree) ? tree : (tree?.roots ?? []));
@@ -352,7 +313,6 @@ export default function PlayPage() {
   };
 
   const handleTrade = (node: CheckpointNode) => {
-    // Build a DiscoveredSave-compatible object for TradeSetup
     const fakeSave: DiscoveredSave = {
       id: node.save_file_id,
       file_path: node.file_path,
@@ -377,15 +337,8 @@ export default function PlayPage() {
     return (
       <NodeDetail
         node={node}
-        allNodes={allNodes}
         isLocal={isLocal}
         onSetActive={!node.is_active ? () => handleSetActive(node) : undefined}
-        onReparent={async (nodeId, newParentId) => {
-          try {
-            await api.timeline.updateCheckpoint(nodeId, { parent_checkpoint_id: newParentId });
-            await refreshData();
-          } catch (e) { console.error(e); }
-        }}
         onUpdate={async (nodeId, data) => {
           await api.timeline.updateCheckpoint(nodeId, data);
           await refreshData();
@@ -401,13 +354,9 @@ export default function PlayPage() {
   }
 
   async function handleScan(game?: string) {
-    setScanning(true);
     try {
       await api.timeline.scan(game);
-      const [data, orph] = await Promise.all([
-        api.timeline.playthroughs(),
-        api.timeline.orphans(game),
-      ]);
+      const data = await api.timeline.playthroughs();
       setPlaythroughs(data);
       if (data.length > 0) {
         if (!selectedPlaythrough) setSelectedPlaythrough(data[0]);
@@ -416,18 +365,8 @@ export default function PlayPage() {
         const tree = await api.timeline.tree(selectedPlaythrough.id);
         setTreeRoots(Array.isArray(tree) ? tree : (tree?.roots ?? []));
       }
-      if (orph && !Array.isArray(orph) && orph.saves) {
-        setOrphans(orph.saves);
-        setOrphanTotal(orph.total);
-      }
     } catch (e) { console.error(e); }
-    setScanning(false);
   }
-
-  // Layout for tree view
-  const effectiveRowHeight = isMobile ? 40 : undefined;
-  const layout = treeRoots.length > 0 ? computeLayout(treeRoots, effectiveRowHeight) : null;
-  const hasOrphans = orphans.length > 0;
 
   // --- Loading state ---
   if (loading) {
@@ -438,7 +377,7 @@ export default function PlayPage() {
     );
   }
 
-  // --- Derive emulator for the selected playthrough (or default to mgba) ---
+  // --- Derive emulator for the selected playthrough ---
   const playEmulatorId = (() => {
     const gen = selectedPlaythrough?.game
       ? saves.find(s => normalizeGameName(s.game) === normalizeGameName(selectedPlaythrough.game))?.generation ?? null
@@ -468,13 +407,16 @@ export default function PlayPage() {
         }}
       />
 
-      {/* Controls bar (search + orphan sidebar toggle) */}
-      {selectedPlaythrough && (
-        <TreeControls
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          isMobile={isMobile}
-        />
+      {/* Search */}
+      {selectedPlaythrough && allNodes.length > 0 && (
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="Search saves..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="max-w-xs"
+          />
+        </div>
       )}
 
       {/* Empty state: no playthroughs for selected game */}
@@ -484,11 +426,9 @@ export default function PlayPage() {
             <EmptyState
               icon={
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-muted-foreground">
-                  <circle cx="12" cy="12" r="3" />
-                  <line x1="12" y1="3" x2="12" y2="8" />
-                  <line x1="12" y1="16" x2="12" y2="21" />
-                  <circle cx="12" cy="3" r="1.5" fill="currentColor" />
-                  <circle cx="12" cy="21" r="1.5" fill="currentColor" />
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <line x1="12" y1="8" x2="12" y2="16" />
+                  <line x1="8" y1="12" x2="16" y2="12" />
                 </svg>
               }
               title={`No playthroughs for ${selectedGame}`}
@@ -498,47 +438,30 @@ export default function PlayPage() {
         </Card>
       )}
 
-      {/* Main content area with optional sidebar */}
+      {/* Main content area */}
       {selectedPlaythrough && (
         <div className="flex gap-5">
-          {/* Left: tree/grouped + detail panel */}
           <div className="flex-1 min-w-0 space-y-5">
-            {/* Orphan banner */}
-            {hasOrphans && !orphanDismissed && (
-              <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-orange-50 border border-orange-200/60 text-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
-                <span className="text-orange-700 flex-1">
-                  {orphanTotal || orphans.length} save{(orphanTotal || orphans.length) !== 1 ? 's' : ''} couldn&apos;t be auto-linked
-                </span>
-                <button
-                  onClick={() => setOrphanDismissed(true)}
-                  className="text-orange-400 hover:text-orange-600 transition-colors shrink-0"
-                  aria-label="Dismiss"
-                >
-                  &#10005;
-                </button>
-              </div>
-            )}
-            {/* Empty tree state */}
+            {/* Empty state */}
             {treeRoots.length === 0 && (
               <Card>
                 <CardContent>
                   <EmptyState
                     icon={
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-muted-foreground">
-                        <circle cx="12" cy="12" r="3" />
-                        <line x1="12" y1="3" x2="12" y2="8" />
-                        <line x1="12" y1="16" x2="12" y2="21" />
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <line x1="12" y1="8" x2="12" y2="16" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
                       </svg>
                     }
-                    title="No checkpoints yet for this playthrough"
-                    description="Play with checkpoint tracking enabled to build the tree"
+                    title="No saves yet for this playthrough"
+                    description="Play with save tracking enabled to populate this view"
                   />
                 </CardContent>
               </Card>
             )}
 
-            {/* Grouped view (only view mode as of Phase 1 rework) */}
+            {/* Grouped save buckets */}
             {treeRoots.length > 0 && (
               <div className="flex gap-4 items-start">
                 <Card className="flex-1 min-w-0 p-5 py-5 gap-0">
@@ -560,7 +483,6 @@ export default function PlayPage() {
               </div>
             )}
           </div>
-
         </div>
       )}
 

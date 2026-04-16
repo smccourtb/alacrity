@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { api } from '@/api/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
 import {
   Dialog,
   DialogContent,
@@ -28,22 +27,16 @@ export default function SessionDialog({ event, sessionInfo, onResolved }: Sessio
   const [newName, setNewName] = useState('');
   const [showNameInput, setShowNameInput] = useState(false);
   const [resolving, setResolving] = useState(false);
-  const [createCheckpoint, setCreateCheckpoint] = useState(false);
-  const [includeInCollection, setIncludeInCollection] = useState(false);
-
   const handleResolve = async (action: 'save_back' | 'save_as_new' | 'discard') => {
     if (action === 'save_as_new' && !showNameInput) {
       setShowNameInput(true);
       return;
     }
     setResolving(true);
-    const willCreateCheckpoint = action !== 'discard' ? createCheckpoint : undefined;
     await api.launcher.resolveSession(
       event.sessionId,
       action,
       newName || undefined,
-      willCreateCheckpoint,
-      willCreateCheckpoint && includeInCollection ? true : undefined
     );
     setResolving(false);
     onResolved();
@@ -68,18 +61,6 @@ export default function SessionDialog({ event, sessionInfo, onResolved }: Sessio
               placeholder={`${sessionInfo?.label} (played ${new Date().toISOString().slice(0, 10)})`}
               autoFocus
             />
-          </div>
-        )}
-
-        <div className="flex items-center justify-between py-1">
-          <label className="text-sm text-muted-foreground">Add to save timeline</label>
-          <Switch checked={createCheckpoint} onCheckedChange={setCreateCheckpoint} />
-        </div>
-
-        {createCheckpoint && (
-          <div className="flex items-center justify-between py-1 pl-4">
-            <label className="text-sm text-muted-foreground">Include in collection</label>
-            <Switch checked={includeInCollection} onCheckedChange={setIncludeInCollection} />
           </div>
         )}
 

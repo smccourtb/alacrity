@@ -1012,7 +1012,7 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
           {totalVisible === 0 && (
             <div className="text-center py-12 text-muted-foreground">
               <p className="text-sm font-medium">No saves yet</p>
-              <p className="text-xs text-muted-foreground/60 mt-1">Import or play with checkpoint tracking to populate this view</p>
+              <p className="text-xs text-muted-foreground/60 mt-1">Import or play to populate this view</p>
             </div>
           )}
         </Card>

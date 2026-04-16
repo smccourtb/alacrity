@@ -507,14 +507,6 @@ router.patch('/checkpoints/:id/collection', (req: Request, res: Response) => {
   }
 });
 
-// ── PATCH /checkpoints/:id/archive ───────────────────────────────────────────
-
-router.patch('/checkpoints/:id/archive', (req: Request, res: Response) => {
-  const { archived } = req.body;
-  db.prepare('UPDATE checkpoints SET archived = ? WHERE id = ?')
-    .run(archived ? 1 : 0, Number(req.params.id));
-  res.json({ success: true });
-});
 
 // ── PATCH /playthroughs/:id/collection ───────────────────────────────────────
 
