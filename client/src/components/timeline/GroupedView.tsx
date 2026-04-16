@@ -914,6 +914,7 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
                   isSelected={selectedId === node.id}
                   onSelect={() => onSelect(node)}
                   onTagChange={(next) => updateTag(node.save_file_id, next)}
+                  hideDragHandle
                 />
               ))}
             </div>
