@@ -6,7 +6,7 @@
  * Works for Ruby/Sapphire/Emerald and FireRed/LeafGreen.
  */
 
-import type { SaveWorldState, BallCount } from './worldState.js';
+import type { SaveWorldState, SaveRtc, BallCount } from './worldState.js';
 import { decodeGen3String } from './charDecoder.js';
 import {
   GEN3_ITEMS, GEN3_KEY_ITEMS, GEN3_BALL_ITEM_IDS,
@@ -29,6 +29,10 @@ const PLAY_SECONDS_OFFSET = 0x0011;
 
 // Badges — same offset for RSE and FRLG in Section 0
 const BADGES_OFFSET = 0x00EE;
+
+// LocalTimeOffset (gSaveBlock2Ptr) — RSE only; struct Time { s16 days, s8 hours, s8 minutes, s8 seconds }
+// FRLG does not populate this field meaningfully.
+const LOCAL_TIME_OFFSET = 0x0098;
 
 // ---------------------------------------------------------------------------
 // Section 1 (Team / Items) — bag + location offsets
@@ -72,6 +76,35 @@ const FRLG_BAG: Record<string, BagPocket> = {
 };
 
 // ---------------------------------------------------------------------------
+// RTC parsing (RSE only)
+// ---------------------------------------------------------------------------
+
+// Reads the localTimeOffset field from Section 0 for RSE saves.
+// FRLG does not have a meaningful cart RTC — returns undefined for those games.
+// Layout at LOCAL_TIME_OFFSET: s16 LE days, s8 hours, s8 minutes, s8 seconds.
+// Returns undefined if the game is FRLG, the buffer is too short, or any field
+// is out of the expected calendar range.
+function parseGen3Rtc(section0: Buffer, game: string): SaveRtc | undefined {
+  const lc = game.toLowerCase();
+  if (lc.includes('firered') || lc.includes('leafgreen')) return undefined;
+
+  const end = LOCAL_TIME_OFFSET + 5; // s16 + 3×s8 = 5 bytes
+  if (section0.length < end) return undefined;
+
+  const days    = section0.readInt16LE(LOCAL_TIME_OFFSET);
+  const hours   = section0.readInt8(LOCAL_TIME_OFFSET + 2);
+  const minutes = section0.readInt8(LOCAL_TIME_OFFSET + 3);
+  const seconds = section0.readInt8(LOCAL_TIME_OFFSET + 4);
+
+  if (days < 0) return undefined;
+  if (hours < 0 || hours > 23) return undefined;
+  if (minutes < 0 || minutes > 59) return undefined;
+  if (seconds < 0 || seconds > 59) return undefined;
+
+  return { days, hours, minutes, seconds };
+}
+
+// ---------------------------------------------------------------------------
 // Bag parsing
 // ---------------------------------------------------------------------------
 
@@ -112,6 +145,9 @@ export function extractGen3WorldState(
   const minutes = section0[PLAY_MINUTES_OFFSET];
   const seconds = section0[PLAY_SECONDS_OFFSET];
   const playTimeSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+  // --- RTC ---
+  const save_rtc = parseGen3Rtc(section0, game);
 
   // --- Badges ---
   const badgeByte = section0[BADGES_OFFSET] ?? 0;
@@ -186,5 +222,6 @@ export function extractGen3WorldState(
     hms,
     balls,
     playTimeSeconds,
+    save_rtc,
   };
 }
