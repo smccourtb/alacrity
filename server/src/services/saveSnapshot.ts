@@ -13,6 +13,7 @@ import { parseGen5Save } from './gen5Parser.js';
 import { parseGen6Save } from './gen6Parser.js';
 import { parseGen7Save } from './gen7Parser.js';
 import { computeGender } from './saveParser.js';
+import type { SaveRtc } from './worldState.js';
 
 // ── Interfaces ────────────────────────────────────────────────────────────────
 
@@ -96,6 +97,7 @@ export interface SaveSnapshot {
   box_pokemon?: SnapshotBoxMember[];
   daycare?: SnapshotDaycare;
   key_items?: string[];
+  save_rtc?: SaveRtc;
 }
 
 export type CheckpointType =
@@ -390,6 +392,7 @@ export function buildSnapshot(filePath: string, game: string): SaveSnapshot {
       box_pokemon: box.length > 0 ? box : undefined,
       daycare: snapshotDaycare,
       key_items: worldState.keyItems,
+      save_rtc: worldState.save_rtc,
     };
   }
 
@@ -427,6 +430,7 @@ export function buildSnapshot(filePath: string, game: string): SaveSnapshot {
     party: partyPokemon,
     box_pokemon: boxPokemon.length > 0 ? boxPokemon : undefined,
     key_items: worldState.keyItems.length > 0 ? worldState.keyItems : undefined,
+    save_rtc: worldState.save_rtc,
   };
 }
 
