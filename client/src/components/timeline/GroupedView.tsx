@@ -516,7 +516,7 @@ function Section({
             <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <div className="ml-4 pb-1 space-y-0.5">
+            <div className="ml-4 pt-1.5 pb-1 space-y-0.5">
               {count === 0 ? (
                 <div className="px-2 py-4 text-center text-xs text-muted-foreground/60 italic">
                   {isOver && isDropTarget ? `Drop to add to "${title}"` : 'Drop saves here to tag them'}
