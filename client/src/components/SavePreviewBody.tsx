@@ -6,7 +6,7 @@ import { PartyRow } from '@/components/pokemon/PartyRow';
 import { BoxGrid } from '@/components/pokemon/BoxGrid';
 import { DaycareCard } from '@/components/pokemon/DaycareCard';
 import { StatRow } from '@/components/ui/stat-row';
-import { User, Shield, MapPin, Gamepad2, Clock } from 'lucide-react';
+import { User, Shield, MapPin, Gamepad2, Clock, Timer } from 'lucide-react';
 import { safeSpeciesName } from '@/components/pokemon/sprites';
 import type { SaveSnapshot, SaveRtc } from '@/components/timeline/types';
 import type { SlotSize } from '@/components/pokemon/PokemonSlot';
@@ -31,6 +31,12 @@ interface SavePreviewBodyProps {
 function formatRtc(rtc: SaveRtc): string {
   const pad = (n: number) => n.toString().padStart(2, '0');
   return `Day ${rtc.days} · ${pad(rtc.hours)}:${pad(rtc.minutes)}:${pad(rtc.seconds)}`;
+}
+
+function formatPlayTime(totalSeconds: number): string {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  return `${hours}h ${minutes}m`;
 }
 
 /** Convert snapshot party member to SlotPokemon for PokemonSlot */
@@ -113,6 +119,12 @@ export function SavePreviewBody({
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-raised text-sm font-medium">
               <Gamepad2 className="w-3 h-3 text-muted-foreground" />
               {snapshot.game}
+            </span>
+          )}
+          {snapshot.play_time_seconds != null && snapshot.play_time_seconds > 0 && (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-raised text-sm font-medium">
+              <Timer className="w-3 h-3 text-muted-foreground" />
+              {formatPlayTime(snapshot.play_time_seconds)}
             </span>
           )}
           {snapshot.save_rtc && (
