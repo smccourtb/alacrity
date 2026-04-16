@@ -116,8 +116,14 @@ router.get('/playthroughs/:id/tree', (req: Request, res: Response) => {
       }
     }
 
-    // Rebuild if missing entirely or if stale (missing box_pokemon field)
-    const needsRebuild = !snapshot || !('box_pokemon' in snapshot);
+    // Rebuild if missing entirely, or if stale (missing box_pokemon field),
+    // or if it's a gen that should have save_rtc but doesn't.
+    const g = (row.game ?? '').toLowerCase();
+    const hasRtcGen = ['gold', 'silver', 'crystal', 'ruby', 'sapphire', 'emerald'].includes(g);
+    const needsRebuild =
+      !snapshot ||
+      !('box_pokemon' in snapshot) ||
+      (hasRtcGen && !('save_rtc' in snapshot));
     if (needsRebuild && existsSync(row.file_path)) {
       try {
         snapshot = buildSnapshot(row.file_path, row.game);
