@@ -253,6 +253,7 @@ function DraggableHuntCard({
             onSelect={() => onSelect(node)}
             onTagChange={() => {}}
             small
+            hideDragHandle
           />
         ))}
       </div>
@@ -270,6 +271,7 @@ interface SaveRowProps {
   onSelect: () => void;
   onTagChange: (next: string | null) => void;
   small?: boolean;
+  hideDragHandle?: boolean;
   // dnd-kit types these as SyntheticListenerMap — accept as loose objects
   // and spread onto the drag handle element.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -287,6 +289,7 @@ function SaveRow({
   onSelect,
   onTagChange,
   small,
+  hideDragHandle,
   dragAttributes,
   dragListeners,
   isOverlay,
@@ -317,15 +320,17 @@ function SaveRow({
       `}
     >
       {/* Drag handle — only this element is the drag listener target */}
-      <div
-        data-drag-handle
-        {...(dragAttributes ?? {})}
-        {...(dragListeners ?? {})}
-        className="shrink-0 cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground px-0.5 py-1 rounded touch-none"
-        title="Drag to reorder or move to another section"
-      >
-        <GripVerticalIcon className="size-3.5" />
-      </div>
+      {!hideDragHandle && (
+        <div
+          data-drag-handle
+          {...(dragAttributes ?? {})}
+          {...(dragListeners ?? {})}
+          className="shrink-0 cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground px-0.5 py-1 rounded touch-none"
+          title="Drag to reorder or move to another section"
+        >
+          <GripVerticalIcon className="size-3.5" />
+        </div>
+      )}
       <div className="flex-1 min-w-0 flex items-center gap-2">
         <span className={`text-sm font-medium truncate ${isCatch ? 'text-emerald-600' : 'text-foreground'} ${small ? 'opacity-80' : ''}`}>
           {isCatch && '★ '}{node.label}
@@ -672,6 +677,12 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
         }),
       }))
       .sort((a, b) => {
+        // Respect user sort order (stored on first member) if set
+        const aOrder = getMeta(meta, a.members[0]?.node.save_file_id ?? 0).user_sort_order;
+        const bOrder = getMeta(meta, b.members[0]?.node.save_file_id ?? 0).user_sort_order;
+        if (aOrder != null && bOrder == null) return -1;
+        if (aOrder == null && bOrder != null) return 1;
+        if (aOrder != null && bOrder != null && aOrder !== bOrder) return bOrder - aOrder;
         const am = Math.max(...a.members.map(m => mtimeMs(m.node)));
         const bm = Math.max(...b.members.map(m => mtimeMs(m.node)));
         return bm - am;
