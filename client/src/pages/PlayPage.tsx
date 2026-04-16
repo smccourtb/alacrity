@@ -315,6 +315,12 @@ export default function PlayPage() {
   // --- Launch handlers ---
 
   const handleDesktopPlay = async (node: CheckpointNode) => {
+    if (node.file_path.endsWith('.ss1')) {
+      await api.launcher.playEncounter(node.save_file_id);
+      const updated = await api.launcher.sessions();
+      setSessions(updated);
+      return;
+    }
     const game = node.snapshot?.game ?? '';
     const system = getSystemForGame(game);
     if (system === 'nds' || system === '3ds' || system === 'gba') {

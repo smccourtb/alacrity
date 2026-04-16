@@ -32,13 +32,18 @@ type SaveSource = 'library' | 'hunt-catch' | 'hunt-base' | 'hunt-instance' | 'ot
 interface SaveSourceInfo {
   source: SaveSource;
   huntFolder: string | null;
-  role: 'setup' | 'catch' | 'library' | 'other';
+  role: 'setup' | 'catch' | 'encounter' | 'library' | 'other';
 }
 
 function detectSource(filePath: string): SaveSourceInfo {
   const p = filePath.replace(/\\/g, '/');
   if (p.includes('/hunts/')) {
     return { source: 'hunt-instance', huntFolder: null, role: 'other' };
+  }
+  // Encounter state file: catches/{game}/{folder}/shiny.ss1
+  const encounterMatch = p.match(/\/saves\/catches\/[^/]+\/([^/]+)\/shiny\.ss1$/);
+  if (encounterMatch) {
+    return { source: 'hunt-catch', huntFolder: encounterMatch[1], role: 'encounter' };
   }
   const catchMatch = p.match(/\/saves\/catches\/[^/]+\/([^/]+)\/(base|catch)\.sav$/);
   if (catchMatch) {
@@ -121,6 +126,7 @@ function compareSaves(a: CheckpointNode, b: CheckpointNode, map: MetaMap): numbe
 const ROLE_BADGE_VARIANT: Record<string, 'success' | 'info' | 'warning' | 'default' | 'secondary'> = {
   catch: 'success',
   setup: 'info',
+  encounter: 'warning',
   library: 'warning',
   other: 'secondary',
 };
@@ -596,7 +602,7 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
       .map((g) => ({
         folder: g.folder,
         members: g.members.sort((a, b) => {
-          const order: Record<string, number> = { setup: 0, catch: 1, other: 2, library: 3 };
+          const order: Record<string, number> = { setup: 0, encounter: 1, catch: 2, other: 3, library: 4 };
           return (order[a.info.role] ?? 99) - (order[b.info.role] ?? 99);
         }),
       }))
