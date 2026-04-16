@@ -487,7 +487,7 @@ function Section({
         ${isOver && isDropTarget ? 'bg-muted/50' : ''}
       `}
     >
-      <div className="flex items-start">
+      <div className="flex items-start group/section">
         {onPickColor ? (
           <button
             type="button"
@@ -495,7 +495,7 @@ function Section({
               e.stopPropagation();
               setPickerOpen((o) => !o);
             }}
-            className="flex items-center pl-3 pr-1.5 py-2.5 hover:bg-muted/30 rounded-l-lg transition-colors shrink-0"
+            className="flex items-center pl-3 pr-1.5 py-2.5 group-hover/section:bg-muted/30 rounded-l-lg transition-colors shrink-0"
             title="Change tag color"
             aria-label="Change tag color"
           >
@@ -511,7 +511,7 @@ function Section({
         )}
 
         <Collapsible defaultOpen={defaultOpen} className="flex-1 min-w-0">
-          <CollapsibleTrigger className="w-full flex items-center gap-2 pr-3 py-2.5 text-left hover:bg-muted/30 rounded-r-lg transition-colors">
+          <CollapsibleTrigger className="w-full flex items-center gap-2 pr-3 py-2.5 text-left group-hover/section:bg-muted/30 rounded-r-lg transition-colors">
             <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide truncate">{title}</span>
             <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
           </CollapsibleTrigger>
