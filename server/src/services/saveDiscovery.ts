@@ -195,9 +195,9 @@ function scanLibrary(): DiscoveredSave[] {
         const isMain = entry === 'main';
         if (!SAVE_EXTENSIONS.has(ext) && !isMain) continue;
 
-        // Detect game from path components
+        // Detect game from path components, falling back to binary detection
         const relPath = fullPath.slice(LIBRARY_DIR.length + 1);
-        const detected = detectGame(relPath);
+        const detected = detectGame(relPath) || detectGame(fullPath);
         const game = detected?.game || 'Unknown';
         const gen = detected?.gen || null;
 
