@@ -50,6 +50,7 @@ const { default: timelineRouter } = await import('./routes/timeline.js');
 const { default: configRouter } = await import('./routes/config.js');
 const { default: dependenciesRouter } = await import('./routes/dependencies.js');
 const { default: systemRouter } = await import('./routes/system.js');
+const { default: networkInfoRouter } = await import('./routes/networkInfo.js');
 const { seedShinyAvailability } = await import('./shiny-availability.js');
 const { seedGuide } = await import('./seeds/seedGuide.js');
 const { seedRibbons, seedMarks, seedBalls, seedForms, seedShinyMethods, seedLegality } = await import('./seed-reference.js');
@@ -66,11 +67,12 @@ const app = express();
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || origin.includes('localhost') || origin.includes('tauri.localhost')) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-    }
+    if (!origin) return callback(null, true);
+    const ok =
+      origin.includes('localhost') ||
+      origin.includes('tauri.localhost') ||
+      /^https?:\/\/(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(origin);
+    callback(null, ok);
   },
 }));
 app.use(express.json());
@@ -156,6 +158,7 @@ app.use('/api/timeline', timelineRouter);
 app.use('/api/config', configRouter);
 app.use('/api/dependencies', dependenciesRouter);
 app.use('/api/system', systemRouter);
+app.use('/api/network-info', networkInfoRouter);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
@@ -183,13 +186,14 @@ setInterval(() => {
 }, 5000);
 
 // ── Start server ────────────────────────────────────────────────
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   const addr = server.address();
   const actualPort = typeof addr === 'object' && addr ? addr.port : PORT;
+  app.set('serverPort', actualPort);
   if (LOG_JSON) {
     emitEvent({ event: 'ready', port: actualPort });
   } else {
-    console.log(`Pokemon server running on http://localhost:${actualPort}`);
+    console.log(`Pokemon server running on http://0.0.0.0:${actualPort}`);
   }
 });
 
