@@ -116,7 +116,7 @@ export default function FilterBar({
     () =>
       GAME_OPTIONS.map(o => ({
         ...o,
-        icon: <GamePill game={o.value} size="sm" />,
+        icon: <GamePill game={o.value} size="sm" dotOnly />,
       })),
     [],
   );
