@@ -236,25 +236,32 @@ function DraggableHuntCard({
           {...attributes}
           {...listeners}
           className="shrink-0 cursor-grab active:cursor-grabbing text-muted-foreground/40 hover:text-muted-foreground px-0.5 py-1 rounded touch-none"
-          title="Drag hunt group to a tag section"
+          title="Drag to reorder hunt"
         >
           <GripVerticalIcon className="size-3.5" />
         </div>
         <span className="text-sm font-semibold text-foreground flex-1 truncate">{folder}</span>
       </div>
-      <div className="divide-y divide-border/15">
-        {members.map(({ node, info }) => (
-          <SaveRow
-            key={`hunt-${folder}-${node.id}`}
-            node={node}
-            meta={getMetaFn(node.save_file_id)}
-            roleLabel={info.role}
-            isSelected={selectedId === node.id}
-            onSelect={() => onSelect(node)}
-            onTagChange={() => {}}
-            small
-            hideDragHandle
-          />
+      <div className="relative">
+        {/* Vertical spine aligned with the drag handle */}
+        <div className="absolute left-[17px] top-0 bottom-0 w-px bg-border/40" />
+        {members.map(({ node, info }, i) => (
+          <div key={`hunt-${folder}-${node.id}`} className="relative flex items-center">
+            {/* Node dot on the spine */}
+            <div className="absolute left-[14.5px] w-[5px] h-[5px] rounded-full bg-muted-foreground/30 z-[1]" />
+            <div className="flex-1 min-w-0 pl-7">
+              <SaveRow
+                node={node}
+                meta={getMetaFn(node.save_file_id)}
+                roleLabel={info.role}
+                isSelected={selectedId === node.id}
+                onSelect={() => onSelect(node)}
+                onTagChange={() => {}}
+                small
+                hideDragHandle
+              />
+            </div>
+          </div>
         ))}
       </div>
     </div>
