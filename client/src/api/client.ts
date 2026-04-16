@@ -318,6 +318,13 @@ export const api = {
         body: JSON.stringify({ saveId, emulatorId }),
       });
     },
+    playEncounter: (saveFileId: number) => {
+      invalidateCache('/launcher');
+      return request<any>('/launcher/play-encounter', {
+        method: 'POST',
+        body: JSON.stringify({ saveFileId }),
+      });
+    },
     trade: (saveId1: string, saveId2: string, emulatorId?: string) => {
       invalidateCache('/launcher');
       return request<any>('/launcher/trade', {

@@ -1,9 +1,12 @@
 import { Router } from 'express';
-import { readFileSync, existsSync, statSync, createReadStream, writeFileSync, mkdirSync } from 'fs';
-import { join, basename, extname } from 'path';
+import { readFileSync, existsSync, statSync, createReadStream, writeFileSync, mkdirSync, copyFileSync, symlinkSync, utimesSync } from 'fs';
+import { join, basename, extname, dirname } from 'path';
+import { spawn } from 'child_process';
 import db from '../db.js';
 import { paths } from '../paths.js';
 import { ROM_MAP, type DiscoveredSave } from '../services/saveDiscovery.js';
+import { detectGame } from '../services/saveParser.js';
+import { registerProcess } from '../services/processRegistry.js';
 import {
   createSession,
   getSession,
@@ -311,6 +314,84 @@ router.post('/saves/:id/upload-save', (req, res) => {
       res.json({ success: true }); // discard — nothing to do
     }
   });
+});
+
+// --- Play Encounter (shiny save state) ---
+
+function getMgbaBinary(): string {
+  const row = db.prepare(
+    'SELECT path FROM emulator_configs WHERE id = ? AND os = ?'
+  ).get('mgba', currentOs()) as { path: string } | undefined;
+
+  if (!row || !row.path) {
+    throw new EmulatorNotInstalledError();
+  }
+
+  return resolveEmulatorPath(row.path);
+}
+
+router.post('/play-encounter', (req, res) => {
+  const { saveFileId } = req.body;
+  if (!saveFileId) return res.status(400).json({ error: 'saveFileId required' });
+
+  const save = db.prepare('SELECT * FROM save_files WHERE id = ?').get(saveFileId) as any;
+  if (!save) return res.status(404).json({ error: 'Save not found' });
+  if (save.format !== '.ss1') return res.status(400).json({ error: 'Save must be a .ss1 save state' });
+
+  const parentDir = dirname(save.file_path);
+
+  // Find companion .sav: prefer base.sav, fall back to catch.sav
+  const baseSav = join(parentDir, 'base.sav');
+  const catchSav = join(parentDir, 'catch.sav');
+  const companionSav = existsSync(baseSav) ? baseSav : existsSync(catchSav) ? catchSav : null;
+  if (!companionSav) return res.status(400).json({ error: 'No companion .sav found (need base.sav or catch.sav)' });
+
+  // Find ROM via game field
+  const detected = detectGame(save.game || '');
+  if (!detected) return res.status(400).json({ error: `Cannot determine game for save: ${save.game}` });
+  const romRel = ROM_MAP[detected.game];
+  if (!romRel) return res.status(400).json({ error: `No ROM mapped for game: ${detected.game}` });
+  const romSrc = join(paths.resourcesDir, romRel);
+  if (!existsSync(romSrc)) return res.status(400).json({ error: `ROM not found: ${romRel}` });
+
+  // Set up temp dir
+  const openDir = join(parentDir, '.encounter_play');
+  mkdirSync(openDir, { recursive: true });
+
+  // Symlink ROM with correct extension, copy companion .sav and .ss1
+  const romExt = extname(romSrc);
+  const romDst = join(openDir, `rom${romExt}`);
+  const savDst = join(openDir, `rom.sav`);
+  const ssDst = join(openDir, `rom.ss1`);
+
+  if (!existsSync(romDst)) symlinkSync(romSrc, romDst);
+  copyFileSync(companionSav, savDst);
+
+  // Backdate .sav mtime so emulator doesn't think it was just modified
+  const savSrcStat = statSync(companionSav);
+  utimesSync(savDst, savSrcStat.atime, savSrcStat.mtime);
+
+  copyFileSync(save.file_path, ssDst);
+
+  // Launch mGBA
+  let mgbaBinary: string;
+  try {
+    mgbaBinary = getMgbaBinary();
+  } catch (err) {
+    if (err instanceof EmulatorNotInstalledError) {
+      return res.status(400).json({ error: 'mGBA is not installed. Install it from Settings → Emulators.' });
+    }
+    throw err;
+  }
+
+  const child = spawn(mgbaBinary, [romDst, '-t', ssDst], {
+    env: { ...process.env, DISPLAY: process.env.DISPLAY || ':0' },
+    stdio: 'ignore',
+    detached: true,
+  });
+  registerProcess(child, 'Encounter-play');
+
+  res.json({ ok: true, pid: child.pid });
 });
 
 export default router;
