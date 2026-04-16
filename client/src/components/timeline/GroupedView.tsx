@@ -409,10 +409,13 @@ function SaveRow({
         <button
           data-tag-editor
           onClick={(e) => { e.stopPropagation(); setTagDraft(''); setEditingTag(true); }}
-          className="text-2xs text-muted-foreground/0 group-hover:text-muted-foreground/60 hover:text-foreground! shrink-0 px-1 transition-opacity"
+          className="text-muted-foreground/0 group-hover:text-muted-foreground/40 hover:text-muted-foreground! shrink-0 px-0.5 transition-opacity"
           title="Add tag"
         >
-          +tag
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 2H2v10l9.17 9.17a2 2 0 0 0 2.83 0l7.17-7.17a2 2 0 0 0 0-2.83Z" />
+            <circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none" />
+          </svg>
         </button>
       ) : null}
 
