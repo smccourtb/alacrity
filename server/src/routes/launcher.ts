@@ -364,7 +364,9 @@ router.post('/play-encounter', (req, res) => {
   const savDst = join(openDir, `rom.sav`);
   const ssDst = join(openDir, `rom.ss1`);
 
-  if (!existsSync(romDst)) symlinkSync(romSrc, romDst);
+  if (!existsSync(romDst)) {
+    try { symlinkSync(romSrc, romDst); } catch { copyFileSync(romSrc, romDst); }
+  }
   copyFileSync(companionSav, savDst);
 
   // Backdate .sav mtime so emulator doesn't think it was just modified
@@ -373,18 +375,21 @@ router.post('/play-encounter', (req, res) => {
 
   copyFileSync(save.file_path, ssDst);
 
-  // Launch mGBA
-  let mgbaBinary: string;
+  // Find emulator via the standard config lookup
+  const emulator = getDefaultEmulator(detected.gen);
+  if (!emulator) return res.status(500).json({ error: 'No emulator configured for this generation' });
+
+  let emulatorPath: string;
   try {
-    mgbaBinary = getMgbaBinary();
+    emulatorPath = resolveEmulatorPath(emulator.path);
   } catch (err) {
     if (err instanceof EmulatorNotInstalledError) {
-      return res.status(400).json({ error: 'mGBA is not installed. Install it from Settings → Emulators.' });
+      return res.status(400).json({ error: `${emulator.name} is not installed. Install it from Settings → Emulators.` });
     }
     throw err;
   }
 
-  const child = spawn(mgbaBinary, [romDst, '-t', ssDst], {
+  const child = spawn(emulatorPath, [romDst, '-t', ssDst], {
     env: { ...process.env, DISPLAY: process.env.DISPLAY || ':0' },
     stdio: 'ignore',
     detached: true,

@@ -315,9 +315,13 @@ export default function PlayPage() {
 
   const handleDesktopPlay = async (node: CheckpointNode) => {
     if (node.file_path.endsWith('.ss1')) {
-      await api.launcher.playEncounter(node.save_file_id);
-      const updated = await api.launcher.sessions();
-      setSessions(updated);
+      try {
+        await api.launcher.playEncounter(node.save_file_id);
+        const updated = await api.launcher.sessions();
+        setSessions(updated);
+      } catch (e) {
+        console.error('Failed to play encounter:', e);
+      }
       return;
     }
     const game = node.snapshot?.game ?? '';
