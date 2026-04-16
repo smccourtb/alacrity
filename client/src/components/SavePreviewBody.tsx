@@ -6,7 +6,7 @@ import { PartyRow } from '@/components/pokemon/PartyRow';
 import { BoxGrid } from '@/components/pokemon/BoxGrid';
 import { DaycareCard } from '@/components/pokemon/DaycareCard';
 import { StatRow } from '@/components/ui/stat-row';
-import { User, Shield, MapPin, Gamepad2 } from 'lucide-react';
+import { User, Shield, MapPin, Gamepad2, Clock } from 'lucide-react';
 import { safeSpeciesName } from '@/components/pokemon/sprites';
 import type { SaveSnapshot } from '@/components/timeline/types';
 import type { SlotSize } from '@/components/pokemon/PokemonSlot';
@@ -26,6 +26,11 @@ interface SavePreviewBodyProps {
   boxSize?: SlotSize;
   children?: React.ReactNode;
   className?: string;
+}
+
+function formatRtc(rtc: { days: number; hours: number; minutes: number; seconds: number }): string {
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  return `Day ${rtc.days} · ${pad(rtc.hours)}:${pad(rtc.minutes)}:${pad(rtc.seconds)}`;
 }
 
 /** Convert snapshot party member to SlotPokemon for PokemonSlot */
@@ -108,6 +113,12 @@ export function SavePreviewBody({
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-raised text-sm font-medium">
               <Gamepad2 className="w-3 h-3 text-muted-foreground" />
               {snapshot.game}
+            </span>
+          )}
+          {snapshot.save_rtc && (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-raised text-sm font-medium">
+              <Clock className="w-3 h-3 text-muted-foreground" />
+              {formatRtc(snapshot.save_rtc)}
             </span>
           )}
         </div>
