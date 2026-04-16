@@ -1,8 +1,8 @@
 import os from 'os';
 
 export interface NetworkInfo {
-  ip: string | null;   // best-guess primary LAN IPv4, null if none found
-  hostname: string;    // OS hostname
+  ip: string | null;
+  hostname: string;
 }
 
 /**
