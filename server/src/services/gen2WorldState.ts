@@ -1,4 +1,4 @@
-import type { SaveWorldState, BallCount } from './worldState.js';
+import type { SaveWorldState, SaveRtc, BallCount } from './worldState.js';
 import {
   GEN2_ITEMS, GEN2_BALL_IDS,
   gen2ItemIdToTmNumber, gen2ItemIdToHmNumber,
@@ -12,6 +12,16 @@ import { decodeGen2String } from './charDecoder.js';
 // Bulbapedia documents 1.0 offsets; most mGBA ROMs are 1.1.
 const CRYSTAL_MAP_V10 = { mapGroup: 0x2847, mapNumber: 0x2848 };
 const CRYSTAL_MAP_V11 = { mapGroup: 0x2B73, mapNumber: 0x2B74 };
+
+// RTC trailer base offset — both Crystal (mGBA) and Gold/Silver saves store the
+// MBC3 clock at exactly 32768 (0x8000) bytes into the file, but in different layouts:
+//   Crystal / mGBA:  5 × u32 LE  (seconds, minutes, hours, days_lo, days_hi)
+//                    followed by the same 5 values as latched copies, then a u64 timestamp.
+//                    Total trailer: 48 bytes.
+//   Gold/Silver:     4 × u8      (seconds, minutes, hours, days_lo)
+//                    Total trailer: 16 bytes.
+// Both are absent (buf.length === 32768) in plain ROM-only dumps without RTC data.
+const GEN2_RTC_BASE = 0x8000;
 
 const CRYSTAL_OFFSETS = {
   playerName: 0x200B,
@@ -33,6 +43,8 @@ const CRYSTAL_OFFSETS = {
   // 0x2055 = frames (1/60s ticks, ignored)
   playTimeMinutes: 0x2056,  // 1 byte
   playTimeSeconds: 0x2057,  // 1 byte
+  // RTC format: mGBA u32 LE fields at GEN2_RTC_BASE (see comment above)
+  rtcFormat: 'crystal' as const,
 };
 
 const GS_OFFSETS = {
@@ -54,7 +66,41 @@ const GS_OFFSETS = {
   // 0x2055 = frames (1/60s ticks, ignored)
   playTimeMinutes: 0x2056,
   playTimeSeconds: 0x2057,
+  // RTC format: compact u8 fields at GEN2_RTC_BASE (see comment above)
+  rtcFormat: 'gs' as const,
 };
+
+// Parse the MBC3 RTC trailer appended to Gen 2 save files by mGBA and similar emulators.
+// Crystal uses mGBA's u32 LE layout; Gold/Silver use a compact u8 layout.
+// Returns undefined if the trailer is absent, too short, or contains out-of-range values.
+function parseGen2Rtc(buf: Buffer, rtcFormat: 'crystal' | 'gs'): SaveRtc | undefined {
+  if (buf.length <= GEN2_RTC_BASE) return undefined;
+  const remaining = buf.length - GEN2_RTC_BASE;
+
+  let days: number;
+  let hours: number;
+  let minutes: number;
+  let seconds: number;
+
+  if (rtcFormat === 'crystal') {
+    // mGBA layout: 5 × u32 LE (sec, min, hour, days_lo, days_hi)
+    if (remaining < 20) return undefined;
+    seconds = buf.readUInt32LE(GEN2_RTC_BASE + 0x00);
+    minutes = buf.readUInt32LE(GEN2_RTC_BASE + 0x04);
+    hours   = buf.readUInt32LE(GEN2_RTC_BASE + 0x08);
+    days    = buf.readUInt32LE(GEN2_RTC_BASE + 0x0C);
+  } else {
+    // Gold/Silver compact layout: 4 × u8 (sec, min, hour, days_lo)
+    if (remaining < 4) return undefined;
+    seconds = buf[GEN2_RTC_BASE + 0x00];
+    minutes = buf[GEN2_RTC_BASE + 0x01];
+    hours   = buf[GEN2_RTC_BASE + 0x02];
+    days    = buf[GEN2_RTC_BASE + 0x03];
+  }
+
+  if (hours > 23 || minutes > 59 || seconds > 59) return undefined;
+  return { days, hours, minutes, seconds };
+}
 
 function parseBagPocket(buf: Buffer, countOffset: number, dataOffset: number): Array<{ itemId: number; count: number }> {
   const items: Array<{ itemId: number; count: number }> = [];
@@ -139,6 +185,9 @@ export function extractGen2WorldState(buf: Buffer, gameName: string): SaveWorldS
   const seconds = buf[offsets.playTimeSeconds];
   const playTimeSeconds = (hours * 3600) + (minutes * 60) + seconds;
 
+  // Real-time clock — read from the MBC3 RTC trailer appended by mGBA/emulators
+  const save_rtc = parseGen2Rtc(buf, offsets.rtcFormat);
+
   return {
     playerName,
     trainerId,
@@ -153,5 +202,6 @@ export function extractGen2WorldState(buf: Buffer, gameName: string): SaveWorldS
     hms,
     balls,
     playTimeSeconds,
+    save_rtc,
   };
 }
