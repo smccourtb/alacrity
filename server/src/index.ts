@@ -62,6 +62,7 @@ const { reconcileTipsInclusion } = await import('./services/identityService.js')
 const { rebuildSnapshots } = await import('./services/saveSnapshot.js');
 const { startRelay, stopRelay, onRelayInput } = await import('./services/mediamtxManager.js');
 const { killAll: killAllProcesses, registeredCount } = await import('./services/processRegistry.js');
+const { startMdns, stopMdns } = await import('./services/mdns.js');
 const { getSession } = await import('./services/streamSession.js');
 
 // ── App setup ───────────────────────────────────────────────────
@@ -208,6 +209,7 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   const addr = server.address();
   const actualPort = typeof addr === 'object' && addr ? addr.port : PORT;
   app.set('serverPort', actualPort);
+  startMdns(actualPort);
   if (LOG_JSON) {
     emitEvent({ event: 'ready', port: actualPort });
   } else {
@@ -222,6 +224,7 @@ async function shutdown() {
   shuttingDown = true;
   const count = registeredCount();
   console.log(`\nShutting down... (${count} child processes to clean up)`);
+  stopMdns();
   stopRelay();
   await killAllProcesses(5000);
   process.exit(0);
