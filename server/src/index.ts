@@ -208,10 +208,25 @@ app.get('/api/client-info', (req, res) => {
 // match if dist exists (e.g. after a prior release build), which is harmless.
 const webDir = join(args['resources-dir']!, 'client', 'dist');
 if (existsSync(webDir)) {
-  app.use(express.static(webDir, { index: 'index.html' }));
+  // Serve hashed assets with long cache (filenames change per build), but
+  // force index.html to always revalidate. Mobile browsers (Brave/Chrome
+  // on Android) respect `no-store` more reliably than `max-age=0`, so
+  // without this the phone kept serving a stale bundle reference after
+  // rebuilds.
+  app.use(express.static(webDir, {
+    index: 'index.html',
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('index.html')) {
+        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+      } else {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      }
+    },
+  }));
   // SPA fallback: any non-API GET that isn't a real file returns index.html
   // so React Router routes like /play deep-load on the phone.
   app.get(/^(?!\/api\/).*$/, (_req, res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
     res.sendFile(join(webDir, 'index.html'));
   });
   console.log(`[server] Serving client bundle from ${webDir}`);

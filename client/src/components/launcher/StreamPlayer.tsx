@@ -90,6 +90,7 @@ export function StreamPlayer({ savePath, game, system, sessionId: existingSessio
   const sessionIdRef = useRef<string | null>(null);
   const initializedRef = useRef(false);
   const [stopping, setStopping] = useState(false);
+  const [needsUnmute, setNeedsUnmute] = useState(true);
 
   const { status, stream, start, stop, sendInput, getStats } = useStreamConnection();
   const { handleTouchInput } = useInputMapping(sendInput, status === 'connected');
@@ -129,12 +130,29 @@ export function StreamPlayer({ savePath, game, system, sessionId: existingSessio
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Attach stream to video element
+  // Attach stream to video element and force play. Autoplay with audio is
+  // blocked by browsers until a user gesture — start muted so the video
+  // renders, then an onClick handler unmutes after first tap.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     video.srcObject = stream ?? null;
+    if (stream) {
+      video.muted = true;
+      video.play().then(() => {
+        console.log('[stream] video.play() resolved; paused=', video.paused, 'videoWidth=', video.videoWidth);
+      }).catch((err) => {
+        console.warn('[stream] video.play() rejected:', err);
+      });
+    }
   }, [stream]);
+
+  const handleUnmute = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    setNeedsUnmute(false);
+  }, []);
 
   const handleStop = useCallback(async () => {
     if (stopping) return;
@@ -266,11 +284,19 @@ export function StreamPlayer({ savePath, game, system, sessionId: existingSessio
             ref={videoRef}
             autoPlay
             playsInline
-            muted={false}
+            muted
             onContextMenu={(e) => e.preventDefault()}
             className="absolute inset-0 w-full h-full object-contain select-none"
             style={{ imageRendering: 'pixelated', touchAction: 'none' }}
           />
+          {needsUnmute && (
+            <button
+              onClick={handleUnmute}
+              className="absolute top-2 left-1/2 -translate-x-1/2 z-[8] px-3 py-1 rounded-full bg-white/20 text-white/80 text-xs pointer-events-auto"
+            >
+              🔇 Tap anywhere to unmute
+            </button>
+          )}
 
           {/* Bottom-screen touch capture — transparent overlay that detects
               taps/drags on the video and maps them to bottom-screen coordinates.

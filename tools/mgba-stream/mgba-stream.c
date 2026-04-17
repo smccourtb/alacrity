@@ -328,9 +328,25 @@ int main(int argc, char* argv[]) {
      * The renderer writes the full SGB frame; we encode only the center. */
     int buf_width  = (plat == PLAT_GBA) ? 240 : 256;
     int buf_height = (plat == PLAT_GBA) ? 160 : 224;
-    /* Offset to the 160x144 GB screen within the 256x224 SGB frame */
-    int offset_x = (buf_width - width) / 2;   /* 48 for GB, 0 for GBA */
-    int offset_y = (buf_height - height) / 2;  /* 40 for GB, 0 for GBA */
+    /* Offset to the 160x144 GB screen within the buffer.
+     *
+     * On Linux, libmgba's GB core SGB-pads the output to 256x224 with the
+     * game centered at (48, 40). On macOS the same libmgba draws the game
+     * at (0, 0) without padding, so reading from (48, 40) captures a
+     * shifted/cut window instead of the real frame. Detect by platform. */
+    int offset_x, offset_y;
+    if (plat == PLAT_GBA) {
+        offset_x = 0;
+        offset_y = 0;
+    } else {
+#ifdef __APPLE__
+        offset_x = 0;
+        offset_y = 0;
+#else
+        offset_x = (buf_width - width) / 2;   /* 48 */
+        offset_y = (buf_height - height) / 2; /* 40 */
+#endif
+    }
 
     fprintf(stderr, "mgba-stream: %s %dx%d (buf %dx%d) → RTP port %d\n",
             plat == PLAT_GBA ? "GBA" : "GB/GBC", width, height,
@@ -381,7 +397,12 @@ int main(int argc, char* argv[]) {
     cfg.rc_end_usage        = VPX_CBR;
     cfg.g_lag_in_frames     = 0;
     cfg.g_error_resilient   = VPX_ERROR_RESILIENT_DEFAULT;
-    cfg.kf_max_dist         = 60;           /* keyframe every ~1s */
+    /* Emit keyframes every ~250ms. The long-term fix is for the relay to
+     * forward RTCP PLI from the browser so we generate a keyframe on demand;
+     * until that lands, a tight interval ensures the browser catches one
+     * during its "waiting for keyframe" window regardless of when DTLS
+     * finishes handshaking. Bandwidth cost is small at 160x144/240x160. */
+    cfg.kf_max_dist         = 15;
     cfg.kf_min_dist         = 0;
     cfg.g_threads           = 1;
 
@@ -399,6 +420,29 @@ int main(int argc, char* argv[]) {
                        (unsigned int)width, (unsigned int)height, 1)) {
         fprintf(stderr, "Failed to alloc VPX image\n");
         return 1;
+    }
+
+    /* ---------- Optional IVF dump (diagnostic) ---------- */
+    FILE* ivf = NULL;
+    const char* dump_path = getenv("MGBA_STREAM_DUMP_IVF");
+    if (dump_path && *dump_path) {
+        ivf = fopen(dump_path, "wb");
+        if (ivf) {
+            uint8_t hdr[32] = {0};
+            memcpy(hdr, "DKIF", 4);
+            hdr[4] = 0; hdr[5] = 0;              /* version */
+            hdr[6] = 32; hdr[7] = 0;             /* header length */
+            memcpy(hdr + 8, "VP80", 4);          /* codec FourCC */
+            hdr[12] = (uint8_t)width; hdr[13] = (uint8_t)(width >> 8);
+            hdr[14] = (uint8_t)height; hdr[15] = (uint8_t)(height >> 8);
+            hdr[16] = 60;                         /* framerate num */
+            hdr[20] = 1;                          /* framerate den */
+            /* frame count + unused: leave 0 */
+            fwrite(hdr, 1, 32, ivf);
+            fprintf(stderr, "mgba-stream: IVF dump to %s\n", dump_path);
+        } else {
+            fprintf(stderr, "mgba-stream: failed to open IVF dump path %s\n", dump_path);
+        }
     }
 
     /* ---------- Init UDP socket ---------- */
@@ -596,6 +640,19 @@ int main(int argc, char* argv[]) {
             const vpx_codec_cx_pkt_t* pkt;
             while ((pkt = vpx_codec_get_cx_data(&codec, &iter)) != NULL) {
                 if (pkt->kind == VPX_CODEC_CX_FRAME_PKT) {
+                    /* IVF frame header: 12 bytes total.
+                     *   bytes 0-3: frame size (uint32 LE)
+                     *   bytes 4-11: PTS (uint64 LE) */
+                    if (ivf) {
+                        uint32_t fsz = (uint32_t)pkt->data.frame.sz;
+                        uint64_t pts = (uint64_t)frame_count;
+                        uint8_t fhdr[12];
+                        fhdr[0] = fsz & 0xFF; fhdr[1] = (fsz >> 8) & 0xFF;
+                        fhdr[2] = (fsz >> 16) & 0xFF; fhdr[3] = (fsz >> 24) & 0xFF;
+                        for (int i = 0; i < 8; i++) fhdr[4 + i] = (uint8_t)(pts >> (8 * i));
+                        fwrite(fhdr, 1, 12, ivf);
+                        fwrite(pkt->data.frame.buf, 1, pkt->data.frame.sz, ivf);
+                    }
                     rtp_send_frame(sock, &dest,
                                    pkt->data.frame.buf,
                                    pkt->data.frame.sz);

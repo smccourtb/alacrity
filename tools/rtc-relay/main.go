@@ -49,6 +49,16 @@ type Session struct {
 	// Tracks whether we've already emitted DISCONNECT for this session so the
 	// server doesn't get duplicate stop events during state flapping.
 	disconnectEmitted bool
+
+	// Diagnostic counters — observed via GET /stats. Updated from the forward
+	// goroutines (single writer each), read from the HTTP handler; atomic
+	// int64 would be cleaner if we care, but this is diagnostic-only.
+	videoPacketsIn   uint64
+	videoPacketsOut  uint64
+	videoParseErrs   uint64
+	videoWriteErrs   uint64
+	videoFirstPT     uint8
+	videoCodecInfo   string
 }
 
 var (
@@ -80,46 +90,52 @@ func allocateUDP() (*net.UDPConn, int, error) {
 	return conn, conn.LocalAddr().(*net.UDPAddr).Port, nil
 }
 
-// forwardVideoRTP reads RTP from UDP and forwards to the track.
-//
-// When extID > 0 we parse + add a playout-delay extension so the browser
-// shortens its jitter buffer. When extID == 0 (browser didn't negotiate
-// the extension — e.g. Safari doesn't support it) we pass bytes through
-// raw like audio does. This avoids a parse/re-marshal roundtrip that
-// could drop packets if Pion's rtp.Packet disagrees with mgba-stream's
-// on-wire framing on any field.
-func forwardVideoRTP(conn *net.UDPConn, track *webrtc.TrackLocalStaticRTP, done chan struct{}, extID uint8) {
+// forwardVideoRTP reads RTP from UDP, parses to rtp.Packet, optionally
+// sets the playout-delay extension, and writes via track.WriteRTP so Pion
+// rewrites the PT to match the SDP-negotiated value. track.Write (used
+// for audio) doesn't rewrite PT; video has to go through WriteRTP or
+// Safari drops everything when its negotiated VP8 PT differs from the
+// PT mgba-stream hardcoded (96).
+func forwardVideoRTP(s *Session) {
 	buf := make([]byte, 1500)
 	pkt := &rtp.Packet{}
 	for {
 		select {
-		case <-done:
+		case <-s.done:
 			return
 		default:
 		}
-		n, err := conn.Read(buf)
+		n, err := s.videoConn.Read(buf)
 		if err != nil {
 			return
 		}
-
-		if extID == 0 {
-			// No extension to set — fastest path, bytes unchanged.
-			if _, err := track.Write(buf[:n]); err != nil {
-				return
-			}
-			continue
-		}
+		s.mu.Lock()
+		s.videoPacketsIn++
+		s.mu.Unlock()
 
 		if err := pkt.Unmarshal(buf[:n]); err != nil {
+			s.mu.Lock()
+			s.videoParseErrs++
+			s.mu.Unlock()
 			continue
 		}
-		// Playout-delay: 12-bit min + 12-bit max, units of 10ms.
-		// min=5 → 50ms, max=10 → 100ms. See RFC-style layout at
-		// http://www.webrtc.org/experiments/rtp-hdrext/playout-delay.
-		pkt.Header.SetExtension(extID, []byte{0x00, 0x50, 0x0A})
-		if err := track.WriteRTP(pkt); err != nil {
-			return
+
+		if s.playoutDelayID > 0 {
+			pkt.Header.SetExtension(s.playoutDelayID, []byte{0x00, 0x50, 0x0A})
 		}
+
+		if err := s.videoTrack.WriteRTP(pkt); err != nil {
+			s.mu.Lock()
+			s.videoWriteErrs++
+			s.mu.Unlock()
+			continue
+		}
+		s.mu.Lock()
+		if s.videoPacketsOut == 0 {
+			s.videoFirstPT = pkt.Header.PayloadType
+		}
+		s.videoPacketsOut++
+		s.mu.Unlock()
 	}
 }
 
@@ -300,10 +316,30 @@ func handleOffer(s *Session, offerSDP string) (string, error) {
 	// Find the negotiated extension ID for playout-delay from the answer SDP
 	desc := pc.LocalDescription()
 	s.playoutDelayID = findExtensionID(desc.SDP, playoutDelayURI)
-	log.Printf("playout-delay extension ID: %d", s.playoutDelayID)
+	log.Printf("[%s] playout-delay extID=%d", s.id, s.playoutDelayID)
 
-	// Now start video forwarding with the negotiated extension ID
-	go forwardVideoRTP(s.videoConn, s.videoTrack, s.done, s.playoutDelayID)
+	// Capture negotiated codecs for the /stats endpoint. If VP8 has no matching
+	// PT, that explains audio-works-but-video-doesn't.
+	var codecInfo []string
+	for _, t := range pc.GetTransceivers() {
+		sender := t.Sender()
+		if sender == nil {
+			continue
+		}
+		track := sender.Track()
+		if track == nil {
+			continue
+		}
+		params := sender.GetParameters()
+		var codecs []string
+		for _, c := range params.Codecs {
+			codecs = append(codecs, fmt.Sprintf("%s/%d(PT=%d)", c.MimeType, c.ClockRate, c.PayloadType))
+		}
+		codecInfo = append(codecInfo, fmt.Sprintf("%s=[%s]", track.Kind(), strings.Join(codecs, ",")))
+	}
+	s.videoCodecInfo = strings.Join(codecInfo, " | ")
+
+	go forwardVideoRTP(s)
 
 	return desc.SDP, nil
 }
@@ -432,6 +468,63 @@ func main() {
 
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		io.WriteString(w, "ok")
+	})
+
+	mux.HandleFunc("GET /stats", func(w http.ResponseWriter, r *http.Request) {
+		sessionsMu.Lock()
+		out := make(map[string]map[string]any, len(sessions))
+		for id, s := range sessions {
+			s.mu.Lock()
+			info := map[string]any{
+				"videoPacketsIn":  s.videoPacketsIn,
+				"videoPacketsOut": s.videoPacketsOut,
+				"videoParseErrs":  s.videoParseErrs,
+				"videoWriteErrs":  s.videoWriteErrs,
+				"videoFirstPT":    s.videoFirstPT,
+				"playoutDelayID":  s.playoutDelayID,
+				"codecInfo":       s.videoCodecInfo,
+				"pcAttached":      s.pc != nil,
+			}
+			pc := s.pc
+			s.mu.Unlock()
+
+			if pc != nil {
+				var senders []map[string]any
+				for _, t := range pc.GetTransceivers() {
+					sender := t.Sender()
+					if sender == nil {
+						continue
+					}
+					track := sender.Track()
+					if track == nil {
+						continue
+					}
+					params := sender.GetParameters()
+					var ssrcs []uint32
+					for _, enc := range params.Encodings {
+						ssrcs = append(ssrcs, uint32(enc.SSRC))
+					}
+					senders = append(senders, map[string]any{
+						"kind":  track.Kind().String(),
+						"id":    track.ID(),
+						"ssrcs": ssrcs,
+					})
+				}
+				info["senders"] = senders
+				info["iceState"] = pc.ICEConnectionState().String()
+				info["pcState"] = pc.ConnectionState().String()
+
+				// Pion's WebRTC-style stats — includes outbound-rtp entries per
+				// track with packetsSent, bytesSent, nackCount, etc. That's
+				// what'll tell us whether SRTP is actually emitting bytes for
+				// the video sender or whether it's being dropped internally.
+				info["rtcStats"] = pc.GetStats()
+			}
+			out[id] = info
+		}
+		sessionsMu.Unlock()
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(out)
 	})
 
 	srv := &http.Server{Addr: ":" + port, Handler: mux}

@@ -4,7 +4,7 @@
   "identifier": "com.alacrity.app",
   "build": {
     "beforeDevCommand": "go -C tools/rtc-relay build -o rtc-relay . && touch tools/rtc-relay/rtc-relay tools/rtc-relay/rtc-relay.exe tools/mgba-stream/mgba-stream && bun run --cwd server build:sidecar && bun run --cwd client dev",
-    "devUrl": "http://localhost:5173",
+    "devUrl": "http://localhost:5178",
     "beforeBuildCommand": "go -C tools/rtc-relay build -o rtc-relay . && touch tools/rtc-relay/rtc-relay tools/rtc-relay/rtc-relay.exe tools/mgba-stream/mgba-stream && bun run --cwd client build",
     "frontendDist": "../client/dist"
   },
