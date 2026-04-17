@@ -296,7 +296,10 @@ export default function PlayPage() {
     try {
       // Session is created server-side; phone picks it up via /stream SSE.
       // Desktop shows ActiveStreamToast (global) as the in-app indicator.
-      await api.stream.start(node.file_path, node.snapshot?.game ?? '');
+      // Normalize the game name — node.snapshot stores variants like "crystal"
+      // while the server's ROM_MAP keys expect "Crystal" / "Pokemon Crystal".
+      const game = normalizeGameName(node.snapshot?.game ?? '');
+      await api.stream.start(node.file_path, game);
       setStreamError(null);
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Unknown error';
