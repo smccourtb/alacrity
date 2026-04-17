@@ -181,9 +181,10 @@ fn main() {
             }
 
             // Launch sidecar
-            // In dev mode, use fixed port 3001 so Vite's proxy works.
-            // In release mode, use auto port — the frontend gets it via IPC.
-            let port = if cfg!(dev) { "3001" } else { "auto" };
+            // Use fixed port 3001 in both dev and release so the phone
+            // companion URL is stable across app launches (QR doesn't
+            // need to be re-scanned every session).
+            let port = "3001";
             let sidecar = app.shell()
                 .sidecar("alacrity-server")
                 .expect("failed to find sidecar binary")
