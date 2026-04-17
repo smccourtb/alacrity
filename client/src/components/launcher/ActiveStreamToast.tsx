@@ -16,6 +16,7 @@ interface StreamSessionInfo {
   id: string;
   game: string;
   status: string;
+  saveChanged?: boolean;
 }
 
 interface SaveChangedResult {
@@ -44,6 +45,15 @@ export default function ActiveStreamToast() {
         const data = await api.stream.sessions() as StreamSessionInfo[];
         if (cancelled) return;
         setSessions(data.filter(s => s.status === 'running' || s.status === 'starting'));
+
+        // A session can transition to stopped-with-saveChanged without the
+        // desktop calling stop itself (phone hit Stop, phone disconnected,
+        // emulator crashed). Functional set so we don't trample an already-
+        // open dialog.
+        const pending = data.find(s => s.status === 'stopped' && s.saveChanged);
+        if (pending) {
+          setResult(prev => prev ?? { sessionId: pending.id, game: pending.game });
+        }
       } catch {
         if (!cancelled) setSessions([]);
       }

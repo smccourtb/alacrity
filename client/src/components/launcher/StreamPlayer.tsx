@@ -141,17 +141,16 @@ export function StreamPlayer({ savePath, game, system, sessionId: existingSessio
     setStopping(true);
     const sessionId = sessionIdRef.current ?? '';
     let saveChanged = false;
-    if (!existingSessionId) {
-      // Desktop-initiated: stop the server session and check save status
-      try {
-        const result = await api.stream.stop(sessionId);
-        saveChanged = result.saveChanged;
-      } catch { /* proceed */ }
-    }
-    // Always close the WebRTC connection
+    // Stopping from either phone or desktop kills the session. The phone is
+    // the active player — once it leaves, the emulator has no viewer, so
+    // orphaning it server-side would just leak processes.
+    try {
+      const result = await api.stream.stop(sessionId);
+      saveChanged = result.saveChanged;
+    } catch { /* proceed */ }
     await stop();
     onClose({ saveChanged, sessionId });
-  }, [stopping, stop, onClose, existingSessionId]);
+  }, [stopping, stop, onClose]);
 
   const handleFullscreen = useCallback(() => {
     // Fullscreen the whole container so touch controls are included

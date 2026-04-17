@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { api } from '@/api/client';
 import { StreamPlayer } from '@/components/launcher/StreamPlayer';
 import type { SystemType } from '@/lib/game-constants';
@@ -12,16 +12,15 @@ interface StreamSession {
 }
 
 /**
- * Mobile stream page — phone acts as a remote display for desktop-initiated streams.
- *
- * Flow: phone scans QR → lands here → polls for active sessions → auto-connects
- * when desktop clicks "Stream" on a save.
+ * Mobile stream page — phone acts as the remote display and controller for
+ * desktop-initiated streams. Phone hitting Stop kills the session server-side,
+ * so there's no stale session to avoid re-joining; any running session that
+ * appears is always intended for us.
  */
 export default function MobileStream() {
   const [sessions, setSessions] = useState<StreamSession[]>([]);
   const [connected, setConnected] = useState<StreamSession | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const seenRef = useRef<Set<string>>(new Set());
 
   // Poll for active stream sessions
   useEffect(() => {
@@ -36,13 +35,8 @@ export default function MobileStream() {
         setError(null);
         setSessions(data);
 
-        // Auto-connect to the first running session we haven't seen yet
-        const running = data.filter(s => s.status === 'running' || s.status === 'starting');
-        const fresh = running.find(s => !seenRef.current.has(s.id));
-        if (fresh) {
-          seenRef.current.add(fresh.id);
-          setConnected(fresh);
-        }
+        const running = data.find(s => s.status === 'running' || s.status === 'starting');
+        if (running) setConnected(running);
       } catch (e) {
         if (!cancelled) {
           setError(e instanceof Error ? e.message : 'Cannot reach server');
