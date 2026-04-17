@@ -1,4 +1,6 @@
 import { parseArgs } from 'util';
+import { join } from 'path';
+import { existsSync } from 'fs';
 import { initPaths } from './paths.js';
 import { emitEvent, setLogJson } from './events.js';
 
@@ -50,6 +52,7 @@ const { default: timelineRouter } = await import('./routes/timeline.js');
 const { default: configRouter } = await import('./routes/config.js');
 const { default: dependenciesRouter } = await import('./routes/dependencies.js');
 const { default: systemRouter } = await import('./routes/system.js');
+const { default: networkInfoRouter } = await import('./routes/networkInfo.js');
 const { seedShinyAvailability } = await import('./shiny-availability.js');
 const { seedGuide } = await import('./seeds/seedGuide.js');
 const { seedRibbons, seedMarks, seedBalls, seedForms, seedShinyMethods, seedLegality } = await import('./seed-reference.js');
@@ -59,6 +62,7 @@ const { reconcileTipsInclusion } = await import('./services/identityService.js')
 const { rebuildSnapshots } = await import('./services/saveSnapshot.js');
 const { startRelay, stopRelay, onRelayInput } = await import('./services/mediamtxManager.js');
 const { killAll: killAllProcesses, registeredCount } = await import('./services/processRegistry.js');
+const { startMdns, stopMdns } = await import('./services/mdns.js');
 const { getSession } = await import('./services/streamSession.js');
 
 // ── App setup ───────────────────────────────────────────────────
@@ -66,11 +70,12 @@ const app = express();
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || origin.includes('localhost') || origin.includes('tauri.localhost')) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-    }
+    if (!origin) return callback(null, true);
+    const ok =
+      origin.includes('localhost') ||
+      origin.includes('tauri.localhost') ||
+      /^https?:\/\/(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(origin);
+    callback(null, ok);
   },
 }));
 app.use(express.json());
@@ -156,6 +161,7 @@ app.use('/api/timeline', timelineRouter);
 app.use('/api/config', configRouter);
 app.use('/api/dependencies', dependenciesRouter);
 app.use('/api/system', systemRouter);
+app.use('/api/network-info', networkInfoRouter);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
@@ -171,6 +177,22 @@ app.get('/api/client-info', (req, res) => {
   res.json({ isLocal });
 });
 
+// Serve the built client bundle so a phone on LAN can load the app.
+// In dev mode, client is served by Vite on :5173 — this handler will only
+// match if dist exists (e.g. after a prior release build), which is harmless.
+const webDir = join(args['resources-dir']!, 'client', 'dist');
+if (existsSync(webDir)) {
+  app.use(express.static(webDir, { index: 'index.html' }));
+  // SPA fallback: any non-API GET that isn't a real file returns index.html
+  // so React Router routes like /play deep-load on the phone.
+  app.get(/^(?!\/api\/).*$/, (_req, res) => {
+    res.sendFile(join(webDir, 'index.html'));
+  });
+  console.log(`[server] Serving client bundle from ${webDir}`);
+} else {
+  console.log(`[server] Client bundle not found at ${webDir} (dev mode — Vite serves client)`);
+}
+
 // ── Periodic status emission for active hunts ───────────────────
 setInterval(() => {
   const stats = db.prepare(`
@@ -183,13 +205,15 @@ setInterval(() => {
 }, 5000);
 
 // ── Start server ────────────────────────────────────────────────
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   const addr = server.address();
   const actualPort = typeof addr === 'object' && addr ? addr.port : PORT;
+  app.set('serverPort', actualPort);
+  startMdns(actualPort);
   if (LOG_JSON) {
     emitEvent({ event: 'ready', port: actualPort });
   } else {
-    console.log(`Pokemon server running on http://localhost:${actualPort}`);
+    console.log(`Pokemon server running on http://0.0.0.0:${actualPort}`);
   }
 });
 
@@ -200,6 +224,7 @@ async function shutdown() {
   shuttingDown = true;
   const count = registeredCount();
   console.log(`\nShutting down... (${count} child processes to clean up)`);
+  stopMdns();
   stopRelay();
   await killAllProcesses(5000);
   process.exit(0);

@@ -4,6 +4,7 @@ import { BiosSection } from '@/components/settings/BiosSection';
 import { SavesSection } from '@/components/settings/SavesSection';
 import { CollectionSection } from '@/components/settings/CollectionSection';
 import { NotificationsSection } from '@/components/settings/NotificationsSection';
+import { ConnectPhoneSection } from '@/components/settings/ConnectPhoneSection';
 import { PortableBadge } from '@/components/settings/PortableBadge';
 
 export default function Settings() {
@@ -14,6 +15,7 @@ export default function Settings() {
         <PortableBadge />
       </div>
 
+      <ConnectPhoneSection />
       <DependenciesSection />
       <RomsSection />
       <BiosSection />
