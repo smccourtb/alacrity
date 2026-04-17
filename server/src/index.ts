@@ -63,7 +63,7 @@ const { rebuildSnapshots } = await import('./services/saveSnapshot.js');
 const { startRelay, stopRelay, onRelayInput, onRelayDisconnect } = await import('./services/relayManager.js');
 const { killAll: killAllProcesses, registeredCount } = await import('./services/processRegistry.js');
 const { startMdns, stopMdns } = await import('./services/mdns.js');
-const { getSession, removeSession } = await import('./services/streamSession.js');
+const { getSession, removeSession } = await import('./services/sessionRegistry.js');
 
 // ── App setup ───────────────────────────────────────────────────
 const app = express();

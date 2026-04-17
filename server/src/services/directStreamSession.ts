@@ -10,7 +10,7 @@ import {
 } from './sessionManager.js';
 import { createRelaySession, stopRelaySession } from './relayManager.js';
 import { registerProcess, gracefulKill } from './processRegistry.js';
-import { broadcastSessionsChanged, type StreamSessionInfo } from './streamSession.js';
+import { broadcastSessionsChanged, type StreamSessionInfo } from './sessionRegistry.js';
 import { paths } from '../paths.js';
 
 // ---------------------------------------------------------------------------

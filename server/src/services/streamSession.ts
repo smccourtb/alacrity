@@ -18,71 +18,7 @@ import { bridgeSaveIn, hasSaveBridgeChanged, seedAzaharConfig, type SaveBridge }
 import { seedMelonDSConfig } from './melondsConfig.js';
 import { createRelaySession, stopRelaySession } from './relayManager.js';
 import { registerProcess, gracefulKill } from './processRegistry.js';
-import type { DirectStreamSession } from './directStreamSession.js';
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-export interface StreamSessionInfo {
-  id: string;
-  game: string;
-  system: SystemType;
-  status: 'starting' | 'running' | 'stopped';
-  startedAt: string;
-  /** Only meaningful when status === 'stopped'; true means user action is needed to resolve. */
-  saveChanged?: boolean;
-}
-
-// ---------------------------------------------------------------------------
-// Module-level session store (accepts both StreamSession and DirectStreamSession)
-// ---------------------------------------------------------------------------
-
-export type AnyStreamSession = StreamSession | DirectStreamSession;
-
-const sessions = new Map<string, AnyStreamSession>();
-
-// ---------------------------------------------------------------------------
-// Session-change subscription
-// ---------------------------------------------------------------------------
-// Supports an SSE feed at /api/stream/events so clients don't poll every 2s.
-// Subscribers receive a fresh getAllSessions() snapshot on subscribe and on
-// every lifecycle transition (register, status change, remove).
-
-type SessionsListener = (snapshot: StreamSessionInfo[]) => void;
-const listeners = new Set<SessionsListener>();
-
-export function subscribeToSessions(cb: SessionsListener): () => void {
-  listeners.add(cb);
-  try { cb(getAllSessions()); } catch (e) { console.error('[stream/events] initial snapshot threw:', e); }
-  return () => { listeners.delete(cb); };
-}
-
-/** Called internally whenever session membership or status changes. */
-export function broadcastSessionsChanged(): void {
-  if (listeners.size === 0) return;
-  const snapshot = getAllSessions();
-  for (const listener of listeners) {
-    try { listener(snapshot); } catch (e) { console.error('[stream/events] listener threw:', e); }
-  }
-}
-
-export function getSession(id: string): AnyStreamSession | undefined {
-  return sessions.get(id);
-}
-
-export function getAllSessions(): StreamSessionInfo[] {
-  return Array.from(sessions.values()).map((s) => s.info);
-}
-
-export function registerSession(session: AnyStreamSession): void {
-  sessions.set(session.id, session);
-  broadcastSessionsChanged();
-}
-
-export function removeSession(id: string): void {
-  if (sessions.delete(id)) broadcastSessionsChanged();
-}
+import { broadcastSessionsChanged, type StreamSessionInfo } from './sessionRegistry.js';
 
 // ---------------------------------------------------------------------------
 // Display number allocator

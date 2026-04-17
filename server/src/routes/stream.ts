@@ -2,16 +2,16 @@ import { Router, Request, Response } from 'express';
 import { registerProcess } from '../services/processRegistry.js';
 import { join } from 'path';
 import { existsSync } from 'fs';
+import { StreamSession } from '../services/streamSession.js';
+import { DirectStreamSession } from '../services/directStreamSession.js';
 import {
-  StreamSession,
   getSession,
   getAllSessions,
   registerSession,
   removeSession,
   subscribeToSessions,
   type AnyStreamSession,
-} from '../services/streamSession.js';
-import { DirectStreamSession } from '../services/directStreamSession.js';
+} from '../services/sessionRegistry.js';
 import {
   detectInstalledEmulators,
   getEmulatorConfig,
