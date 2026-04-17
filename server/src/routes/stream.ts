@@ -194,6 +194,34 @@ router.post('/resolve', (req: Request, res: Response) => {
   }
 });
 
+// GET /api/stream/capabilities
+// Reports whether each emulated system is actually streamable on this host.
+// Clients use this to disable UI entry points instead of letting users click
+// into a guaranteed failure.
+router.get('/capabilities', (_req: Request, res: Response) => {
+  const isLinux = process.platform === 'linux';
+  const mgbaStreamPresent = existsSync(paths.mgba);
+
+  // Direct-stream path (GB/GBC/GBA): needs mgba-stream binary on disk.
+  const directReason = mgbaStreamPresent
+    ? null
+    : `mgba-stream binary not found at ${paths.mgba}. In a release build this ships with the app; in a dev build it needs to be built locally (see notes/streaming-architecture.md).`;
+
+  // StreamSession path (NDS/3DS): needs Xvfb + x11grab + PulseAudio, Linux-only.
+  const xvfbReason = isLinux
+    ? null
+    : `Streaming this system is not yet supported on ${process.platform}. The Xvfb + x11grab pipeline is Linux-only; use Play to open the emulator locally.`;
+
+  const systems = {
+    gb: { supported: mgbaStreamPresent, reason: directReason },
+    gbc: { supported: mgbaStreamPresent, reason: directReason },
+    gba: { supported: mgbaStreamPresent, reason: directReason },
+    nds: { supported: isLinux, reason: xvfbReason },
+    '3ds': { supported: isLinux, reason: xvfbReason },
+  };
+  return res.json({ platform: process.platform, systems });
+});
+
 router.get('/sessions', (_req: Request, res: Response) => {
   try {
     return res.json(getAllSessions());

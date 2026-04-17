@@ -623,6 +623,10 @@ export const api = {
       }),
     sessions: () => request<any[]>('/stream/sessions'),
     events: () => new EventSource(`${getBase()}/stream/events`),
+    capabilities: () => request<{
+      platform: string;
+      systems: Record<string, { supported: boolean; reason: string | null }>;
+    }>('/stream/capabilities'),
     emulators: () => request<Record<string, boolean>>('/stream/emulators'),
     games: () => request<{ game: string; system: string }[]>('/stream/games'),
     launch: (game: string, savePath?: string) =>
