@@ -60,6 +60,17 @@ jobs:
         with:
           workspaces: src-tauri
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+          cache-dependency-path: tools/rtc-relay/go.sum
+
+      - name: Build rtc-relay
+        shell: bash
+        working-directory: tools/rtc-relay
+        run: go build -o rtc-relay .
+
       - name: Verify dependency manifest is frozen
         shell: bash
         run: |
