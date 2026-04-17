@@ -80,9 +80,17 @@ func allocateUDP() (*net.UDPConn, int, error) {
 	return conn, conn.LocalAddr().(*net.UDPAddr).Port, nil
 }
 
-// forwardVideoRTP reads RTP from UDP, adds playout-delay extension, writes to track.
+// forwardVideoRTP reads RTP from UDP and forwards to the track.
+//
+// When extID > 0 we parse + add a playout-delay extension so the browser
+// shortens its jitter buffer. When extID == 0 (browser didn't negotiate
+// the extension — e.g. Safari doesn't support it) we pass bytes through
+// raw like audio does. This avoids a parse/re-marshal roundtrip that
+// could drop packets if Pion's rtp.Packet disagrees with mgba-stream's
+// on-wire framing on any field.
 func forwardVideoRTP(conn *net.UDPConn, track *webrtc.TrackLocalStaticRTP, done chan struct{}, extID uint8) {
 	buf := make([]byte, 1500)
+	pkt := &rtp.Packet{}
 	for {
 		select {
 		case <-done:
@@ -94,21 +102,21 @@ func forwardVideoRTP(conn *net.UDPConn, track *webrtc.TrackLocalStaticRTP, done 
 			return
 		}
 
-		// Parse RTP packet so we can add the playout-delay extension
-		pkt := &rtp.Packet{}
-		if err := pkt.Unmarshal(buf[:n]); err != nil {
+		if extID == 0 {
+			// No extension to set — fastest path, bytes unchanged.
+			if _, err := track.Write(buf[:n]); err != nil {
+				return
+			}
 			continue
 		}
 
-		// Set playout-delay: min=50ms, max=100ms
-		// Format: 12-bit min + 12-bit max, units of 10ms
-		// min=5 (force 50ms buffer minimum), max=10 (allow up to 100ms)
-		// Encoding: min=5=000000000101, max=10=000000001010
-		// Byte0=0x00, Byte1=0x50, Byte2=0x0A
-		if extID > 0 {
-			pkt.Header.SetExtension(extID, []byte{0x00, 0x50, 0x0A})
+		if err := pkt.Unmarshal(buf[:n]); err != nil {
+			continue
 		}
-
+		// Playout-delay: 12-bit min + 12-bit max, units of 10ms.
+		// min=5 → 50ms, max=10 → 100ms. See RFC-style layout at
+		// http://www.webrtc.org/experiments/rtp-hdrext/playout-delay.
+		pkt.Header.SetExtension(extID, []byte{0x00, 0x50, 0x0A})
 		if err := track.WriteRTP(pkt); err != nil {
 			return
 		}
