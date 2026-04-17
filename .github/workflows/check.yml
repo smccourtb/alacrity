@@ -52,7 +52,7 @@ jobs:
         # externalBin and bundle.resources paths exist. We're not actually
         # building the bundle, just checking the Rust code compiles.
         run: |
-          mkdir -p src-tauri/binaries data
+          mkdir -p src-tauri/binaries data client/dist
           touch src-tauri/binaries/alacrity-server-x86_64-unknown-linux-gnu
           chmod +x src-tauri/binaries/alacrity-server-x86_64-unknown-linux-gnu
           touch data/pokemon.db
