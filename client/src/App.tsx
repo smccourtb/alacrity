@@ -30,6 +30,7 @@ import PlayPage from './pages/PlayPage';
 import Guide from './pages/Guide';
 import CollectionDashboard from './pages/CollectionDashboard';
 import Settings from './pages/Settings';
+import MobileStream from './pages/MobileStream';
 import SessionMonitor from './components/launcher/SessionMonitor';
 import { WelcomeDialog } from '@/components/onboarding/WelcomeDialog';
 
@@ -131,28 +132,36 @@ export default function App() {
   return (
     <TooltipProvider>
       <BrowserRouter>
-        <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <header className="flex items-center gap-2 p-4 md:hidden">
-              <SidebarTrigger />
-              <span className="font-bold text-base">Alacrity</span>
-            </header>
-            <main className="p-6 pt-0 md:pt-6">
-              <Routes>
-                <Route path="/" element={<Pokedex />} />
-                <Route path="/hunt" element={<HuntDashboard />} />
-                <Route path="/play" element={<PlayPage />} />
-                <Route path="/saves" element={<Navigate to="/play" replace />} />
-                <Route path="/guide" element={<Guide />} />
-                <Route path="/collection" element={<CollectionDashboard />} />
-                <Route path="/settings" element={<Settings />} />
-              </Routes>
-            </main>
-          </SidebarInset>
-          <SessionMonitor />
-          <WelcomeDialog />
-        </SidebarProvider>
+        <Routes>
+          {/* Standalone mobile stream page — no sidebar shell */}
+          <Route path="/stream" element={<MobileStream />} />
+
+          {/* Desktop shell with sidebar */}
+          <Route path="*" element={
+            <SidebarProvider>
+              <AppSidebar />
+              <SidebarInset>
+                <header className="flex items-center gap-2 p-4 md:hidden">
+                  <SidebarTrigger />
+                  <span className="font-bold text-base">Alacrity</span>
+                </header>
+                <main className="p-6 pt-0 md:pt-6">
+                  <Routes>
+                    <Route path="/" element={<Pokedex />} />
+                    <Route path="/hunt" element={<HuntDashboard />} />
+                    <Route path="/play" element={<PlayPage />} />
+                    <Route path="/saves" element={<Navigate to="/play" replace />} />
+                    <Route path="/guide" element={<Guide />} />
+                    <Route path="/collection" element={<CollectionDashboard />} />
+                    <Route path="/settings" element={<Settings />} />
+                  </Routes>
+                </main>
+              </SidebarInset>
+              <SessionMonitor />
+              <WelcomeDialog />
+            </SidebarProvider>
+          } />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   );

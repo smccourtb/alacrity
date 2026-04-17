@@ -46,13 +46,13 @@ export function ConnectPhoneSection() {
           {!error && info?.ip && (
             <div className="flex items-start gap-6">
               <div className="rounded-md bg-white p-3">
-                <QRCodeSVG value={`http://${info.ip}:${info.port}/`} size={180} />
+                <QRCodeSVG value={`http://${info.ip}:${info.port}/stream`} size={180} />
               </div>
               <div className="space-y-2 text-sm">
                 <div>
                   <div className="font-medium">Open in browser</div>
                   <code className="block rounded bg-muted px-2 py-1 font-mono text-xs">
-                    http://{info.ip}:{info.port}/
+                    http://{info.ip}:{info.port}/stream
                   </code>
                 </div>
                 <div className="text-muted-foreground">

@@ -79,10 +79,12 @@ interface StreamPlayerProps {
   savePath?: string;
   game: string;
   system: 'gb' | 'gbc' | 'gba' | 'nds' | '3ds';
+  /** If provided, join an existing session instead of creating a new one */
+  sessionId?: string;
   onClose: (result: { saveChanged: boolean; sessionId: string }) => void;
 }
 
-export function StreamPlayer({ savePath, game, system, onClose }: StreamPlayerProps) {
+export function StreamPlayer({ savePath, game, system, sessionId: existingSessionId, onClose }: StreamPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const sessionIdRef = useRef<string | null>(null);
@@ -105,18 +107,25 @@ export function StreamPlayer({ savePath, game, system, onClose }: StreamPlayerPr
     return () => clearInterval(interval);
   }, [status, getStats]);
 
-  // On mount: start server session then begin WebRTC connection
+  // On mount: start or join a stream session, then begin WebRTC connection
   useEffect(() => {
     // Guard against React StrictMode double-mount
     if (initializedRef.current) return;
     initializedRef.current = true;
 
-    api.stream.start(savePath, game).then(({ sessionId }) => {
-      sessionIdRef.current = sessionId;
-      start(sessionId);
-    }).catch((err) => {
-      console.error('Failed to start stream session:', err);
-    });
+    if (existingSessionId) {
+      // Join an existing session (mobile remote display)
+      sessionIdRef.current = existingSessionId;
+      start(existingSessionId);
+    } else {
+      // Create a new session (desktop-initiated)
+      api.stream.start(savePath, game).then(({ sessionId }) => {
+        sessionIdRef.current = sessionId;
+        start(sessionId);
+      }).catch((err) => {
+        console.error('Failed to start stream session:', err);
+      });
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -132,13 +141,17 @@ export function StreamPlayer({ savePath, game, system, onClose }: StreamPlayerPr
     setStopping(true);
     const sessionId = sessionIdRef.current ?? '';
     let saveChanged = false;
-    try {
-      const result = await api.stream.stop(sessionId);
-      saveChanged = result.saveChanged;
-    } catch { /* proceed */ }
+    if (!existingSessionId) {
+      // Desktop-initiated: stop the server session and check save status
+      try {
+        const result = await api.stream.stop(sessionId);
+        saveChanged = result.saveChanged;
+      } catch { /* proceed */ }
+    }
+    // Always close the WebRTC connection
     await stop();
     onClose({ saveChanged, sessionId });
-  }, [stopping, stop, onClose]);
+  }, [stopping, stop, onClose, existingSessionId]);
 
   const handleFullscreen = useCallback(() => {
     // Fullscreen the whole container so touch controls are included
