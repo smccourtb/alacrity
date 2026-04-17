@@ -118,6 +118,7 @@ jobs:
           git clone https://github.com/mgba-emu/mgba.git /tmp/mgba
           git -C /tmp/mgba checkout "$MGBA_COMMIT"
           cmake -S /tmp/mgba -B /tmp/mgba/build \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
             -DBUILD_QT=OFF \
             -DBUILD_SDL=OFF \
             -DBUILD_LIBRETRO=OFF \
@@ -176,6 +177,7 @@ jobs:
           git clone https://github.com/mgba-emu/mgba.git /tmp/mgba
           git -C /tmp/mgba checkout "$MGBA_COMMIT"
           cmake -S /tmp/mgba -B /tmp/mgba/build \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
             -DBUILD_QT=OFF \
             -DBUILD_SDL=OFF \
             -DBUILD_LIBRETRO=OFF \
