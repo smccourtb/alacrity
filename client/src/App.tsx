@@ -32,6 +32,7 @@ import CollectionDashboard from './pages/CollectionDashboard';
 import Settings from './pages/Settings';
 import MobileStream from './pages/MobileStream';
 import SessionMonitor from './components/launcher/SessionMonitor';
+import ActiveStreamToast from './components/launcher/ActiveStreamToast';
 import { WelcomeDialog } from '@/components/onboarding/WelcomeDialog';
 
 /** Pokeball nav icon — red top half, white bottom, black band + center button */
@@ -158,6 +159,7 @@ export default function App() {
                 </main>
               </SidebarInset>
               <SessionMonitor />
+              <ActiveStreamToast />
               <WelcomeDialog />
             </SidebarProvider>
           } />

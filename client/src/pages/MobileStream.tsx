@@ -55,11 +55,16 @@ export default function MobileStream() {
     return () => { cancelled = true; clearInterval(interval); };
   }, [connected]);
 
-  // Lock orientation to landscape when streaming
+  // Lock orientation to landscape when streaming. ScreenOrientation.lock
+  // is non-standard so TS lib types don't include it — cast to access.
   useEffect(() => {
     if (!connected) return;
-    screen.orientation?.lock?.('landscape').catch(() => {});
-    return () => { screen.orientation?.unlock?.(); };
+    const orientation = screen.orientation as ScreenOrientation & {
+      lock?: (o: string) => Promise<void>;
+      unlock?: () => void;
+    };
+    orientation?.lock?.('landscape').catch(() => {});
+    return () => { orientation?.unlock?.(); };
   }, [connected]);
 
   const handleClose = useCallback(() => {

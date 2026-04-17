@@ -20,7 +20,6 @@ import { PlayHeader } from '@/components/play/PlayHeader';
 import { SessionBar, type ActiveSession } from '@/components/play/SessionBar';
 import TradeSetup from '@/components/launcher/TradeSetup';
 import WebEmulator from '@/components/launcher/WebEmulator';
-import { StreamPlayer } from '@/components/launcher/StreamPlayer';
 import type { DiscoveredSave } from '@/lib/game-constants';
 import { getSystemForGame, normalizeGameName } from '@/lib/game-constants';
 import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
@@ -72,11 +71,6 @@ export default function PlayPage() {
   // --- Dialog state ---
   const [tradeSave, setTradeSave] = useState<DiscoveredSave | null>(null);
   const [webPlaySave, setWebPlaySave] = useState<{ saveId: number; game: string; label: string } | null>(null);
-  const [streamSave, setStreamSave] = useState<{ file_path: string; game: string } | null>(null);
-  const [streamGame, setStreamGame] = useState<string | null>(null);
-  const [streamResult, setStreamResult] = useState<{ saveChanged: boolean; sessionId: string } | null>(null);
-  const [streamSaveNewName, setStreamSaveNewName] = useState('');
-  const [streamSaveShowName, setStreamSaveShowName] = useState(false);
   const [webSaveData, setWebSaveData] = useState<{ saveId: number; game: string; label: string; data: ArrayBuffer } | null>(null);
   const [webSaveNewName, setWebSaveNewName] = useState('');
   const [webSaveShowName, setWebSaveShowName] = useState(false);
@@ -297,11 +291,14 @@ export default function PlayPage() {
     setSessions(updated);
   };
 
-  const handleStreamPlay = (node: CheckpointNode) => {
-    setStreamSave({
-      file_path: node.file_path,
-      game: node.snapshot?.game ?? '',
-    });
+  const handleStreamPlay = async (node: CheckpointNode) => {
+    try {
+      // Session is created server-side; phone picks it up via /stream polling.
+      // Desktop shows ActiveStreamToast (global) as the in-app indicator.
+      await api.stream.start(node.file_path, node.snapshot?.game ?? '');
+    } catch (e) {
+      console.error('Failed to start stream:', e);
+    }
   };
 
   const handleWebPlay = (node: CheckpointNode) => {
@@ -526,83 +523,6 @@ export default function PlayPage() {
             setWebPlaySave(null);
           }}
         />
-      )}
-
-      {/* Stream player — from a save node */}
-      {streamSave && (
-        <StreamPlayer
-          savePath={streamSave.file_path}
-          game={streamSave.game}
-          system={getSystemForGame(streamSave.game)}
-          onClose={(result) => {
-            if (result.saveChanged) setStreamResult(result);
-            setStreamSave(null);
-          }}
-        />
-      )}
-
-      {/* Stream player — from a game (no save) */}
-      {streamGame && (
-        <StreamPlayer
-          game={streamGame}
-          system={getSystemForGame(streamGame)}
-          onClose={(result) => {
-            if (result.saveChanged) setStreamResult(result);
-            setStreamGame(null);
-          }}
-        />
-      )}
-
-      {/* Stream save-changed dialog */}
-      {streamResult && (
-        <Dialog open onOpenChange={() => { setStreamResult(null); setStreamSaveNewName(''); setStreamSaveShowName(false); loadLauncherData(); refreshData(); }}>
-          <DialogContent className="rounded-lg">
-            <DialogHeader>
-              <DialogTitle>Save Changed</DialogTitle>
-              <DialogDescription>
-                Your save was modified during the stream session.
-              </DialogDescription>
-            </DialogHeader>
-            {streamSaveShowName && (
-              <div className="space-y-1.5">
-                <label className="text-sm text-muted-foreground">Name for copy:</label>
-                <Input
-                  value={streamSaveNewName}
-                  onChange={e => setStreamSaveNewName(e.target.value)}
-                  placeholder={`Streamed ${new Date().toISOString().slice(0, 10)}`}
-                  autoFocus
-                />
-              </div>
-            )}
-            <DialogFooter className="flex gap-2 pt-1">
-              <Button variant="ghost" className="rounded-xl"
-                onClick={async () => {
-                  await api.stream.resolve(streamResult.sessionId, 'discard');
-                  setStreamResult(null); setStreamSaveNewName(''); setStreamSaveShowName(false);
-                  loadLauncherData(); refreshData();
-                }}>
-                Discard
-              </Button>
-              <Button variant="outline" className="rounded-xl"
-                onClick={async () => {
-                  if (!streamSaveShowName) { setStreamSaveShowName(true); return; }
-                  await api.stream.resolve(streamResult.sessionId, 'save_as_new', streamSaveNewName || undefined);
-                  setStreamResult(null); setStreamSaveNewName(''); setStreamSaveShowName(false);
-                  loadLauncherData(); refreshData();
-                }}>
-                {streamSaveShowName ? 'Confirm' : 'Save Copy'}
-              </Button>
-              <Button className="rounded-xl"
-                onClick={async () => {
-                  await api.stream.resolve(streamResult.sessionId, 'save_back');
-                  setStreamResult(null); setStreamSaveNewName(''); setStreamSaveShowName(false);
-                  loadLauncherData(); refreshData();
-                }}>
-                Overwrite Original
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
       )}
 
       {/* Web save-changed dialog */}
