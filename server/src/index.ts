@@ -1,4 +1,6 @@
 import { parseArgs } from 'util';
+import { join } from 'path';
+import { existsSync } from 'fs';
 import { initPaths } from './paths.js';
 import { emitEvent, setLogJson } from './events.js';
 
@@ -173,6 +175,22 @@ app.get('/api/client-info', (req, res) => {
   const isLocal = ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(clientIp);
   res.json({ isLocal });
 });
+
+// Serve the built client bundle so a phone on LAN can load the app.
+// In dev mode, client is served by Vite on :5173 — this handler will only
+// match if dist exists (e.g. after a prior release build), which is harmless.
+const webDir = join(args['resources-dir']!, 'client', 'dist');
+if (existsSync(webDir)) {
+  app.use(express.static(webDir, { index: 'index.html' }));
+  // SPA fallback: any non-API GET that isn't a real file returns index.html
+  // so React Router routes like /play deep-load on the phone.
+  app.get(/^(?!\/api\/).*$/, (_req, res) => {
+    res.sendFile(join(webDir, 'index.html'));
+  });
+  console.log(`[server] Serving client bundle from ${webDir}`);
+} else {
+  console.log(`[server] Client bundle not found at ${webDir} (dev mode — Vite serves client)`);
+}
 
 // ── Periodic status emission for active hunts ───────────────────
 setInterval(() => {
