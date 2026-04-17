@@ -139,6 +139,19 @@ jobs:
           touch scripts/libmgba.0.11.dylib
           ls -la scripts/shiny_hunter_* scripts/libmgba*
 
+      - name: Build mgba-stream and bundle libmgba (Linux)
+        if: matrix.platform == 'ubuntu-latest'
+        shell: bash
+        run: |
+          # Streaming bridge: links libmgba (already built above) + libvpx + libopus.
+          sudo apt-get install -y libvpx-dev libopus-dev
+          make -C tools/mgba-stream MGBA_SRC=/tmp/mgba MGBA_BUILD=/tmp/mgba/build
+          # Copy libmgba alongside the binary so its $ORIGIN rpath finds it at runtime.
+          LIB_REAL="$(find /tmp/mgba/build -maxdepth 1 -name 'libmgba.so.*.*.*' -type f | head -n 1)"
+          SONAME="$(readelf -d "$LIB_REAL" 2>/dev/null | awk '/SONAME/ { gsub(/[][]/,"",$5); print $5 }')"
+          cp "$LIB_REAL" "tools/mgba-stream/$SONAME"
+          ls -la tools/mgba-stream/
+
       - name: Build mGBA core library (macOS)
         if: matrix.platform == 'macos-latest'
         shell: bash
@@ -198,18 +211,39 @@ jobs:
           ls -la scripts/shiny_hunter_* scripts/libmgba*
           otool -L scripts/shiny_hunter_core | head -5
 
-      - name: Stub hunt binaries (Windows)
+      - name: Build mgba-stream and bundle libmgba (macOS)
+        if: matrix.platform == 'macos-latest'
+        shell: bash
+        run: |
+          # Streaming bridge: links libmgba (already built above) + libvpx + libopus.
+          brew install libvpx opus
+          make -C tools/mgba-stream MGBA_SRC=/tmp/mgba MGBA_BUILD=/tmp/mgba/build
+          # Copy libmgba alongside the binary so its @loader_path rpath finds it.
+          DYLIB_REAL="$(find /tmp/mgba/build -maxdepth 1 -name 'libmgba.*.dylib' -type f | head -n 1)"
+          DYLIB_NAME="$(basename "$DYLIB_REAL")"
+          cp "$DYLIB_REAL" "tools/mgba-stream/$DYLIB_NAME"
+          # Rewrite the binary's libmgba reference to use @rpath so it picks up the bundled copy.
+          OLD_INSTALL="$(otool -L tools/mgba-stream/mgba-stream | awk '/libmgba/ { print $1; exit }')"
+          if [[ -n "$OLD_INSTALL" ]]; then
+            install_name_tool -change "$OLD_INSTALL" "@rpath/$DYLIB_NAME" tools/mgba-stream/mgba-stream
+          fi
+          ls -la tools/mgba-stream/
+          otool -L tools/mgba-stream/mgba-stream | head -5
+
+      - name: Stub hunt + streaming binaries (Windows)
         if: matrix.platform == 'windows-latest'
         shell: bash
         run: |
-          # Windows hunt binaries are deferred. MSYS2 + mingw-w64 + pacman
-          # cross-compile of libmgba is doable but adds 10+ min to CI and
-          # the C sources include POSIX headers (<unistd.h>, <strings.h>)
+          # Windows hunt + mgba-stream binaries are deferred. MSYS2 + mingw-w64
+          # + pacman cross-compile of libmgba is doable but adds 10+ min to CI
+          # and the C sources include POSIX headers (<unistd.h>, <strings.h>)
           # that only work under mingw, not MSVC. Stub for now; track as
           # a follow-up PR.
           cd scripts
           touch shiny_hunter_core shiny_hunter_wild shiny_hunter_egg \
                 libmgba.so.0.11 libmgba.0.11.dylib
+          cd ../tools/mgba-stream
+          touch mgba-stream
 
       - name: Seed pre-bundled database
         shell: bash

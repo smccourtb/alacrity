@@ -28,6 +28,12 @@ tools/*
 # RTC relay is our Go code — track source, ignore compiled binary
 !tools/rtc-relay/
 tools/rtc-relay/rtc-relay
+# mGBA streaming bridge is our C code — track source, ignore compiled binaries and any libmgba copied alongside for rpath
+!tools/mgba-stream/
+tools/mgba-stream/mgba-stream
+tools/mgba-stream/mgba-stream-debug
+tools/mgba-stream/libmgba.so*
+tools/mgba-stream/libmgba*.dylib
 
 # ─── Build artifacts ─────────────────────────────
 src-tauri/target/
