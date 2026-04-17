@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import Fuse from 'fuse.js';
-import { XIcon, GripVerticalIcon } from 'lucide-react';
+import { XIcon, GripVerticalIcon, Trash2Icon } from 'lucide-react';
 import type { CheckpointNode } from './types';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { Badge } from '@/components/ui/badge';
@@ -463,6 +463,7 @@ interface SectionProps {
   sectionKey: string;           // dnd-kit droppable id
   isDropTarget: boolean;         // true = section accepts drops (re-tag)
   onPickColor?: (color: string) => void;
+  onDeleteSection?: () => void;
   defaultOpen?: boolean;
   children: React.ReactNode;
 }
@@ -474,6 +475,7 @@ function Section({
   sectionKey,
   isDropTarget,
   onPickColor,
+  onDeleteSection,
   defaultOpen = true,
   children,
 }: SectionProps) {
@@ -521,10 +523,28 @@ function Section({
         )}
 
         <Collapsible defaultOpen={defaultOpen} className="flex-1 min-w-0">
-          <CollapsibleTrigger className="w-full flex items-center gap-2 pr-3 py-2.5 text-left group-hover/section:bg-muted/30 rounded-r-lg transition-colors">
-            <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide truncate">{title}</span>
-            <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
-          </CollapsibleTrigger>
+          <div className="flex items-center group-hover/section:bg-muted/30 rounded-r-lg transition-colors">
+            <CollapsibleTrigger className="flex-1 min-w-0 flex items-center gap-2 pr-2 py-2.5 text-left">
+              <span className="text-sm font-bold text-foreground flex-1 uppercase tracking-wide truncate">{title}</span>
+              <span className="text-xs font-semibold text-muted-foreground tabular-nums">{count}</span>
+            </CollapsibleTrigger>
+            {onDeleteSection && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (window.confirm(`Remove tag "${title}" from ${count} save${count === 1 ? '' : 's'}?`)) {
+                    onDeleteSection();
+                  }
+                }}
+                className="shrink-0 mr-2 p-1 rounded text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 transition-colors"
+                title={`Remove tag "${title}" from all saves`}
+                aria-label={`Remove tag ${title} from all saves`}
+              >
+                <Trash2Icon className="size-3.5" />
+              </button>
+            )}
+          </div>
           <CollapsibleContent>
             <div className="ml-4 mr-2 pt-1.5 pb-1 space-y-0.5">
               {count === 0 ? (
@@ -961,6 +981,9 @@ export function GroupedView({ roots, selectedId, onSelect, scrollToSaveFileId, p
                 sectionKey={sectionKey}
                 isDropTarget={true}
                 onPickColor={(c) => updateTagColor(tag, c)}
+                onDeleteSection={() => {
+                  for (const r of rows) updateTag(r.node.save_file_id, null);
+                }}
               >
                 <SortableContext items={ids} strategy={verticalListSortingStrategy}>
                   {rows.map(({ node, info }) => renderSortableRow(node, info.role === 'other' ? null : info.role))}
