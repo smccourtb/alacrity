@@ -150,6 +150,20 @@ jobs:
           LIB_REAL="$(find /tmp/mgba/build -maxdepth 1 -name 'libmgba.so.*.*.*' -type f | head -n 1)"
           SONAME="$(readelf -d "$LIB_REAL" 2>/dev/null | awk '/SONAME/ { gsub(/[][]/,"",$5); print $5 }')"
           cp "$LIB_REAL" "tools/mgba-stream/$SONAME"
+          # Bundle codec libs so the binary is self-contained at runtime. Without
+          # this, users on clean Ubuntu installs without libvpx9/libopus0 would
+          # get a dlopen error at first launch. See notes/streaming-architecture.md
+          # "Runtime dependencies" for the full rationale.
+          for libname in libvpx libopus; do
+            SO_NAME="$(ldd tools/mgba-stream/mgba-stream | awk -v lib="$libname" '$1 ~ lib { print $1; exit }')"
+            SO_PATH="$(ldd tools/mgba-stream/mgba-stream | awk -v lib="$libname" '$1 ~ lib { print $3; exit }')"
+            if [[ -z "$SO_PATH" || ! -f "$SO_PATH" ]]; then
+              echo "::error::$libname not found in mgba-stream's ldd output"
+              ldd tools/mgba-stream/mgba-stream
+              exit 1
+            fi
+            cp -L "$SO_PATH" "tools/mgba-stream/$SO_NAME"
+          done
           ls -la tools/mgba-stream/
 
       - name: Build mGBA core library (macOS)
@@ -227,8 +241,24 @@ jobs:
           if [[ -n "$OLD_INSTALL" ]]; then
             install_name_tool -change "$OLD_INSTALL" "@rpath/$DYLIB_NAME" tools/mgba-stream/mgba-stream
           fi
+          # Bundle codec libs so users don't need Homebrew libvpx/opus installed.
+          # otool -L reports the install_name the binary was linked against (usually
+          # the Homebrew canonical path); cp -L dereferences the symlink to grab
+          # the real dylib, and install_name_tool rewrites the reference to @rpath
+          # so @loader_path in the existing rpath picks it up at runtime.
+          for libname in libvpx libopus; do
+            DEP_INSTALL="$(otool -L tools/mgba-stream/mgba-stream | awk -v lib="$libname" '$1 ~ lib { print $1; exit }')"
+            if [[ -z "$DEP_INSTALL" ]]; then
+              echo "::error::$libname not found in mgba-stream's otool -L"
+              otool -L tools/mgba-stream/mgba-stream
+              exit 1
+            fi
+            DEP_BASENAME="$(basename "$DEP_INSTALL")"
+            cp -L "$DEP_INSTALL" "tools/mgba-stream/$DEP_BASENAME"
+            install_name_tool -change "$DEP_INSTALL" "@rpath/$DEP_BASENAME" tools/mgba-stream/mgba-stream
+          done
           ls -la tools/mgba-stream/
-          otool -L tools/mgba-stream/mgba-stream | head -5
+          otool -L tools/mgba-stream/mgba-stream | head -10
 
       - name: Stub hunt + streaming binaries (Windows)
         if: matrix.platform == 'windows-latest'

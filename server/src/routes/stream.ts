@@ -90,6 +90,18 @@ router.post('/start', async (req: Request, res: Response) => {
 
   // Use DirectStreamSession (mgba-stream) for GB/GBC/GBA, StreamSession for NDS/3DS
   const system = getSystemForGame(game);
+
+  // NDS/3DS streaming relies on Xvfb + x11grab + PulseAudio — Linux-only.
+  // Block upfront on non-Linux so the UI surfaces a clear message instead of
+  // spawning Xvfb, crashing, and leaving a zombie session behind.
+  if (!supportsDirectStream(system) && process.platform !== 'linux') {
+    return res.status(501).json({
+      error:
+        `Streaming ${system.toUpperCase()} is not yet supported on ${process.platform}. ` +
+        `Use Play to open the emulator locally; phone streaming for this system is Linux-only today.`,
+    });
+  }
+
   const session: AnyStreamSession = supportsDirectStream(system)
     ? new DirectStreamSession(game, romPath, savePath)
     : new StreamSession(game, romPath, savePath);

@@ -2,6 +2,23 @@
 
 How the "Play" feature streams a live emulator session from the desktop sidecar to a browser/phone client. Touches three native binaries, four files in the Tauri bundle config, and two CI workflows. This doc covers what's wired, why it's wired that way, and what's still open.
 
+## Platform × system support matrix
+
+| System | Emulator | Code path | Linux | macOS | Windows |
+|---|---|---|---|---|---|
+| GB / GBC / GBA | libmgba | `DirectStreamSession` → `mgba-stream` (headless, RTP out) | ✅ shipped | ✅ shipped (CI builds via brew) | ❌ deferred — mgba-stream.c uses POSIX headers, needs MSYS2/mingw port |
+| NDS | melonDS | `StreamSession` → Xvfb + x11grab + pactl | ✅ shipped | 🚫 gated at `/api/stream/start` (501) until a `melonds-stream` native bridge exists | 🚫 same |
+| 3DS | Azahar | `StreamSession` → Xvfb + x11grab + pactl | ✅ shipped | 🚫 gated at `/api/stream/start` (501) — hardest to port (Azahar has no clean library API) | 🚫 same |
+
+**"Shipped"** means bundled in release artifacts with no manual build step required. Linux/macOS mgba-stream bundles its own libmgba, libvpx, and libopus alongside the binary via rpath (see "Runtime dependencies" below) so users with a clean OS install don't need to `apt install` or `brew install` anything.
+
+**"Gated"** means the `/api/stream/start` route returns HTTP 501 on non-Linux for NDS/3DS, with a message the client surfaces in the Play page banner. Users can still use the local Play button; they just can't phone-stream that system on that platform yet.
+
+Cross-platform plan beyond this doc:
+- `melonds-stream` as a libmelonDS-based bridge → one binary, all platforms, kills Xvfb dependency for NDS. Medium effort; needs a feasibility spike against libmelonDS's API first.
+- Windows mgba-stream via MSYS2/mingw → unblocks gen1–3 on Windows. Small-to-medium effort.
+- 3DS cross-platform → open. Either upstream Azahar with a headless-extraction API (weeks) or build a platform-native capture pipeline (Windows Graphics Capture + WASAPI; ScreenCaptureKit + BlackHole on mac, user-hostile).
+
 ## What gets streamed and how
 
 ```
@@ -98,9 +115,9 @@ Plus libmgba's own transitive deps (`libz`, `libepoxy`, `liblua5.4.so.0`, `libm`
 
 **Why this is structurally different from the hunt binaries:** hunters only link libmgba, whose transitive deps (zlib, lua, opengl/epoxy) are ubiquitous. Codec libraries are common but not universal — most desktops have them via Firefox/VLC/etc., but it's not guaranteed and version skew bites.
 
-**Current shipping state** (as of the commit that landed this doc): the binary builds in CI and gets bundled, but is *not* self-contained at runtime. On a clean Ubuntu 24.04 install with neither `libvpx9` nor `libopus0` present, launching the Play feature will fail at `dlopen` time with a missing-shared-library error. On a clean macOS install without those libraries available, same. Until one of the options below ships, "works out of the box" is conditional on the user's system.
+**Current shipping state: Option A is implemented.** release.yml copies the actual `libvpx.so.N` / `libvpx.N.dylib` and `libopus.so.0` / `libopus.0.dylib` that the CI-built binary links against and drops them in `tools/mgba-stream/` alongside the binary. `tauri.conf.json`'s bundle resource maps the entire directory (`../tools/mgba-stream` → `tools/mgba-stream`), so the libs ride along automatically — no per-platform soname listing needed in the config. On macOS, `install_name_tool -change` rewrites the binary's references from Homebrew paths to `@rpath/<libname>` so `@loader_path` (already in the existing rpath set) resolves them from the bundle dir. On Linux the file name matches the SONAME so `$ORIGIN` finds them directly.
 
-**Options to fix** (none implemented yet — this is the decision to make):
+**Historical decision record — options considered:**
 
 | Option | Effort | Tradeoff | Cross-platform? |
 |---|---|---|---|
@@ -109,7 +126,7 @@ Plus libmgba's own transitive deps (`libz`, `libepoxy`, `liblua5.4.so.0`, `libm`
 | **C. Declare deb/rpm dependencies** in `tauri.conf.json → bundle.linux.deb.depends: ["libvpx9", "libopus0"]` plus rpm equivalent | Trivial — config-only | Linux package-manager users only. No help for `.dmg` users on macOS. Fragile across distro versions: a user on 22.04 (libvpx7) would have apt refuse to install. Doesn't help anyone running the AppImage either | Linux .deb/.rpm only |
 | **D. Do nothing**, document `apt install libvpx9 libopus0` / `brew install libvpx opus` in README | Trivial | "Works for users who happen to have the deps." User-hostile for anyone not already running a streaming-heavy desktop | n/a |
 
-**Recommendation:** option A. Same shape as the existing libmgba bundling, no new patterns to learn, only place that gets touched is `release.yml` (two more `cp` calls) + `tauri.conf.json` (two more resource entries) + this doc. Glibc compatibility is already a constraint of the whole sidecar so it doesn't introduce a new one.
+**Recommendation (implemented):** option A. Same shape as the existing libmgba bundling, no new patterns to learn. Rather than listing individual versioned sonames in `tauri.conf.json`, the config maps the whole `tools/mgba-stream/` directory so soname bumps in Ubuntu/Homebrew don't require a config change. Glibc compatibility is already a constraint of the whole sidecar so it doesn't introduce a new one.
 
 **Why not B as default:** the static-linking approach is technically cleaner but brings its own pain — Homebrew on macOS doesn't ship `.a` files for opus/vpx by default, so we'd need to vendor or build them. For an alpha-stage project, the bundling approach gets to the same user-visible result with less yak-shaving.
 

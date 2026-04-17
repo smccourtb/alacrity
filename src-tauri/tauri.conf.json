@@ -43,7 +43,7 @@
       "../scripts/shiny_hunter_egg": "scripts/shiny_hunter_egg",
       "../tools/rtc-relay/rtc-relay": "tools/rtc-relay/rtc-relay",
       "../tools/rtc-relay/rtc-relay.exe": "tools/rtc-relay/rtc-relay.exe",
-      "../tools/mgba-stream/mgba-stream": "tools/mgba-stream/mgba-stream",
+      "../tools/mgba-stream": "tools/mgba-stream",
       "../scripts/libmgba.so.0.11": "scripts/libmgba.so.0.11",
       "../scripts/libmgba.0.11.dylib": "scripts/libmgba.0.11.dylib",
       "../server/src/schema.sql": "server/src/schema.sql",
