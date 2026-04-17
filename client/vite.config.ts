@@ -7,6 +7,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), tsconfigPaths()],
   server: {
     host: '0.0.0.0',
+    // Bun hardlinks workspace packages across worktrees, so realpath()
+    // resolves dependencies to paths outside the current worktree.
     fs: { strict: false },
     proxy: {
       '/api': {
