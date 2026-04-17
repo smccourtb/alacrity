@@ -8,6 +8,7 @@ import {
   getAllSessions,
   registerSession,
   removeSession,
+  subscribeToSessions,
   type AnyStreamSession,
 } from '../services/streamSession.js';
 import { DirectStreamSession } from '../services/directStreamSession.js';
@@ -180,6 +181,38 @@ router.get('/sessions', (_req: Request, res: Response) => {
   } catch (err: any) {
     return res.status(500).json({ error: err.message });
   }
+});
+
+// GET /api/stream/events — SSE feed of session-list snapshots.
+// Pushes an updated snapshot on subscribe and on every lifecycle transition
+// (register, status change, remove). Clients that can open EventSource
+// replace their polling loops with this.
+router.get('/events', (req: Request, res: Response) => {
+  res.set({
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
+    // Disable proxy buffering; required for Nginx and some reverse proxies.
+    'X-Accel-Buffering': 'no',
+  });
+  res.flushHeaders();
+
+  const send = (snapshot: unknown): void => {
+    res.write(`data: ${JSON.stringify(snapshot)}\n\n`);
+  };
+
+  const unsubscribe = subscribeToSessions(send);
+
+  // Comment-frame heartbeat keeps idle connections open through proxies and
+  // lets the server notice dead peers via the write failing.
+  const heartbeat = setInterval(() => {
+    try { res.write(': heartbeat\n\n'); } catch { /* peer gone */ }
+  }, 15000);
+
+  req.on('close', () => {
+    unsubscribe();
+    clearInterval(heartbeat);
+  });
 });
 
 router.get('/emulators', (_req: Request, res: Response) => {

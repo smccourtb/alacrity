@@ -22,31 +22,31 @@ export default function MobileStream() {
   const [connected, setConnected] = useState<StreamSession | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Poll for active stream sessions
+  // Subscribe to server session events — SSE pushes a snapshot on every
+  // lifecycle change (start, status transition, remove). No polling.
   useEffect(() => {
     if (connected) return;
 
-    let cancelled = false;
+    const es = api.stream.events();
 
-    async function poll() {
+    es.onmessage = (e) => {
       try {
-        const data = await api.stream.sessions() as StreamSession[];
-        if (cancelled) return;
+        const data = JSON.parse(e.data) as StreamSession[];
         setError(null);
         setSessions(data);
 
         const running = data.find(s => s.status === 'running' || s.status === 'starting');
         if (running) setConnected(running);
-      } catch (e) {
-        if (!cancelled) {
-          setError(e instanceof Error ? e.message : 'Cannot reach server');
-        }
+      } catch {
+        // Malformed frame — ignore; next event will resync.
       }
-    }
+    };
 
-    poll();
-    const interval = setInterval(poll, 2000);
-    return () => { cancelled = true; clearInterval(interval); };
+    es.onerror = () => {
+      setError('Cannot reach server');
+    };
+
+    return () => es.close();
   }, [connected]);
 
   // Lock orientation to landscape when streaming. ScreenOrientation.lock

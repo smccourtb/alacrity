@@ -622,6 +622,7 @@ export const api = {
         body: JSON.stringify({ sessionId, action, newName }),
       }),
     sessions: () => request<any[]>('/stream/sessions'),
+    events: () => new EventSource(`${getBase()}/stream/events`),
     emulators: () => request<Record<string, boolean>>('/stream/emulators'),
     games: () => request<{ game: string; system: string }[]>('/stream/games'),
     launch: (game: string, savePath?: string) =>

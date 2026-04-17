@@ -10,7 +10,7 @@ import {
 } from './sessionManager.js';
 import { createRelaySession, stopRelaySession } from './relayManager.js';
 import { registerProcess, gracefulKill } from './processRegistry.js';
-import type { StreamSessionInfo } from './streamSession.js';
+import { broadcastSessionsChanged, type StreamSessionInfo } from './streamSession.js';
 import { paths } from '../paths.js';
 
 // ---------------------------------------------------------------------------
@@ -118,6 +118,7 @@ export class DirectStreamSession {
     });
 
     this._status = 'running';
+    broadcastSessionsChanged();
     console.log(`[${this.id}] Direct stream session started — game=${this.game}`);
   }
 
@@ -147,6 +148,7 @@ export class DirectStreamSession {
 
     this._saveChanged = this.hasSaveChanged();
     console.log(`[${this.id}] Direct stream session stopped — saveChanged=${this._saveChanged}`);
+    broadcastSessionsChanged();
     return { saveChanged: this._saveChanged };
   }
 

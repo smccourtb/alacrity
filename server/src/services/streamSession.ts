@@ -42,6 +42,31 @@ export type AnyStreamSession = StreamSession | DirectStreamSession;
 
 const sessions = new Map<string, AnyStreamSession>();
 
+// ---------------------------------------------------------------------------
+// Session-change subscription
+// ---------------------------------------------------------------------------
+// Supports an SSE feed at /api/stream/events so clients don't poll every 2s.
+// Subscribers receive a fresh getAllSessions() snapshot on subscribe and on
+// every lifecycle transition (register, status change, remove).
+
+type SessionsListener = (snapshot: StreamSessionInfo[]) => void;
+const listeners = new Set<SessionsListener>();
+
+export function subscribeToSessions(cb: SessionsListener): () => void {
+  listeners.add(cb);
+  try { cb(getAllSessions()); } catch (e) { console.error('[stream/events] initial snapshot threw:', e); }
+  return () => { listeners.delete(cb); };
+}
+
+/** Called internally whenever session membership or status changes. */
+export function broadcastSessionsChanged(): void {
+  if (listeners.size === 0) return;
+  const snapshot = getAllSessions();
+  for (const listener of listeners) {
+    try { listener(snapshot); } catch (e) { console.error('[stream/events] listener threw:', e); }
+  }
+}
+
 export function getSession(id: string): AnyStreamSession | undefined {
   return sessions.get(id);
 }
@@ -52,10 +77,11 @@ export function getAllSessions(): StreamSessionInfo[] {
 
 export function registerSession(session: AnyStreamSession): void {
   sessions.set(session.id, session);
+  broadcastSessionsChanged();
 }
 
 export function removeSession(id: string): void {
-  sessions.delete(id);
+  if (sessions.delete(id)) broadcastSessionsChanged();
 }
 
 // ---------------------------------------------------------------------------
@@ -454,6 +480,7 @@ export class StreamSession {
     this.inputInjector = new InputInjector(this.display, this.config, this.system);
 
     this._status = 'running';
+    broadcastSessionsChanged();
     console.log(`[${this.id}] Stream session started — display=${this.display}, game=${this.game}`);
     } catch (err) {
       // Clean up any partially spawned processes
@@ -524,6 +551,7 @@ export class StreamSession {
       this.pulseModuleIndex = null;
     }
     console.log(`[${this.id}] Stream session stopped — saveChanged=${this._saveChanged}`);
+    broadcastSessionsChanged();
     return { saveChanged: this._saveChanged };
   }
 

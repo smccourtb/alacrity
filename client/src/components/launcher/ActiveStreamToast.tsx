@@ -38,12 +38,14 @@ export default function ActiveStreamToast() {
   const [showName, setShowName] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
+    // SSE pushes a fresh session snapshot on every lifecycle change —
+    // registration, status transition, removal. Replaces the 2s poll that
+    // used to run on every page in the app 24/7.
+    const es = api.stream.events();
 
-    async function poll() {
+    es.onmessage = (e) => {
       try {
-        const data = await api.stream.sessions() as StreamSessionInfo[];
-        if (cancelled) return;
+        const data = JSON.parse(e.data) as StreamSessionInfo[];
         setSessions(data.filter(s => s.status === 'running' || s.status === 'starting'));
 
         // A session can transition to stopped-with-saveChanged without the
@@ -55,13 +57,15 @@ export default function ActiveStreamToast() {
           setResult(prev => prev ?? { sessionId: pending.id, game: pending.game });
         }
       } catch {
-        if (!cancelled) setSessions([]);
+        // Malformed frame — ignore; next event will resync.
       }
-    }
+    };
 
-    poll();
-    const interval = setInterval(poll, 2000);
-    return () => { cancelled = true; clearInterval(interval); };
+    // EventSource auto-reconnects on network blips, so we only need to clear
+    // stale state while disconnected. Sessions will resync on the next open.
+    es.onerror = () => setSessions([]);
+
+    return () => es.close();
   }, []);
 
   const handleStop = useCallback(async (session: StreamSessionInfo) => {
