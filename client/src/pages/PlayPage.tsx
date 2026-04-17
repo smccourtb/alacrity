@@ -71,6 +71,7 @@ export default function PlayPage() {
   // --- Dialog state ---
   const [tradeSave, setTradeSave] = useState<DiscoveredSave | null>(null);
   const [webPlaySave, setWebPlaySave] = useState<{ saveId: number; game: string; label: string } | null>(null);
+  const [streamError, setStreamError] = useState<string | null>(null);
   const [webSaveData, setWebSaveData] = useState<{ saveId: number; game: string; label: string; data: ArrayBuffer } | null>(null);
   const [webSaveNewName, setWebSaveNewName] = useState('');
   const [webSaveShowName, setWebSaveShowName] = useState(false);
@@ -293,11 +294,14 @@ export default function PlayPage() {
 
   const handleStreamPlay = async (node: CheckpointNode) => {
     try {
-      // Session is created server-side; phone picks it up via /stream polling.
+      // Session is created server-side; phone picks it up via /stream SSE.
       // Desktop shows ActiveStreamToast (global) as the in-app indicator.
       await api.stream.start(node.file_path, node.snapshot?.game ?? '');
+      setStreamError(null);
     } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Unknown error';
       console.error('Failed to start stream:', e);
+      setStreamError(msg);
     }
   };
 
@@ -387,6 +391,19 @@ export default function PlayPage() {
     <div className="max-w-7xl mx-auto space-y-5">
       {/* Session bar */}
       <SessionBar sessions={sessions} />
+
+      {streamError && (
+        <div className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          <span>Couldn't start stream: {streamError}</span>
+          <button
+            onClick={() => setStreamError(null)}
+            className="ml-3 text-red-500 hover:text-red-600"
+            aria-label="Dismiss"
+          >
+            ×
+          </button>
+        </div>
+      )}
 
       {/* Emulator readiness warning */}
       <InlineEmulatorWarning emulatorId={playEmulatorId} />

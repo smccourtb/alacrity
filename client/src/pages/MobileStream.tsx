@@ -65,10 +65,14 @@ export default function MobileStream() {
     setConnected(null);
   }, []);
 
-  // Streaming — full-screen takeover, joining the existing session
+  // Streaming — full-screen takeover, joining the existing session.
+  // key={connected.id} forces a fresh mount if a new session replaces the
+  // old one, so StreamPlayer's initializedRef doesn't strand us on a stale
+  // PeerConnection.
   if (connected) {
     return (
       <StreamPlayer
+        key={connected.id}
         sessionId={connected.id}
         game={connected.game}
         system={connected.system}

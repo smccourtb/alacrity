@@ -157,6 +157,10 @@ onRelayDisconnect(async (sessionId) => {
     }
   } catch (err) {
     console.error(`[rtc-relay] disconnect cleanup failed for ${sessionId}:`, err);
+    // Whatever failed, don't leave the session pinned in the map forever —
+    // temp dir cleanup is best-effort, removal is the leak-preventer.
+    try { session.cleanupTempDir(); } catch { /* already cleaned */ }
+    removeSession(sessionId);
   }
 });
 

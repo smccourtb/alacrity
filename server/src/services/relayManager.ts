@@ -19,6 +19,9 @@ import { paths } from '../paths.js';
 const RELAY_BIN = paths.rtcRelay;
 export const RELAY_PORT = 9090;
 
+const INPUT_PREFIX = 'INPUT:';
+const DISCONNECT_PREFIX = 'DISCONNECT:';
+
 let process_: ChildProcess | null = null;
 let inputHandler: ((session: string, msg: string) => void) | null = null;
 let disconnectHandler: ((session: string) => void) | null = null;
@@ -55,16 +58,16 @@ export function startRelay(): void {
     const lines = data.toString().split('\n');
     for (const line of lines) {
       if (!line) continue;
-      if (line.startsWith('INPUT:')) {
+      if (line.startsWith(INPUT_PREFIX)) {
         try {
-          const { session, input } = JSON.parse(line.slice(6));
+          const { session, input } = JSON.parse(line.slice(INPUT_PREFIX.length));
           if (inputHandler && session && input) {
             inputHandler(session, JSON.stringify(input));
           }
         } catch {}
-      } else if (line.startsWith('DISCONNECT:')) {
+      } else if (line.startsWith(DISCONNECT_PREFIX)) {
         try {
-          const { session } = JSON.parse(line.slice(11));
+          const { session } = JSON.parse(line.slice(DISCONNECT_PREFIX.length));
           if (disconnectHandler && session) {
             disconnectHandler(session);
           }
@@ -136,7 +139,9 @@ export async function stopRelaySession(sessionId: string): Promise<void> {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: sessionId }),
     });
-  } catch {
-    // Relay may already be gone
+  } catch (err) {
+    // Relay may already be gone during shutdown — log but don't propagate
+    // since callers are in stop/cleanup paths that mustn't throw.
+    console.log(`[rtc-relay] stopRelaySession(${sessionId}): ${err instanceof Error ? err.message : err}`);
   }
 }

@@ -138,9 +138,12 @@ export class DirectStreamSession {
     // Stop relay session
     await stopRelaySession(this.id);
 
-    // Kill mgba-stream
-    await gracefulKill(this.mgbaProcess!, `mgba-stream[${this.id}]`);
-    this.mgbaProcess = null;
+    // Kill mgba-stream if it ever started. Guard against stop() racing a
+    // failed start(), or a second stop() invocation from a disconnect event.
+    if (this.mgbaProcess) {
+      await gracefulKill(this.mgbaProcess, `mgba-stream[${this.id}]`);
+      this.mgbaProcess = null;
+    }
 
     this._saveChanged = this.hasSaveChanged();
     console.log(`[${this.id}] Direct stream session stopped — saveChanged=${this._saveChanged}`);
