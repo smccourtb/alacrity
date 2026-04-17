@@ -26,18 +26,24 @@ const playoutDelayURI = "http://www.webrtc.org/experiments/rtp-hdrext/playout-de
 
 // Session holds the state for one streaming session.
 type Session struct {
-	mu            sync.Mutex
-	pc            *webrtc.PeerConnection
-	videoTrack    *webrtc.TrackLocalStaticRTP
-	audioTrack    *webrtc.TrackLocalStaticRTP
-	videoConn     *net.UDPConn
-	audioConn     *net.UDPConn
-	videoPort     int
-	audioPort     int
+	mu         sync.Mutex
+	id         string
+	pc         *webrtc.PeerConnection
+	videoTrack *webrtc.TrackLocalStaticRTP
+	audioTrack *webrtc.TrackLocalStaticRTP
+	videoConn  *net.UDPConn
+	audioConn  *net.UDPConn
+	videoPort  int
+	audioPort  int
+	// inputCallback is set once in createSession before the session is published
+	// to the sessions map, so callers in other goroutines see a stable value.
 	inputCallback func(msg string)
 	done          chan struct{}
 	// Playout delay extension ID negotiated via SDP
 	playoutDelayID uint8
+	// Tracks whether we've already emitted DISCONNECT for this session so the
+	// server doesn't get duplicate stop events during state flapping.
+	disconnectEmitted bool
 }
 
 var (
@@ -124,6 +130,13 @@ func forwardAudioRTP(conn *net.UDPConn, track *webrtc.TrackLocalStaticRTP, done 
 }
 
 func createSession(id string) (*Session, error) {
+	sessionsMu.Lock()
+	if _, exists := sessions[id]; exists {
+		sessionsMu.Unlock()
+		return nil, fmt.Errorf("session %q already exists", id)
+	}
+	sessionsMu.Unlock()
+
 	videoConn, videoPort, err := allocateUDP()
 	if err != nil {
 		return nil, fmt.Errorf("video UDP: %w", err)
@@ -155,6 +168,7 @@ func createSession(id string) (*Session, error) {
 	}
 
 	s := &Session{
+		id:         id,
 		videoTrack: videoTrack,
 		audioTrack: audioTrack,
 		videoConn:  videoConn,
@@ -164,7 +178,21 @@ func createSession(id string) (*Session, error) {
 		done:       make(chan struct{}),
 	}
 
+	// Input callback is established here, before the session becomes
+	// discoverable via the sessions map. No readers exist yet, so no lock
+	// needed, and later DataChannel callbacks see a consistent value.
+	s.inputCallback = func(msg string) {
+		fmt.Fprintf(os.Stderr, "INPUT:{\"session\":%q,\"input\":%s}\n", id, msg)
+	}
+
 	sessionsMu.Lock()
+	// TOCTOU re-check — another createSession could have raced us.
+	if _, exists := sessions[id]; exists {
+		sessionsMu.Unlock()
+		videoConn.Close()
+		audioConn.Close()
+		return nil, fmt.Errorf("session %q already exists", id)
+	}
 	sessions[id] = s
 	sessionsMu.Unlock()
 
@@ -181,8 +209,11 @@ func handleOffer(s *Session, offerSDP string) (string, error) {
 
 	// Create API with our custom MediaEngine that has playout-delay registered
 	i := &interceptor.Registry{}
-	statsFactory, _ := stats.NewInterceptor()
-	i.Add(statsFactory)
+	if statsFactory, err := stats.NewInterceptor(); err == nil {
+		i.Add(statsFactory)
+	} else {
+		log.Printf("stats interceptor disabled: %v", err)
+	}
 
 	api := webrtc.NewAPI(
 		webrtc.WithMediaEngine(mediaEngine),
@@ -210,13 +241,29 @@ func handleOffer(s *Session, offerSDP string) (string, error) {
 	pc.OnDataChannel(func(dc *webrtc.DataChannel) {
 		log.Printf("DataChannel opened: %s", dc.Label())
 		dc.OnMessage(func(msg webrtc.DataChannelMessage) {
-			log.Printf("DataChannel msg: %s (callback=%v)", string(msg.Data), s.inputCallback != nil)
 			if s.inputCallback != nil {
 				s.inputCallback(string(msg.Data))
-			} else {
-				log.Printf("WARNING: inputCallback is nil!")
 			}
 		})
+	})
+
+	pc.OnConnectionStateChange(func(state webrtc.PeerConnectionState) {
+		log.Printf("[%s] PeerConnection state: %s", s.id, state)
+		switch state {
+		case webrtc.PeerConnectionStateDisconnected,
+			webrtc.PeerConnectionStateFailed,
+			webrtc.PeerConnectionStateClosed:
+			s.mu.Lock()
+			already := s.disconnectEmitted
+			s.disconnectEmitted = true
+			s.mu.Unlock()
+			if !already {
+				// Server parses this off stderr and runs full session cleanup
+				// (FFmpeg, emulator, Xvfb). Relay-local teardown happens when
+				// the server then calls /stop, which is idempotent.
+				fmt.Fprintf(os.Stderr, "DISCONNECT:{\"session\":%q}\n", s.id)
+			}
+		}
 	})
 
 	err = pc.SetRemoteDescription(webrtc.SessionDescription{
@@ -346,12 +393,6 @@ func main() {
 		if err != nil {
 			http.Error(w, err.Error(), 500)
 			return
-		}
-
-		s.inputCallback = func(msg string) {
-			// Write to stderr with INPUT: prefix — Node parses this.
-			// (stdout pipe has buffering issues with Go's runtime)
-			fmt.Fprintf(os.Stderr, "INPUT:{\"session\":%q,\"input\":%s}\n", req.ID, msg)
 		}
 
 		w.Header().Set("Content-Type", "application/json")
