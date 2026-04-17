@@ -6,6 +6,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -13,8 +14,12 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"os/signal"
 	"strconv"
+	"strings"
 	"sync"
+	"syscall"
+	"time"
 
 	"github.com/pion/interceptor"
 	"github.com/pion/interceptor/pkg/stats"
@@ -220,12 +225,10 @@ func handleOffer(s *Session, offerSDP string) (string, error) {
 		webrtc.WithInterceptorRegistry(i),
 	)
 
-	config := webrtc.Configuration{
-		ICEServers: []webrtc.ICEServer{
-			{URLs: []string{"stun:stun.l.google.com:19302"}},
-		},
-	}
-	pc, err := api.NewPeerConnection(config)
+	// LAN-only deployment: phone and PC are on the same network, so host
+	// candidates always reach each other. Skipping STUN avoids a DNS lookup
+	// and a round trip during ICE gathering.
+	pc, err := api.NewPeerConnection(webrtc.Configuration{})
 	if err != nil {
 		return "", err
 	}
@@ -298,60 +301,29 @@ func handleOffer(s *Session, offerSDP string) (string, error) {
 }
 
 // findExtensionID parses SDP to find the extension ID for a given URI.
+// Line shape: "a=extmap:N uri" or "a=extmap:N/sendrecv uri".
 func findExtensionID(sdp string, uri string) uint8 {
-	// Simple SDP parser: look for "a=extmap:N uri"
-	lines := splitLines(sdp)
-	for _, line := range lines {
-		if len(line) > 10 && line[:9] == "a=extmap:" {
-			rest := line[9:]
-			// Format: "N uri" or "N/direction uri"
-			spaceIdx := -1
-			for i, c := range rest {
-				if c == ' ' {
-					spaceIdx = i
-					break
-				}
-			}
-			if spaceIdx < 0 {
-				continue
-			}
-			idStr := rest[:spaceIdx]
-			// Handle "N/sendrecv" format
-			for i, c := range idStr {
-				if c == '/' {
-					idStr = idStr[:i]
-					break
-				}
-			}
-			extURI := rest[spaceIdx+1:]
-			if extURI == uri {
-				id, err := strconv.Atoi(idStr)
-				if err == nil {
-					return uint8(id)
-				}
-			}
+	for _, line := range strings.Split(sdp, "\n") {
+		line = strings.TrimRight(line, "\r")
+		rest, ok := strings.CutPrefix(line, "a=extmap:")
+		if !ok {
+			continue
+		}
+		idStr, extURI, ok := strings.Cut(rest, " ")
+		if !ok {
+			continue
+		}
+		if slash := strings.IndexByte(idStr, '/'); slash >= 0 {
+			idStr = idStr[:slash]
+		}
+		if extURI != uri {
+			continue
+		}
+		if id, err := strconv.Atoi(idStr); err == nil {
+			return uint8(id)
 		}
 	}
 	return 0
-}
-
-func splitLines(s string) []string {
-	var lines []string
-	start := 0
-	for i := 0; i < len(s); i++ {
-		if s[i] == '\n' {
-			line := s[start:i]
-			if len(line) > 0 && line[len(line)-1] == '\r' {
-				line = line[:len(line)-1]
-			}
-			lines = append(lines, line)
-			start = i + 1
-		}
-	}
-	if start < len(s) {
-		lines = append(lines, s[start:])
-	}
-	return lines
 }
 
 func stopSession(id string) {
@@ -442,8 +414,34 @@ func main() {
 		io.WriteString(w, "ok")
 	})
 
+	srv := &http.Server{Addr: ":" + port, Handler: mux}
+
+	// On SIGINT/SIGTERM (usually from the parent server's gracefulKill),
+	// drain in-flight HTTP requests and close every PeerConnection so the
+	// browser gets a clean end rather than a mid-packet TCP reset.
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigCh
+		log.Println("rtc-relay: shutting down")
+		ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+		defer cancel()
+		if err := srv.Shutdown(ctx); err != nil {
+			log.Printf("http shutdown: %v", err)
+		}
+		sessionsMu.Lock()
+		ids := make([]string, 0, len(sessions))
+		for id := range sessions {
+			ids = append(ids, id)
+		}
+		sessionsMu.Unlock()
+		for _, id := range ids {
+			stopSession(id)
+		}
+	}()
+
 	log.Printf("rtc-relay listening on :%s", port)
-	if err := http.ListenAndServe(":"+port, mux); err != nil {
+	if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
 }
