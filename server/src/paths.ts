@@ -68,8 +68,12 @@ export const paths = {
 
   // ── Tool binaries ──────────────────────────────────────────
   get mgba() { return join(resourcesDir, 'tools', 'mgba-stream', 'mgba-stream'); },
-  get rtcRelay() { return join(resourcesDir, 'tools', 'rtc-relay', 'rtc-relay'); },
-  get mediamtx() { return join(resourcesDir, 'tools', 'mediamtx', 'mediamtx'); },
+  get rtcRelay() {
+    // Go build on Windows appends .exe; Node's child_process.spawn needs the
+    // explicit extension to locate the binary via CreateProcess.
+    const ext = process.platform === 'win32' ? '.exe' : '';
+    return join(resourcesDir, 'tools', 'rtc-relay', `rtc-relay${ext}`);
+  },
 
   // ── Hunt helpers ───────────────────────────────────────────
   huntDir(huntDirName: string) { return join(dataDir, 'hunts', huntDirName); },

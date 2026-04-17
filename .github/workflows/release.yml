@@ -69,7 +69,16 @@ jobs:
       - name: Build rtc-relay
         shell: bash
         working-directory: tools/rtc-relay
-        run: go build -o rtc-relay .
+        run: |
+          go build -o rtc-relay .
+          # Tauri's resource bundler expects both names to exist (the conf
+          # lists both rtc-relay and rtc-relay.exe). Stub whichever one Go
+          # didn't produce for this platform.
+          if [[ "${{ matrix.sidecar-ext }}" == ".exe" ]]; then
+            touch rtc-relay
+          else
+            touch rtc-relay.exe
+          fi
 
       - name: Verify dependency manifest is frozen
         shell: bash

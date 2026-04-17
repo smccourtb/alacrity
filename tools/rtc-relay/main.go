@@ -302,6 +302,9 @@ func handleOffer(s *Session, offerSDP string) (string, error) {
 
 // findExtensionID parses SDP to find the extension ID for a given URI.
 // Line shape: "a=extmap:N uri" or "a=extmap:N/sendrecv uri".
+// Returns 0 when the extension isn't present; callers treat 0 as "disabled"
+// (forwardVideoRTP at main.go:97 skips the SetExtension call in that case).
+// The RTP spec lets real extension IDs start at 1, so 0 is safe as a sentinel.
 func findExtensionID(sdp string, uri string) uint8 {
 	for _, line := range strings.Split(sdp, "\n") {
 		line = strings.TrimRight(line, "\r")
@@ -338,11 +341,20 @@ func stopSession(id string) {
 		return
 	}
 
+	// Mark as disconnected before closing the PC so the state-change callback
+	// suppresses its own DISCONNECT: emit. Without this, user-initiated stops
+	// race their own server with a concurrent session.stop() via the disconnect
+	// handler, which can trample cleanupTempDir before hasSaveChanged runs.
+	s.mu.Lock()
+	s.disconnectEmitted = true
+	pc := s.pc
+	s.mu.Unlock()
+
 	close(s.done)
 	s.videoConn.Close()
 	s.audioConn.Close()
-	if s.pc != nil {
-		s.pc.Close()
+	if pc != nil {
+		pc.Close()
 	}
 }
 
