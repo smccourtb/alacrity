@@ -41,6 +41,8 @@
       "../scripts/shiny_hunter_core": "scripts/shiny_hunter_core",
       "../scripts/shiny_hunter_wild": "scripts/shiny_hunter_wild",
       "../scripts/shiny_hunter_egg": "scripts/shiny_hunter_egg",
+      "../scripts/shiny_hunter_crystal_stationary": "scripts/shiny_hunter_crystal_stationary",
+      "../scripts/hunt-manifest.json": "scripts/hunt-manifest.json",
       "../tools/rtc-relay/rtc-relay": "tools/rtc-relay/rtc-relay",
       "../tools/rtc-relay/rtc-relay.exe": "tools/rtc-relay/rtc-relay.exe",
       "../tools/mgba-stream": "tools/mgba-stream",

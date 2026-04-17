@@ -9,6 +9,7 @@ export interface FilterOption {
   label: string;
   icon?: React.ReactNode;
   group?: string;
+  disabled?: boolean;
 }
 
 interface Props {
@@ -119,12 +120,15 @@ export default function FilterDropdown({ label, options, selected, onChange, mul
                   <button
                     key={opt.value}
                     type="button"
-                    onClick={() => toggle(opt.value)}
+                    disabled={opt.disabled}
+                    onClick={() => { if (!opt.disabled) toggle(opt.value); }}
                     className={cn(
                       'w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-sm font-medium transition-colors text-left',
-                      isSelected
-                        ? 'bg-surface-raised text-foreground'
-                        : 'hover:bg-surface-raised text-foreground'
+                      opt.disabled
+                        ? 'opacity-40 cursor-not-allowed text-muted-foreground'
+                        : isSelected
+                          ? 'bg-surface-raised text-foreground'
+                          : 'hover:bg-surface-raised text-foreground'
                     )}
                   >
                     {opt.icon && <span className="flex-shrink-0">{opt.icon}</span>}

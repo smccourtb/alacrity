@@ -5,6 +5,7 @@ interface PillToggleOption {
   value: string;
   label: string;
   activeClassName?: string;
+  disabled?: boolean;
 }
 
 interface PillToggleProps {
@@ -38,12 +39,15 @@ export default function PillToggle({ options, value, onChange, multiple = false,
           <button
             key={opt.value}
             type="button"
-            onClick={() => handleClick(opt.value)}
+            disabled={opt.disabled}
+            onClick={() => { if (!opt.disabled) handleClick(opt.value); }}
             className={cn(
               'flex-1 rounded-xl px-3 py-2 text-xs font-semibold transition-all whitespace-nowrap',
-              isActive
-                ? opt.activeClassName || 'bg-primary text-primary-foreground shadow-sm'
-                : 'bg-surface-raised text-muted-foreground hover:bg-surface-sunken'
+              opt.disabled
+                ? 'bg-surface-raised/40 text-muted-foreground/40 cursor-not-allowed'
+                : isActive
+                  ? opt.activeClassName || 'bg-primary text-primary-foreground shadow-sm'
+                  : 'bg-surface-raised text-muted-foreground hover:bg-surface-sunken'
             )}
           >
             {opt.label}

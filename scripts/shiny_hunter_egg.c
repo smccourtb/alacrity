@@ -1,3 +1,4 @@
+/* @alacrity games=Crystal modes=egg */
 /*
  * Gen 2 Egg Shiny Hunter — Continuous Mode (Pokemon Crystal)
  * Uses libmgba core directly — no Qt, no rendering, no audio

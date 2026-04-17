@@ -1,4 +1,5 @@
 import { Controller } from 'react-hook-form';
+import { Gamepad2Icon } from 'lucide-react';
 import FilterDropdown from '@/components/FilterDropdown';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -37,17 +38,26 @@ export default function HuntGameSelector({
           control={control}
           render={({ field }) => (
             <FilterDropdown
-              label="Select game..."
-              options={gameConfigs.map((g: any) => ({
-                value: g.game,
-                label: `${g.game}${g.gen === 1 ? ' (Gen 1)' : g.gen === 2 ? ' (Gen 2)' : ''}${!g.rom ? ' \u2014 no ROM' : ''}`,
-              }))}
+              label="Select a game"
+              options={gameConfigs.map((g: any) => {
+                const disabled = g.supported === false || !g.rom;
+                // Strip the "Pokemon " prefix so labels match the Pokedex picker
+                const displayLabel = g.game.replace(/^Pokemon\s+/, '');
+                return {
+                  value: g.game,
+                  label: displayLabel,
+                  group: `Gen ${g.gen}`,
+                  icon: <Gamepad2Icon className="w-3.5 h-3.5 text-muted-foreground" />,
+                  disabled,
+                };
+              })}
               selected={field.value ? [field.value] : []}
               onChange={(sel) => {
                 const v = sel[0] ?? '';
                 if (v) onGameChange(v);
               }}
               multiSelect={false}
+              searchable
             />
           )}
         />
@@ -134,18 +144,22 @@ export default function HuntGameSelector({
           <Controller
             name="hunt_mode"
             control={control}
-            render={({ field }) => (
-              <PillToggle
-                options={[
-                  { value: 'gift', label: 'Gift' },
-                  { value: 'battle', label: 'Stationary' },
-                  { value: 'wild', label: 'Wild' },
-                  { value: 'egg', label: 'Egg' },
-                ]}
-                value={field.value}
-                onChange={(v) => onModeChange(v as string)}
-              />
-            )}
+            render={({ field }) => {
+              const modes: string[] = gameConfig?.supportedModes ?? [];
+              const isSupported = (m: string) => modes.length === 0 || modes.includes(m);
+              return (
+                <PillToggle
+                  options={[
+                    { value: 'gift', label: 'Gift', disabled: !isSupported('gift') },
+                    { value: 'battle', label: 'Stationary', disabled: !isSupported('battle') },
+                    { value: 'wild', label: 'Wild', disabled: !isSupported('wild') },
+                    { value: 'egg', label: 'Egg', disabled: !isSupported('egg') },
+                  ]}
+                  value={field.value}
+                  onChange={(v) => onModeChange(v as string)}
+                />
+              );
+            }}
           />
 
           {/* Walk Direction (wild mode only) */}

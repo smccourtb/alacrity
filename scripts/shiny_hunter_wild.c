@@ -1,3 +1,4 @@
+/* @alacrity games=Crystal modes=wild */
 /*
  * Lightweight Gen 2 Wild Encounter Shiny Hunter — uses libmgba core directly
  * No Qt, no rendering, no audio — just CPU emulation + memory reads

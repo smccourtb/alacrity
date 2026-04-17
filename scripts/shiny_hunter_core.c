@@ -1,3 +1,4 @@
+/* @alacrity games=Yellow modes=gift,battle */
 /*
  * Lightweight Gen 1 Shiny Hunter — uses libmgba core directly
  * No Qt, no rendering, no audio — just CPU emulation + memory reads

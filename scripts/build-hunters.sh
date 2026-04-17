@@ -69,7 +69,7 @@ echo "==> mGBA build:   $MGBA_BUILD"
 echo "==> libmgba file: $(basename "$LIB_REAL")"
 echo "==> bundled as:   $LIB_BUNDLED_NAME"
 
-for src_name in shiny_hunter_core shiny_hunter_wild shiny_hunter_egg; do
+for src_name in shiny_hunter_core shiny_hunter_wild shiny_hunter_egg shiny_hunter_crystal_stationary; do
   src_file="${SCRIPTS_DIR}/${src_name}.c"
   out_file="${SCRIPTS_DIR}/${src_name}"
   if [[ ! -f "$src_file" ]]; then
@@ -93,7 +93,7 @@ chmod +x "$SCRIPTS_DIR/$LIB_BUNDLED_NAME"
 # the dylib had at build time (often an absolute path), which will not match
 # the bundled copy next to the binary.
 if [[ "$UNAME_S" == "Darwin" ]]; then
-  for bin in shiny_hunter_core shiny_hunter_wild shiny_hunter_egg; do
+  for bin in shiny_hunter_core shiny_hunter_wild shiny_hunter_egg shiny_hunter_crystal_stationary; do
     bin_path="${SCRIPTS_DIR}/${bin}"
     [[ -x "$bin_path" ]] || continue
     OLD_INSTALL="$(otool -L "$bin_path" | awk '/libmgba/ { print $1; exit }')"
@@ -105,7 +105,7 @@ fi
 
 echo ""
 echo "==> Done. Verification:"
-for bin in shiny_hunter_core shiny_hunter_wild shiny_hunter_egg; do
+for bin in shiny_hunter_core shiny_hunter_wild shiny_hunter_egg shiny_hunter_crystal_stationary; do
   bin_path="${SCRIPTS_DIR}/${bin}"
   [[ -x "$bin_path" ]] || continue
   printf "  %s: " "$bin"
@@ -120,4 +120,27 @@ for bin in shiny_hunter_core shiny_hunter_wild shiny_hunter_egg; do
   esac
 done
 echo ""
-echo "==> Commit: git add scripts/shiny_hunter_* scripts/libmgba.*"
+echo "==> Generating hunt-manifest.json from @alacrity markers in .c sources"
+manifest="${SCRIPTS_DIR}/hunt-manifest.json"
+{
+  printf '{\n  "binaries": {\n'
+  first=1
+  for bin in shiny_hunter_core shiny_hunter_wild shiny_hunter_egg shiny_hunter_crystal_stationary; do
+    src="${SCRIPTS_DIR}/${bin}.c"
+    [[ -f "$src" ]] || continue
+    line="$(grep -m1 -oE '@alacrity[^*]+' "$src" || true)"
+    [[ -z "$line" ]] && continue
+    games="$(echo "$line" | grep -oE 'games=[^ ]+' | cut -d= -f2 | tr -d '\r' || true)"
+    modes="$(echo "$line" | grep -oE 'modes=[^ ]+' | cut -d= -f2 | tr -d '\r' || true)"
+    [[ $first -eq 1 ]] || printf ',\n'
+    first=0
+    games_json="$(echo "$games" | tr ',' '\n' | awk 'BEGIN{printf "["} {printf "%s\"%s\"", (NR>1?",":""), $0} END{printf "]"}')"
+    modes_json="$(echo "$modes" | tr ',' '\n' | awk 'BEGIN{printf "["} {printf "%s\"%s\"", (NR>1?",":""), $0} END{printf "]"}')"
+    printf '    "%s": { "games": %s, "modes": %s }' "$bin" "$games_json" "$modes_json"
+  done
+  printf '\n  }\n}\n'
+} > "$manifest"
+echo "==> Wrote $manifest"
+
+echo ""
+echo "==> Commit: git add scripts/shiny_hunter_* scripts/libmgba.* scripts/hunt-manifest.json"

@@ -25,8 +25,37 @@ const activeRNGHunts = new Map<number, RNGHuntOrchestrator | NDSRNGHuntOrchestra
 const HUNTS_DIR = paths.huntsDir;
 const SCRIPTS_DIR = paths.scriptsDir;
 const CORE_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_core');
+const CRYSTAL_STATIONARY_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_crystal_stationary');
 const WILD_HUNTER = join(SCRIPTS_DIR, 'shiny_hunter_wild');
 const EGG_HUNTER  = join(SCRIPTS_DIR, 'shiny_hunter_egg');
+const HUNT_MANIFEST_PATH = join(SCRIPTS_DIR, 'hunt-manifest.json');
+
+interface HuntManifest {
+  binaries: Record<string, { games: string[]; modes: string[] }>;
+}
+
+/**
+ * Aggregate of which games+modes the bundled hunt binaries support.
+ * Generated at build time by scripts/build-hunters.sh from @alacrity markers
+ * in each .c source; read once on module load.
+ */
+const HUNT_SUPPORT: { games: Set<string>; byGame: Map<string, Set<string>> } = (() => {
+  const out = { games: new Set<string>(), byGame: new Map<string, Set<string>>() };
+  try {
+    const raw = readFileSync(HUNT_MANIFEST_PATH, 'utf8');
+    const parsed = JSON.parse(raw) as HuntManifest;
+    for (const bin of Object.values(parsed.binaries)) {
+      for (const g of bin.games) {
+        out.games.add(g);
+        if (!out.byGame.has(g)) out.byGame.set(g, new Set());
+        for (const m of bin.modes) out.byGame.get(g)!.add(m);
+      }
+    }
+  } catch (err) {
+    console.warn('[hunts] hunt-manifest.json missing or invalid, no games will be marked supported:', (err as Error).message);
+  }
+  return out;
+})();
 
 /**
  * Resolve the mGBA binary from emulator_configs at call time. Hunts can't
@@ -509,6 +538,8 @@ router.get('/game-configs', (_req, res) => {
       : [];
 
     const targets = getTargetsForGame(game, meta.gen);
+    const supportedModes = Array.from(HUNT_SUPPORT.byGame.get(game) ?? []);
+    const supported = supportedModes.length > 0;
 
     return {
       game,
@@ -516,6 +547,8 @@ router.get('/game-configs', (_req, res) => {
       rom: rom ? { path: rom.path, name: rom.name } : null,
       saves: gameSaves.map(s => ({ path: s.path, name: s.name })),
       targets,
+      supported,
+      supportedModes,
     };
   });
 
@@ -565,9 +598,12 @@ router.get("/encounter-types/:game", (req, res) => {
 });
 
 function spawnHuntProcesses(huntId: number, hunt: any) {
-  const { rom_path, sav_path, num_instances, hunt_mode, walk_dir, target_name } = hunt;
+  const { rom_path, sav_path, num_instances, hunt_mode, walk_dir, target_name, game } = hunt;
   const isWild = hunt_mode === 'wild';
   const isEgg = hunt_mode === 'egg';
+  // Crystal stationary uses shiny_hunter_crystal_stationary (Gen 2 offsets);
+  // Yellow gift/stationary falls through to shiny_hunter_core (Gen 1 offsets).
+  const isCrystalStationary = hunt_mode === 'battle' && game === 'Crystal';
   const huntDir = getHuntDir(hunt);
   const logDir = join(huntDir, 'logs');
   const instances = num_instances;
@@ -589,7 +625,10 @@ function spawnHuntProcesses(huntId: number, hunt: any) {
     MIN_SPC: String(hunt.min_spc ?? 0),
   };
 
-  const binary = isEgg ? EGG_HUNTER : isWild ? WILD_HUNTER : CORE_HUNTER;
+  const binary = isEgg ? EGG_HUNTER
+    : isWild ? WILD_HUNTER
+    : isCrystalStationary ? CRYSTAL_STATIONARY_HUNTER
+    : CORE_HUNTER;
 
   for (let i = 1; i <= instances; i++) {
     const instDir = join(huntDir, `instance_${i}`);

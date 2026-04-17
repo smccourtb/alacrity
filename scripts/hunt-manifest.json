@@ -1,0 +1,8 @@
+{
+  "binaries": {
+    "shiny_hunter_core": { "games": ["Yellow"], "modes": ["gift","battle"] },
+    "shiny_hunter_wild": { "games": ["Crystal"], "modes": ["wild"] },
+    "shiny_hunter_egg": { "games": ["Crystal"], "modes": ["egg"] },
+    "shiny_hunter_crystal_stationary": { "games": ["Crystal"], "modes": ["battle"] }
+  }
+}
