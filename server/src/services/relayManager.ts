@@ -1,6 +1,5 @@
 import { spawn, ChildProcess, execSync } from 'child_process';
 import { registerProcess } from './processRegistry.js';
-import { createInterface } from 'readline';
 import { paths } from '../paths.js';
 
 // ---------------------------------------------------------------------------
@@ -8,6 +7,13 @@ import { paths } from '../paths.js';
 // ---------------------------------------------------------------------------
 // Manages a native Go WebRTC relay that accepts RTP from FFmpeg and sends
 // directly to browser via WebRTC. Zero buffering between RTP and SRTP.
+//
+// IPC: the relay speaks to us over stderr with tagged lines. stdout is
+// unused — Go's runtime buffers stdout and we want prompt delivery for
+// input events.
+//   INPUT:{"session":"id","input":{...}}  → DataChannel message
+//   DISCONNECT:{"session":"id"}           → PC lost, failed, or closed
+//   anything else                          → log line
 // ---------------------------------------------------------------------------
 
 const RELAY_BIN = paths.rtcRelay;
@@ -15,6 +21,7 @@ export const RELAY_PORT = 9090;
 
 let process_: ChildProcess | null = null;
 let inputHandler: ((session: string, msg: string) => void) | null = null;
+let disconnectHandler: ((session: string) => void) | null = null;
 
 /** Kill any orphaned relay process holding the port from a previous server run */
 function killOrphanedRelay(): void {
@@ -40,38 +47,29 @@ export function startRelay(): void {
   killOrphanedRelay();
 
   process_ = spawn(RELAY_BIN, [String(RELAY_PORT)], {
-    stdio: ['ignore', 'pipe', 'pipe'],
+    stdio: ['ignore', 'ignore', 'pipe'],
   });
   registerProcess(process_, 'rtc-relay');
 
-  // The relay prints DataChannel input messages to stdout as JSON lines
-  if (process_.stdout) {
-    const rl = createInterface({ input: process_.stdout });
-    rl.on('line', (line) => {
-      try {
-        const { session, input } = JSON.parse(line);
-        if (inputHandler && session && input) {
-          inputHandler(session, JSON.stringify(input));
-        }
-      } catch {
-        // Non-JSON output (e.g., log messages)
-        console.log(`[rtc-relay] ${line}`);
-      }
-    });
-  }
-
   process_.stderr?.on('data', (data: Buffer) => {
-    const lines = data.toString().trim().split('\n');
+    const lines = data.toString().split('\n');
     for (const line of lines) {
+      if (!line) continue;
       if (line.startsWith('INPUT:')) {
-        // DataChannel input forwarded via stderr to avoid stdout pipe buffering
         try {
           const { session, input } = JSON.parse(line.slice(6));
           if (inputHandler && session && input) {
             inputHandler(session, JSON.stringify(input));
           }
         } catch {}
-      } else if (line) {
+      } else if (line.startsWith('DISCONNECT:')) {
+        try {
+          const { session } = JSON.parse(line.slice(11));
+          if (disconnectHandler && session) {
+            disconnectHandler(session);
+          }
+        } catch {}
+      } else {
         console.log(`[rtc-relay] ${line}`);
       }
     }
@@ -100,6 +98,11 @@ export function stopRelay(): void {
 /** Register a callback for DataChannel input from the relay */
 export function onRelayInput(handler: (sessionId: string, inputJson: string) => void): void {
   inputHandler = handler;
+}
+
+/** Register a callback invoked when the PeerConnection drops/fails/closes */
+export function onRelayDisconnect(handler: (sessionId: string) => void): void {
+  disconnectHandler = handler;
 }
 
 /** Create a session in the relay, get back RTP ports for FFmpeg */

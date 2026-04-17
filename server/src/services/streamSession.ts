@@ -16,7 +16,7 @@ import {
 } from './sessionManager.js';
 import { bridgeSaveIn, hasSaveBridgeChanged, seedAzaharConfig, type SaveBridge } from './saveBridge3ds.js';
 import { seedMelonDSConfig } from './melondsConfig.js';
-import { createRelaySession, stopRelaySession } from './mediamtxManager.js';
+import { createRelaySession, stopRelaySession } from './relayManager.js';
 import { registerProcess, gracefulKill } from './processRegistry.js';
 import type { DirectStreamSession } from './directStreamSession.js';
 
@@ -30,6 +30,8 @@ export interface StreamSessionInfo {
   system: SystemType;
   status: 'starting' | 'running' | 'stopped';
   startedAt: string;
+  /** Only meaningful when status === 'stopped'; true means user action is needed to resolve. */
+  saveChanged?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -149,6 +151,7 @@ export class StreamSession {
   readonly system: SystemType;
 
   private _status: 'starting' | 'running' | 'stopped' = 'starting';
+  private _saveChanged: boolean = false;
   private readonly startedAt: string;
 
   // Emulator config
@@ -237,6 +240,7 @@ export class StreamSession {
       system: this.system,
       status: this._status,
       startedAt: this.startedAt,
+      saveChanged: this._status === 'stopped' ? this._saveChanged : undefined,
     };
   }
 
@@ -499,7 +503,7 @@ export class StreamSession {
     this.emulatorProcess = null;
 
     // Check save BEFORE cleaning up the display/temp dir
-    const saveChanged = this.hasSaveChanged();
+    this._saveChanged = this.hasSaveChanged();
 
     // Kill window manager
     if (this.wmProcess) await gracefulKill(this.wmProcess, `WM[${this.id}]`, 1000);
@@ -519,8 +523,8 @@ export class StreamSession {
       }
       this.pulseModuleIndex = null;
     }
-    console.log(`[${this.id}] Stream session stopped — saveChanged=${saveChanged}`);
-    return { saveChanged };
+    console.log(`[${this.id}] Stream session stopped — saveChanged=${this._saveChanged}`);
+    return { saveChanged: this._saveChanged };
   }
 
   resolveSave(

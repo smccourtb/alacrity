@@ -17,7 +17,7 @@ import {
   getSystemForGame,
   supportsDirectStream,
 } from '../services/emulatorConfigs.js';
-import { relayOffer } from '../services/mediamtxManager.js';
+import { relayOffer } from '../services/relayManager.js';
 import { paths } from '../paths.js';
 const router = Router();
 
@@ -136,6 +136,12 @@ router.post('/stop', async (req: Request, res: Response) => {
     }
 
     const { saveChanged } = await session.stop();
+    // If no resolution is needed, drop the session now so it doesn't linger.
+    // When saveChanged, /resolve handles removal after the user picks an action.
+    if (!saveChanged) {
+      session.cleanupTempDir();
+      removeSession(sessionId);
+    }
     return res.json({ sessionId, saveChanged });
   } catch (err: any) {
     console.error('[stream/stop]', err);

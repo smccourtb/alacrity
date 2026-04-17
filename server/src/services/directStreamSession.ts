@@ -8,7 +8,7 @@ import {
   resolveSessionSave,
   cleanupTempDir,
 } from './sessionManager.js';
-import { createRelaySession, stopRelaySession } from './mediamtxManager.js';
+import { createRelaySession, stopRelaySession } from './relayManager.js';
 import { registerProcess, gracefulKill } from './processRegistry.js';
 import type { StreamSessionInfo } from './streamSession.js';
 import { paths } from '../paths.js';
@@ -29,6 +29,7 @@ export class DirectStreamSession {
   readonly system: SystemType;
 
   private _status: 'starting' | 'running' | 'stopped' = 'starting';
+  private _saveChanged: boolean = false;
   private readonly startedAt: string;
 
   // Temp dir & save tracking
@@ -79,6 +80,7 @@ export class DirectStreamSession {
       system: this.system,
       status: this._status,
       startedAt: this.startedAt,
+      saveChanged: this._status === 'stopped' ? this._saveChanged : undefined,
     };
   }
 
@@ -140,9 +142,9 @@ export class DirectStreamSession {
     await gracefulKill(this.mgbaProcess!, `mgba-stream[${this.id}]`);
     this.mgbaProcess = null;
 
-    const saveChanged = this.hasSaveChanged();
-    console.log(`[${this.id}] Direct stream session stopped — saveChanged=${saveChanged}`);
-    return { saveChanged };
+    this._saveChanged = this.hasSaveChanged();
+    console.log(`[${this.id}] Direct stream session stopped — saveChanged=${this._saveChanged}`);
+    return { saveChanged: this._saveChanged };
   }
 
   resolveSave(

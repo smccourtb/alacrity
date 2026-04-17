@@ -60,10 +60,10 @@ const { seedLookupTables } = await import('./seed-moves.js');
 const { syncSaves } = await import('./services/syncSaves.js');
 const { reconcileTipsInclusion } = await import('./services/identityService.js');
 const { rebuildSnapshots } = await import('./services/saveSnapshot.js');
-const { startRelay, stopRelay, onRelayInput } = await import('./services/mediamtxManager.js');
+const { startRelay, stopRelay, onRelayInput, onRelayDisconnect } = await import('./services/relayManager.js');
 const { killAll: killAllProcesses, registeredCount } = await import('./services/processRegistry.js');
 const { startMdns, stopMdns } = await import('./services/mdns.js');
-const { getSession } = await import('./services/streamSession.js');
+const { getSession, removeSession } = await import('./services/streamSession.js');
 
 // ── App setup ───────────────────────────────────────────────────
 const app = express();
@@ -128,7 +128,7 @@ seedLookupTables()
 // Start Pion relay for WebRTC streaming
 startRelay();
 
-// Wire up DataChannel input: relay prints JSON to stdout → we route to session
+// Wire up DataChannel input: relay emits INPUT: lines on stderr → route to session
 onRelayInput((sessionId, inputJson) => {
   const session = getSession(sessionId);
   if (session) {
@@ -138,6 +138,25 @@ onRelayInput((sessionId, inputJson) => {
     } catch {
       // Ignore malformed input
     }
+  }
+});
+
+// Wire up PeerConnection drop: relay emits DISCONNECT: when the phone loses
+// the WebRTC connection (backgrounded, Wi-Fi dropped, tab closed). Tear down
+// the full server-side session so FFmpeg/emulator/Xvfb don't orphan. If the
+// save changed, the session stays in the map under status='stopped' for the
+// user to resolve; otherwise we remove it.
+onRelayDisconnect(async (sessionId) => {
+  const session = getSession(sessionId);
+  if (!session) return;
+  try {
+    const { saveChanged } = await session.stop();
+    if (!saveChanged) {
+      session.cleanupTempDir();
+      removeSession(sessionId);
+    }
+  } catch (err) {
+    console.error(`[rtc-relay] disconnect cleanup failed for ${sessionId}:`, err);
   }
 });
 
