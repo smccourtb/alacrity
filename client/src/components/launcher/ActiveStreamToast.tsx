@@ -61,8 +61,10 @@ export default function ActiveStreamToast() {
       }
     };
 
-    // EventSource auto-reconnects on network blips, so we only need to clear
-    // stale state while disconnected. Sessions will resync on the next open.
+    // EventSource auto-reconnects on network blips, so we only clear the
+    // pill list while disconnected. `result` is intentionally NOT cleared:
+    // a save-changed dialog already open holds its own sessionId and can
+    // still post to /resolve once the server is reachable again.
     es.onerror = () => setSessions([]);
 
     return () => es.close();

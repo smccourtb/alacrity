@@ -157,8 +157,11 @@ onRelayDisconnect(async (sessionId) => {
     }
   } catch (err) {
     console.error(`[rtc-relay] disconnect cleanup failed for ${sessionId}:`, err);
-    // Whatever failed, don't leave the session pinned in the map forever —
-    // temp dir cleanup is best-effort, removal is the leak-preventer.
+    // hasSaveChanged() runs early in stop() (before wm/xvfb/pulse teardown),
+    // so saveChanged may already be recorded even if stop() threw later.
+    // Respect it and pin the session for /resolve — otherwise we'd delete
+    // the user's modified temp save during a partial-failure cleanup path.
+    if (session.info.saveChanged) return;
     try { session.cleanupTempDir(); } catch { /* already cleaned */ }
     removeSession(sessionId);
   }

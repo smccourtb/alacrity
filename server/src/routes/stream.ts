@@ -76,30 +76,37 @@ function resolveRomPath(game: string): string | null {
 
 // POST /api/stream/start
 router.post('/start', async (req: Request, res: Response) => {
+  const { savePath, game } = req.body;
+  if (!game || typeof game !== 'string') {
+    return res.status(400).json({ error: 'game is required' });
+  }
+  if (savePath && !existsSync(savePath)) {
+    return res.status(404).json({ error: 'Save file not found' });
+  }
+  const romPath = resolveRomPath(game);
+  if (!romPath) {
+    return res.status(404).json({ error: `ROM not found for game: ${game}` });
+  }
+
+  // Use DirectStreamSession (mgba-stream) for GB/GBC/GBA, StreamSession for NDS/3DS
+  const system = getSystemForGame(game);
+  const session: AnyStreamSession = supportsDirectStream(system)
+    ? new DirectStreamSession(game, romPath, savePath)
+    : new StreamSession(game, romPath, savePath);
+  registerSession(session);
+
   try {
-    const { savePath, game } = req.body;
-    if (!game || typeof game !== 'string') {
-      return res.status(400).json({ error: 'game is required' });
-    }
-    if (savePath && !existsSync(savePath)) {
-      return res.status(404).json({ error: 'Save file not found' });
-    }
-    const romPath = resolveRomPath(game);
-    if (!romPath) {
-      return res.status(404).json({ error: `ROM not found for game: ${game}` });
-    }
-
-    // Use DirectStreamSession (mgba-stream) for GB/GBC/GBA, StreamSession for NDS/3DS
-    const system = getSystemForGame(game);
-    const session: AnyStreamSession = supportsDirectStream(system)
-      ? new DirectStreamSession(game, romPath, savePath)
-      : new StreamSession(game, romPath, savePath);
-    registerSession(session);
     await session.start();
-
     return res.json({ sessionId: session.id, system: session.system });
   } catch (err: any) {
     console.error('[stream/start]', err);
+    // Rollback: don't leave a zombie session in the map + SSE feed. StreamSession
+    // runs its own stop() in its try/catch, so a second stop() here is redundant
+    // but safe — stop is idempotent. DirectStreamSession has no internal cleanup
+    // on failed start, so this catch is the only rollback point for it.
+    try { await session.stop(); } catch { /* already torn down */ }
+    try { session.cleanupTempDir(); } catch { /* already cleaned */ }
+    removeSession(session.id);
     return res.status(500).json({ error: err.message });
   }
 });

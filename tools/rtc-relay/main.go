@@ -303,8 +303,8 @@ func handleOffer(s *Session, offerSDP string) (string, error) {
 // findExtensionID parses SDP to find the extension ID for a given URI.
 // Line shape: "a=extmap:N uri" or "a=extmap:N/sendrecv uri".
 // Returns 0 when the extension isn't present; callers treat 0 as "disabled"
-// (forwardVideoRTP at main.go:97 skips the SetExtension call in that case).
-// The RTP spec lets real extension IDs start at 1, so 0 is safe as a sentinel.
+// (see forwardVideoRTP's `if extID > 0` guard around SetExtension). The RTP
+// spec lets real extension IDs start at 1, so 0 is safe as a sentinel.
 func findExtensionID(sdp string, uri string) uint8 {
 	for _, line := range strings.Split(sdp, "\n") {
 		line = strings.TrimRight(line, "\r")
