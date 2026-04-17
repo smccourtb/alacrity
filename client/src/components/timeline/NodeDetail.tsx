@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 import { Button } from '@/components/ui/button';
 import { safeSpeciesName } from '@/components/pokemon/sprites';
 import { SavePreviewBody } from '@/components/SavePreviewBody';
@@ -7,6 +8,7 @@ import type { CheckpointNode, CheckpointDiff, SaveSnapshot } from './types';
 import { LaunchActions } from '@/components/play/LaunchActions';
 import { GAME_ACCENTS } from '@/lib/game-constants';
 import { CollectionToggle } from './CollectionToggle';
+import { fetchNetworkInfo, type NetworkInfoResponse } from '@/api/networkInfo';
 
 /** Safely display location text */
 function safeLocation(location: string | null | undefined): string | null {
@@ -81,6 +83,33 @@ export function NodeDetail({
   const [editingLabel, setEditingLabel] = useState(false);
   const [labelDraft, setLabelDraft] = useState(node.label);
   const [saving, setSaving] = useState(false);
+  const [showStreamQR, setShowStreamQR] = useState(false);
+  const [netInfo, setNetInfo] = useState<NetworkInfoResponse | null>(null);
+  const [urlCopied, setUrlCopied] = useState(false);
+
+  const copyStreamUrl = async (url: string) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setUrlCopied(true);
+      setTimeout(() => setUrlCopied(false), 1500);
+    } catch { /* clipboard API unavailable (non-secure context) — user can still scan */ }
+  };
+
+  // Lazily fetch network info the first time the QR is requested.
+  useEffect(() => {
+    if (!showStreamQR || netInfo) return;
+    let cancelled = false;
+    fetchNetworkInfo()
+      .then(r => { if (!cancelled) setNetInfo(r); })
+      .catch(() => { /* falls back to plain URL text */ });
+    return () => { cancelled = true; };
+  }, [showStreamQR, netInfo]);
+
+  const handleStreamWithQR = () => {
+    setShowStreamQR(true);
+    onStreamPlay?.();
+  };
+
   const snap = node.snapshot;
   const isHuntable = node.type === 'hunt_base' || node.type === 'daycare_swap';
   const diffLines = buildDiffSummary(node.diff, snap);
@@ -205,7 +234,7 @@ export function NodeDetail({
               isLocal={isLocal ?? false}
               accentColor={GAME_ACCENTS[snap?.game ?? '']}
               onDesktopPlay={onPlay ?? (() => {})}
-              onStreamPlay={onStreamPlay ?? (() => {})}
+              onStreamPlay={handleStreamWithQR}
               onWebPlay={onWebPlay ?? (() => {})}
               onTrade={onTrade}
             />
@@ -226,6 +255,44 @@ export function NodeDetail({
             </Button>
           )}
         </div>
+
+        {/* Phone QR — appears after clicking Stream so the user doesn't
+            have to navigate to Settings to scan. */}
+        {showStreamQR && (
+          <div className="flex items-start gap-3 rounded-lg border border-border bg-surface px-3 py-2.5">
+            <div className="rounded-md bg-white p-2 shrink-0">
+              {netInfo?.ip ? (
+                <QRCodeSVG value={`http://${netInfo.ip}:${netInfo.port}/stream`} size={112} />
+              ) : (
+                <div className="w-28 h-28 flex items-center justify-center text-xs text-muted-foreground">…</div>
+              )}
+            </div>
+            <div className="flex-1 min-w-0 space-y-1">
+              <div className="flex items-center justify-between gap-2">
+                <div className="text-sm font-medium">Scan to stream on your phone</div>
+                <button
+                  onClick={() => setShowStreamQR(false)}
+                  className="text-xs text-muted-foreground hover:text-foreground shrink-0"
+                  aria-label="Dismiss QR"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                Waiting for phone — same WiFi required.
+              </div>
+              {netInfo?.ip && (
+                <button
+                  onClick={() => copyStreamUrl(`http://${netInfo.ip}:${netInfo.port}/stream`)}
+                  className="w-full text-left rounded bg-muted hover:bg-muted/70 px-2 py-1 font-mono text-xs truncate transition-colors"
+                  title={urlCopied ? 'Copied!' : 'Click to copy'}
+                >
+                  {urlCopied ? '✓ Copied' : `http://${netInfo.ip}:${netInfo.port}/stream`}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Collection toggle + delete */}
         <CollectionToggle

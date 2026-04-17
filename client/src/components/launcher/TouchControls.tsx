@@ -381,8 +381,13 @@ export default function TouchControls({
         )}
       </div>
 
-      {/* ── Center: Start / Select / Reset ──────────────────────────────────── */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2 pointer-events-auto">
+      {/* ── Start / Select / Reset ───────────────────────────────────────────
+           Portrait: centered along the bottom, between D-pad and face buttons.
+           Landscape: stacked above the face buttons (right side) so the row
+           doesn't overlap the video in the middle of the screen. */}
+      <div className="absolute flex gap-2 pointer-events-auto
+                      bottom-10 left-1/2 -translate-x-1/2
+                      landscape:bottom-40 landscape:right-4 landscape:left-auto landscape:translate-x-0">
         <button
           {...selectHandlers}
           className={`${baseBtn} px-3 h-7 text-sm rounded-lg`}
