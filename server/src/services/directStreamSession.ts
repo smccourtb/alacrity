@@ -89,11 +89,23 @@ export class DirectStreamSession {
   // -------------------------------------------------------------------------
 
   async start(): Promise<void> {
+    // Pre-flight: spawn's ENOENT fires asynchronously on 'error', which
+    // would let us return with _status='running' while the child is already
+    // dead. Catch missing binary up front so /start returns a real 500.
+    if (!existsSync(MGBA_STREAM_BIN)) {
+      throw new Error(
+        `mgba-stream binary not found at ${MGBA_STREAM_BIN}. Streaming ` +
+        `requires a platform-native build of mgba-stream; this path is ` +
+        `currently Linux-only.`,
+      );
+    }
+
     // Create relay session — get RTP ports for video + audio
     const { videoPort, audioPort } = await createRelaySession(this.id);
     console.log(`[${this.id}] Relay session created — video:${videoPort} audio:${audioPort}`);
 
-    // Spawn mgba-stream with stdin pipe for input
+    // Spawn mgba-stream with stdin pipe for input. Wait for either 'spawn'
+    // (success) or 'error' (launch failure) before flipping status.
     this.mgbaProcess = spawn(MGBA_STREAM_BIN, [
       this.tempRomPath,
       this.tempSavePath,
@@ -103,18 +115,29 @@ export class DirectStreamSession {
       stdio: ['pipe', 'ignore', 'pipe'],
     });
 
+    await new Promise<void>((resolve, reject) => {
+      this.mgbaProcess!.once('spawn', resolve);
+      this.mgbaProcess!.once('error', reject);
+    });
+
     registerProcess(this.mgbaProcess, `mgba-stream[${this.id}]`);
     this.mgbaProcess.stderr?.on('data', (data: Buffer) => {
       const msg = data.toString().trim();
       if (msg) console.log(`[${this.id}] mgba-stream: ${msg.split('\n').pop()}`);
     });
 
+    // Late errors (crash after successful spawn) should tear the session
+    // down rather than leaving the relay with a running PC but no RTP.
     this.mgbaProcess.on('error', (err) => {
       console.error(`[${this.id}] mgba-stream error:`, err.message);
+      this.stop().catch(() => {});
     });
 
     this.mgbaProcess.on('exit', (code, signal) => {
       console.log(`[${this.id}] mgba-stream exited with code ${code}, signal ${signal}`);
+      if (this._status === 'running') {
+        this.stop().catch(() => {});
+      }
     });
 
     this._status = 'running';
