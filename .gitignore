@@ -24,7 +24,10 @@ server/pokemon.db
 
 # ─── Third-party tools (not our code) ────────────
 # Emulators, BIOS files, native binaries — users download separately
-tools/
+tools/*
+# RTC relay is our Go code — track source, ignore compiled binary
+!tools/rtc-relay/
+tools/rtc-relay/rtc-relay
 
 # ─── Build artifacts ─────────────────────────────
 src-tauri/target/
