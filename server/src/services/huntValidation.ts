@@ -3,6 +3,7 @@ import type { SaveWorldState } from './worldState.js';
 import { parseWorldStateLight } from './autoLinkage.js';
 import { parseGen1Save } from './gen1Parser.js';
 import { parseGen2Save } from './gen2Parser.js';
+import { getCached, setCached } from './huntValidationCache.js';
 
 export type HuntMode = 'wild' | 'stationary' | 'gift' | 'egg';
 
@@ -291,7 +292,13 @@ export async function validateHuntConfig(input: ValidationInput): Promise<Valida
 
   let ctx: SaveContext = { worldState: null, daycare: null };
   if (input.sav_path) {
-    ctx = await loadSaveContext(input.sav_path, input.game);
+    const cached = getCached(input.sav_path, input.game);
+    if (cached) {
+      ctx = cached;
+    } else {
+      ctx = await loadSaveContext(input.sav_path, input.game);
+      setCached(input.sav_path, input.game, ctx);
+    }
     if (ctx.parseError) {
       checks.push({
         id: 'wild_location',
