@@ -120,8 +120,8 @@ const HA_RATE: Record<string, { rate: number; note?: string }> = {
   dexnav_chain:     { rate: 0.25, note: 'DexNav HA rate caps at 25% (Search Level ≥100); lower SLs: 5–20%' },
   sos_chain:        { rate: 0.15, note: 'SOS HA rate 15% at chain ≥30 (Sun/Moon)' },
   breeding:         { rate: 0.6, note: 'Assumes Ability Capsule on a female HA parent (60%); varies otherwise' },
-  stationary:       { rate: 0 },
-  default:          { rate: 0 },
+  stationary:       { rate: 1 / 150, note: 'HA on stationary legendaries is usually transfer-only in Gen 6/7 — effectively unreachable via catching' },
+  default:          { rate: 1 / 150, note: 'HA from plain wild encounters is effectively unreachable without a method-specific route (Friend Safari / Horde / DexNav / SOS / breeding)' },
 };
 
 function calculateOdds3DS(opts: OddsInput): OddsOutput {
@@ -167,7 +167,6 @@ function calculateOdds3DS(opts: OddsInput): OddsOutput {
   if (opts.ability === 'hidden') {
     const key = opts.encounterType && HA_RATE[opts.encounterType] ? opts.encounterType : 'default';
     const entry = HA_RATE[key];
-    if (entry.rate === 0) return impossible();
     p *= entry.rate;
     if (entry.note) caveats.push(entry.note);
   } else if (opts.ability === 'normal') {
