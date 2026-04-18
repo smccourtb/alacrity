@@ -40,7 +40,8 @@ export interface ValidationReport {
 export interface SaveContext {
   worldState: SaveWorldState | null;
   daycare: any | null;
-  party: Array<{ species_id: number; current_hp?: number; hp?: number; max_hp?: number }>;
+  /** Party pokemon (Gen 1/2 only right now). No HP fields — parser doesn't read them. */
+  party: Array<{ species_id: number }>;
   parseError?: string;
 }
 
@@ -237,6 +238,42 @@ function parentEggGroups(p: DaycareParent | null | undefined): string[] {
   return [];
 }
 
+/**
+ * Target-property-only egg checks — fire regardless of save state, so users
+ * see the problem the moment they pick a bad target without needing to load
+ * a save first.
+ */
+function ruleEggTarget(input: ValidationInput): CheckResult | null {
+  if (input.hunt_mode !== 'egg' || input.target_species_id == null) return null;
+
+  const meta = db.prepare('SELECT is_baby FROM species WHERE id = ?').get(input.target_species_id) as { is_baby: number } | undefined;
+  const isBaby = meta?.is_baby === 1;
+  const groupRows = db.prepare('SELECT egg_group FROM species_egg_groups WHERE species_id = ?').all(input.target_species_id) as Array<{ egg_group: string }>;
+  const groups = groupRows.map(r => r.egg_group.toLowerCase());
+
+  // Un-breedable: only in 'no-eggs' and NOT a baby. Babies show up in no-eggs
+  // but hatch from their evolved form, so they remain valid egg-hunt targets.
+  if (!isBaby && groups.length > 0 && groups.every(g => g === 'no-eggs')) {
+    return {
+      id: 'egg_daycare',
+      severity: 'error',
+      message: `${speciesNameOrId(input.target_species_id)} can't be produced from an egg.`,
+      detail: 'Legendary and mythical species have no egg group — try a different hunt mode.',
+    };
+  }
+
+  if (isBaby) {
+    return {
+      id: 'egg_daycare',
+      severity: 'warning',
+      message: `${speciesNameOrId(input.target_species_id)} hatches only when its evolved form is in the daycare.`,
+      detail: 'Some baby species also require an incense item (e.g. Sea Incense for Azurill, Odd Incense for Mime Jr.).',
+    };
+  }
+
+  return null;
+}
+
 function ruleEggDaycare(input: ValidationInput, ctx: SaveContext): CheckResult | null {
   if (input.hunt_mode !== 'egg') return null;
   if (!ctx.worldState && !ctx.daycare) {
@@ -276,30 +313,11 @@ function ruleEggDaycare(input: ValidationInput, ctx: SaveContext): CheckResult |
     };
   }
 
+  // Target-property checks (un-breedable, baby) already ran in ruleEggTarget.
+  // Here we only enforce parent↔target egg-group compatibility.
   if (input.target_species_id != null) {
-    const meta = db.prepare('SELECT is_baby FROM species WHERE id = ?').get(input.target_species_id) as { is_baby: number } | undefined;
     const targetGroupRows = db.prepare('SELECT egg_group FROM species_egg_groups WHERE species_id = ?').all(input.target_species_id) as Array<{ egg_group: string }>;
     const targetGroups = targetGroupRows.map(r => r.egg_group.toLowerCase());
-
-    // Un-breedable: only in 'no-eggs' group.
-    if (targetGroups.length > 0 && targetGroups.every(g => g === 'no-eggs')) {
-      return {
-        id: 'egg_daycare',
-        severity: 'error',
-        message: `${speciesNameOrId(input.target_species_id)} can't be produced from an egg.`,
-        detail: 'Legendary, mythical, and some other species have no egg group — try a different hunt mode.',
-      };
-    }
-
-    // Babies hatch from their pre-evolution — target should be the parent form.
-    if (meta?.is_baby === 1) {
-      return {
-        id: 'egg_daycare',
-        severity: 'warning',
-        message: `${speciesNameOrId(input.target_species_id)} is a baby — breed the evolved form instead.`,
-        detail: 'Baby Pokemon hatch only when the adult form is in the daycare (or with an incense item).',
-      };
-    }
 
     const breedableGroups = targetGroups.filter(g => g !== 'no-eggs');
     if (breedableGroups.length && !dittoOnEither) {
@@ -353,26 +371,19 @@ function ruleStationaryLocation(input: ValidationInput, ctx: SaveContext): Check
 function ruleStationaryParty(input: ValidationInput, ctx: SaveContext): CheckResult | null {
   if (input.hunt_mode !== 'stationary') return null;
   if (!ctx.worldState) return null;
-  const party = ctx.party ?? [];
-  // If we couldn't parse a party at all (Gen 3+ right now), skip — not an error.
-  if (party.length === 0 && !ctx.worldState) return null;
-  if (party.length === 0) {
+  // Only Gen 1/2 populate ctx.party today; Gen 3+ skips silently.
+  const gen = gameGen(input.game);
+  if (gen !== 1 && gen !== 2) return null;
+  if (ctx.party.length === 0) {
     return {
       id: 'stationary_party',
       severity: 'error',
       message: 'Party is empty.',
-      detail: 'Static battles require at least one Pokemon in your party.',
+      detail: 'Static battles need at least one Pokemon in your party.',
     };
   }
-  const conscious = party.some(p => (p.current_hp ?? p.hp ?? 1) > 0);
-  if (!conscious) {
-    return {
-      id: 'stationary_party',
-      severity: 'error',
-      message: 'Every Pokemon in your party has fainted.',
-      detail: 'Heal at a Pokemon Center before attempting a stationary hunt.',
-    };
-  }
+  // Fainted-party detection requires current-HP parsing which the Gen 1/2 party
+  // parser doesn't expose yet. Leaving it out rather than false-passing.
   return null;
 }
 
@@ -407,6 +418,8 @@ export async function validateHuntConfig(input: ValidationInput): Promise<Valida
   if (wl) checks.push(wl);
   const we = ruleWildEncounter(input, ctx);
   if (we) checks.push(we);
+  const et = ruleEggTarget(input);
+  if (et) checks.push(et);
   const ed = ruleEggDaycare(input, ctx);
   if (ed) checks.push(ed);
   const sl = ruleStationaryLocation(input, ctx);
