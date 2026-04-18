@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { api } from '@/api/client';
 
-export type HuntMode = 'wild' | 'stationary' | 'gift' | 'egg';
+export type HuntMode = 'wild' | 'stationary' | 'gift' | 'egg' | 'fishing';
 export type CheckId = 'mode_species' | 'game_species' | 'wild_location' | 'wild_encounter' | 'egg_daycare';
 export type CheckSeverity = 'error' | 'warning' | 'skipped';
 

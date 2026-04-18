@@ -75,6 +75,8 @@ export default function HuntContextBar({
               render={({ field }) => {
                 const modes: string[] = gameConfig?.supportedModes ?? [];
                 const isSupported = (m: string) => modes.length === 0 || modes.includes(m);
+                const targets: any[] = gameConfig?.targets ?? [];
+                const hasFishingTargets = targets.some(t => t.defaultMode === 'fishing');
                 return (
                   <MiniPills
                     value={field.value}
@@ -84,6 +86,7 @@ export default function HuntContextBar({
                       { value: 'egg', label: 'Egg', disabled: !isSupported('egg') },
                       { value: 'stationary', label: 'Static', disabled: !isSupported('stationary') },
                       { value: 'gift', label: 'Gift', disabled: !isSupported('gift') },
+                      ...(hasFishingTargets ? [{ value: 'fishing', label: 'Fishing' }] : []),
                     ]}
                   />
                 );
@@ -119,13 +122,15 @@ export default function HuntContextBar({
                     ) : (
                       <FilterDropdown
                         label="Select a target"
-                        options={(gameConfig?.targets ?? []).map((t: any) => ({
-                          value: t.name,
-                          label: t.name,
-                          icon: t.sprite_url
-                            ? <img src={t.sprite_url} alt="" className="w-5 h-5" style={{ imageRendering: 'pixelated' }} />
-                            : null,
-                        }))}
+                        options={(gameConfig?.targets ?? [])
+                          .filter((t: any) => !watchedHuntMode || t.defaultMode === watchedHuntMode)
+                          .map((t: any) => ({
+                            value: t.name,
+                            label: t.name,
+                            icon: t.sprite_url
+                              ? <img src={t.sprite_url} alt="" className="w-5 h-5" style={{ imageRendering: 'pixelated' }} />
+                              : null,
+                          }))}
                         selected={field.value ? [field.value] : []}
                         onChange={(sel) => onTargetChange(sel[0] ?? '')}
                         multiSelect={false}

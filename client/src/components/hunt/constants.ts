@@ -101,9 +101,12 @@ export const CONDITION_OPTIONS = [
   { value: 'perfect', label: 'Perfect', activeClassName: 'bg-blue-500/10 text-blue-600 border border-blue-500/25 shadow-sm' },
 ];
 
-export const HUNT_MODE_DESCRIPTIONS: Record<'wild' | 'stationary' | 'gift' | 'egg', string> = {
-  wild: 'Walks in place to trigger random encounters — requires standing on grass, cave tiles, or water. Does not cast a rod or use Headbutt.',
+export type HuntModeKey = 'wild' | 'stationary' | 'gift' | 'egg' | 'fishing';
+
+export const HUNT_MODE_DESCRIPTIONS: Record<HuntModeKey, string> = {
+  wild: 'Walks in place to trigger random encounters — requires standing on grass or cave tiles. Does not cast a rod or use Headbutt.',
   stationary: 'Presses A to start a scripted battle (legendaries, starter resets). Save must be placed directly in front of the target with the party ready.',
   gift: 'Advances dialogue with an NPC who hands over a Pokemon (e.g. Lapras, Eevee). Save must be placed at the relevant dialogue trigger.',
   egg: 'Cycles between taking an egg from the daycare and hatching it. Requires two compatible parents deposited and at least one Pokemon in the party to hold the egg.',
+  fishing: 'Casts a rod at a water tile and resets on no-bite / wrong mon. Requires rod in bag and save placed facing water. Script coming soon — selectable for categorization only.',
 };

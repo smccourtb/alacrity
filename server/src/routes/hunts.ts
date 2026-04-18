@@ -102,7 +102,7 @@ function getHuntDir(hunt: any): string {
 const METHOD_TO_MODE: Record<string, string> = {
   'Gift': 'gift',
   'Stationary': 'stationary',
-  'Fishing': 'wild',
+  'Fishing': 'fishing',
   'Game Corner': 'gift',    // closest match — receive Pokemon
   'In-Game Trade': 'gift',  // closest match — receive Pokemon
 };
