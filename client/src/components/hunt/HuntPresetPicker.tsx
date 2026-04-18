@@ -44,8 +44,8 @@ export default function HuntPresetPicker({ watch, setValue, preset, onPresetChan
 
   return (
     <Section title="Preset" hint="Quick setup for common hunts">
-      <Row label="Choose a starting point" sub={sub}>
-        <MiniPills options={OPTIONS} value={preset} onChange={onChange} />
+      <Row label="Choose a starting point" sub={sub} alignTop>
+        <MiniPills vertical options={OPTIONS} value={preset} onChange={onChange} />
       </Row>
     </Section>
   );

@@ -83,6 +83,7 @@ interface MiniPillsProps {
   value: string | string[];
   onChange: (v: string | string[]) => void;
   multiple?: boolean;
+  vertical?: boolean;
 }
 
 const VARIANT_ACTIVE: Record<PillVariant, string> = {
@@ -94,7 +95,7 @@ const VARIANT_ACTIVE: Record<PillVariant, string> = {
   purple: 'bg-purple-500/10 text-purple-700 shadow-soft',
 };
 
-export function MiniPills({ options, value, onChange, multiple = false }: MiniPillsProps) {
+export function MiniPills({ options, value, onChange, multiple = false, vertical = false }: MiniPillsProps) {
   const selected = multiple ? (Array.isArray(value) ? value : [value]) : [value];
 
   function onClick(v: string) {
@@ -107,7 +108,10 @@ export function MiniPills({ options, value, onChange, multiple = false }: MiniPi
   }
 
   return (
-    <div className="inline-flex gap-1 bg-muted rounded-full p-[3px] w-fit">
+    <div className={cn(
+      'bg-muted p-[3px] w-fit gap-1',
+      vertical ? 'inline-flex flex-col rounded-2xl' : 'inline-flex rounded-full',
+    )}>
       {options.map(opt => {
         const active = selected.includes(opt.value);
         const variant = opt.variant ?? 'default';
