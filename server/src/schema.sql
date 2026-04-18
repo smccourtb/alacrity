@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS species (
   base_speed INTEGER,
   generation INTEGER NOT NULL,
   gender_rate INTEGER NOT NULL DEFAULT -1,
-  growth_rate INTEGER
+  growth_rate INTEGER,
+  hatch_counter INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS save_files (

@@ -107,10 +107,11 @@ export default function HuntDashboard() {
     currentLocation: { key: string; displayName: string } | null;
     flameBodyInParty: boolean;
     targetLocations: Array<{ displayName: string; method: string }>;
-  }>({ currentLocation: null, flameBodyInParty: false, targetLocations: [] });
+    targetHatchCounter: number | null;
+  }>({ currentLocation: null, flameBodyInParty: false, targetLocations: [], targetHatchCounter: null });
 
   useEffect(() => {
-    if (!watchedGame) { setSaveContext({ currentLocation: null, flameBodyInParty: false, targetLocations: [] }); return; }
+    if (!watchedGame) { setSaveContext({ currentLocation: null, flameBodyInParty: false, targetLocations: [], targetHatchCounter: null }); return; }
     let cancelled = false;
     const handle = setTimeout(() => {
       api.hunts.saveContext({
@@ -122,8 +123,9 @@ export default function HuntDashboard() {
           currentLocation: r.currentLocation,
           flameBodyInParty: r.flameBodyInParty,
           targetLocations: r.targetLocations.map(l => ({ displayName: l.displayName, method: l.method })),
+          targetHatchCounter: r.targetHatchCounter,
         }); })
-        .catch(() => { if (!cancelled) setSaveContext({ currentLocation: null, flameBodyInParty: false, targetLocations: [] }); });
+        .catch(() => { if (!cancelled) setSaveContext({ currentLocation: null, flameBodyInParty: false, targetLocations: [], targetHatchCounter: null }); });
     }, 250);
     return () => { cancelled = true; clearTimeout(handle); };
   }, [watchedGame, watchedSavPath, watchedTargetSpeciesId]);
@@ -412,6 +414,7 @@ export default function HuntDashboard() {
                   targetLocation={saveContext.currentLocation?.displayName ?? null}
                   targetLocations={saveContext.targetLocations}
                   flameBody={saveContext.flameBodyInParty}
+                  hatchCounter={saveContext.targetHatchCounter}
                   isShiny={watch('target_shiny') === 1}
                   isPerfect={watch('target_perfect') === 1}
                   odds={odds}

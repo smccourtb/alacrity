@@ -686,15 +686,21 @@ router.post('/save-context', (req, res) => {
     party: Array<{ species_id: number; name: string; abilities: string[]; hidden_ability: string | null }>;
     flameBodyInParty: boolean;
     targetLocations: Array<{ location_id: number; displayName: string; method: string }>;
+    targetHatchCounter: number | null;
   } = {
     currentLocation: null,
     party: [],
     flameBodyInParty: false,
     targetLocations: [],
+    targetHatchCounter: null,
   };
 
-  // Target location lookup — works regardless of save state.
+  // Target location lookup + hatch counter — work regardless of save state.
   if (target_species_id != null) {
+    const sid = Number(target_species_id);
+    const hc = db.prepare('SELECT hatch_counter FROM species WHERE id = ?').get(sid) as { hatch_counter: number | null } | undefined;
+    out.targetHatchCounter = hc?.hatch_counter ?? null;
+
     const encounterKey = game.toLowerCase().replace(/^pokemon\s+/i, '').replace(/\s+/g, '_');
     const rows = db.prepare(`
       SELECT DISTINCT me.location_id, me.method, ml.display_name
@@ -702,7 +708,7 @@ router.post('/save-context', (req, res) => {
       JOIN map_locations ml ON ml.id = me.location_id
       WHERE me.game = ? AND me.species_id = ?
       ORDER BY ml.display_name
-    `).all(encounterKey, Number(target_species_id)) as Array<{
+    `).all(encounterKey, sid) as Array<{
       location_id: number; method: string; display_name: string;
     }>;
     out.targetLocations = rows.map(r => ({

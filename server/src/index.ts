@@ -58,6 +58,7 @@ const { seedShinyAvailability } = await import('./shiny-availability.js');
 const { seedGuide } = await import('./seeds/seedGuide.js');
 const { seedRibbons, seedMarks, seedBalls, seedForms, seedShinyMethods, seedLegality } = await import('./seed-reference.js');
 const { seedNatures } = await import('./seedNatures.js');
+const { backfillHatchCounters } = await import('./backfillHatchCounters.js');
 const { seedLookupTables } = await import('./seed-moves.js');
 const { syncSaves } = await import('./services/syncSaves.js');
 const { reconcileTipsInclusion } = await import('./services/identityService.js');
@@ -103,6 +104,7 @@ seedLegality(db);
 db.exec('PRAGMA foreign_keys = ON');
 seedForms(db).catch(err => console.error('seedForms failed:', err));
 seedNatures().catch(err => console.error('seedNatures failed:', err));
+backfillHatchCounters().catch(err => console.error('backfillHatchCounters failed:', err));
 // Ensure move/ability lookup tables are populated before syncing saves
 db.exec('CREATE TABLE IF NOT EXISTS move_names (id INTEGER PRIMARY KEY, name TEXT NOT NULL)');
 db.exec('CREATE TABLE IF NOT EXISTS ability_names (id INTEGER PRIMARY KEY, name TEXT NOT NULL)');

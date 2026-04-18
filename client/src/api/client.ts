@@ -205,6 +205,7 @@ export const api = {
         party: Array<{ species_id: number; name: string; abilities: string[]; hidden_ability: string | null }>;
         flameBodyInParty: boolean;
         targetLocations: Array<{ location_id: number; displayName: string; method: string }>;
+        targetHatchCounter: number | null;
       }>('/hunts/save-context', { method: 'POST', body: JSON.stringify(input) }),
     files: () => request<{ roms: any[]; saves: any[] }>('/hunts/files'),
     create: (data: any) => request<any>('/hunts', { method: 'POST', body: JSON.stringify(data) }),

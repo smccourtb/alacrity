@@ -2,6 +2,13 @@ import { Database } from 'bun:sqlite';
 import { currentOs } from './services/os-triple.js';
 
 export function runMigrations(db: Database) {
+  // Add hatch_counter to species so egg-hunt ETA can use the real step budget
+  // instead of a constant. Populated by seed / reseed from PokeAPI.
+  const speciesColumns = (db.prepare('PRAGMA table_info(species)').all() as any[]).map((c: any) => c.name);
+  if (!speciesColumns.includes('hatch_counter')) {
+    try { db.exec('ALTER TABLE species ADD COLUMN hatch_counter INTEGER'); } catch {}
+  }
+
   // Drop deprecated hunts.lua_script column (Qt/Lua engine removed 2026-04-13).
   // SQLite 3.35+ supports DROP COLUMN; Bun's bundled SQLite is recent enough.
   const huntsColumns = (db.prepare('PRAGMA table_info(hunts)').all() as any[]).map((c: any) => c.name);

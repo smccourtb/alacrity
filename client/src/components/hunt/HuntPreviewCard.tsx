@@ -14,6 +14,8 @@ interface Props {
   targetLocations?: Array<{ displayName: string; method: string }>;
   /** True if the user's party has a Flame Body holder (halves egg hatch steps). */
   flameBody?: boolean;
+  /** Target species' hatch_counter (PokeAPI). Steps to hatch = (hc+1) × 256. */
+  hatchCounter?: number | null;
   isShiny: boolean;
   isPerfect: boolean;
   odds: { combos: number; total: number; odds: string; caveats?: string[] };
@@ -41,16 +43,36 @@ function prettyMode(mode: string) {
   return MODE_LABEL[mode] ?? (mode.charAt(0).toUpperCase() + mode.slice(1));
 }
 
-function prettyEta(combos: number, total: number, instances: number, mode: string, flameBody: boolean): string | null {
+// Rough bot step rate during egg cycling (emulator-paced circling).
+const EGG_STEPS_PER_SECOND = 5;
+// Baseline wall-clock per attempt for non-egg modes (walk+encounter or reset).
+const NON_EGG_SEC_PER_ATTEMPT = 30;
+
+function prettyEta(
+  combos: number, total: number, instances: number,
+  mode: string, flameBody: boolean, hatchCounter: number | null,
+): string | null {
   if (combos === 0 || total === 0) return null;
-  // Baseline ≈ 30s per attempt. Egg mode halves when a Flame Body holder is in
-  // the party (Flame Body / Magma Armor cuts egg cycles in half).
   const expectedAttempts = total / combos;
-  let secPerAttempt = 30;
-  if (mode === 'egg' && flameBody) secPerAttempt /= 2;
+
+  let secPerAttempt: number;
+  if (mode === 'egg' && hatchCounter != null) {
+    // Canonical formula: steps = (hatch_counter + 1) × 256.
+    // Flame Body / Magma Armor halves the cycles.
+    const stepsToHatch = (hatchCounter + 1) * 256 * (flameBody ? 0.5 : 1);
+    secPerAttempt = stepsToHatch / EGG_STEPS_PER_SECOND;
+  } else {
+    secPerAttempt = NON_EGG_SEC_PER_ATTEMPT;
+  }
+
   const totalSeconds = (expectedAttempts * secPerAttempt) / Math.max(1, instances);
   const hours = totalSeconds / 3600;
-  const suffix = flameBody && mode === 'egg' ? ` · Flame Body ×2` : '';
+  const suffixParts: string[] = [];
+  if (mode === 'egg' && hatchCounter != null) {
+    suffixParts.push(`${hatchCounter + 1} cycles`);
+    if (flameBody) suffixParts.push('Flame Body ×2');
+  }
+  const suffix = suffixParts.length ? ` · ${suffixParts.join(' · ')}` : '';
   if (hours < 1) return `~${Math.round(totalSeconds / 60)}m @ ${instances} instances${suffix}`;
   if (hours < 100) return `~${hours.toFixed(1)}h @ ${instances} instances${suffix}`;
   return `~${Math.round(hours)}h @ ${instances} instances${suffix}`;
@@ -76,7 +98,8 @@ function SummaryRow({ k, v }: { k: string; v: string }) {
 }
 
 export default function HuntPreviewCard({
-  targetName, targetSpeciesId, targetLocation, targetLocations = [], flameBody = false,
+  targetName, targetSpeciesId, targetLocation, targetLocations = [],
+  flameBody = false, hatchCounter = null,
   isShiny, isPerfect, odds,
   saveLabel, romLabel, mode, instances,
   report, loading,
@@ -106,7 +129,7 @@ export default function HuntPreviewCard({
 
   const adjectives = [isShiny && 'Shiny', isPerfect && 'Perfect'].filter(Boolean).join(' ');
   const title = targetName ? `${adjectives} ${targetName}`.trim() : 'Pick a target';
-  const eta = prettyEta(odds.combos, odds.total, instances, mode, flameBody);
+  const eta = prettyEta(odds.combos, odds.total, instances, mode, flameBody, hatchCounter);
 
   return (
     <div className="bg-card rounded-xl shadow-soft-lg p-4 lg:sticky lg:top-6 border-t-[3px] border-t-primary">
