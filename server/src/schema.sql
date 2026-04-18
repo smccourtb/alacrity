@@ -25,8 +25,19 @@ CREATE TABLE IF NOT EXISTS species (
   generation INTEGER NOT NULL,
   gender_rate INTEGER NOT NULL DEFAULT -1,
   growth_rate INTEGER,
-  hatch_counter INTEGER
+  hatch_counter INTEGER,
+  is_baby INTEGER NOT NULL DEFAULT 0
 );
+
+-- Many-to-many: a species can belong to up to two egg groups (or 'no-eggs' for
+-- un-breedable species like legendaries and Ditto itself).
+CREATE TABLE IF NOT EXISTS species_egg_groups (
+  species_id INTEGER NOT NULL REFERENCES species(id) ON DELETE CASCADE,
+  egg_group TEXT NOT NULL,
+  PRIMARY KEY (species_id, egg_group)
+);
+
+CREATE INDEX IF NOT EXISTS idx_species_egg_groups_group ON species_egg_groups(egg_group);
 
 CREATE TABLE IF NOT EXISTS save_files (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

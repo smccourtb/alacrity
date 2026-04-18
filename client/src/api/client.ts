@@ -181,7 +181,7 @@ export const api = {
     }): Promise<{
       ok: boolean;
       checks: Array<{
-        id: 'mode_species' | 'game_species' | 'wild_location' | 'wild_encounter' | 'egg_daycare';
+        id: 'mode_species' | 'game_species' | 'wild_location' | 'wild_encounter' | 'egg_daycare' | 'stationary_location' | 'stationary_party';
         severity: 'error' | 'warning' | 'skipped';
         message: string;
         detail?: string;

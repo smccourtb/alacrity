@@ -9,6 +9,8 @@ const CHECK_TO_SECTION: Record<CheckId, HuntSection> = {
 	wild_location: 'target',
 	wild_encounter: 'target',
 	egg_daycare: 'save',
+	stationary_location: 'save',
+	stationary_party: 'save',
 };
 
 export function checksForSection(report: ValidationReport | null, section: HuntSection): ValidationCheck[] {

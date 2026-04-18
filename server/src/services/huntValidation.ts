@@ -12,7 +12,9 @@ export type CheckId =
   | 'game_species'
   | 'wild_location'
   | 'wild_encounter'
-  | 'egg_daycare';
+  | 'egg_daycare'
+  | 'stationary_location'
+  | 'stationary_party';
 
 export type CheckSeverity = 'error' | 'warning' | 'skipped';
 
@@ -38,6 +40,7 @@ export interface ValidationReport {
 export interface SaveContext {
   worldState: SaveWorldState | null;
   daycare: any | null;
+  party: Array<{ species_id: number; current_hp?: number; hp?: number; max_hp?: number }>;
   parseError?: string;
 }
 
@@ -57,13 +60,21 @@ export async function loadSaveContext(sav_path: string, game: string): Promise<S
   try {
     const worldState = parseWorldStateLight(sav_path, game);
     let daycare: any = null;
+    let party: SaveContext['party'] = [];
     const gen = gameGen(game);
-    if (gen === 1) daycare = parseGen1Save(sav_path, game).daycare ?? null;
-    if (gen === 2) daycare = parseGen2Save(sav_path, game).daycare ?? null;
-    // Gen 3+ daycare reading not wired here; rules will report 'skipped' when needed.
-    return { worldState, daycare };
+    if (gen === 1) {
+      const parsed = parseGen1Save(sav_path, game);
+      daycare = parsed.daycare ?? null;
+      party = (parsed.pokemon ?? []).filter((p: any) => p.box === -1);
+    } else if (gen === 2) {
+      const parsed = parseGen2Save(sav_path, game);
+      daycare = parsed.daycare ?? null;
+      party = (parsed.pokemon ?? []).filter((p: any) => p.box === -1);
+    }
+    // Gen 3+ daycare/party reading not wired here; rules will report 'skipped' when needed.
+    return { worldState, daycare, party };
   } catch (err: any) {
-    return { worldState: null, daycare: null, parseError: String(err?.message ?? err) };
+    return { worldState: null, daycare: null, party: [], parseError: String(err?.message ?? err) };
   }
 }
 
@@ -266,10 +277,33 @@ function ruleEggDaycare(input: ValidationInput, ctx: SaveContext): CheckResult |
   }
 
   if (input.target_species_id != null) {
-    const row = db.prepare('SELECT egg_groups FROM species WHERE id = ?').get(input.target_species_id) as { egg_groups?: string } | undefined;
-    const targetGroups = (row?.egg_groups ?? '').split(',').map(g => g.trim().toLowerCase()).filter(Boolean);
-    if (targetGroups.length && !dittoOnEither) {
-      const matches = targetGroups.some(g => g1.includes(g) || g2.includes(g));
+    const meta = db.prepare('SELECT is_baby FROM species WHERE id = ?').get(input.target_species_id) as { is_baby: number } | undefined;
+    const targetGroupRows = db.prepare('SELECT egg_group FROM species_egg_groups WHERE species_id = ?').all(input.target_species_id) as Array<{ egg_group: string }>;
+    const targetGroups = targetGroupRows.map(r => r.egg_group.toLowerCase());
+
+    // Un-breedable: only in 'no-eggs' group.
+    if (targetGroups.length > 0 && targetGroups.every(g => g === 'no-eggs')) {
+      return {
+        id: 'egg_daycare',
+        severity: 'error',
+        message: `${speciesNameOrId(input.target_species_id)} can't be produced from an egg.`,
+        detail: 'Legendary, mythical, and some other species have no egg group — try a different hunt mode.',
+      };
+    }
+
+    // Babies hatch from their pre-evolution — target should be the parent form.
+    if (meta?.is_baby === 1) {
+      return {
+        id: 'egg_daycare',
+        severity: 'warning',
+        message: `${speciesNameOrId(input.target_species_id)} is a baby — breed the evolved form instead.`,
+        detail: 'Baby Pokemon hatch only when the adult form is in the daycare (or with an incense item).',
+      };
+    }
+
+    const breedableGroups = targetGroups.filter(g => g !== 'no-eggs');
+    if (breedableGroups.length && !dittoOnEither) {
+      const matches = breedableGroups.some(g => g1.includes(g) || g2.includes(g));
       if (!matches) {
         return {
           id: 'egg_daycare',
@@ -283,6 +317,65 @@ function ruleEggDaycare(input: ValidationInput, ctx: SaveContext): CheckResult |
   return null;
 }
 
+function ruleStationaryLocation(input: ValidationInput, ctx: SaveContext): CheckResult | null {
+  if (input.hunt_mode !== 'stationary') return null;
+  if (!ctx.worldState) {
+    return { id: 'stationary_location', severity: 'skipped', message: 'Load a save to validate position.' };
+  }
+  if (input.target_species_id == null) return null;
+
+  const currentKey = ctx.worldState.currentLocationKey;
+  if (!currentKey) return null;
+
+  // Does the target actually spawn as a static/legendary in this game?
+  const rows = db.prepare(`
+    SELECT ml.location_key, ml.display_name
+    FROM location_events le
+    JOIN map_locations ml ON ml.id = le.location_id
+    WHERE le.game = ? COLLATE NOCASE AND le.species_id = ? AND le.event_type IN ('static_pokemon', 'legendary')
+  `).all(input.game, input.target_species_id) as Array<{ location_key: string; display_name: string }>;
+
+  if (rows.length === 0) return null;
+
+  const match = rows.find(r => r.location_key === currentKey);
+  if (match) return null;
+
+  const expected = rows.map(r => r.display_name).slice(0, 3).join(', ');
+  const plural = rows.length > 1 ? ` (${rows.length} spots)` : '';
+  return {
+    id: 'stationary_location',
+    severity: 'error',
+    message: `Save isn't at the static spawn for ${speciesNameOrId(input.target_species_id)}.`,
+    detail: `Expected: ${expected}${plural}. Walk to the encounter tile and save before starting.`,
+  };
+}
+
+function ruleStationaryParty(input: ValidationInput, ctx: SaveContext): CheckResult | null {
+  if (input.hunt_mode !== 'stationary') return null;
+  if (!ctx.worldState) return null;
+  const party = ctx.party ?? [];
+  // If we couldn't parse a party at all (Gen 3+ right now), skip — not an error.
+  if (party.length === 0 && !ctx.worldState) return null;
+  if (party.length === 0) {
+    return {
+      id: 'stationary_party',
+      severity: 'error',
+      message: 'Party is empty.',
+      detail: 'Static battles require at least one Pokemon in your party.',
+    };
+  }
+  const conscious = party.some(p => (p.current_hp ?? p.hp ?? 1) > 0);
+  if (!conscious) {
+    return {
+      id: 'stationary_party',
+      severity: 'error',
+      message: 'Every Pokemon in your party has fainted.',
+      detail: 'Heal at a Pokemon Center before attempting a stationary hunt.',
+    };
+  }
+  return null;
+}
+
 export async function validateHuntConfig(input: ValidationInput): Promise<ValidationReport> {
   const checks: CheckResult[] = [];
 
@@ -291,7 +384,7 @@ export async function validateHuntConfig(input: ValidationInput): Promise<Valida
   const ms = ruleModeSpecies(input);
   if (ms) checks.push(ms);
 
-  let ctx: SaveContext = { worldState: null, daycare: null };
+  let ctx: SaveContext = { worldState: null, daycare: null, party: [] };
   if (input.sav_path) {
     const cached = getCached(input.sav_path, input.game);
     if (cached) {
@@ -316,6 +409,10 @@ export async function validateHuntConfig(input: ValidationInput): Promise<Valida
   if (we) checks.push(we);
   const ed = ruleEggDaycare(input, ctx);
   if (ed) checks.push(ed);
+  const sl = ruleStationaryLocation(input, ctx);
+  if (sl) checks.push(sl);
+  const sp = ruleStationaryParty(input, ctx);
+  if (sp) checks.push(sp);
 
   const ok = !checks.some(c => c.severity === 'error');
   return { ok, checks };

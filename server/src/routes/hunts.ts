@@ -687,19 +687,32 @@ router.post('/save-context', (req, res) => {
     flameBodyInParty: boolean;
     targetLocations: Array<{ location_id: number; displayName: string; method: string }>;
     targetHatchCounter: number | null;
+    targetEggGroups: string[];
+    targetIsBaby: boolean;
+    targetBreedable: boolean;
   } = {
     currentLocation: null,
     party: [],
     flameBodyInParty: false,
     targetLocations: [],
     targetHatchCounter: null,
+    targetEggGroups: [],
+    targetIsBaby: false,
+    targetBreedable: false,
   };
 
-  // Target location lookup + hatch counter — work regardless of save state.
+  // Target location lookup + hatch counter + egg groups — save-independent.
   if (target_species_id != null) {
     const sid = Number(target_species_id);
-    const hc = db.prepare('SELECT hatch_counter FROM species WHERE id = ?').get(sid) as { hatch_counter: number | null } | undefined;
-    out.targetHatchCounter = hc?.hatch_counter ?? null;
+    const meta = db.prepare('SELECT hatch_counter, is_baby FROM species WHERE id = ?').get(sid) as { hatch_counter: number | null; is_baby: number } | undefined;
+    out.targetHatchCounter = meta?.hatch_counter ?? null;
+    out.targetIsBaby = (meta?.is_baby ?? 0) === 1;
+
+    const groups = db.prepare('SELECT egg_group FROM species_egg_groups WHERE species_id = ?').all(sid) as Array<{ egg_group: string }>;
+    out.targetEggGroups = groups.map(g => g.egg_group);
+    // A species is breedable iff it has at least one egg group other than
+    // 'no-eggs' AND is not itself a baby (babies hatch from pre-evolved eggs).
+    out.targetBreedable = out.targetEggGroups.some(g => g !== 'no-eggs') && !out.targetIsBaby;
 
     const encounterKey = game.toLowerCase().replace(/^pokemon\s+/i, '').replace(/\s+/g, '_');
     const rows = db.prepare(`

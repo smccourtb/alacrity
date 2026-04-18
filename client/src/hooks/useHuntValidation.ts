@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { api } from '@/api/client';
 
 export type HuntMode = 'wild' | 'stationary' | 'gift' | 'egg' | 'fishing';
-export type CheckId = 'mode_species' | 'game_species' | 'wild_location' | 'wild_encounter' | 'egg_daycare';
+export type CheckId = 'mode_species' | 'game_species' | 'wild_location' | 'wild_encounter' | 'egg_daycare' | 'stationary_location' | 'stationary_party';
 export type CheckSeverity = 'error' | 'warning' | 'skipped';
 
 export interface ValidationCheck {
