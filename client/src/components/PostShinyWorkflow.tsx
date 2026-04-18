@@ -40,10 +40,10 @@ type StageState = 'done' | 'active' | 'pending';
 type CatchMode = 'catch' | 'receive';
 
 function deriveCatchMode(huntMode: string): CatchMode {
-  // wild + battle (stationary) require the user to catch in mGBA.
+  // wild + stationary require the user to catch in mGBA.
   // egg + gift (and future receive-style modes like sos/horde) drop the shiny
   // directly into the party/box.
-  if (huntMode === 'wild' || huntMode === 'battle') return 'catch';
+  if (huntMode === 'wild' || huntMode === 'stationary') return 'catch';
   return 'receive';
 }
 

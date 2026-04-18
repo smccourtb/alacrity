@@ -100,3 +100,10 @@ export const CONDITION_OPTIONS = [
   { value: 'shiny', label: 'Shiny', activeClassName: 'bg-yellow-500/10 text-amber-600 border border-yellow-500/25 shadow-sm' },
   { value: 'perfect', label: 'Perfect', activeClassName: 'bg-blue-500/10 text-blue-600 border border-blue-500/25 shadow-sm' },
 ];
+
+export const HUNT_MODE_DESCRIPTIONS: Record<'wild' | 'stationary' | 'gift' | 'egg', string> = {
+  wild: 'Must be standing in grass / cave / water with encounters.',
+  stationary: 'Face the Pokémon, press A to start the battle (legendaries, starter resets).',
+  gift: 'Interact with the NPC, advance through dialogue.',
+  egg: 'Daycare with two compatible parents — walk to hatch.',
+};

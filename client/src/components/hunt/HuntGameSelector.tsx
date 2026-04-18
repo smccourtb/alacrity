@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { FormField } from '@/components/ui/form-field';
 import PillToggle from '@/components/PillToggle';
 import type { HuntFormControl } from './types';
-import { is3DSGame, ENCOUNTER_TYPES } from './constants';
+import { is3DSGame, ENCOUNTER_TYPES, HUNT_MODE_DESCRIPTIONS } from './constants';
 
 interface HuntGameSelectorProps extends HuntFormControl {
   gameConfigs: any[];
@@ -151,13 +151,18 @@ export default function HuntGameSelector({
                 <PillToggle
                   options={[
                     { value: 'gift', label: 'Gift', disabled: !isSupported('gift') },
-                    { value: 'battle', label: 'Stationary', disabled: !isSupported('battle') },
+                    { value: 'stationary', label: 'Stationary', disabled: !isSupported('stationary') },
                     { value: 'wild', label: 'Wild', disabled: !isSupported('wild') },
                     { value: 'egg', label: 'Egg', disabled: !isSupported('egg') },
                   ]}
                   value={field.value}
                   onChange={(v) => onModeChange(v as string)}
                 />
+                {field.value in HUNT_MODE_DESCRIPTIONS && (
+                  <div className="text-2xs text-muted-foreground/40 mt-1">
+                    {HUNT_MODE_DESCRIPTIONS[field.value as keyof typeof HUNT_MODE_DESCRIPTIONS]}
+                  </div>
+                )}
               );
             }}
           />
