@@ -199,6 +199,13 @@ export const api = {
     presets: () => request<any[]>('/hunts/presets'),
     gameConfigs: () => request<any[]>('/hunts/game-configs'),
     daycareInfo: (savPath: string, game: string) => request<any>('/hunts/daycare-info', { method: 'POST', body: JSON.stringify({ sav_path: savPath, game }) }),
+    saveContext: (input: { sav_path: string | null; game: string; target_species_id: number | null }) =>
+      request<{
+        currentLocation: { key: string; displayName: string } | null;
+        party: Array<{ species_id: number; name: string; abilities: string[]; hidden_ability: string | null }>;
+        flameBodyInParty: boolean;
+        targetLocations: Array<{ location_id: number; displayName: string; method: string }>;
+      }>('/hunts/save-context', { method: 'POST', body: JSON.stringify(input) }),
     files: () => request<{ roms: any[]; saves: any[] }>('/hunts/files'),
     create: (data: any) => request<any>('/hunts', { method: 'POST', body: JSON.stringify(data) }),
     stop: (id: number) => request<any>(`/hunts/${id}/stop`, { method: 'POST' }),

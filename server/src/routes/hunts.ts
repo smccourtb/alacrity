@@ -673,11 +673,99 @@ router.post('/daycare-info', (req, res) => {
   }
 });
 
+// Save context for the hunt preview: current location, party abilities
+// (drives the Flame Body inference for egg ETA), and where the target species
+// can actually be found in this game. Gen 1/2 only for now — Gen 3+ returns
+// a partial shape without party data.
+router.post('/save-context', (req, res) => {
+  const { sav_path, game, target_species_id } = req.body ?? {};
+  if (!game || typeof game !== 'string') return res.status(400).json({ error: 'game required' });
+
+  const out: {
+    currentLocation: { key: string; displayName: string } | null;
+    party: Array<{ species_id: number; name: string; abilities: string[]; hidden_ability: string | null }>;
+    flameBodyInParty: boolean;
+    targetLocations: Array<{ location_id: number; displayName: string; method: string }>;
+  } = {
+    currentLocation: null,
+    party: [],
+    flameBodyInParty: false,
+    targetLocations: [],
+  };
+
+  // Target location lookup — works regardless of save state.
+  if (target_species_id != null) {
+    const encounterKey = game.toLowerCase().replace(/^pokemon\s+/i, '').replace(/\s+/g, '_');
+    const rows = db.prepare(`
+      SELECT DISTINCT me.location_id, me.method, ml.display_name
+      FROM map_encounters me
+      JOIN map_locations ml ON ml.id = me.location_id
+      WHERE me.game = ? AND me.species_id = ?
+      ORDER BY ml.display_name
+    `).all(encounterKey, Number(target_species_id)) as Array<{
+      location_id: number; method: string; display_name: string;
+    }>;
+    out.targetLocations = rows.map(r => ({
+      location_id: r.location_id,
+      displayName: r.display_name,
+      method: r.method,
+    }));
+  }
+
+  // Save-dependent data
+  if (sav_path) {
+    try {
+      const meta = GAME_METADATA[game];
+      if (meta?.gen === 2) {
+        const parsed = parseGen2Save(sav_path, game);
+        const ws = parsed.worldState;
+        if (ws?.currentLocationKey) {
+          const row = db.prepare(
+            'SELECT display_name FROM map_locations WHERE location_key = ? LIMIT 1'
+          ).get(ws.currentLocationKey) as { display_name?: string } | undefined;
+          out.currentLocation = {
+            key: ws.currentLocationKey,
+            displayName: row?.display_name ?? ws.currentLocationKey,
+          };
+        }
+
+        // Resolve abilities for each party species
+        const abilityStmt = db.prepare(
+          'SELECT id, name, ability1, ability2, hidden_ability FROM species WHERE id = ?'
+        );
+        for (const p of parsed.pokemon) {
+          const s = abilityStmt.get(p.species_id) as any;
+          if (!s) continue;
+          const abilities = [s.ability1, s.ability2].filter(Boolean) as string[];
+          out.party.push({
+            species_id: s.id,
+            name: s.name,
+            abilities,
+            hidden_ability: s.hidden_ability ?? null,
+          });
+          // Flame Body isn't tied to a specific slot — if the species CAN have
+          // it, assume the user's party slot is using it. Over-reports only if
+          // the user deliberately set a non-Flame-Body ability on a Magmar etc.
+          // Acceptable tradeoff until we parse the per-mon personality-value
+          // ability index out of the save.
+          if (abilities.includes('flame-body') || s.hidden_ability === 'flame-body') {
+            out.flameBodyInParty = true;
+          }
+        }
+      }
+    } catch (err: any) {
+      console.error('save-context parse failed:', err?.message);
+    }
+  }
+
+  res.json(out);
+});
+
 router.post('/validate', async (req, res) => {
   const { game, sav_path, hunt_mode, target_species_id } = req.body ?? {};
   if (!game || typeof game !== 'string') return res.status(400).json({ error: 'game required' });
   const mode = (hunt_mode === 'battle' ? 'stationary' : hunt_mode) as HuntMode;
-  if (!['wild', 'stationary', 'gift', 'egg'].includes(mode)) {
+  if (!['wild', 'stationary', 'gift', 'egg', 'fishing'].includes(mode)) {
     return res.status(400).json({ error: 'invalid hunt_mode' });
   }
   const target = target_species_id != null ? Number(target_species_id) : null;

@@ -8,7 +8,12 @@ import type { ValidationReport } from '@/hooks/useHuntValidation';
 interface Props {
   targetName: string | null;
   targetSpeciesId: number | null;
+  /** Save's current in-game location, when parseable. */
   targetLocation?: string | null;
+  /** Where the target is found in this game (from map_encounters). */
+  targetLocations?: Array<{ displayName: string; method: string }>;
+  /** True if the user's party has a Flame Body holder (halves egg hatch steps). */
+  flameBody?: boolean;
   isShiny: boolean;
   isPerfect: boolean;
   odds: { combos: number; total: number; odds: string; caveats?: string[] };
@@ -36,16 +41,19 @@ function prettyMode(mode: string) {
   return MODE_LABEL[mode] ?? (mode.charAt(0).toUpperCase() + mode.slice(1));
 }
 
-function prettyEta(combos: number, total: number, instances: number): string | null {
+function prettyEta(combos: number, total: number, instances: number, mode: string, flameBody: boolean): string | null {
   if (combos === 0 || total === 0) return null;
-  // Heuristic: one attempt ≈ 30 seconds per instance.
+  // Baseline ≈ 30s per attempt. Egg mode halves when a Flame Body holder is in
+  // the party (Flame Body / Magma Armor cuts egg cycles in half).
   const expectedAttempts = total / combos;
-  const secPerAttempt = 30;
+  let secPerAttempt = 30;
+  if (mode === 'egg' && flameBody) secPerAttempt /= 2;
   const totalSeconds = (expectedAttempts * secPerAttempt) / Math.max(1, instances);
   const hours = totalSeconds / 3600;
-  if (hours < 1) return `~${Math.round(totalSeconds / 60)}m @ ${instances} instances`;
-  if (hours < 100) return `~${hours.toFixed(1)}h @ ${instances} instances`;
-  return `~${Math.round(hours)}h @ ${instances} instances`;
+  const suffix = flameBody && mode === 'egg' ? ` · Flame Body ×2` : '';
+  if (hours < 1) return `~${Math.round(totalSeconds / 60)}m @ ${instances} instances${suffix}`;
+  if (hours < 100) return `~${hours.toFixed(1)}h @ ${instances} instances${suffix}`;
+  return `~${Math.round(hours)}h @ ${instances} instances${suffix}`;
 }
 
 function SpriteFrame({ url }: { url: string | null }) {
@@ -68,7 +76,7 @@ function SummaryRow({ k, v }: { k: string; v: string }) {
 }
 
 export default function HuntPreviewCard({
-  targetName, targetSpeciesId, targetLocation,
+  targetName, targetSpeciesId, targetLocation, targetLocations = [], flameBody = false,
   isShiny, isPerfect, odds,
   saveLabel, romLabel, mode, instances,
   report, loading,
@@ -98,7 +106,7 @@ export default function HuntPreviewCard({
 
   const adjectives = [isShiny && 'Shiny', isPerfect && 'Perfect'].filter(Boolean).join(' ');
   const title = targetName ? `${adjectives} ${targetName}`.trim() : 'Pick a target';
-  const eta = prettyEta(odds.combos, odds.total, instances);
+  const eta = prettyEta(odds.combos, odds.total, instances, mode, flameBody);
 
   return (
     <div className="bg-card rounded-xl shadow-soft-lg p-4 lg:sticky lg:top-6 border-t-[3px] border-t-primary">
@@ -106,8 +114,31 @@ export default function HuntPreviewCard({
 
       <div className="text-center">
         <div className="text-base font-extrabold capitalize">{title}</div>
-        {targetLocation && <div className="text-[11px] text-muted-foreground mt-0.5">{targetLocation}</div>}
+        {targetLocation && (
+          <div className="text-[11px] text-muted-foreground mt-0.5">
+            Currently at: <span className="font-medium">{targetLocation}</span>
+          </div>
+        )}
       </div>
+
+      {targetLocations.length > 0 && (
+        <div className="mt-2 px-2 py-1.5 bg-muted/50 rounded-md">
+          <div className="text-[9px] uppercase tracking-[0.5px] text-muted-foreground/70 font-bold mb-1">
+            Found at
+          </div>
+          <div className="text-[11px] space-y-0.5 max-h-24 overflow-y-auto">
+            {targetLocations.slice(0, 8).map((l, i) => (
+              <div key={i} className="flex justify-between gap-2">
+                <span className="truncate">{l.displayName}</span>
+                <span className="text-muted-foreground/60 text-[10px] capitalize whitespace-nowrap">{l.method}</span>
+              </div>
+            ))}
+            {targetLocations.length > 8 && (
+              <div className="text-[10px] text-muted-foreground/60">+ {targetLocations.length - 8} more</div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Odds block */}
       <div className="text-center my-3 py-2 bg-surface-raised rounded-xl">

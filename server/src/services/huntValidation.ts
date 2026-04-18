@@ -5,7 +5,7 @@ import { parseGen1Save } from './gen1Parser.js';
 import { parseGen2Save } from './gen2Parser.js';
 import { getCached, setCached } from './huntValidationCache.js';
 
-export type HuntMode = 'wild' | 'stationary' | 'gift' | 'egg';
+export type HuntMode = 'wild' | 'stationary' | 'gift' | 'egg' | 'fishing';
 
 export type CheckId =
   | 'mode_species'
@@ -126,6 +126,7 @@ function ruleModeSpecies(input: ValidationInput): CheckResult | null {
     stationary: 'stationary battles',
     gift: 'NPC gifts',
     egg: 'breeding',
+    fishing: 'fishing encounters',
   };
   return {
     id: 'mode_species',

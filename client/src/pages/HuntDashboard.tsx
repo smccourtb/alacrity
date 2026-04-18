@@ -101,6 +101,33 @@ export default function HuntDashboard() {
   const gameConfig = gameConfigs.find((g: any) => g.game === watchedGame);
   const activeHunts = hunts.filter(h => h.status === 'running');
 
+  // Save-derived context: party (→ Flame Body ETA halving for egg hunts),
+  // current location, and known target locations. Debounced via useEffect below.
+  const [saveContext, setSaveContext] = useState<{
+    currentLocation: { key: string; displayName: string } | null;
+    flameBodyInParty: boolean;
+    targetLocations: Array<{ displayName: string; method: string }>;
+  }>({ currentLocation: null, flameBodyInParty: false, targetLocations: [] });
+
+  useEffect(() => {
+    if (!watchedGame) { setSaveContext({ currentLocation: null, flameBodyInParty: false, targetLocations: [] }); return; }
+    let cancelled = false;
+    const handle = setTimeout(() => {
+      api.hunts.saveContext({
+        sav_path: watchedSavPath || null,
+        game: watchedGame,
+        target_species_id: watchedTargetSpeciesId ?? null,
+      })
+        .then(r => { if (!cancelled) setSaveContext({
+          currentLocation: r.currentLocation,
+          flameBodyInParty: r.flameBodyInParty,
+          targetLocations: r.targetLocations.map(l => ({ displayName: l.displayName, method: l.method })),
+        }); })
+        .catch(() => { if (!cancelled) setSaveContext({ currentLocation: null, flameBodyInParty: false, targetLocations: [] }); });
+    }, 250);
+    return () => { cancelled = true; clearTimeout(handle); };
+  }, [watchedGame, watchedSavPath, watchedTargetSpeciesId]);
+
   // Gender info for the selected target
   const selectedTargetMeta = gameConfig?.targets.find((t: any) => t.name === watchedTargetName);
   const genderRate = selectedTargetMeta?.gender_rate;
@@ -382,7 +409,9 @@ export default function HuntDashboard() {
                 <HuntPreviewCard
                   targetName={watch('target_name') ?? null}
                   targetSpeciesId={watchedTargetSpeciesId ?? null}
-                  targetLocation={null}
+                  targetLocation={saveContext.currentLocation?.displayName ?? null}
+                  targetLocations={saveContext.targetLocations}
+                  flameBody={saveContext.flameBodyInParty}
                   isShiny={watch('target_shiny') === 1}
                   isPerfect={watch('target_perfect') === 1}
                   odds={odds}
