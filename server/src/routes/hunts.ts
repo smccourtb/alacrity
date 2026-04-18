@@ -97,8 +97,11 @@ function getHuntDir(hunt: any): string {
   return join(HUNTS_DIR, hunt.hunt_dir || `hunt_${hunt.id}`);
 }
 
-// Game configuration metadata for hunt form auto-population
-// Method → hunt mode mapping for shiny_availability methods
+// Game configuration metadata for hunt form auto-population.
+// Two method vocabularies flow through this file:
+//   1. shiny_availability.method (PascalCase, Gen 1 curated list)
+//   2. map_encounters.method (kebab-case, per-game encounter table, Gen 1–2)
+// Both resolve to the same HuntMode vocabulary used by the UI pills.
 const METHOD_TO_MODE: Record<string, string> = {
   'Gift': 'gift',
   'Stationary': 'stationary',
@@ -106,6 +109,27 @@ const METHOD_TO_MODE: Record<string, string> = {
   'Game Corner': 'gift',    // closest match — receive Pokemon
   'In-Game Trade': 'gift',  // closest match — receive Pokemon
 };
+
+// map_encounters.method → hunt mode
+const ENCOUNTER_METHOD_TO_MODE: Record<string, string | null> = {
+  'grass': 'wild',
+  'cave': 'wild',
+  'surf': 'wild',
+  'headbutt': 'wild',       // TODO: separate Headbutt mode when script exists
+  'rock-smash': 'wild',     // TODO: separate Rock Smash mode when script exists
+  'old-rod': 'fishing',
+  'good-rod': 'fishing',
+  'super-rod': 'fishing',
+  'static': 'stationary',
+  'gift': 'gift',
+  'special': 'gift',        // catch-all for scripted receipts
+  'contest': null,           // skip
+};
+
+// `Pokemon Crystal` → `crystal` (map_encounters.game key format)
+function gameToEncounterKey(game: string): string {
+  return game.toLowerCase().replace(/^pokemon\s+/i, '').replace(/\s+/g, '_');
+}
 
 const GAME_METADATA: Record<string, { gen: number; romPattern: RegExp }> = {
   Yellow: { gen: 1, romPattern: /\byellow\b/i },
@@ -135,7 +159,36 @@ const GAME_METADATA: Record<string, { gen: number; romPattern: RegExp }> = {
   'Pokemon Ultra Moon':     { gen: 7, romPattern: /\bultra\s*moon\b/i },
 };
 
+/**
+ * Collect supportedModes per species by joining map_encounters for the game.
+ * Returns a map: species_id -> Set<mode>.
+ */
+function encounterModesForGame(encounterKey: string): Map<number, Set<string>> {
+  const rows = db.prepare(
+    'SELECT species_id, method FROM map_encounters WHERE game = ?'
+  ).all(encounterKey) as Array<{ species_id: number; method: string }>;
+
+  const out = new Map<number, Set<string>>();
+  for (const r of rows) {
+    const mode = ENCOUNTER_METHOD_TO_MODE[r.method];
+    if (!mode) continue;
+    if (!out.has(r.species_id)) out.set(r.species_id, new Set());
+    out.get(r.species_id)!.add(mode);
+  }
+  return out;
+}
+
+// Pick the single "primary" mode for a species from its supported set.
+// Preference order: wild > fishing > stationary > gift — wild is the most
+// common hunt style, fishing is the next distinct script.
+const PRIMARY_MODE_ORDER = ['wild', 'fishing', 'stationary', 'gift'];
+function pickPrimaryMode(modes: Set<string>, fallback: string): string {
+  for (const m of PRIMARY_MODE_ORDER) if (modes.has(m)) return m;
+  return fallback;
+}
+
 function getTargetsForGame(game: string, gen: number) {
+  // Gen 6/7: no per-game encounter data yet — leave every species as stationary.
   if (gen >= 6) {
     const maxGen = gen === 6 ? 6 : 7;
     const species = db.prepare('SELECT id, name, gender_rate, sprite_url FROM species WHERE generation <= ? ORDER BY id').all(maxGen) as any[];
@@ -143,25 +196,38 @@ function getTargetsForGame(game: string, gen: number) {
       species_id: s.id,
       name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
       method: 'Wild',
-      defaultMode: 'stationary' as string,
+      defaultMode: 'stationary',
+      supportedModes: ['stationary'],
       gender_rate: s.gender_rate,
       sprite_url: s.sprite_url,
     }));
   }
 
+  // Gen 2: every Gen 1–2 species is huntable; enrich with encounter-method data
+  // from map_encounters. A species with no encounter data falls back to 'wild'.
   if (gen === 2) {
-    const species = db.prepare('SELECT id, name, gender_rate, sprite_url FROM species WHERE generation <= 2 ORDER BY id').all() as any[];
-    return species.map(s => ({
-      species_id: s.id,
-      name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
-      method: 'Wild',
-      defaultMode: 'wild' as string,
-      gender_rate: s.gender_rate,
-      sprite_url: s.sprite_url,
-    }));
+    const encounterKey = gameToEncounterKey(game);
+    const modesBySpecies = encounterModesForGame(encounterKey);
+    const species = db.prepare(
+      'SELECT id, name, gender_rate, sprite_url FROM species WHERE generation <= 2 ORDER BY id'
+    ).all() as any[];
+    return species.map(s => {
+      const modes = modesBySpecies.get(s.id);
+      const supportedModes = modes ? Array.from(modes) : ['wild'];
+      return {
+        species_id: s.id,
+        name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
+        method: 'Wild',
+        defaultMode: pickPrimaryMode(modes ?? new Set(supportedModes), 'wild'),
+        supportedModes,
+        gender_rate: s.gender_rate,
+        sprite_url: s.sprite_url,
+      };
+    });
   }
 
-  // Gen 1: pull from shiny_availability table (BlueMoonFalls data)
+  // Gen 1: keep the curated shiny_availability list (no random-encounter shinies
+  // exist in Gen 1). Supported modes come from that table's method column.
   const rows = db.prepare(`
     SELECT sa.species_id, s.name, s.gender_rate, s.sprite_url, sa.method
     FROM shiny_availability sa
@@ -170,19 +236,31 @@ function getTargetsForGame(game: string, gen: number) {
     ORDER BY sa.method, s.name
   `).all(game) as any[];
 
-  const seen = new Map<number, any>();
   const methodPriority = ['Gift', 'Stationary', 'Fishing', 'Game Corner', 'In-Game Trade'];
+  const seen = new Map<number, {
+    species_id: number; name: string; method: string; defaultMode: string;
+    supportedModes: string[]; gender_rate: number; sprite_url: string | null;
+  }>();
   for (const r of rows) {
+    const mode = METHOD_TO_MODE[r.method] || 'gift';
     const existing = seen.get(r.species_id);
-    if (!existing || methodPriority.indexOf(r.method) < methodPriority.indexOf(existing.method)) {
+    if (!existing) {
       seen.set(r.species_id, {
         species_id: r.species_id,
         name: r.name.charAt(0).toUpperCase() + r.name.slice(1).replace(/-/g, ' '),
         method: r.method,
-        defaultMode: METHOD_TO_MODE[r.method] || 'gift',
+        defaultMode: mode,
+        supportedModes: [mode],
         gender_rate: r.gender_rate,
         sprite_url: r.sprite_url,
       });
+    } else {
+      if (!existing.supportedModes.includes(mode)) existing.supportedModes.push(mode);
+      // Update the "primary" method if the new one is higher priority.
+      if (methodPriority.indexOf(r.method) < methodPriority.indexOf(existing.method)) {
+        existing.method = r.method;
+        existing.defaultMode = mode;
+      }
     }
   }
 
