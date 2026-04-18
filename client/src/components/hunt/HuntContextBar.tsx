@@ -85,7 +85,7 @@ export default function HuntContextBar({
                     options={[
                       { value: 'wild', label: 'Wild', disabled: !isSupported('wild') },
                       { value: 'egg', label: 'Egg', disabled: !isSupported('egg') },
-                      { value: 'stationary', label: 'Static', disabled: !isSupported('stationary') },
+                      { value: 'stationary', label: 'Stationary', disabled: !isSupported('stationary') },
                       { value: 'gift', label: 'Gift', disabled: !isSupported('gift') },
                       ...(targetSupports('fishing') ? [{ value: 'fishing', label: 'Fishing' }] : []),
                     ]}
@@ -159,8 +159,9 @@ export default function HuntContextBar({
         <div className="px-3.5 py-2 border-t border-border/60 bg-muted/40">
           <div className="text-[10px] uppercase tracking-[0.5px] text-muted-foreground/70 font-bold mb-0.5">
             {watchedHuntMode === 'wild' ? 'Wild script' :
-             watchedHuntMode === 'stationary' ? 'Static script' :
+             watchedHuntMode === 'stationary' ? 'Stationary script' :
              watchedHuntMode === 'gift' ? 'Gift script' :
+             watchedHuntMode === 'fishing' ? 'Fishing script' :
              'Egg script'}
           </div>
           <div className="text-[11px] text-muted-foreground leading-snug">{modeDescription}</div>

@@ -26,9 +26,10 @@ interface Props {
 
 const MODE_LABEL: Record<string, string> = {
   wild: 'Wild',
-  stationary: 'Static',
+  stationary: 'Stationary',
   gift: 'Gift',
   egg: 'Egg',
+  fishing: 'Fishing',
 };
 
 function prettyMode(mode: string) {
