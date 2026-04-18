@@ -1,5 +1,8 @@
 import db from '../db.js';
 import type { SaveWorldState } from './worldState.js';
+import { parseWorldStateLight } from './autoLinkage.js';
+import { parseGen1Save } from './gen1Parser.js';
+import { parseGen2Save } from './gen2Parser.js';
 
 export type HuntMode = 'wild' | 'stationary' | 'gift' | 'egg';
 
@@ -37,9 +40,30 @@ export interface SaveContext {
   parseError?: string;
 }
 
-// Loader implemented in Task 3
-export async function loadSaveContext(_sav_path: string, _game: string): Promise<SaveContext> {
-  return { worldState: null, daycare: null };
+function gameGen(game: string): number {
+  const g = game.toLowerCase();
+  if (['red', 'blue', 'yellow'].includes(g)) return 1;
+  if (['gold', 'silver', 'crystal'].includes(g)) return 2;
+  if (['ruby', 'sapphire', 'emerald', 'firered', 'leafgreen'].includes(g)) return 3;
+  if (['pokemon diamond', 'pokemon pearl', 'pokemon platinum', 'pokemon heartgold', 'pokemon soulsilver'].includes(g)) return 4;
+  if (g.startsWith('pokemon black') || g.startsWith('pokemon white')) return 5;
+  if (['pokemon x', 'pokemon y', 'pokemon omega ruby', 'pokemon alpha sapphire'].includes(g)) return 6;
+  if (g.includes('sun') || g.includes('moon')) return 7;
+  return 0;
+}
+
+export async function loadSaveContext(sav_path: string, game: string): Promise<SaveContext> {
+  try {
+    const worldState = parseWorldStateLight(sav_path, game);
+    let daycare: any = null;
+    const gen = gameGen(game);
+    if (gen === 1) daycare = parseGen1Save(sav_path, game).daycare ?? null;
+    if (gen === 2) daycare = parseGen2Save(sav_path, game).daycare ?? null;
+    // Gen 3+ daycare reading not wired here; rules will report 'skipped' when needed.
+    return { worldState, daycare };
+  } catch (err: any) {
+    return { worldState: null, daycare: null, parseError: String(err?.message ?? err) };
+  }
 }
 
 function speciesNameOrId(species_id: number): string {
