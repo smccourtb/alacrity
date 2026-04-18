@@ -132,6 +132,13 @@ function calculateOdds3DS(opts: OddsInput): OddsOutput {
   if (opts.shiny) {
     const base = 1 / 4096;
     p *= opts.shinyCharm ? base * 3 : base;
+    if (opts.encounterType === 'breeding') {
+      caveats.push('Base shiny rate shown — Masuda method (parents from different regions) multiplies shiny odds by 6');
+    } else if (opts.encounterType === 'sos_chain') {
+      caveats.push('Base shiny rate shown — chain ≥70 improves shiny to ~1/683 in Sun/Moon');
+    } else if (opts.encounterType === 'dexnav_chain') {
+      caveats.push('Base shiny rate shown — DexNav chain and Search Level give small shiny boosts');
+    }
   }
 
   // 2. Gender rate (independent of IVs in Gen 3+)

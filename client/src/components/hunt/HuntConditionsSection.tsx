@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
 import type { HuntFormControl } from './types';
-import { is3DSGame, NATURES, IV_STATS, SHINY_ATK_VALUES } from './constants';
+import { is3DSGame, NATURES, IV_STATS, SHINY_ATK_VALUES, ENCOUNTER_TYPES } from './constants';
 import type { HuntPreset } from './HuntPresetPicker';
 import { checksForSection, SEVERITY_PILL } from './validationMapping';
 import type { ValidationReport } from '@/hooks/useHuntValidation';
@@ -71,11 +71,8 @@ export default function HuntConditionsSection({
     ? 'Genderless species — locked'
     : isAlwaysMale ? 'Always male' : isAlwaysFemale ? 'Always female' : undefined;
 
-  const encounterHint =
-    watchedEncounter === 'friend_safari' ? 'Friend Safari guarantees 2 perfect IVs' :
-    watchedEncounter === 'horde' ? 'Horde encounters have no guaranteed IVs' :
-    watchedEncounter === 'breeding' ? 'Destiny Knot passes 5 IVs from parents' :
-    'Legendary = 3, SOS = 3, Friend Safari = 2';
+  const encounterMeta = ENCOUNTER_TYPES.find(e => e.value === watchedEncounter);
+  const encounterHint = encounterMeta?.blurb ?? 'Legendary = 3, SOS = 3, Friend Safari = 2';
 
   const sectionTitle = `Target Conditions${is3DS ? ' · Gen 6/7' : ' · Gen 1/2'}`;
 
@@ -126,6 +123,29 @@ export default function HuntConditionsSection({
         {/* Gen 6/7 specifics */}
         {is3DS && (
           <>
+            <Row label="Encounter method" sub={encounterMeta?.blurb}>
+              <Controller
+                name="encounter_type"
+                control={control}
+                render={({ field }) => (
+                  <FilterDropdown
+                    label="Method"
+                    options={ENCOUNTER_TYPES.map(e => ({ value: e.value, label: e.label }))}
+                    selected={field.value ? [field.value] : []}
+                    onChange={(sel) => {
+                      const next = sel[0];
+                      if (!next) return;
+                      field.onChange(next);
+                      // Auto-suggest guaranteed IVs for the new method unless user already set one.
+                      const meta = ENCOUNTER_TYPES.find(e => e.value === next);
+                      if (meta) setValue('guaranteed_ivs', meta.guaranteedIvs);
+                    }}
+                    multiSelect={false}
+                  />
+                )}
+              />
+            </Row>
+
             <Row label="Nature">
               <Controller
                 name="target_nature"
