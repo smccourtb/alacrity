@@ -6,6 +6,8 @@ import { Switch } from '@/components/ui/switch';
 import HuntPanel from '@/components/HuntPanel';
 import HuntForm from '@/components/HuntForm';
 import HuntHistoryList from '@/components/HuntHistoryList';
+import HuntSetupTabs from '@/components/hunt/HuntSetupTabs';
+import HuntPreviewCard from '@/components/hunt/HuntPreviewCard';
 import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
 import { useHuntValidation } from '@/hooks/useHuntValidation';
 
@@ -205,6 +207,7 @@ export default function HuntDashboard() {
 
   // --- Validation ---
 
+  const [daycareInfo, setDaycareInfo] = useState<any>(null);
   const [override, setOverride] = useState(false);
   const { report, loading: validationLoading } = useHuntValidation({
     game: watchedGame || null,
@@ -443,100 +446,121 @@ export default function HuntDashboard() {
               isAlwaysMale={isAlwaysMale}
               isAlwaysFemale={isAlwaysFemale}
               validationReport={report}
-              validationLoading={validationLoading}
-              override={override}
-              onOverrideChange={setOverride}
-              startDisabled={startDisabled}
+              onDaycareInfo={setDaycareInfo}
             />
           </div>
 
-          {/* Right: Active hunts or placeholder */}
+          {/* Right: Setup preview + active hunts via tabs */}
           <div>
-            {/* Empty state when no hunts running */}
-            {activeHunts.length === 0 && (
-              <div className="bg-card shadow-soft rounded-lg overflow-hidden opacity-50">
-                <div className="bg-gradient-to-r from-red-500/40 to-red-600/40 px-5 py-4 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center border-2 border-white/30">
-                    <div className="w-3 h-3 rounded-full bg-white/60" />
-                  </div>
-                  <div>
-                    <div className="text-lg font-extrabold text-white/60">No Active Hunt</div>
-                    <div className="flex gap-1.5 mt-0.5">
-                      <span className="bg-white/10 text-white/40 px-2.5 py-0.5 rounded-full text-xs font-medium">Configure a hunt and press Start</span>
+            <HuntSetupTabs
+              activeCount={activeHunts.length}
+              preview={
+                <HuntPreviewCard
+                  targetName={watch('target_name') ?? null}
+                  targetSpriteUrl={null}
+                  targetLocation={null}
+                  isShiny={watch('target_shiny') === 1}
+                  isPerfect={watch('target_perfect') === 1}
+                  odds={odds}
+                  saveLabel={watch('sav_path')?.split('/').pop() ?? null}
+                  romLabel={watch('rom_path')?.split('/').pop() ?? null}
+                  mode={watch('hunt_mode')}
+                  report={report}
+                  loading={validationLoading}
+                  override={override}
+                  onOverrideChange={setOverride}
+                  onStart={handleSubmit(startHunt)}
+                  startDisabled={startDisabled}
+                />
+              }
+              running={
+                <>
+                  {activeHunts.length === 0 && (
+                    <div className="bg-card shadow-soft rounded-lg overflow-hidden opacity-50">
+                      <div className="bg-gradient-to-r from-red-500/40 to-red-600/40 px-5 py-4 flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center border-2 border-white/30">
+                          <div className="w-3 h-3 rounded-full bg-white/60" />
+                        </div>
+                        <div>
+                          <div className="text-lg font-extrabold text-white/60">No Active Hunt</div>
+                          <div className="flex gap-1.5 mt-0.5">
+                            <span className="bg-white/10 text-white/40 px-2.5 py-0.5 rounded-full text-xs font-medium">Configure a hunt and press Start</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="py-5 text-center border-b border-surface-raised">
+                        <div className="text-xs text-muted-foreground/30 uppercase tracking-[3px]">Encounters</div>
+                        <div className="text-5xl font-black font-mono text-muted-foreground/15 tracking-tighter leading-none mt-1">0</div>
+                      </div>
+                      <div className="px-5 py-4 space-y-2.5">
+                        <div className="flex items-center gap-3">
+                          <span className="w-16 text-sm text-muted-foreground/20 font-medium">Elapsed</span>
+                          <div className="flex-1 h-1.5 bg-surface-raised rounded-full" />
+                          <span className="w-16 text-right text-xs font-bold font-mono text-muted-foreground/20">{'\u2014'}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="w-16 text-sm text-muted-foreground/20 font-medium">Speed</span>
+                          <div className="flex-1 h-1.5 bg-surface-raised rounded-full" />
+                          <span className="w-16 text-right text-xs font-bold font-mono text-muted-foreground/20">{'\u2014'}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="w-16 text-sm text-muted-foreground/20 font-medium">ETA</span>
+                          <div className="flex-1 h-1.5 bg-surface-raised rounded-full" />
+                          <span className="w-16 text-right text-xs font-bold font-mono text-muted-foreground/20">{'\u2014'}</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="py-5 text-center border-b border-surface-raised">
-                  <div className="text-xs text-muted-foreground/30 uppercase tracking-[3px]">Encounters</div>
-                  <div className="text-5xl font-black font-mono text-muted-foreground/15 tracking-tighter leading-none mt-1">0</div>
-                </div>
-                <div className="px-5 py-4 space-y-2.5">
-                  <div className="flex items-center gap-3">
-                    <span className="w-16 text-sm text-muted-foreground/20 font-medium">Elapsed</span>
-                    <div className="flex-1 h-1.5 bg-surface-raised rounded-full" />
-                    <span className="w-16 text-right text-xs font-bold font-mono text-muted-foreground/20">{'\u2014'}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="w-16 text-sm text-muted-foreground/20 font-medium">Speed</span>
-                    <div className="flex-1 h-1.5 bg-surface-raised rounded-full" />
-                    <span className="w-16 text-right text-xs font-bold font-mono text-muted-foreground/20">{'\u2014'}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="w-16 text-sm text-muted-foreground/20 font-medium">ETA</span>
-                    <div className="flex-1 h-1.5 bg-surface-raised rounded-full" />
-                    <span className="w-16 text-right text-xs font-bold font-mono text-muted-foreground/20">{'\u2014'}</span>
-                  </div>
-                </div>
-              </div>
-            )}
+                  )}
 
-            {/* Active hunt section */}
-            {activeHunts.length > 0 && (
-              <>
-                {/* Pill tabs when multiple hunts */}
-                {activeHunts.length > 1 && (
-                  <div className="flex items-center gap-1.5 mb-3 flex-wrap">
-                    {activeHunts.map(h => {
-                      const status = huntStatuses[h.id];
-                      const isHit = status?.hits?.length > 0;
-                      const isActive = activeTab === h.id;
-                      return (
-                        <button
+                  {/* Active hunt section */}
+                  {activeHunts.length > 0 && (
+                    <>
+                      {/* Pill tabs when multiple hunts */}
+                      {activeHunts.length > 1 && (
+                        <div className="flex items-center gap-1.5 mb-3 flex-wrap">
+                          {activeHunts.map(h => {
+                            const status = huntStatuses[h.id];
+                            const isHit = status?.hits?.length > 0;
+                            const isActive = activeTab === h.id;
+                            return (
+                              <button
+                                key={h.id}
+                                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                                  isActive
+                                    ? 'bg-primary text-primary-foreground shadow-sm'
+                                    : 'bg-white text-muted-foreground hover:bg-surface-sunken shadow-soft-sm'
+                                }`}
+                                onClick={() => setActiveTab(h.id)}
+                              >
+                                {isHit ? (
+                                  <span className="text-yellow-400">&#9733;</span>
+                                ) : (
+                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_4px_rgba(34,197,94,0.5)] animate-pulse" />
+                                )}
+                                {h.target_name}
+                                <span className="text-xs opacity-60">({h.game})</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {/* Hunt panel(s) */}
+                      {activeHunts.map(h => (activeHunts.length === 1 || activeTab === h.id) ? (
+                        <HuntPanel
                           key={h.id}
-                          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                            isActive
-                              ? 'bg-primary text-primary-foreground shadow-sm'
-                              : 'bg-white text-muted-foreground hover:bg-surface-sunken shadow-soft-sm'
-                          }`}
-                          onClick={() => setActiveTab(h.id)}
-                        >
-                          {isHit ? (
-                            <span className="text-yellow-400">&#9733;</span>
-                          ) : (
-                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_4px_rgba(34,197,94,0.5)] animate-pulse" />
-                          )}
-                          {h.target_name}
-                          <span className="text-xs opacity-60">({h.game})</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Hunt panel(s) */}
-                {activeHunts.map(h => (activeHunts.length === 1 || activeTab === h.id) ? (
-                  <HuntPanel
-                    key={h.id}
-                    hunt={h}
-                    status={huntStatuses[h.id]}
-                    logs={huntLogs[h.id] || []}
-                    onStop={stopHunt}
-                    rngProgress={rngProgress[h.id]}
-                  />
-                ) : null)}
-              </>
-            )}
-
+                          hunt={h}
+                          status={huntStatuses[h.id]}
+                          logs={huntLogs[h.id] || []}
+                          onStop={stopHunt}
+                          rngProgress={rngProgress[h.id]}
+                        />
+                      ) : null)}
+                    </>
+                  )}
+                </>
+              }
+            />
           </div>
         </div>
 

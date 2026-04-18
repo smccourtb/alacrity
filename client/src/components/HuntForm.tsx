@@ -33,12 +33,6 @@ interface HuntFormProps {
   isAlwaysFemale: boolean;
   validationReport?: ValidationReport | null;
   onDaycareInfo?: (info: any) => void;
-
-  // Legacy pass-through props — Task 9 will remove these from HuntDashboard and from here.
-  validationLoading?: boolean;
-  override?: boolean;
-  onOverrideChange?: (next: boolean) => void;
-  startDisabled?: boolean;
 }
 
 export default function HuntForm({
@@ -47,15 +41,6 @@ export default function HuntForm({
   customTarget, setCustomTarget, showAdvanced, setShowAdvanced,
   odds, hasGenderChoice, isGenderless, isAlwaysMale, isAlwaysFemale,
   validationReport, onDaycareInfo,
-  // legacy — intentionally unused in this task; Task 9 will remove these
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  validationLoading: _validationLoading,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  override: _override,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onOverrideChange: _onOverrideChange,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  startDisabled: _startDisabled,
 }: HuntFormProps) {
   const watchedGame = watch('game');
   const watchedHuntMode = watch('hunt_mode');
