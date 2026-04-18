@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import PillToggle from '@/components/PillToggle';
 import { is3DSGame } from './constants';
 import type { HuntFormControl } from './types';
+import { Section } from './SectionLayout';
 
 export type HuntPreset = 'shiny' | 'perfect' | 'competitive' | 'custom';
 
@@ -21,8 +22,6 @@ export default function HuntPresetPicker({ watch, setValue, preset, onPresetChan
   const game = watch('game');
   const is3DS = is3DSGame(game);
 
-  // Re-apply the current preset only when generation actually changes after mount,
-  // so pre-populated target values (URL params, game defaults) aren't clobbered on first load.
   const prevIs3DSRef = useRef<boolean | null>(null);
   useEffect(() => {
     if (prevIs3DSRef.current !== null && prevIs3DSRef.current !== is3DS) {
@@ -39,10 +38,16 @@ export default function HuntPresetPicker({ watch, setValue, preset, onPresetChan
   }
 
   return (
-    <div className="bg-card rounded-lg shadow-soft p-3">
-      <div className="text-2xs uppercase tracking-wider text-muted-foreground/60 font-semibold mb-2">Preset</div>
-      <PillToggle options={OPTIONS} value={preset} onChange={onChange} />
-    </div>
+    <Section title="Preset" hint="Quick setups for common hunts">
+      <div className="py-2">
+        <PillToggle options={OPTIONS} value={preset} onChange={onChange} />
+        <div className="text-[10px] text-muted-foreground/60 mt-1.5">
+          {preset === 'shiny' && 'Shiny-only: Gen 1/2 locks Def/Spd/Spc = 10, Atk open. Gen 6/7 ignores IVs.'}
+          {preset === 'perfect' && 'Best shiny: Gen 1/2 Atk 15 · Def/Spd/Spc 10. Gen 6/7 all IVs 31.'}
+          {preset === 'custom' && 'Every field editable. Edit anything elsewhere and this preset activates.'}
+        </div>
+      </div>
+    </Section>
   );
 }
 

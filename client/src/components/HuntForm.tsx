@@ -105,7 +105,6 @@ export default function HuntForm({
         setValue={setValue}
         preset={preset}
         onPresetChange={setPreset}
-        odds={odds}
         hasGenderChoice={hasGenderChoice}
         isGenderless={isGenderless}
         isAlwaysMale={isAlwaysMale}

@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
+// client/src/components/hunt/HuntGearSection.tsx
+import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
-import { FormField } from '@/components/ui/form-field';
 import PillToggle from '@/components/PillToggle';
 import { cn } from '@/lib/utils';
 import SavePicker from '@/components/SavePicker';
@@ -10,6 +9,7 @@ import ItemPicker from '@/components/ItemPicker';
 import type { HuntFormControl } from './types';
 import { checksForSection, SEVERITY_PILL } from './validationMapping';
 import type { ValidationReport } from '@/hooks/useHuntValidation';
+import { Section, Row } from './SectionLayout';
 
 interface Props extends HuntFormControl {
   huntFiles: { roms: any[] };
@@ -27,6 +27,7 @@ export default function HuntGearSection({
   const watchedMode = watch('hunt_mode');
   const watchedRomPath = watch('rom_path');
   const watchedSavPath = watch('sav_path');
+  const [romPickerOpen, setRomPickerOpen] = useState(false);
 
   const romItems = useMemo(() =>
     huntFiles.roms.map(r => ({ path: r.path, name: r.name })),
@@ -34,37 +35,28 @@ export default function HuntGearSection({
 
   const saveChecks = checksForSection(report, 'save');
 
+  const advancedDisclosure = (
+    <button
+      type="button"
+      onClick={() => setShowAdvanced(!showAdvanced)}
+      className="text-[11px] font-semibold text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
+    >
+      <span className={cn('transition-transform inline-block', showAdvanced && 'rotate-90')}>▸</span>
+      Advanced
+    </button>
+  );
+
   return (
-    <div className="bg-card rounded-lg shadow-soft p-3 space-y-3">
-      <div className="text-2xs uppercase tracking-wider text-muted-foreground/60 font-semibold">Gear</div>
+    <Section title="Gear" hint={advancedDisclosure}>
+      <Row label="Save" sub={watchedSavPath?.split('/').slice(-2).join('/') ?? 'Pick a save to continue'}>
+        <SavePicker value={watchedSavPath} onChange={v => setValue('sav_path', v)} game={watchedGame} />
+      </Row>
 
-      {/* Save picker — always visible */}
-      <SavePicker value={watchedSavPath} onChange={v => setValue('sav_path', v)} game={watchedGame} />
+      <Row label="ROM" sub={watchedRomPath?.split('/').pop() ?? 'Auto-selected based on game'}>
+        <ItemPicker value={watchedRomPath} onChange={v => setValue('rom_path', v)} items={romItems} placeholder="ROM" />
+      </Row>
 
-      {/* Inline save-related warnings */}
-      {saveChecks.map(c => (
-        <div key={c.id} className={cn('rounded px-2 py-1 text-xs', SEVERITY_PILL[c.severity as 'error' | 'warning'])}>
-          <div>{c.message}</div>
-          {c.detail && <div className="text-2xs opacity-80 mt-0.5">{c.detail}</div>}
-        </div>
-      ))}
-
-      {/* File status pills */}
-      {watchedGame && (
-        <div className="flex gap-1.5 flex-wrap">
-          <div className={cn('flex items-center gap-1.5 rounded-full px-2.5 py-1', watchedRomPath ? 'bg-green-500/[0.06]' : 'bg-red-500/[0.06]')}>
-            <div className={cn('w-[5px] h-[5px] rounded-full', watchedRomPath ? 'bg-green-500' : 'bg-red-500')} />
-            <span className="text-xs text-muted-foreground font-mono">{watchedRomPath ? watchedRomPath.split('/').pop() : 'No ROM'}</span>
-          </div>
-          <div className={cn('flex items-center gap-1.5 rounded-full px-2.5 py-1', watchedSavPath ? 'bg-green-500/[0.06]' : 'bg-red-500/[0.06]')}>
-            <div className={cn('w-[5px] h-[5px] rounded-full', watchedSavPath ? 'bg-green-500' : 'bg-red-500')} />
-            <span className="text-xs text-muted-foreground font-mono">{watchedSavPath ? watchedSavPath.split('/').pop() : 'No save'}</span>
-          </div>
-        </div>
-      )}
-
-      {/* Instances */}
-      <FormField label="Instances">
+      <Row label="Instances" sub="Parallel emulators (1–128)">
         <Controller
           name="num_instances"
           control={control}
@@ -73,37 +65,60 @@ export default function HuntGearSection({
               type="number" min={1} max={128}
               value={field.value}
               onChange={e => field.onChange(Number(e.target.value))}
-              className="font-semibold"
+              className="w-20 h-8 text-center font-semibold font-mono"
             />
           )}
         />
-      </FormField>
+      </Row>
 
-      {/* Advanced drawer */}
-      <Collapsible open={showAdvanced} onOpenChange={setShowAdvanced}>
-        <CollapsibleTrigger className="text-xs text-muted-foreground/40 hover:text-muted-foreground transition-colors">
-          Advanced
-        </CollapsibleTrigger>
-        <CollapsibleContent className="pt-2 space-y-2">
-          {watchedMode === 'wild' && (
-            <Controller
-              name="walk_dir"
-              control={control}
-              render={({ field }) => (
-                <PillToggle
-                  options={[
-                    { value: 'ns', label: 'North / South' },
-                    { value: 'ew', label: 'East / West' },
-                  ]}
-                  value={field.value}
-                  onChange={(v) => field.onChange(v)}
-                />
-              )}
-            />
-          )}
-          <ItemPicker value={watchedRomPath} onChange={v => setValue('rom_path', v)} items={romItems} placeholder="ROM" />
-        </CollapsibleContent>
-      </Collapsible>
-    </div>
+      {showAdvanced && watchedMode === 'wild' && (
+        <Row label="Walk direction" sub="Cycle axis for wild encounters">
+          <Controller
+            name="walk_dir"
+            control={control}
+            render={({ field }) => (
+              <PillToggle
+                options={[
+                  { value: 'ns', label: 'N / S' },
+                  { value: 'ew', label: 'E / W' },
+                ]}
+                value={field.value}
+                onChange={(v) => field.onChange(v)}
+              />
+            )}
+          />
+        </Row>
+      )}
+
+      {showAdvanced && (
+        <Row label="Override ROM" sub="Point to a different ROM file">
+          <button
+            type="button"
+            onClick={() => setRomPickerOpen(o => !o)}
+            className="text-xs text-primary font-semibold hover:underline"
+          >
+            {romPickerOpen ? 'Close' : 'Pick…'}
+          </button>
+        </Row>
+      )}
+
+      {showAdvanced && romPickerOpen && (
+        <div className="py-2">
+          <ItemPicker value={watchedRomPath} onChange={v => setValue('rom_path', v)} items={romItems} placeholder="ROM file" />
+        </div>
+      )}
+
+      {/* Save-related inline validation */}
+      {saveChecks.length > 0 && (
+        <div className="pt-2 space-y-1">
+          {saveChecks.map(c => (
+            <div key={c.id} className={cn('rounded-md px-3 py-2 text-xs', SEVERITY_PILL[c.severity as 'error' | 'warning'])}>
+              <div>{c.message}</div>
+              {c.detail && <div className="text-[10px] opacity-80 mt-0.5">{c.detail}</div>}
+            </div>
+          ))}
+        </div>
+      )}
+    </Section>
   );
 }
