@@ -7,6 +7,7 @@ import HuntPanel from '@/components/HuntPanel';
 import HuntForm from '@/components/HuntForm';
 import HuntHistoryList from '@/components/HuntHistoryList';
 import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
+import { useHuntValidation } from '@/hooks/useHuntValidation';
 
 interface HuntFormValues {
   target_name: string;
@@ -168,6 +169,8 @@ export default function HuntDashboard() {
   const watchedGame = watch('game');
   const watchedTargetName = watch('target_name');
   const watchedHuntMode = watch('hunt_mode');
+  const watchedTargetSpeciesId = watch('target_species_id');
+  const watchedSavPath = watch('sav_path');
   const watchedTargetShiny = watch('target_shiny');
   const watchedTargetPerfect = watch('target_perfect');
   const watchedTargetGender = watch('target_gender');
@@ -199,6 +202,17 @@ export default function HuntDashboard() {
     minSpd: watchedMinSpd,
     minSpc: watchedMinSpc,
   });
+
+  // --- Validation ---
+
+  const [override, setOverride] = useState(false);
+  const { report, loading: validationLoading } = useHuntValidation({
+    game: watchedGame || null,
+    sav_path: watchedSavPath || null,
+    hunt_mode: watchedHuntMode as 'wild' | 'stationary' | 'gift' | 'egg',
+    target_species_id: watchedTargetSpeciesId ?? null,
+  });
+  const startDisabled = !override && report != null && !report.ok;
 
   // --- Form handlers ---
 
@@ -428,6 +442,11 @@ export default function HuntDashboard() {
               isGenderless={isGenderless}
               isAlwaysMale={isAlwaysMale}
               isAlwaysFemale={isAlwaysFemale}
+              validationReport={report}
+              validationLoading={validationLoading}
+              override={override}
+              onOverrideChange={setOverride}
+              startDisabled={startDisabled}
             />
           </div>
 

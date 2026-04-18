@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { FormField } from '@/components/ui/form-field';
 import PillToggle from '@/components/PillToggle';
 import type { HuntFormControl } from './types';
+import type { ValidationReport } from '@/hooks/useHuntValidation';
 import { is3DSGame, ENCOUNTER_TYPES, HUNT_MODE_DESCRIPTIONS } from './constants';
 
 interface HuntGameSelectorProps extends HuntFormControl {
@@ -17,12 +18,15 @@ interface HuntGameSelectorProps extends HuntFormControl {
   customTarget: boolean;
   setCustomTarget: (v: boolean) => void;
   daycareInfo: any;
+  validation?: ValidationReport | null;
+  overrideEnabled?: boolean;
 }
 
 export default function HuntGameSelector({
   control, watch, setValue,
   gameConfigs, gameConfig, onGameChange, onTargetChange, onModeChange,
   customTarget, setCustomTarget, daycareInfo,
+  validation, overrideEnabled,
 }: HuntGameSelectorProps) {
   const watchedGame = watch('game');
   const watchedEngine = watch('engine');
@@ -93,25 +97,41 @@ export default function HuntGameSelector({
           <Controller
             name="target_name"
             control={control}
-            render={({ field }) => (
-              <FilterDropdown
-                label="Select target..."
-                options={[
-                  ...(gameConfig?.targets ?? []).map((t: any) => ({
-                    value: t.name,
-                    label: `${t.name} (${t.method})`,
-                  })),
-                  { value: '__custom__', label: 'Custom target...' },
-                ]}
-                selected={field.value ? [field.value] : []}
-                onChange={(sel) => {
-                  const v = sel[0] ?? '';
-                  if (v) onTargetChange(v);
-                }}
-                multiSelect={false}
-                searchable
-              />
-            )}
+            render={({ field }) => {
+              // Per-option disabling: if validation has a game_species or mode_species
+              // error and override is not active, disable the currently-selected target option.
+              const speciesErrorCheck = !overrideEnabled && validation && !validation.ok
+                ? validation.checks.find(c =>
+                    (c.id === 'game_species' || c.id === 'mode_species') && c.severity === 'error'
+                  )
+                : null;
+
+              return (
+                <FilterDropdown
+                  label="Select target..."
+                  options={[
+                    ...(gameConfig?.targets ?? []).map((t: any) => {
+                      const isSelected = t.name === field.value;
+                      const isDisabled = isSelected && !!speciesErrorCheck;
+                      return {
+                        value: t.name,
+                        label: `${t.name} (${t.method})`,
+                        disabled: isDisabled,
+                        tooltip: isDisabled ? speciesErrorCheck!.message : undefined,
+                      };
+                    }),
+                    { value: '__custom__', label: 'Custom target...' },
+                  ]}
+                  selected={field.value ? [field.value] : []}
+                  onChange={(sel) => {
+                    const v = sel[0] ?? '';
+                    if (v) onTargetChange(v);
+                  }}
+                  multiSelect={false}
+                  searchable
+                />
+              );
+            }}
           />
         )}
       </div>
