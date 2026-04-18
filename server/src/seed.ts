@@ -2,6 +2,7 @@ import db from './db.js';
 import pokeApi from './services/pokeApi.js';
 import { seedMoves } from './seedMoves.js';
 import { seedForms } from './seedForms.js';
+import { seedNatures } from './seedNatures.js';
 
 const TOTAL_POKEMON = 1025;
 const BATCH_SIZE = 50;
@@ -73,6 +74,7 @@ async function main() {
     console.log(`Database already has ${existing.count} species. Skipping seed.`);
     await seedMoves();
     await seedForms();
+    await seedNatures();
     return;
   }
 

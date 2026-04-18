@@ -4,14 +4,6 @@ export const is3DSGame = (game: string) =>
   ["Pokemon X", "Pokemon Y", "Pokemon Omega Ruby", "Pokemon Alpha Sapphire",
    "Pokemon Sun", "Pokemon Moon", "Pokemon Ultra Sun", "Pokemon Ultra Moon"].includes(game);
 
-export const NATURES = [
-  "Hardy", "Lonely", "Brave", "Adamant", "Naughty",
-  "Bold", "Docile", "Relaxed", "Impish", "Lax",
-  "Timid", "Hasty", "Serious", "Jolly", "Naive",
-  "Modest", "Mild", "Quiet", "Bashful", "Rash",
-  "Calm", "Gentle", "Sassy", "Careful", "Quirky",
-];
-
 export const IV_STATS: { key: keyof NonNullable<HuntFormValues['target_ivs']>; label: string }[] = [
   { key: 'hp', label: 'HP' },
   { key: 'atk', label: 'Atk' },
@@ -46,7 +38,7 @@ export const ENCOUNTER_TYPES = [
   { value: 'horde',         label: 'Horde',         guaranteedIvs: 0, blurb: '5 Pokemon per battle · 5% HA per slot' },
   { value: 'dexnav_chain',  label: 'DexNav chain',  guaranteedIvs: 0, blurb: 'Search Level drives HA chance (max 25% at SL ≥100)' },
   { value: 'sos_chain',     label: 'SOS chain',     guaranteedIvs: 3, blurb: 'Chain ≥30 → 3 IVs + 15% HA; chain ≥70 boosts shiny odds' },
-  { value: 'breeding',      label: 'Breeding',      guaranteedIvs: 5, blurb: 'Destiny Knot passes 5 parent IVs; Masuda → 6× shiny' },
+  { value: 'breeding',      label: 'Breeding',      guaranteedIvs: 2, blurb: 'Destiny Knot passes 5 of 10 parent IVs — raise this once parents are built up' },
 ] as const;
 
 export type EncounterType = typeof ENCOUNTER_TYPES[number]['value'];

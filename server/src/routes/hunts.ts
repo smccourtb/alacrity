@@ -161,9 +161,14 @@ const GAME_METADATA: Record<string, { gen: number; romPattern: RegExp }> = {
 
 /**
  * Collect supportedModes per species by joining map_encounters for the game.
- * Returns a map: species_id -> Set<mode>.
+ * Memoized per encounterKey — map_encounters is seed data that doesn't change
+ * at runtime, so repeated /api/hunts/config calls don't re-scan the table.
  */
+const ENCOUNTER_MODE_CACHE = new Map<string, Map<number, Set<string>>>();
 function encounterModesForGame(encounterKey: string): Map<number, Set<string>> {
+  const cached = ENCOUNTER_MODE_CACHE.get(encounterKey);
+  if (cached) return cached;
+
   const rows = db.prepare(
     'SELECT species_id, method FROM map_encounters WHERE game = ?'
   ).all(encounterKey) as Array<{ species_id: number; method: string }>;
@@ -175,6 +180,7 @@ function encounterModesForGame(encounterKey: string): Map<number, Set<string>> {
     if (!out.has(r.species_id)) out.set(r.species_id, new Set());
     out.get(r.species_id)!.add(mode);
   }
+  ENCOUNTER_MODE_CACHE.set(encounterKey, out);
   return out;
 }
 

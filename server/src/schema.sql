@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS natures (
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE,
+  increased_stat TEXT,
+  decreased_stat TEXT,
+  is_neutral INTEGER NOT NULL DEFAULT 0
+);
+
 CREATE TABLE IF NOT EXISTS species (
   id INTEGER PRIMARY KEY,
   name TEXT NOT NULL,

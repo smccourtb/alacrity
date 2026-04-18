@@ -106,6 +106,9 @@ export const api = {
     get: (id: number) => request<any>(`/species/${id}`),
     forms: (id: number) => request<any[]>(`/species/${id}/forms`),
   },
+  natures: {
+    list: () => request<Array<{ id: number; name: string; increased_stat: string | null; decreased_stat: string | null; is_neutral: number }>>('/natures'),
+  },
   reference: {
     ribbons: () => request<any[]>('/reference/ribbons'),
     marks: () => request<any[]>('/reference/marks'),

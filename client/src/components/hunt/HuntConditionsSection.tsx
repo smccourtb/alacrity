@@ -1,13 +1,15 @@
 // client/src/components/hunt/HuntConditionsSection.tsx
 // Matches mockup at .superpowers/brainstorm/.../full-options.html
 // Uses SectionLayout primitives (Section / Row / MiniPills / IvBox / IvLabel).
+import { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import FilterDropdown from '@/components/FilterDropdown';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
+import { api } from '@/api/client';
 import type { HuntFormControl } from './types';
-import { is3DSGame, NATURES, IV_STATS, SHINY_ATK_VALUES, ENCOUNTER_TYPES } from './constants';
+import { is3DSGame, IV_STATS, SHINY_ATK_VALUES, ENCOUNTER_TYPES } from './constants';
 import type { HuntPreset } from './HuntPresetPicker';
 import { checksForSection, SEVERITY_PILL } from './validationMapping';
 import type { ValidationReport } from '@/hooks/useHuntValidation';
@@ -30,6 +32,23 @@ export default function HuntConditionsSection({
   report,
 }: Props) {
   const demoteToCustom = () => { if (preset !== 'custom') onPresetChange('custom'); };
+  const [guaranteedIvsTouched, setGuaranteedIvsTouched] = useState(false);
+
+  // Natures are DB-backed; fetched once per mount.
+  const [natures, setNatures] = useState<Array<{ name: string; increased_stat: string | null; decreased_stat: string | null }>>([]);
+  useEffect(() => {
+    let cancelled = false;
+    api.natures.list().then(list => {
+      if (!cancelled) setNatures(list);
+    }).catch(() => { /* leave empty — dropdown falls back to 'Any nature' */ });
+    return () => { cancelled = true; };
+  }, []);
+
+  function formatNatureLabel(n: { name: string; increased_stat: string | null; decreased_stat: string | null }): string {
+    if (!n.increased_stat || !n.decreased_stat) return n.name; // neutral
+    const short = (s: string) => ({ 'attack': 'Atk', 'defense': 'Def', 'special-attack': 'SpA', 'special-defense': 'SpD', 'speed': 'Spe', 'hp': 'HP' })[s] ?? s;
+    return `${n.name} (+${short(n.increased_stat)} −${short(n.decreased_stat)})`;
+  }
   const game = watch('game');
   const is3DS = is3DSGame(game);
   const showCustom = preset === 'custom';
@@ -136,9 +155,11 @@ export default function HuntConditionsSection({
                       const next = sel[0];
                       if (!next) return;
                       field.onChange(next);
-                      // Auto-suggest guaranteed IVs for the new method unless user already set one.
-                      const meta = ENCOUNTER_TYPES.find(e => e.value === next);
-                      if (meta) setValue('guaranteed_ivs', meta.guaranteedIvs);
+                      // Only auto-suggest guaranteed IVs if the user hasn't manually set one.
+                      if (!guaranteedIvsTouched) {
+                        const meta = ENCOUNTER_TYPES.find(e => e.value === next);
+                        if (meta) setValue('guaranteed_ivs', meta.guaranteedIvs);
+                      }
                     }}
                     multiSelect={false}
                   />
@@ -155,7 +176,7 @@ export default function HuntConditionsSection({
                     label="Any nature"
                     options={[
                       { value: '__any__', label: 'Any nature' },
-                      ...NATURES.map(n => ({ value: n, label: n })),
+                      ...natures.map(n => ({ value: n.name, label: formatNatureLabel(n) })),
                     ]}
                     selected={field.value ? [field.value] : ['__any__']}
                     onChange={(sel) => { demoteToCustom(); field.onChange(sel[0] === '__any__' ? undefined : sel[0]); }}
@@ -192,7 +213,11 @@ export default function HuntConditionsSection({
                   <Input
                     type="number" min={0} max={6}
                     value={field.value ?? 0}
-                    onChange={e => { demoteToCustom(); field.onChange(Math.min(6, Math.max(0, Number(e.target.value)))); }}
+                    onChange={e => {
+                      demoteToCustom();
+                      setGuaranteedIvsTouched(true);
+                      field.onChange(Math.min(6, Math.max(0, Number(e.target.value))));
+                    }}
                     className="w-16 h-8 text-center font-semibold font-mono text-xs"
                   />
                 )}

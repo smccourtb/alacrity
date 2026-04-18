@@ -154,10 +154,13 @@ function calculateOdds3DS(opts: OddsInput): OddsOutput {
     }
   }
 
-  // 3. Nature (uniform over 25 — Synchronize not modeled; caveat)
+  // 3. Nature (uniform over 25 — Synchronize not modeled where it applies; caveat)
   if (opts.nature && opts.nature !== '__any__') {
     p *= 1 / 25;
-    caveats.push('Nature fixed at 1/25 — Synchronize reduces to ~1/2 for wild encounters (not modeled)');
+    const syncAppliesTo = new Set(['wild', 'stationary', 'horde', 'dexnav_chain']);
+    if (!opts.encounterType || syncAppliesTo.has(opts.encounterType)) {
+      caveats.push('Nature fixed at 1/25 — leading a Synchronize Pokemon lifts the match rate to ~1/2 (not modeled)');
+    }
   }
 
   // 4. Ability filter
