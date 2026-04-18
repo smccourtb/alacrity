@@ -2,6 +2,7 @@ import db from './db.js';
 import pokeApi from './services/pokeApi.js';
 import { seedMoves } from './seedMoves.js';
 import { seedForms } from './seedForms.js';
+import { seedNatures } from './seedNatures.js';
 
 const TOTAL_POKEMON = 1025;
 const BATCH_SIZE = 50;
@@ -44,6 +45,9 @@ async function seedPokemon(id: number) {
     const gen = GEN_MAP[species.generation.name] || 1;
     const genderRate = species.gender_rate ?? -1;
     const growthRate = GROWTH_RATE_MAP[species.growth_rate?.name] ?? null;
+    const hatchCounter = species.hatch_counter ?? null;
+    const isBaby = species.is_baby ? 1 : 0;
+    const eggGroups: string[] = (species.egg_groups ?? []).map((g: any) => g.name);
 
     const spriteBase = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
 
@@ -52,16 +56,21 @@ async function seedPokemon(id: number) {
         id, name, type1, type2, ability1, ability2, hidden_ability,
         sprite_url, shiny_sprite_url,
         base_hp, base_attack, base_defense, base_sp_attack, base_sp_defense, base_speed,
-        generation, gender_rate, growth_rate
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        generation, gender_rate, growth_rate, hatch_counter, is_baby
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       id, pokemon.name, types[0], types[1] || null,
       abilities[0] || null, abilities[1] || null, hiddenAbility,
       `${spriteBase}/${id}.png`, `${spriteBase}/shiny/${id}.png`,
       statMap['hp'], statMap['attack'], statMap['defense'],
       statMap['special-attack'], statMap['special-defense'], statMap['speed'],
-      gen, genderRate, growthRate
+      gen, genderRate, growthRate, hatchCounter, isBaby
     );
+
+    // Replace this species' egg groups (idempotent)
+    db.prepare('DELETE FROM species_egg_groups WHERE species_id = ?').run(id);
+    const insertGroup = db.prepare('INSERT OR IGNORE INTO species_egg_groups (species_id, egg_group) VALUES (?, ?)');
+    for (const g of eggGroups) insertGroup.run(id, g);
   } catch (err) {
     console.error(`Failed to seed Pokemon #${id}:`, err);
   }
@@ -73,6 +82,7 @@ async function main() {
     console.log(`Database already has ${existing.count} species. Skipping seed.`);
     await seedMoves();
     await seedForms();
+    await seedNatures();
     return;
   }
 

@@ -106,6 +106,9 @@ export const api = {
     get: (id: number) => request<any>(`/species/${id}`),
     forms: (id: number) => request<any[]>(`/species/${id}/forms`),
   },
+  natures: {
+    list: () => request<Array<{ id: number; name: string; increased_stat: string | null; decreased_stat: string | null; is_neutral: number }>>('/natures'),
+  },
   reference: {
     ribbons: () => request<any[]>('/reference/ribbons'),
     marks: () => request<any[]>('/reference/marks'),
@@ -170,10 +173,40 @@ export const api = {
     },
   },
   hunts: {
+    validate: async (input: {
+      game: string;
+      sav_path: string | null;
+      hunt_mode: 'wild' | 'stationary' | 'gift' | 'egg' | 'fishing';
+      target_species_id: number | null;
+    }): Promise<{
+      ok: boolean;
+      checks: Array<{
+        id: 'mode_species' | 'game_species' | 'wild_location' | 'wild_encounter' | 'egg_daycare' | 'stationary_location' | 'stationary_party';
+        severity: 'error' | 'warning' | 'skipped';
+        message: string;
+        detail?: string;
+      }>;
+    }> => {
+      const res = await fetch(`${getBase()}/hunts/validate`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(input),
+      });
+      if (!res.ok) throw new Error(`validate failed: ${res.status}`);
+      return res.json();
+    },
     list: (opts?: { archived?: boolean }) => request<any[]>(opts?.archived ? '/hunts?archived=true' : '/hunts'),
     presets: () => request<any[]>('/hunts/presets'),
     gameConfigs: () => request<any[]>('/hunts/game-configs'),
     daycareInfo: (savPath: string, game: string) => request<any>('/hunts/daycare-info', { method: 'POST', body: JSON.stringify({ sav_path: savPath, game }) }),
+    saveContext: (input: { sav_path: string | null; game: string; target_species_id: number | null }) =>
+      request<{
+        currentLocation: { key: string; displayName: string } | null;
+        party: Array<{ species_id: number; name: string; abilities: string[]; hidden_ability: string | null }>;
+        flameBodyInParty: boolean;
+        targetLocations: Array<{ location_id: number; displayName: string; method: string }>;
+        targetHatchCounter: number | null;
+      }>('/hunts/save-context', { method: 'POST', body: JSON.stringify(input) }),
     files: () => request<{ roms: any[]; saves: any[] }>('/hunts/files'),
     create: (data: any) => request<any>('/hunts', { method: 'POST', body: JSON.stringify(data) }),
     stop: (id: number) => request<any>(`/hunts/${id}/stop`, { method: 'POST' }),

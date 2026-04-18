@@ -6,7 +6,12 @@ import { Switch } from '@/components/ui/switch';
 import HuntPanel from '@/components/HuntPanel';
 import HuntForm from '@/components/HuntForm';
 import HuntHistoryList from '@/components/HuntHistoryList';
+import HuntSetupTabs from '@/components/hunt/HuntSetupTabs';
+import HuntPreviewCard from '@/components/hunt/HuntPreviewCard';
+import { hasErrors } from '@/components/hunt/validationMapping';
+import { calculateOdds } from '@/components/hunt/odds';
 import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
+import { useHuntValidation } from '@/hooks/useHuntValidation';
 
 interface HuntFormValues {
   target_name: string;
@@ -33,91 +38,6 @@ interface HuntFormValues {
   shiny_charm: number;
   guaranteed_ivs: number;
 }
-
-const SHINY_ATK_VALUES = [2, 3, 6, 7, 10, 11, 14, 15];
-const ALL_DV = Array.from({ length: 16 }, (_, i) => i); // 0-15
-
-// Gender DV threshold from PokeAPI gender_rate
-// If Atk DV <= threshold, Pokemon is female
-function genderDvThreshold(genderRate: number | undefined): number {
-  if (genderRate === undefined) return -2;
-  const thresholds: Record<number, number> = {
-    [-1]: -2, 0: -1, 1: 1, 2: 3, 4: 7, 6: 11, 7: 13, 8: 16,
-  };
-  return thresholds[genderRate] ?? -2;
-}
-
-function calculateOdds(opts: {
-  shiny: boolean;
-  perfect: boolean;
-  gender: string;
-  genderRate: number | undefined;
-  huntMode: string;
-  minAtk: number;
-  minDef: number;
-  minSpd: number;
-  minSpc: number;
-}): { combos: number; total: number; odds: string } {
-  // Egg hunts with shiny Ditto: Def locked to 10, Spc = 2 or 10 (3 bits inherited)
-  // Only Atk (16 values) and Spd (16 values) and Spc top bit (2 values) are random
-  const isEgg = opts.huntMode === 'egg';
-  const total = isEgg ? (16 * 1 * 16 * 2) : 65536; // egg: Atk(16) × Def(1) × Spd(16) × Spc(2)
-  let validAtk = [...ALL_DV];
-  let validDef = isEgg ? [10] : [...ALL_DV];  // Ditto's Def inherited
-  let validSpd = [...ALL_DV];
-  let validSpc = isEgg ? [2, 10] : [...ALL_DV];  // Only top bit is random, bottom 3 from Ditto
-
-  // Shiny: Atk in {2,3,6,7,10,11,14,15}, Def=10, Spd=10, Spc=10
-  if (opts.shiny) {
-    validAtk = validAtk.filter(v => SHINY_ATK_VALUES.includes(v));
-    validDef = [10];
-    validSpd = [10];
-    validSpc = [10];
-  }
-
-  // Perfect: context-dependent on shiny
-  // With shiny: best shiny = Atk 15 (Def/Spd/Spc already locked to 10)
-  // Without shiny: true perfect = all 15
-  if (opts.perfect) {
-    validAtk = validAtk.filter(v => v === 15);
-    if (!opts.shiny) {
-      validDef = validDef.filter(v => v === 15);
-      validSpd = validSpd.filter(v => v === 15);
-      validSpc = validSpc.filter(v => v === 15);
-    }
-  }
-
-  // Gender filter on Atk DV
-  const threshold = genderDvThreshold(opts.genderRate);
-  if (opts.gender === 'male' && threshold >= 0) {
-    validAtk = validAtk.filter(v => v > threshold);
-  } else if (opts.gender === 'female') {
-    if (threshold < 0) {
-      validAtk = []; // impossible
-    } else if (threshold <= 15) {
-      validAtk = validAtk.filter(v => v <= threshold);
-    }
-  }
-
-  // Min DVs
-  if (opts.minAtk > 0) validAtk = validAtk.filter(v => v >= opts.minAtk);
-  if (opts.minDef > 0) validDef = validDef.filter(v => v >= opts.minDef);
-  if (opts.minSpd > 0) validSpd = validSpd.filter(v => v >= opts.minSpd);
-  if (opts.minSpc > 0) validSpc = validSpc.filter(v => v >= opts.minSpc);
-
-  const combos = validAtk.length * validDef.length * validSpd.length * validSpc.length;
-
-  let odds: string;
-  if (combos === 0) odds = 'Impossible';
-  else if (combos === total) odds = '1/1';
-  else {
-    const ratio = total / combos;
-    odds = ratio === Math.floor(ratio) ? `1/${ratio.toLocaleString()}` : `1/${ratio.toFixed(1).toLocaleString()}`;
-  }
-
-  return { combos, total, odds };
-}
-
 
 export default function HuntDashboard() {
   const [hunts, setHunts] = useState<any[]>([]);
@@ -154,7 +74,7 @@ export default function HuntDashboard() {
       min_def: 0,
       min_spd: 0,
       min_spc: 0,
-      encounter_type: 'stationary',
+      encounter_type: 'wild',
       target_nature: undefined,
       target_ability: undefined,
       target_ivs: undefined,
@@ -168,6 +88,8 @@ export default function HuntDashboard() {
   const watchedGame = watch('game');
   const watchedTargetName = watch('target_name');
   const watchedHuntMode = watch('hunt_mode');
+  const watchedTargetSpeciesId = watch('target_species_id');
+  const watchedSavPath = watch('sav_path');
   const watchedTargetShiny = watch('target_shiny');
   const watchedTargetPerfect = watch('target_perfect');
   const watchedTargetGender = watch('target_gender');
@@ -179,6 +101,35 @@ export default function HuntDashboard() {
   const gameConfig = gameConfigs.find((g: any) => g.game === watchedGame);
   const activeHunts = hunts.filter(h => h.status === 'running');
 
+  // Save-derived context: party (→ Flame Body ETA halving for egg hunts),
+  // current location, and known target locations. Debounced via useEffect below.
+  const [saveContext, setSaveContext] = useState<{
+    currentLocation: { key: string; displayName: string } | null;
+    flameBodyInParty: boolean;
+    targetLocations: Array<{ displayName: string; method: string }>;
+    targetHatchCounter: number | null;
+  }>({ currentLocation: null, flameBodyInParty: false, targetLocations: [], targetHatchCounter: null });
+
+  useEffect(() => {
+    if (!watchedGame) { setSaveContext({ currentLocation: null, flameBodyInParty: false, targetLocations: [], targetHatchCounter: null }); return; }
+    let cancelled = false;
+    const handle = setTimeout(() => {
+      api.hunts.saveContext({
+        sav_path: watchedSavPath || null,
+        game: watchedGame,
+        target_species_id: watchedTargetSpeciesId ?? null,
+      })
+        .then(r => { if (!cancelled) setSaveContext({
+          currentLocation: r.currentLocation,
+          flameBodyInParty: r.flameBodyInParty,
+          targetLocations: r.targetLocations.map(l => ({ displayName: l.displayName, method: l.method })),
+          targetHatchCounter: r.targetHatchCounter,
+        }); })
+        .catch(() => { if (!cancelled) setSaveContext({ currentLocation: null, flameBodyInParty: false, targetLocations: [], targetHatchCounter: null }); });
+    }, 250);
+    return () => { cancelled = true; clearTimeout(handle); };
+  }, [watchedGame, watchedSavPath, watchedTargetSpeciesId]);
+
   // Gender info for the selected target
   const selectedTargetMeta = gameConfig?.targets.find((t: any) => t.name === watchedTargetName);
   const genderRate = selectedTargetMeta?.gender_rate;
@@ -187,18 +138,37 @@ export default function HuntDashboard() {
   const isAlwaysFemale = genderRate === 8;
   const hasGenderChoice = genderRate !== undefined && !isGenderless && !isAlwaysMale && !isAlwaysFemale;
 
-  // Live odds calculation
+  // Live odds calculation (generation-aware — see components/hunt/odds.ts)
   const odds = calculateOdds({
+    game: watchedGame,
+    huntMode: watchedHuntMode,
     shiny: watchedTargetShiny === 1,
     perfect: watchedTargetPerfect === 1,
     gender: watchedTargetGender,
     genderRate,
-    huntMode: watchedHuntMode,
     minAtk: watchedMinAtk,
     minDef: watchedMinDef,
     minSpd: watchedMinSpd,
     minSpc: watchedMinSpc,
+    nature: watch('target_nature'),
+    ability: watch('target_ability'),
+    encounterType: watch('encounter_type'),
+    ivs: watch('target_ivs'),
+    shinyCharm: watch('shiny_charm') === 1,
+    guaranteedIvs: watch('guaranteed_ivs') ?? 0,
   });
+
+  // --- Validation ---
+
+  const [daycareInfo, setDaycareInfo] = useState<any>(null);
+  const [override, setOverride] = useState(false);
+  const { report, loading: validationLoading } = useHuntValidation({
+    game: watchedGame || null,
+    sav_path: watchedSavPath || null,
+    hunt_mode: watchedHuntMode as 'wild' | 'stationary' | 'gift' | 'egg' | 'fishing',
+    target_species_id: watchedTargetSpeciesId ?? null,
+  });
+  const startDisabled = !override && hasErrors(report);
 
   // --- Form handlers ---
 
@@ -401,7 +371,7 @@ export default function HuntDashboard() {
         <h2 className="text-2xl font-extrabold mb-4 text-foreground">Shiny Hunt</h2>
 
         {/* Two-column layout: form left, content right */}
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           {/* Left: Form (sticky on desktop) */}
           <div className="lg:self-start lg:sticky lg:top-6">
             <InlineEmulatorWarning
@@ -423,101 +393,103 @@ export default function HuntDashboard() {
               setCustomTarget={setCustomTarget}
               showAdvanced={showAdvanced}
               setShowAdvanced={setShowAdvanced}
-              odds={odds}
               hasGenderChoice={hasGenderChoice}
               isGenderless={isGenderless}
               isAlwaysMale={isAlwaysMale}
               isAlwaysFemale={isAlwaysFemale}
+              validationReport={report}
+              onDaycareInfo={setDaycareInfo}
             />
           </div>
 
-          {/* Right: Active hunts or placeholder */}
+          {/* Right: Setup preview + active hunts via tabs */}
           <div>
-            {/* Empty state when no hunts running */}
-            {activeHunts.length === 0 && (
-              <div className="bg-card shadow-soft rounded-lg overflow-hidden opacity-50">
-                <div className="bg-gradient-to-r from-red-500/40 to-red-600/40 px-5 py-4 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center border-2 border-white/30">
-                    <div className="w-3 h-3 rounded-full bg-white/60" />
-                  </div>
-                  <div>
-                    <div className="text-lg font-extrabold text-white/60">No Active Hunt</div>
-                    <div className="flex gap-1.5 mt-0.5">
-                      <span className="bg-white/10 text-white/40 px-2.5 py-0.5 rounded-full text-xs font-medium">Configure a hunt and press Start</span>
+            <HuntSetupTabs
+              activeCount={activeHunts.length}
+              preview={
+                <HuntPreviewCard
+                  targetName={watch('target_name') ?? null}
+                  targetSpeciesId={watchedTargetSpeciesId ?? null}
+                  targetLocation={saveContext.currentLocation?.displayName ?? null}
+                  targetLocations={saveContext.targetLocations}
+                  flameBody={saveContext.flameBodyInParty}
+                  hatchCounter={saveContext.targetHatchCounter}
+                  isShiny={watch('target_shiny') === 1}
+                  isPerfect={watch('target_perfect') === 1}
+                  odds={odds}
+                  saveLabel={watch('sav_path')?.split('/').pop() ?? null}
+                  romLabel={watch('rom_path')?.split('/').pop() ?? null}
+                  mode={watch('hunt_mode')}
+                  instances={watch('num_instances') ?? 16}
+                  report={report}
+                  loading={validationLoading}
+                  override={override}
+                  onOverrideChange={setOverride}
+                  onStart={handleSubmit(startHunt)}
+                  startDisabled={startDisabled}
+                />
+              }
+              running={
+                <>
+                  {activeHunts.length === 0 && (
+                    <div className="bg-card shadow-soft rounded-xl p-6 text-center">
+                      <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-surface-raised flex items-center justify-center">
+                        <div className="w-3 h-3 rounded-full bg-muted-foreground/30" />
+                      </div>
+                      <div className="text-sm font-semibold text-muted-foreground">No active hunts</div>
+                      <div className="text-[11px] text-muted-foreground/60 mt-1">Configure a hunt in the Setup tab and press Start.</div>
                     </div>
-                  </div>
-                </div>
-                <div className="py-5 text-center border-b border-surface-raised">
-                  <div className="text-xs text-muted-foreground/30 uppercase tracking-[3px]">Encounters</div>
-                  <div className="text-5xl font-black font-mono text-muted-foreground/15 tracking-tighter leading-none mt-1">0</div>
-                </div>
-                <div className="px-5 py-4 space-y-2.5">
-                  <div className="flex items-center gap-3">
-                    <span className="w-16 text-sm text-muted-foreground/20 font-medium">Elapsed</span>
-                    <div className="flex-1 h-1.5 bg-surface-raised rounded-full" />
-                    <span className="w-16 text-right text-xs font-bold font-mono text-muted-foreground/20">{'\u2014'}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="w-16 text-sm text-muted-foreground/20 font-medium">Speed</span>
-                    <div className="flex-1 h-1.5 bg-surface-raised rounded-full" />
-                    <span className="w-16 text-right text-xs font-bold font-mono text-muted-foreground/20">{'\u2014'}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="w-16 text-sm text-muted-foreground/20 font-medium">ETA</span>
-                    <div className="flex-1 h-1.5 bg-surface-raised rounded-full" />
-                    <span className="w-16 text-right text-xs font-bold font-mono text-muted-foreground/20">{'\u2014'}</span>
-                  </div>
-                </div>
-              </div>
-            )}
+                  )}
 
-            {/* Active hunt section */}
-            {activeHunts.length > 0 && (
-              <>
-                {/* Pill tabs when multiple hunts */}
-                {activeHunts.length > 1 && (
-                  <div className="flex items-center gap-1.5 mb-3 flex-wrap">
-                    {activeHunts.map(h => {
-                      const status = huntStatuses[h.id];
-                      const isHit = status?.hits?.length > 0;
-                      const isActive = activeTab === h.id;
-                      return (
-                        <button
+                  {/* Active hunt section */}
+                  {activeHunts.length > 0 && (
+                    <>
+                      {/* Pill tabs when multiple hunts */}
+                      {activeHunts.length > 1 && (
+                        <div className="flex items-center gap-1.5 mb-3 flex-wrap">
+                          {activeHunts.map(h => {
+                            const status = huntStatuses[h.id];
+                            const isHit = status?.hits?.length > 0;
+                            const isActive = activeTab === h.id;
+                            return (
+                              <button
+                                key={h.id}
+                                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                                  isActive
+                                    ? 'bg-primary text-primary-foreground shadow-sm'
+                                    : 'bg-white text-muted-foreground hover:bg-surface-sunken shadow-soft-sm'
+                                }`}
+                                onClick={() => setActiveTab(h.id)}
+                              >
+                                {isHit ? (
+                                  <span className="text-yellow-400">&#9733;</span>
+                                ) : (
+                                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_4px_rgba(34,197,94,0.5)] animate-pulse" />
+                                )}
+                                {h.target_name}
+                                <span className="text-xs opacity-60">({h.game})</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {/* Hunt panel(s) */}
+                      {activeHunts.map(h => (activeHunts.length === 1 || activeTab === h.id) ? (
+                        <HuntPanel
                           key={h.id}
-                          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                            isActive
-                              ? 'bg-primary text-primary-foreground shadow-sm'
-                              : 'bg-white text-muted-foreground hover:bg-surface-sunken shadow-soft-sm'
-                          }`}
-                          onClick={() => setActiveTab(h.id)}
-                        >
-                          {isHit ? (
-                            <span className="text-yellow-400">&#9733;</span>
-                          ) : (
-                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_4px_rgba(34,197,94,0.5)] animate-pulse" />
-                          )}
-                          {h.target_name}
-                          <span className="text-xs opacity-60">({h.game})</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Hunt panel(s) */}
-                {activeHunts.map(h => (activeHunts.length === 1 || activeTab === h.id) ? (
-                  <HuntPanel
-                    key={h.id}
-                    hunt={h}
-                    status={huntStatuses[h.id]}
-                    logs={huntLogs[h.id] || []}
-                    onStop={stopHunt}
-                    rngProgress={rngProgress[h.id]}
-                  />
-                ) : null)}
-              </>
-            )}
-
+                          hunt={h}
+                          status={huntStatuses[h.id]}
+                          logs={huntLogs[h.id] || []}
+                          onStop={stopHunt}
+                          rngProgress={rngProgress[h.id]}
+                        />
+                      ) : null)}
+                    </>
+                  )}
+                </>
+              }
+            />
           </div>
         </div>
 

@@ -33,6 +33,7 @@ const { default: express } = await import('express');
 const { default: cors } = await import('cors');
 const { runMigrations } = await import('./migrate.js');
 const { default: speciesRouter } = await import('./routes/species.js');
+const { default: naturesRouter } = await import('./routes/natures.js');
 const { default: pokemonRouter } = await import('./routes/pokemon.js');
 const { default: savesRouter } = await import('./routes/saves.js');
 const { default: huntsRouter } = await import('./routes/hunts.js');
@@ -56,6 +57,8 @@ const { default: networkInfoRouter } = await import('./routes/networkInfo.js');
 const { seedShinyAvailability } = await import('./shiny-availability.js');
 const { seedGuide } = await import('./seeds/seedGuide.js');
 const { seedRibbons, seedMarks, seedBalls, seedForms, seedShinyMethods, seedLegality } = await import('./seed-reference.js');
+const { seedNatures } = await import('./seedNatures.js');
+const { backfillHatchCounters } = await import('./backfillHatchCounters.js');
 const { seedLookupTables } = await import('./seed-moves.js');
 const { syncSaves } = await import('./services/syncSaves.js');
 const { reconcileTipsInclusion } = await import('./services/identityService.js');
@@ -100,6 +103,8 @@ seedShinyMethods(db);
 seedLegality(db);
 db.exec('PRAGMA foreign_keys = ON');
 seedForms(db).catch(err => console.error('seedForms failed:', err));
+seedNatures().catch(err => console.error('seedNatures failed:', err));
+backfillHatchCounters().catch(err => console.error('backfillHatchCounters failed:', err));
 // Ensure move/ability lookup tables are populated before syncing saves
 db.exec('CREATE TABLE IF NOT EXISTS move_names (id INTEGER PRIMARY KEY, name TEXT NOT NULL)');
 db.exec('CREATE TABLE IF NOT EXISTS ability_names (id INTEGER PRIMARY KEY, name TEXT NOT NULL)');
@@ -168,6 +173,7 @@ onRelayDisconnect(async (sessionId) => {
 });
 
 app.use('/api/species', speciesRouter);
+app.use('/api/natures', naturesRouter);
 app.use('/api/pokemon', pokemonRouter);
 app.use('/api/saves', savesRouter);
 app.use('/api/hunts', huntsRouter);

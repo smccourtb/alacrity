@@ -18,6 +18,7 @@ import { NATURE_NAMES } from "../services/rng/pokemon.js";
 import type { SearchFilters } from "../services/rng/frameSearcher.js";
 import { parseGen2Save } from '../services/gen2Parser.js';
 import { buildSnapshot } from '../services/saveSnapshot.js';
+import { validateHuntConfig, type HuntMode } from '../services/huntValidation.js';
 
 // Track active RNG hunt orchestrators
 const activeRNGHunts = new Map<number, RNGHuntOrchestrator | NDSRNGHuntOrchestrator>();
@@ -96,15 +97,39 @@ function getHuntDir(hunt: any): string {
   return join(HUNTS_DIR, hunt.hunt_dir || `hunt_${hunt.id}`);
 }
 
-// Game configuration metadata for hunt form auto-population
-// Method → hunt mode mapping for shiny_availability methods
+// Game configuration metadata for hunt form auto-population.
+// Two method vocabularies flow through this file:
+//   1. shiny_availability.method (PascalCase, Gen 1 curated list)
+//   2. map_encounters.method (kebab-case, per-game encounter table, Gen 1–2)
+// Both resolve to the same HuntMode vocabulary used by the UI pills.
 const METHOD_TO_MODE: Record<string, string> = {
   'Gift': 'gift',
-  'Stationary': 'battle',
-  'Fishing': 'wild',
+  'Stationary': 'stationary',
+  'Fishing': 'fishing',
   'Game Corner': 'gift',    // closest match — receive Pokemon
   'In-Game Trade': 'gift',  // closest match — receive Pokemon
 };
+
+// map_encounters.method → hunt mode
+const ENCOUNTER_METHOD_TO_MODE: Record<string, string | null> = {
+  'grass': 'wild',
+  'cave': 'wild',
+  'surf': 'wild',
+  'headbutt': 'wild',       // TODO: separate Headbutt mode when script exists
+  'rock-smash': 'wild',     // TODO: separate Rock Smash mode when script exists
+  'old-rod': 'fishing',
+  'good-rod': 'fishing',
+  'super-rod': 'fishing',
+  'static': 'stationary',
+  'gift': 'gift',
+  'special': 'gift',        // catch-all for scripted receipts
+  'contest': null,           // skip
+};
+
+// `Pokemon Crystal` → `crystal` (map_encounters.game key format)
+function gameToEncounterKey(game: string): string {
+  return game.toLowerCase().replace(/^pokemon\s+/i, '').replace(/\s+/g, '_');
+}
 
 const GAME_METADATA: Record<string, { gen: number; romPattern: RegExp }> = {
   Yellow: { gen: 1, romPattern: /\byellow\b/i },
@@ -134,54 +159,124 @@ const GAME_METADATA: Record<string, { gen: number; romPattern: RegExp }> = {
   'Pokemon Ultra Moon':     { gen: 7, romPattern: /\bultra\s*moon\b/i },
 };
 
+/**
+ * Collect supportedModes per species by joining map_encounters for the game.
+ * Memoized per encounterKey — map_encounters is seed data that doesn't change
+ * at runtime, so repeated /api/hunts/config calls don't re-scan the table.
+ */
+const ENCOUNTER_MODE_CACHE = new Map<string, Map<number, Set<string>>>();
+function encounterModesForGame(encounterKey: string): Map<number, Set<string>> {
+  const cached = ENCOUNTER_MODE_CACHE.get(encounterKey);
+  if (cached) return cached;
+
+  const rows = db.prepare(
+    'SELECT species_id, method FROM map_encounters WHERE game = ?'
+  ).all(encounterKey) as Array<{ species_id: number; method: string }>;
+
+  const out = new Map<number, Set<string>>();
+  for (const r of rows) {
+    const mode = ENCOUNTER_METHOD_TO_MODE[r.method];
+    if (!mode) continue;
+    if (!out.has(r.species_id)) out.set(r.species_id, new Set());
+    out.get(r.species_id)!.add(mode);
+  }
+  ENCOUNTER_MODE_CACHE.set(encounterKey, out);
+  return out;
+}
+
+// Pick the single "primary" mode for a species from its supported set.
+// Preference order: wild > fishing > stationary > gift — wild is the most
+// common hunt style, fishing is the next distinct script.
+const PRIMARY_MODE_ORDER = ['wild', 'fishing', 'stationary', 'gift'];
+function pickPrimaryMode(modes: Set<string>, fallback: string): string {
+  for (const m of PRIMARY_MODE_ORDER) if (modes.has(m)) return m;
+  return fallback;
+}
+
+// Until we seed per-game encounter data for 3DS games, surface every mode
+// the 3DS engine supports so the target dropdown isn't dead when the user
+// picks Friend Safari / SOS / etc. Over-permissive (some species can't be
+// caught via breeding because of egg groups, legendaries only spawn static,
+// etc.), but those are caught by the validator's ruleModeSpecies /
+// ruleEggTarget downstream.
+const GEN_3DS_SUPPORTED_MODES = [
+  'wild', 'stationary', 'fishing', 'friend_safari', 'horde',
+  'dexnav_chain', 'sos_chain', 'breeding', 'gift',
+];
+
 function getTargetsForGame(game: string, gen: number) {
   if (gen >= 6) {
-    // Gen 6/7: all species up to that gen's national dex limit are available
     const maxGen = gen === 6 ? 6 : 7;
-    const species = db.prepare('SELECT id, name, gender_rate FROM species WHERE generation <= ? ORDER BY id').all(maxGen) as any[];
+    const species = db.prepare('SELECT id, name, gender_rate, sprite_url FROM species WHERE generation <= ? ORDER BY id').all(maxGen) as any[];
     return species.map(s => ({
       species_id: s.id,
       name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
       method: 'Wild',
-      defaultMode: 'stationary' as string,
+      defaultMode: 'stationary',
+      supportedModes: GEN_3DS_SUPPORTED_MODES,
       gender_rate: s.gender_rate,
+      sprite_url: s.sprite_url,
     }));
   }
 
+  // Gen 2: every Gen 1–2 species is huntable; enrich with encounter-method data
+  // from map_encounters. A species with no encounter data falls back to 'wild'.
   if (gen === 2) {
-    // All Gen 1+2 Pokemon are shiny-available in Gen 2 games
-    const species = db.prepare('SELECT id, name, gender_rate FROM species WHERE generation <= 2 ORDER BY id').all() as any[];
-    return species.map(s => ({
-      species_id: s.id,
-      name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
-      method: 'Wild',
-      defaultMode: 'wild' as string,
-      gender_rate: s.gender_rate,
-    }));
+    const encounterKey = gameToEncounterKey(game);
+    const modesBySpecies = encounterModesForGame(encounterKey);
+    const species = db.prepare(
+      'SELECT id, name, gender_rate, sprite_url FROM species WHERE generation <= 2 ORDER BY id'
+    ).all() as any[];
+    return species.map(s => {
+      const modes = modesBySpecies.get(s.id);
+      const supportedModes = modes ? Array.from(modes) : ['wild'];
+      return {
+        species_id: s.id,
+        name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
+        method: 'Wild',
+        defaultMode: pickPrimaryMode(modes ?? new Set(supportedModes), 'wild'),
+        supportedModes,
+        gender_rate: s.gender_rate,
+        sprite_url: s.sprite_url,
+      };
+    });
   }
 
-  // Gen 1: pull from shiny_availability table (BlueMoonFalls data)
+  // Gen 1: keep the curated shiny_availability list (no random-encounter shinies
+  // exist in Gen 1). Supported modes come from that table's method column.
   const rows = db.prepare(`
-    SELECT sa.species_id, s.name, s.gender_rate, sa.method
+    SELECT sa.species_id, s.name, s.gender_rate, s.sprite_url, sa.method
     FROM shiny_availability sa
     JOIN species s ON s.id = sa.species_id
     WHERE sa.game = ?
     ORDER BY sa.method, s.name
   `).all(game) as any[];
 
-  // Dedupe by species (a species may appear under multiple methods — pick the most huntable one)
-  const seen = new Map<number, any>();
   const methodPriority = ['Gift', 'Stationary', 'Fishing', 'Game Corner', 'In-Game Trade'];
+  const seen = new Map<number, {
+    species_id: number; name: string; method: string; defaultMode: string;
+    supportedModes: string[]; gender_rate: number; sprite_url: string | null;
+  }>();
   for (const r of rows) {
+    const mode = METHOD_TO_MODE[r.method] || 'gift';
     const existing = seen.get(r.species_id);
-    if (!existing || methodPriority.indexOf(r.method) < methodPriority.indexOf(existing.method)) {
+    if (!existing) {
       seen.set(r.species_id, {
         species_id: r.species_id,
         name: r.name.charAt(0).toUpperCase() + r.name.slice(1).replace(/-/g, ' '),
         method: r.method,
-        defaultMode: METHOD_TO_MODE[r.method] || 'gift',
+        defaultMode: mode,
+        supportedModes: [mode],
         gender_rate: r.gender_rate,
+        sprite_url: r.sprite_url,
       });
+    } else {
+      if (!existing.supportedModes.includes(mode)) existing.supportedModes.push(mode);
+      // Update the "primary" method if the new one is higher priority.
+      if (methodPriority.indexOf(r.method) < methodPriority.indexOf(existing.method)) {
+        existing.method = r.method;
+        existing.defaultMode = mode;
+      }
     }
   }
 
@@ -503,7 +598,7 @@ router.get('/presets', (_req, res) => {
       game: 'Crystal',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
       sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.sav'),
-      hunt_mode: 'battle',
+      hunt_mode: 'stationary',
     },
     {
       label: 'Crystal — Wild',
@@ -588,6 +683,134 @@ router.post('/daycare-info', (req, res) => {
   }
 });
 
+// Save context for the hunt preview: current location, party abilities
+// (drives the Flame Body inference for egg ETA), and where the target species
+// can actually be found in this game. Gen 1/2 only for now — Gen 3+ returns
+// a partial shape without party data.
+router.post('/save-context', (req, res) => {
+  const { sav_path, game, target_species_id } = req.body ?? {};
+  if (!game || typeof game !== 'string') return res.status(400).json({ error: 'game required' });
+
+  const out: {
+    currentLocation: { key: string; displayName: string } | null;
+    party: Array<{ species_id: number; name: string; abilities: string[]; hidden_ability: string | null }>;
+    flameBodyInParty: boolean;
+    targetLocations: Array<{ location_id: number; displayName: string; method: string }>;
+    targetHatchCounter: number | null;
+    targetEggGroups: string[];
+    targetIsBaby: boolean;
+    targetBreedable: boolean;
+  } = {
+    currentLocation: null,
+    party: [],
+    flameBodyInParty: false,
+    targetLocations: [],
+    targetHatchCounter: null,
+    targetEggGroups: [],
+    targetIsBaby: false,
+    targetBreedable: false,
+  };
+
+  // Target location lookup + hatch counter + egg groups — save-independent.
+  if (target_species_id != null) {
+    const sid = Number(target_species_id);
+    const meta = db.prepare('SELECT hatch_counter, is_baby FROM species WHERE id = ?').get(sid) as { hatch_counter: number | null; is_baby: number } | undefined;
+    out.targetHatchCounter = meta?.hatch_counter ?? null;
+    out.targetIsBaby = (meta?.is_baby ?? 0) === 1;
+
+    const groups = db.prepare('SELECT egg_group FROM species_egg_groups WHERE species_id = ?').all(sid) as Array<{ egg_group: string }>;
+    out.targetEggGroups = groups.map(g => g.egg_group);
+    // A species is breedable iff it has at least one egg group other than
+    // 'no-eggs' AND is not itself a baby (babies hatch from pre-evolved eggs).
+    out.targetBreedable = out.targetEggGroups.some(g => g !== 'no-eggs') && !out.targetIsBaby;
+
+    const encounterKey = game.toLowerCase().replace(/^pokemon\s+/i, '').replace(/\s+/g, '_');
+    const rows = db.prepare(`
+      SELECT DISTINCT me.location_id, me.method, ml.display_name
+      FROM map_encounters me
+      JOIN map_locations ml ON ml.id = me.location_id
+      WHERE me.game = ? AND me.species_id = ?
+      ORDER BY ml.display_name
+    `).all(encounterKey, sid) as Array<{
+      location_id: number; method: string; display_name: string;
+    }>;
+    out.targetLocations = rows.map(r => ({
+      location_id: r.location_id,
+      displayName: r.display_name,
+      method: r.method,
+    }));
+  }
+
+  // Save-dependent data
+  if (sav_path) {
+    try {
+      const meta = GAME_METADATA[game];
+      if (meta?.gen === 2) {
+        const parsed = parseGen2Save(sav_path, game);
+        const ws = parsed.worldState;
+        if (ws?.currentLocationKey) {
+          const row = db.prepare(
+            'SELECT display_name FROM map_locations WHERE location_key = ? LIMIT 1'
+          ).get(ws.currentLocationKey) as { display_name?: string } | undefined;
+          out.currentLocation = {
+            key: ws.currentLocationKey,
+            displayName: row?.display_name ?? ws.currentLocationKey,
+          };
+        }
+
+        // Resolve abilities for each party species
+        const abilityStmt = db.prepare(
+          'SELECT id, name, ability1, ability2, hidden_ability FROM species WHERE id = ?'
+        );
+        for (const p of parsed.pokemon) {
+          const s = abilityStmt.get(p.species_id) as any;
+          if (!s) continue;
+          const abilities = [s.ability1, s.ability2].filter(Boolean) as string[];
+          out.party.push({
+            species_id: s.id,
+            name: s.name,
+            abilities,
+            hidden_ability: s.hidden_ability ?? null,
+          });
+          // Flame Body isn't tied to a specific slot — if the species CAN have
+          // it, assume the user's party slot is using it. Over-reports only if
+          // the user deliberately set a non-Flame-Body ability on a Magmar etc.
+          // Acceptable tradeoff until we parse the per-mon personality-value
+          // ability index out of the save.
+          if (abilities.includes('flame-body') || s.hidden_ability === 'flame-body') {
+            out.flameBodyInParty = true;
+          }
+        }
+      }
+    } catch (err: any) {
+      console.error('save-context parse failed:', err?.message);
+    }
+  }
+
+  res.json(out);
+});
+
+router.post('/validate', async (req, res) => {
+  const { game, sav_path, hunt_mode, target_species_id } = req.body ?? {};
+  if (!game || typeof game !== 'string') return res.status(400).json({ error: 'game required' });
+  const mode = (hunt_mode === 'battle' ? 'stationary' : hunt_mode) as HuntMode;
+  if (!['wild', 'stationary', 'gift', 'egg', 'fishing'].includes(mode)) {
+    return res.status(400).json({ error: 'invalid hunt_mode' });
+  }
+  const target = target_species_id != null ? Number(target_species_id) : null;
+  try {
+    const report = await validateHuntConfig({
+      game,
+      sav_path: sav_path || null,
+      hunt_mode: mode,
+      target_species_id: target,
+    });
+    res.json(report);
+  } catch (err: any) {
+    res.status(500).json({ error: String(err?.message ?? err) });
+  }
+});
+
 router.get("/encounter-types/:game", (req, res) => {
   try {
     const types = getEncounterTypes(req.params.game);
@@ -603,7 +826,7 @@ function spawnHuntProcesses(huntId: number, hunt: any) {
   const isEgg = hunt_mode === 'egg';
   // Crystal stationary uses shiny_hunter_crystal_stationary (Gen 2 offsets);
   // Yellow gift/stationary falls through to shiny_hunter_core (Gen 1 offsets).
-  const isCrystalStationary = hunt_mode === 'battle' && game === 'Crystal';
+  const isCrystalStationary = hunt_mode === 'stationary' && game === 'Crystal';
   const huntDir = getHuntDir(hunt);
   const logDir = join(huntDir, 'logs');
   const instances = num_instances;
@@ -651,6 +874,7 @@ router.post('/', (req, res) => {
     target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc,
     encounter_type, target_nature, target_ability, target_ivs,
     perfect_iv_count, is_shiny_locked, has_shiny_charm } = req.body;
+  const normalizedHuntMode = hunt_mode === 'battle' ? 'stationary' : hunt_mode;
 
   if (engine === 'rng') {
     // Validate encounter type against game
@@ -810,7 +1034,7 @@ router.post('/', (req, res) => {
       parent_checkpoint_id)
     VALUES (?, ?, ?, ?, ?, ?, 'core', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', datetime('now'),
       ?)
-  `).run(target_name, target_species_id || null, game, rom_path, sav_path, instances, hunt_mode || 'gift', walk_dir || 'ns',
+  `).run(target_name, target_species_id || null, game, rom_path, sav_path, instances, normalizedHuntMode || 'gift', walk_dir || 'ns',
     target_shiny ?? 1, target_perfect ?? 0, target_gender || 'any', min_atk ?? 0, min_def ?? 0, min_spd ?? 0, min_spc ?? 0, huntDirName,
     parentCheckpointId);
 
@@ -839,7 +1063,7 @@ router.post('/', (req, res) => {
 
   ntfyPush(
     `Hunt started: ${target_name}`,
-    `${game} — ${instances} instances (${hunt_mode || 'gift'} mode)`,
+    `${game} — ${instances} instances (${normalizedHuntMode || 'gift'} mode)`,
     'default',
     'pokeball',
   );

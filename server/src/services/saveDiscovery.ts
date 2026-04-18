@@ -208,7 +208,7 @@ function scanLibrary(): DiscoveredSave[] {
         // folder, the filename is the only meaningful label we have.
         const parentDir = basename(join(fullPath, '..'));
         const baseNoExt = basename(entry, ext);
-        const isGenericBasename = isMain || baseNoExt === 'sav' || baseNoExt === 'data';
+        const isGenericBasename = isMain || baseNoExt === 'sav' || baseNoExt === 'save' || baseNoExt === 'data';
         const useParent = isGenericBasename && parentDir && parentDir !== game;
         const label = useParent ? parentDir : baseNoExt;
 

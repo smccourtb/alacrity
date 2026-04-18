@@ -2,13 +2,13 @@
 import { useState, useEffect } from 'react';
 import type { Control, UseFormWatch, UseFormSetValue, UseFormHandleSubmit } from 'react-hook-form';
 import { api } from '@/api/client';
-import { Button } from '@/components/ui/button';
-import HuntGameSelector from '@/components/hunt/HuntGameSelector';
-import HuntTargetForm from '@/components/hunt/HuntTargetForm';
-import HuntAdvancedOptions from '@/components/hunt/HuntAdvancedOptions';
+import HuntContextBar from '@/components/hunt/HuntContextBar';
+import HuntPresetPicker, { type HuntPreset } from '@/components/hunt/HuntPresetPicker';
+import HuntConditionsSection from '@/components/hunt/HuntConditionsSection';
+import HuntGearSection from '@/components/hunt/HuntGearSection';
 import type { HuntFormValues } from '@/components/hunt/types';
+import type { ValidationReport } from '@/hooks/useHuntValidation';
 
-// Re-export for consumers that import from HuntForm
 export type { HuntFormValues } from '@/components/hunt/types';
 
 interface HuntFormProps {
@@ -26,44 +26,42 @@ interface HuntFormProps {
   setCustomTarget: (v: boolean) => void;
   showAdvanced: boolean;
   setShowAdvanced: (v: boolean) => void;
-  odds: { combos: number; total: number; odds: string };
   hasGenderChoice: boolean;
   isGenderless: boolean;
   isAlwaysMale: boolean;
   isAlwaysFemale: boolean;
+  validationReport?: ValidationReport | null;
+  onDaycareInfo?: (info: any) => void;
 }
 
 export default function HuntForm({
   control, watch, setValue, handleSubmit, onSubmit,
   gameConfigs, gameConfig, onGameChange, onTargetChange, onModeChange,
   customTarget, setCustomTarget, showAdvanced, setShowAdvanced,
-  odds, hasGenderChoice, isGenderless, isAlwaysMale, isAlwaysFemale,
+  hasGenderChoice, isGenderless, isAlwaysMale, isAlwaysFemale,
+  validationReport, onDaycareInfo,
 }: HuntFormProps) {
   const watchedGame = watch('game');
   const watchedHuntMode = watch('hunt_mode');
-  const watchedTargetName = watch('target_name');
-  const watchedRomPath = watch('rom_path');
   const watchedSavPath = watch('sav_path');
 
-  // Fetch available ROMs for pickers
   const [huntFiles, setHuntFiles] = useState<{ roms: any[] }>({ roms: [] });
   useEffect(() => {
     api.hunts.files().then(f => setHuntFiles({ roms: f.roms })).catch(() => {});
   }, []);
 
-  // Daycare info for egg mode
   const [daycareInfo, setDaycareInfo] = useState<any>(null);
   useEffect(() => {
     if (watchedHuntMode !== 'egg' || !watchedSavPath || !watchedGame) {
       setDaycareInfo(null);
+      onDaycareInfo?.(null);
       return;
     }
     api.hunts.daycareInfo(watchedSavPath, watchedGame)
-      .then(setDaycareInfo)
-      .catch(() => setDaycareInfo(null));
-  }, [watchedHuntMode, watchedSavPath, watchedGame]);
+      .then(info => { setDaycareInfo(info); onDaycareInfo?.(info); })
+      .catch(() => { setDaycareInfo(null); onDaycareInfo?.(null); });
+  }, [watchedHuntMode, watchedSavPath, watchedGame, onDaycareInfo]);
 
-  // Auto-set target name from daycare offspring
   useEffect(() => {
     if (watchedHuntMode === 'egg' && daycareInfo?.offspringName) {
       const name = daycareInfo.offspringName.charAt(0).toUpperCase() + daycareInfo.offspringName.slice(1);
@@ -74,56 +72,54 @@ export default function HuntForm({
     }
   }, [daycareInfo, watchedHuntMode, setValue]);
 
+  const [preset, setPreset] = useState<HuntPreset>('shiny');
+
   return (
-    <div className="bg-card shadow-soft rounded-lg mb-6">
-      {/* Red accent top */}
-      <div className="h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-t-[20px]" />
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+      <HuntContextBar
+        control={control}
+        watch={watch}
+        setValue={setValue}
+        gameConfigs={gameConfigs}
+        gameConfig={gameConfig}
+        onGameChange={onGameChange}
+        onTargetChange={onTargetChange}
+        onModeChange={onModeChange}
+        customTarget={customTarget}
+        setCustomTarget={setCustomTarget}
+        daycareInfo={daycareInfo}
+      />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="p-5 space-y-4">
-        <HuntGameSelector
-          control={control}
-          watch={watch}
-          setValue={setValue}
-          gameConfigs={gameConfigs}
-          gameConfig={gameConfig}
-          onGameChange={onGameChange}
-          onTargetChange={onTargetChange}
-          onModeChange={onModeChange}
-          customTarget={customTarget}
-          setCustomTarget={setCustomTarget}
-          daycareInfo={daycareInfo}
-        />
+      <HuntPresetPicker
+        control={control}
+        watch={watch}
+        setValue={setValue}
+        preset={preset}
+        onPresetChange={setPreset}
+      />
 
-        <HuntTargetForm
-          control={control}
-          watch={watch}
-          setValue={setValue}
-          odds={odds}
-          hasGenderChoice={hasGenderChoice}
-          isGenderless={isGenderless}
-          isAlwaysMale={isAlwaysMale}
-          isAlwaysFemale={isAlwaysFemale}
-          daycareInfo={daycareInfo}
-        />
+      <HuntConditionsSection
+        control={control}
+        watch={watch}
+        setValue={setValue}
+        preset={preset}
+        onPresetChange={setPreset}
+        hasGenderChoice={hasGenderChoice}
+        isGenderless={isGenderless}
+        isAlwaysMale={isAlwaysMale}
+        isAlwaysFemale={isAlwaysFemale}
+        report={validationReport ?? null}
+      />
 
-        <HuntAdvancedOptions
-          control={control}
-          watch={watch}
-          setValue={setValue}
-          huntFiles={huntFiles}
-          showAdvanced={showAdvanced}
-          setShowAdvanced={setShowAdvanced}
-        />
-
-        {/* Start button */}
-        <Button
-          type="submit"
-          className="w-full h-12 rounded-2xl bg-gradient-to-r from-red-500 to-red-600 text-white text-lg font-bold shadow-[0_4px_12px_rgba(220,38,38,0.2)] hover:shadow-[0_6px_16px_rgba(220,38,38,0.3)] transition-shadow"
-          disabled={!watchedGame || !watchedTargetName || !watchedRomPath || (watchedHuntMode === 'egg' && (!daycareInfo?.active || !daycareInfo?.mon1 || !daycareInfo?.mon2))}
-        >
-          Start Hunt
-        </Button>
-      </form>
-    </div>
+      <HuntGearSection
+        control={control}
+        watch={watch}
+        setValue={setValue}
+        huntFiles={huntFiles}
+        showAdvanced={showAdvanced}
+        setShowAdvanced={setShowAdvanced}
+        report={validationReport ?? null}
+      />
+    </form>
   );
 }
