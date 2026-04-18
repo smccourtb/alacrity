@@ -115,10 +115,15 @@ export default function HuntContextBar({
                     ) : (
                       <FilterDropdown
                         label="Select a target"
-                        options={(gameConfig?.targets ?? []).map((t: any) => ({
-                          value: t.name,
-                          label: `${t.name} (${t.method})`,
-                        }))}
+                        options={(gameConfig?.targets ?? [])
+                          .filter((t: any) => customTarget || !watchedHuntMode || t.defaultMode === watchedHuntMode)
+                          .map((t: any) => ({
+                            value: t.name,
+                            label: t.name,
+                            icon: t.sprite_url
+                              ? <img src={t.sprite_url} alt="" className="w-5 h-5" style={{ imageRendering: 'pixelated' }} />
+                              : null,
+                          }))}
                         selected={field.value ? [field.value] : []}
                         onChange={(sel) => onTargetChange(sel[0] ?? '')}
                         multiSelect={false}

@@ -137,40 +137,39 @@ const GAME_METADATA: Record<string, { gen: number; romPattern: RegExp }> = {
 
 function getTargetsForGame(game: string, gen: number) {
   if (gen >= 6) {
-    // Gen 6/7: all species up to that gen's national dex limit are available
     const maxGen = gen === 6 ? 6 : 7;
-    const species = db.prepare('SELECT id, name, gender_rate FROM species WHERE generation <= ? ORDER BY id').all(maxGen) as any[];
+    const species = db.prepare('SELECT id, name, gender_rate, sprite_url FROM species WHERE generation <= ? ORDER BY id').all(maxGen) as any[];
     return species.map(s => ({
       species_id: s.id,
       name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
       method: 'Wild',
       defaultMode: 'stationary' as string,
       gender_rate: s.gender_rate,
+      sprite_url: s.sprite_url,
     }));
   }
 
   if (gen === 2) {
-    // All Gen 1+2 Pokemon are shiny-available in Gen 2 games
-    const species = db.prepare('SELECT id, name, gender_rate FROM species WHERE generation <= 2 ORDER BY id').all() as any[];
+    const species = db.prepare('SELECT id, name, gender_rate, sprite_url FROM species WHERE generation <= 2 ORDER BY id').all() as any[];
     return species.map(s => ({
       species_id: s.id,
       name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
       method: 'Wild',
       defaultMode: 'wild' as string,
       gender_rate: s.gender_rate,
+      sprite_url: s.sprite_url,
     }));
   }
 
   // Gen 1: pull from shiny_availability table (BlueMoonFalls data)
   const rows = db.prepare(`
-    SELECT sa.species_id, s.name, s.gender_rate, sa.method
+    SELECT sa.species_id, s.name, s.gender_rate, s.sprite_url, sa.method
     FROM shiny_availability sa
     JOIN species s ON s.id = sa.species_id
     WHERE sa.game = ?
     ORDER BY sa.method, s.name
   `).all(game) as any[];
 
-  // Dedupe by species (a species may appear under multiple methods — pick the most huntable one)
   const seen = new Map<number, any>();
   const methodPriority = ['Gift', 'Stationary', 'Fishing', 'Game Corner', 'In-Game Trade'];
   for (const r of rows) {
@@ -182,6 +181,7 @@ function getTargetsForGame(game: string, gen: number) {
         method: r.method,
         defaultMode: METHOD_TO_MODE[r.method] || 'gift',
         gender_rate: r.gender_rate,
+        sprite_url: r.sprite_url,
       });
     }
   }
