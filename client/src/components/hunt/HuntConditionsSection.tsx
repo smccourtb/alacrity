@@ -293,12 +293,6 @@ export default function HuntConditionsSection({
           </Row>
         )}
 
-        {/* Gen 6/7: Nature N/A row for visual parity with mockup */}
-        {!is3DS && (
-          <Row label="Nature" sub="Gen 3+ only — not applicable">
-            <span className="text-xs text-muted-foreground/40">—</span>
-          </Row>
-        )}
       </Section>
 
       {targetChecks.length > 0 && (
