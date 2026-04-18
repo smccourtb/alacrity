@@ -75,9 +75,6 @@ export default function HuntContextBar({
               render={({ field }) => {
                 const modes: string[] = gameConfig?.supportedModes ?? [];
                 const isSupported = (m: string) => modes.length === 0 || modes.includes(m);
-                const targets: any[] = gameConfig?.targets ?? [];
-                const targetSupports = (m: string) =>
-                  targets.some(t => Array.isArray(t.supportedModes) ? t.supportedModes.includes(m) : t.defaultMode === m);
                 return (
                   <MiniPills
                     value={field.value}
@@ -87,7 +84,7 @@ export default function HuntContextBar({
                       { value: 'egg', label: 'Egg', disabled: !isSupported('egg') },
                       { value: 'stationary', label: 'Stationary', disabled: !isSupported('stationary') },
                       { value: 'gift', label: 'Gift', disabled: !isSupported('gift') },
-                      ...(targetSupports('fishing') ? [{ value: 'fishing', label: 'Fishing' }] : []),
+                      { value: 'fishing', label: 'Fishing' },
                     ]}
                   />
                 );
