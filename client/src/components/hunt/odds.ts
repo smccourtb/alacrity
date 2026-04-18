@@ -106,17 +106,22 @@ function calculateOddsGen12(opts: OddsInput): OddsOutput {
 
 // ─── Gen 6/7 ───────────────────────────────────────────────────────────────
 
-// Per-method Hidden Ability rates (Gen 6/7, Bulbapedia-sourced approximations).
-// Some values are ranges — we use the midpoint and surface a caveat so the
-// preview can mark the number as approximate.
-const HA_RATE: Record<string, { rate: number; approximate?: boolean; note?: string }> = {
-  friend_safari:    { rate: 1.0 },                                                  // 3rd slot unlocked → guaranteed
-  horde:            { rate: 0.05 },                                                  // ~1 in 20 slot-weighted
-  dexnav_chain:     { rate: 0.5, approximate: true, note: 'DexNav HA rate varies with chain length (≥40 recommended)' },
-  sos_chain:        { rate: 0.33, approximate: true, note: 'SOS HA rate scales with chain length' },
-  breeding:         { rate: 0.6, approximate: true, note: 'HA breeding depends on parent species and item' },
-  stationary:       { rate: 0 },                                                    // legendaries rarely have HA
-  default:          { rate: 0, approximate: true, note: 'Default encounter has no HA route' },
+// Per-method Hidden Ability rates, verified against community sources:
+//   Friend Safari: Bulbapedia — "approximately 1 in 3"
+//   Horde:         ~5% per slot (pokemondb.net community testing, 48/1000 Whismur)
+//   DexNav:        25% max at Search Level ≥100 (5/15/20/25 by SL band, Bulbapedia)
+//   SOS:           15% at chain ≥30 in Sun/Moon (Serebii)
+//   Breeding:      60% with Ability Capsule on HA parent (Gen 6+)
+//   Stationary:    0 — most legendaries don't have HA accessible in-game
+//   Default:       0 — regular wild encounters have no HA route
+const HA_RATE: Record<string, { rate: number; note?: string }> = {
+  friend_safari:    { rate: 1 / 3 },
+  horde:            { rate: 0.05 },
+  dexnav_chain:     { rate: 0.25, note: 'DexNav HA rate caps at 25% (Search Level ≥100); lower SLs: 5–20%' },
+  sos_chain:        { rate: 0.15, note: 'SOS HA rate 15% at chain ≥30 (Sun/Moon)' },
+  breeding:         { rate: 0.6, note: 'Assumes Ability Capsule on a female HA parent (60%); varies otherwise' },
+  stationary:       { rate: 0 },
+  default:          { rate: 0 },
 };
 
 function calculateOdds3DS(opts: OddsInput): OddsOutput {
@@ -142,9 +147,10 @@ function calculateOdds3DS(opts: OddsInput): OddsOutput {
     }
   }
 
-  // 3. Nature (uniform over 25 — Synchronize not modeled)
+  // 3. Nature (uniform over 25 — Synchronize not modeled; caveat)
   if (opts.nature && opts.nature !== '__any__') {
     p *= 1 / 25;
+    caveats.push('Nature fixed at 1/25 — Synchronize reduces to ~1/2 for wild encounters (not modeled)');
   }
 
   // 4. Ability filter
@@ -153,7 +159,7 @@ function calculateOdds3DS(opts: OddsInput): OddsOutput {
     const entry = HA_RATE[key];
     if (entry.rate === 0) return impossible();
     p *= entry.rate;
-    if (entry.approximate && entry.note) caveats.push(entry.note);
+    if (entry.note) caveats.push(entry.note);
   } else if (opts.ability === 'normal') {
     p *= 0.5;
     caveats.push('Normal ability assumed 50% (dual-ability species); single-ability species are 100%');
