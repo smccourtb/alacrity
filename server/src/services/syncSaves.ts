@@ -46,7 +46,8 @@ export function syncSaves(): SyncSavesResult {
       save_timestamp = COALESCE($saveTimestamp, save_timestamp),
       stale = 0,
       launchable = $launchable,
-      rom_path = $romPath
+      rom_path = $romPath,
+      label = CASE WHEN label IS NULL OR label = '' OR label IN ('sav', 'save', 'data', 'main') THEN $label ELSE label END
   `);
 
   const existing = db.prepare('SELECT file_path, file_mtime FROM save_files').all() as any[];

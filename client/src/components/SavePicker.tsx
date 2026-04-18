@@ -38,7 +38,7 @@ export default function SavePicker({ value, onChange, game }: SavePickerProps) {
   const normalizeGame = (g: string) => g.replace(/^Pokemon\s+/i, '').toLowerCase();
 
   const options: FilterOption[] = useMemo(() => {
-    let list = saves.filter(s => s.format === '.sav');
+    let list = saves.filter(s => s.format === '.sav' || s.format === '.dat');
     if (game) {
       const norm = normalizeGame(game);
       list = list.filter(s => normalizeGame(s.game) === norm);

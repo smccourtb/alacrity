@@ -66,3 +66,9 @@ config.json
 Thumbs.db
 *.swp
 *~
+
+# Local debug captures and bundled-resource copies
+src-tauri/canvas-test.png
+src-tauri/stream-*.png
+src-tauri/data/
+tools/rtc-relay/rtc-relay.exe
