@@ -127,7 +127,8 @@ function ruleModeSpecies(input: ValidationInput): CheckResult | null {
     ).get(input.game, id, ...types) as { f: number };
     found = !!row.f;
   } else if (input.hunt_mode === 'egg') {
-    // TODO: egg_groups column missing, egg-mode species filter disabled
+    // Egg-mode species filter handled by ruleEggTarget / ruleEggDaycare, which
+    // know about breedability + parent compatibility. Let this rule pass.
     found = true;
   }
 

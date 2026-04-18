@@ -393,7 +393,6 @@ export default function HuntDashboard() {
               setCustomTarget={setCustomTarget}
               showAdvanced={showAdvanced}
               setShowAdvanced={setShowAdvanced}
-              odds={odds}
               hasGenderChoice={hasGenderChoice}
               isGenderless={isGenderless}
               isAlwaysMale={isAlwaysMale}

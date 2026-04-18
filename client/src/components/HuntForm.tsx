@@ -26,7 +26,6 @@ interface HuntFormProps {
   setCustomTarget: (v: boolean) => void;
   showAdvanced: boolean;
   setShowAdvanced: (v: boolean) => void;
-  odds: { combos: number; total: number; odds: string };
   hasGenderChoice: boolean;
   isGenderless: boolean;
   isAlwaysMale: boolean;
@@ -39,7 +38,7 @@ export default function HuntForm({
   control, watch, setValue, handleSubmit, onSubmit,
   gameConfigs, gameConfig, onGameChange, onTargetChange, onModeChange,
   customTarget, setCustomTarget, showAdvanced, setShowAdvanced,
-  odds, hasGenderChoice, isGenderless, isAlwaysMale, isAlwaysFemale,
+  hasGenderChoice, isGenderless, isAlwaysMale, isAlwaysFemale,
   validationReport, onDaycareInfo,
 }: HuntFormProps) {
   const watchedGame = watch('game');

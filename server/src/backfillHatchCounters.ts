@@ -23,8 +23,15 @@ export async function backfillHatchCounters(): Promise<void> {
   const deleteGroups = db.prepare('DELETE FROM species_egg_groups WHERE species_id = ?');
   const insertGroup = db.prepare('INSERT OR IGNORE INTO species_egg_groups (species_id, egg_group) VALUES (?, ?)');
 
-  const BATCH = 50;
+  const persist = db.transaction((id: number, hc: number | null, baby: number, groups: string[]) => {
+    updateSpecies.run(hc, baby, id);
+    deleteGroups.run(id);
+    for (const g of groups) insertGroup.run(id, g);
+  });
+
+  const BATCH = 25;
   let filled = 0;
+  let failed = 0;
   for (let i = 0; i < missing.length; i += BATCH) {
     const batch = missing.slice(i, i + BATCH);
     await Promise.all(batch.map(async ({ id }) => {
@@ -32,16 +39,14 @@ export async function backfillHatchCounters(): Promise<void> {
         const species = await pokeApi.getPokemonSpeciesByName(id) as any;
         const hc = typeof species?.hatch_counter === 'number' ? species.hatch_counter : null;
         const baby = species?.is_baby ? 1 : 0;
-        updateSpecies.run(hc, baby, id);
-
         const groups: string[] = (species?.egg_groups ?? []).map((g: any) => g.name);
-        deleteGroups.run(id);
-        for (const g of groups) insertGroup.run(id, g);
+        persist(id, hc, baby, groups);
         filled++;
-      } catch {
-        // network blip — skip; next startup retries
+      } catch (err: any) {
+        failed++;
+        console.warn(`[breeding-backfill] species #${id} skipped: ${err?.message ?? err}`);
       }
     }));
   }
-  console.log(`[breeding-backfill] filled ${filled} species`);
+  console.log(`[breeding-backfill] filled ${filled} species${failed ? ` (${failed} failures — will retry on next startup)` : ''}`);
 }

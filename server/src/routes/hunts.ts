@@ -193,8 +193,18 @@ function pickPrimaryMode(modes: Set<string>, fallback: string): string {
   return fallback;
 }
 
+// Until we seed per-game encounter data for 3DS games, surface every mode
+// the 3DS engine supports so the target dropdown isn't dead when the user
+// picks Friend Safari / SOS / etc. Over-permissive (some species can't be
+// caught via breeding because of egg groups, legendaries only spawn static,
+// etc.), but those are caught by the validator's ruleModeSpecies /
+// ruleEggTarget downstream.
+const GEN_3DS_SUPPORTED_MODES = [
+  'wild', 'stationary', 'fishing', 'friend_safari', 'horde',
+  'dexnav_chain', 'sos_chain', 'breeding', 'gift',
+];
+
 function getTargetsForGame(game: string, gen: number) {
-  // Gen 6/7: no per-game encounter data yet — leave every species as stationary.
   if (gen >= 6) {
     const maxGen = gen === 6 ? 6 : 7;
     const species = db.prepare('SELECT id, name, gender_rate, sprite_url FROM species WHERE generation <= ? ORDER BY id').all(maxGen) as any[];
@@ -203,7 +213,7 @@ function getTargetsForGame(game: string, gen: number) {
       name: s.name.charAt(0).toUpperCase() + s.name.slice(1).replace(/-/g, ' '),
       method: 'Wild',
       defaultMode: 'stationary',
-      supportedModes: ['stationary'],
+      supportedModes: GEN_3DS_SUPPORTED_MODES,
       gender_rate: s.gender_rate,
       sprite_url: s.sprite_url,
     }));
