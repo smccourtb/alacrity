@@ -18,6 +18,7 @@ import { NATURE_NAMES } from "../services/rng/pokemon.js";
 import type { SearchFilters } from "../services/rng/frameSearcher.js";
 import { parseGen2Save } from '../services/gen2Parser.js';
 import { buildSnapshot } from '../services/saveSnapshot.js';
+import { validateHuntConfig, type HuntMode } from '../services/huntValidation.js';
 
 // Track active RNG hunt orchestrators
 const activeRNGHunts = new Map<number, RNGHuntOrchestrator | NDSRNGHuntOrchestrator>();
@@ -585,6 +586,27 @@ router.post('/daycare-info', (req, res) => {
     });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+router.post('/validate', async (req, res) => {
+  const { game, sav_path, hunt_mode, target_species_id } = req.body ?? {};
+  if (!game || typeof game !== 'string') return res.status(400).json({ error: 'game required' });
+  const mode = (hunt_mode === 'battle' ? 'stationary' : hunt_mode) as HuntMode;
+  if (!['wild', 'stationary', 'gift', 'egg'].includes(mode)) {
+    return res.status(400).json({ error: 'invalid hunt_mode' });
+  }
+  const target = target_species_id != null ? Number(target_species_id) : null;
+  try {
+    const report = await validateHuntConfig({
+      game,
+      sav_path: sav_path || null,
+      hunt_mode: mode,
+      target_species_id: target,
+    });
+    res.json(report);
+  } catch (err: any) {
+    res.status(500).json({ error: String(err?.message ?? err) });
   }
 });
 
