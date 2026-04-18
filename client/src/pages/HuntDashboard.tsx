@@ -74,7 +74,7 @@ export default function HuntDashboard() {
       min_def: 0,
       min_spd: 0,
       min_spc: 0,
-      encounter_type: 'stationary',
+      encounter_type: 'wild',
       target_nature: undefined,
       target_ability: undefined,
       target_ivs: undefined,
@@ -136,7 +136,7 @@ export default function HuntDashboard() {
   const { report, loading: validationLoading } = useHuntValidation({
     game: watchedGame || null,
     sav_path: watchedSavPath || null,
-    hunt_mode: watchedHuntMode as 'wild' | 'stationary' | 'gift' | 'egg',
+    hunt_mode: watchedHuntMode as 'wild' | 'stationary' | 'gift' | 'egg' | 'fishing',
     target_species_id: watchedTargetSpeciesId ?? null,
   });
   const startDisabled = !override && hasErrors(report);
@@ -342,7 +342,7 @@ export default function HuntDashboard() {
         <h2 className="text-2xl font-extrabold mb-4 text-foreground">Shiny Hunt</h2>
 
         {/* Two-column layout: form left, content right */}
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
           {/* Left: Form (sticky on desktop) */}
           <div className="lg:self-start lg:sticky lg:top-6">
             <InlineEmulatorWarning

@@ -11,7 +11,7 @@ import { is3DSGame, NATURES, IV_STATS, SHINY_ATK_VALUES, ENCOUNTER_TYPES } from 
 import type { HuntPreset } from './HuntPresetPicker';
 import { checksForSection, SEVERITY_PILL } from './validationMapping';
 import type { ValidationReport } from '@/hooks/useHuntValidation';
-import { Section, Row, MiniPills, IvBox, IvLabel } from './SectionLayout';
+import { Section, Row, MiniPills, IvBox, IvInput, IvLabel } from './SectionLayout';
 
 interface Props extends HuntFormControl {
   preset: HuntPreset;
@@ -218,7 +218,7 @@ export default function HuntConditionsSection({
             sub={showCustom ? 'Per-stat lower bound (0–31)' : preset === 'perfect' ? 'All 31 (preset: Perfect)' : 'No IV filter (preset: Shiny)'}
             alignTop
           >
-            <div className="grid grid-cols-6 gap-1.5 w-[288px]">
+            <div className="grid grid-cols-6 gap-1.5 w-[360px]">
               {IV_STATS.map(({ key, label }) => {
                 const locked = !showCustom;
                 const value = currentIvs[key] ?? 0;
@@ -231,15 +231,13 @@ export default function HuntConditionsSection({
                     {locked ? (
                       <IvBox value={displayValue} state={state} />
                     ) : (
-                      <Input
-                        type="number" min={0} max={31}
+                      <IvInput
                         value={value}
-                        onChange={e => {
-                          const val = Math.min(31, Math.max(0, Number(e.target.value)));
+                        max={31}
+                        onChange={(v) => {
                           demoteToCustom();
-                          setValue('target_ivs', { ...currentIvs, [key]: val });
+                          setValue('target_ivs', { ...currentIvs, [key]: v });
                         }}
-                        className="h-9 text-center font-bold font-mono p-1 text-[13px]"
                       />
                     )}
                   </div>
@@ -258,7 +256,7 @@ export default function HuntConditionsSection({
             }
             alignTop
           >
-            <div className="grid grid-cols-4 gap-1.5 w-[200px]">
+            <div className="grid grid-cols-4 gap-1.5 w-[280px]">
               {(['atk', 'def', 'spd', 'spc'] as const).map(stat => {
                 const atkLocked = isPerfect;
                 const nonAtkLocked = isShiny || isPerfect;
@@ -297,11 +295,10 @@ export default function HuntConditionsSection({
                         name={`min_${stat}` as 'min_atk' | 'min_def' | 'min_spd' | 'min_spc'}
                         control={control}
                         render={({ field: f }) => (
-                          <Input
-                            type="number" min={0} max={15}
+                          <IvInput
                             value={(f.value as number) ?? 0}
-                            onChange={e => { demoteToCustom(); f.onChange(Math.min(15, Math.max(0, Number(e.target.value)))); }}
-                            className="h-9 text-center font-bold font-mono p-1 text-[13px]"
+                            max={15}
+                            onChange={(v) => { demoteToCustom(); f.onChange(v); }}
                           />
                         )}
                       />

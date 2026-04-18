@@ -147,7 +147,7 @@ export function IvBox({ value, state }: IvBoxProps) {
   return (
     <div
       className={cn(
-        'rounded-lg border h-9 flex items-center justify-center font-mono font-bold text-[13px]',
+        'rounded-lg border h-9 w-full flex items-center justify-center font-mono font-bold text-[13px]',
         state === 'editable' && 'bg-muted border-border text-foreground',
         state === 'locked' && 'bg-amber-500/10 border-amber-500/30 text-amber-700',
         state === 'perfect' && 'bg-emerald-500/10 border-emerald-500/30 text-emerald-700',
@@ -155,6 +155,32 @@ export function IvBox({ value, state }: IvBoxProps) {
     >
       {value}
     </div>
+  );
+}
+
+interface IvInputProps {
+  value: number;
+  min?: number;
+  max: number;
+  onChange: (v: number) => void;
+}
+
+/** Numeric input visually matched to IvBox so editable cells align with locked ones. */
+export function IvInput({ value, min = 0, max, onChange }: IvInputProps) {
+  return (
+    <input
+      type="number"
+      min={min}
+      max={max}
+      value={value}
+      onChange={e => onChange(Math.min(max, Math.max(min, Number(e.target.value))))}
+      className={cn(
+        'rounded-lg border h-9 w-full bg-muted border-border text-foreground',
+        'font-mono font-bold text-[13px] text-center',
+        'px-0 py-0 outline-none focus:ring-2 focus:ring-primary/40',
+        'appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
+      )}
+    />
   );
 }
 

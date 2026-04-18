@@ -173,7 +173,7 @@ export const api = {
     validate: async (input: {
       game: string;
       sav_path: string | null;
-      hunt_mode: 'wild' | 'stationary' | 'gift' | 'egg';
+      hunt_mode: 'wild' | 'stationary' | 'gift' | 'egg' | 'fishing';
       target_species_id: number | null;
     }): Promise<{
       ok: boolean;
