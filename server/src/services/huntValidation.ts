@@ -78,9 +78,9 @@ function ruleGameSpecies(input: ValidationInput): CheckResult | null {
 
   const row = db.prepare(`
     SELECT EXISTS(
-      SELECT 1 FROM map_encounters WHERE game = ? AND species_id = ?
+      SELECT 1 FROM map_encounters WHERE game = ? COLLATE NOCASE AND species_id = ?
       UNION ALL
-      SELECT 1 FROM location_events WHERE game = ? AND species_id = ?
+      SELECT 1 FROM location_events WHERE game = ? COLLATE NOCASE AND species_id = ?
     ) AS found
   `).get(input.game, input.target_species_id, input.game, input.target_species_id) as { found: number };
 
@@ -104,14 +104,14 @@ function ruleModeSpecies(input: ValidationInput): CheckResult | null {
 
   if (input.hunt_mode === 'wild') {
     const row = db.prepare(
-      'SELECT EXISTS(SELECT 1 FROM map_encounters WHERE game = ? AND species_id = ?) AS f'
+      'SELECT EXISTS(SELECT 1 FROM map_encounters WHERE game = ? COLLATE NOCASE AND species_id = ?) AS f'
     ).get(input.game, id) as { f: number };
     found = !!row.f;
   } else if (input.hunt_mode === 'gift' || input.hunt_mode === 'stationary') {
     const types = input.hunt_mode === 'gift' ? GIFT_EVENT_TYPES : STATIONARY_EVENT_TYPES;
     const placeholders = types.map(() => '?').join(',');
     const row = db.prepare(
-      `SELECT EXISTS(SELECT 1 FROM location_events WHERE game = ? AND species_id = ? AND event_type IN (${placeholders})) AS f`
+      `SELECT EXISTS(SELECT 1 FROM location_events WHERE game = ? COLLATE NOCASE AND species_id = ? AND event_type IN (${placeholders})) AS f`
     ).get(input.game, id, ...types) as { f: number };
     found = !!row.f;
   } else if (input.hunt_mode === 'egg') {
@@ -165,7 +165,7 @@ function ruleWildLocation(input: ValidationInput, ctx: SaveContext): CheckResult
     };
   }
   const row = db.prepare(
-    'SELECT EXISTS(SELECT 1 FROM map_encounters WHERE location_id = ? AND game = ?) AS f'
+    'SELECT EXISTS(SELECT 1 FROM map_encounters WHERE location_id = ? AND game = ? COLLATE NOCASE) AS f'
   ).get(locId, input.game) as { f: number };
   if (row.f) return null;
   return {
@@ -191,7 +191,7 @@ function ruleWildEncounter(input: ValidationInput, ctx: SaveContext): CheckResul
   const locId = locationIdForKey(ctx.worldState.currentLocationKey, input.game);
   if (locId == null) return null;
   const row = db.prepare(
-    'SELECT EXISTS(SELECT 1 FROM map_encounters WHERE location_id = ? AND game = ? AND species_id = ?) AS f'
+    'SELECT EXISTS(SELECT 1 FROM map_encounters WHERE location_id = ? AND game = ? COLLATE NOCASE AND species_id = ?) AS f'
   ).get(locId, input.game, input.target_species_id) as { f: number };
   if (row.f) return null;
   return {
