@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import type { HuntFormControl } from './types';
 import { MiniPills } from './SectionLayout';
+import { HUNT_MODE_DESCRIPTIONS } from './constants';
 
 interface Props extends HuntFormControl {
   gameConfigs: any[];
@@ -37,8 +38,11 @@ export default function HuntContextBar({
   const watchedGame = watch('game');
   const watchedHuntMode = watch('hunt_mode');
 
+  const modeDescription = watchedHuntMode && HUNT_MODE_DESCRIPTIONS[watchedHuntMode as keyof typeof HUNT_MODE_DESCRIPTIONS];
+
   return (
-    <div className="bg-card rounded-lg shadow-soft border-l-[3px] border-l-primary px-3.5 py-2.5 flex items-center gap-3 flex-wrap">
+    <div className="bg-card rounded-[14px] shadow-soft border-l-[3px] border-l-primary overflow-hidden mb-3">
+      <div className="px-3.5 py-2.5 flex items-center gap-3 flex-wrap">
       {/* Game */}
       <div className="flex flex-col">
         <ContextLabel>Game</ContextLabel>
@@ -115,15 +119,13 @@ export default function HuntContextBar({
                     ) : (
                       <FilterDropdown
                         label="Select a target"
-                        options={(gameConfig?.targets ?? [])
-                          .filter((t: any) => customTarget || !watchedHuntMode || t.defaultMode === watchedHuntMode)
-                          .map((t: any) => ({
-                            value: t.name,
-                            label: t.name,
-                            icon: t.sprite_url
-                              ? <img src={t.sprite_url} alt="" className="w-5 h-5" style={{ imageRendering: 'pixelated' }} />
-                              : null,
-                          }))}
+                        options={(gameConfig?.targets ?? []).map((t: any) => ({
+                          value: t.name,
+                          label: t.name,
+                          icon: t.sprite_url
+                            ? <img src={t.sprite_url} alt="" className="w-5 h-5" style={{ imageRendering: 'pixelated' }} />
+                            : null,
+                        }))}
                         selected={field.value ? [field.value] : []}
                         onChange={(sel) => onTargetChange(sel[0] ?? '')}
                         multiSelect={false}
@@ -140,6 +142,19 @@ export default function HuntContextBar({
             )}
           </div>
         </>
+      )}
+      </div>
+
+      {modeDescription && (
+        <div className="px-3.5 py-2 border-t border-border/60 bg-muted/40">
+          <div className="text-[10px] uppercase tracking-[0.5px] text-muted-foreground/70 font-bold mb-0.5">
+            {watchedHuntMode === 'wild' ? 'Wild script' :
+             watchedHuntMode === 'stationary' ? 'Static script' :
+             watchedHuntMode === 'gift' ? 'Gift script' :
+             'Egg script'}
+          </div>
+          <div className="text-[11px] text-muted-foreground leading-snug">{modeDescription}</div>
+        </div>
       )}
     </div>
   );

@@ -102,8 +102,8 @@ export const CONDITION_OPTIONS = [
 ];
 
 export const HUNT_MODE_DESCRIPTIONS: Record<'wild' | 'stationary' | 'gift' | 'egg', string> = {
-  wild: 'Must be standing in grass / cave / water with encounters.',
-  stationary: 'Face the Pokémon, press A to start the battle (legendaries, starter resets).',
-  gift: 'Interact with the NPC, advance through dialogue.',
-  egg: 'Daycare with two compatible parents — walk to hatch.',
+  wild: 'Walks in place to trigger random encounters — requires standing on grass, cave tiles, or water. Does not cast a rod or use Headbutt.',
+  stationary: 'Presses A to start a scripted battle (legendaries, starter resets). Save must be placed directly in front of the target with the party ready.',
+  gift: 'Advances dialogue with an NPC who hands over a Pokemon (e.g. Lapras, Eevee). Save must be placed at the relevant dialogue trigger.',
+  egg: 'Cycles between taking an egg from the daycare and hatching it. Requires two compatible parents deposited and at least one Pokemon in the party to hold the egg.',
 };
