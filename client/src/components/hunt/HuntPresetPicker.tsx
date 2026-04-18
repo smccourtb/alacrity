@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import PillToggle from '@/components/PillToggle';
 import { is3DSGame } from './constants';
 import type { HuntFormControl } from './types';
@@ -21,9 +21,15 @@ export default function HuntPresetPicker({ watch, setValue, preset, onPresetChan
   const game = watch('game');
   const is3DS = is3DSGame(game);
 
-  // Re-apply the current preset when generation flips
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { applyPreset(preset, is3DS, setValue); }, [is3DS]);
+  // Re-apply the current preset only when generation actually changes after mount,
+  // so pre-populated target values (URL params, game defaults) aren't clobbered on first load.
+  const prevIs3DSRef = useRef<boolean | null>(null);
+  useEffect(() => {
+    if (prevIs3DSRef.current !== null && prevIs3DSRef.current !== is3DS) {
+      applyPreset(preset, is3DS, setValue);
+    }
+    prevIs3DSRef.current = is3DS;
+  }, [is3DS, preset, setValue]);
 
   function onChange(v: string | string[]) {
     const next = (Array.isArray(v) ? v[0] : v) as HuntPreset;

@@ -101,10 +101,7 @@ export default function HuntGearSection({
               )}
             />
           )}
-          <div className="flex flex-wrap gap-2">
-            <ItemPicker value={watchedRomPath} onChange={v => setValue('rom_path', v)} items={romItems} placeholder="ROM" />
-            <SavePicker value={watchedSavPath} onChange={v => setValue('sav_path', v)} game={watchedGame} />
-          </div>
+          <ItemPicker value={watchedRomPath} onChange={v => setValue('rom_path', v)} items={romItems} placeholder="ROM" />
         </CollapsibleContent>
       </Collapsible>
     </div>

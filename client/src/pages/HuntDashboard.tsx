@@ -8,6 +8,7 @@ import HuntForm from '@/components/HuntForm';
 import HuntHistoryList from '@/components/HuntHistoryList';
 import HuntSetupTabs from '@/components/hunt/HuntSetupTabs';
 import HuntPreviewCard from '@/components/hunt/HuntPreviewCard';
+import { hasErrors } from '@/components/hunt/validationMapping';
 import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
 import { useHuntValidation } from '@/hooks/useHuntValidation';
 
@@ -215,7 +216,7 @@ export default function HuntDashboard() {
     hunt_mode: watchedHuntMode as 'wild' | 'stationary' | 'gift' | 'egg',
     target_species_id: watchedTargetSpeciesId ?? null,
   });
-  const startDisabled = !override && report != null && !report.ok;
+  const startDisabled = !override && hasErrors(report);
 
   // --- Form handlers ---
 

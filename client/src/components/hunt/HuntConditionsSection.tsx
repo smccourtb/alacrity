@@ -14,6 +14,7 @@ import type { ValidationReport } from '@/hooks/useHuntValidation';
 
 interface Props extends HuntFormControl {
   preset: HuntPreset;
+  onPresetChange: (p: HuntPreset) => void;
   odds: { combos: number; total: number; odds: string };
   hasGenderChoice: boolean;
   isGenderless: boolean;
@@ -24,10 +25,13 @@ interface Props extends HuntFormControl {
 
 export default function HuntConditionsSection({
   control, watch, setValue,
-  preset, odds,
+  preset, onPresetChange, odds,
   hasGenderChoice, isGenderless, isAlwaysMale, isAlwaysFemale,
   report,
 }: Props) {
+  // Any direct edit of conditions/DVs/IVs drops the preset to Custom so the picker
+  // and form state stay in sync — otherwise a future gen flip would clobber edits.
+  const demoteToCustom = () => { if (preset !== 'custom') onPresetChange('custom'); };
   const game = watch('game');
   const is3DS = is3DSGame(game);
   const showCustom = preset === 'custom';
@@ -52,6 +56,7 @@ export default function HuntConditionsSection({
   if (isPerfect) conditions.push('perfect');
 
   const handleConditionsChange = (values: string | string[]) => {
+    demoteToCustom();
     const arr = Array.isArray(values) ? values : [values];
     const newShiny = arr.includes('shiny') ? 1 : 0;
     const newPerfect = arr.includes('perfect') ? 1 : 0;
