@@ -78,15 +78,23 @@ export default function HuntPreviewCard({
   const checks = surfacedChecks(report);
   const errored = hasErrors(report);
 
-  const [spriteUrl, setSpriteUrl] = useState<string | null>(null);
+  const [sprites, setSprites] = useState<{ normal: string | null; shiny: string | null }>({ normal: null, shiny: null });
   useEffect(() => {
-    if (!targetSpeciesId) { setSpriteUrl(null); return; }
+    if (!targetSpeciesId) { setSprites({ normal: null, shiny: null }); return; }
     let cancelled = false;
     api.species.get(targetSpeciesId)
-      .then((s: any) => { if (!cancelled) setSpriteUrl(s?.sprite_url ?? s?.sprite_default ?? null); })
-      .catch(() => { if (!cancelled) setSpriteUrl(null); });
+      .then((s: any) => {
+        if (cancelled) return;
+        setSprites({
+          normal: s?.sprite_url ?? s?.sprite_default ?? null,
+          shiny: s?.shiny_sprite_url ?? null,
+        });
+      })
+      .catch(() => { if (!cancelled) setSprites({ normal: null, shiny: null }); });
     return () => { cancelled = true; };
   }, [targetSpeciesId]);
+
+  const spriteUrl = isShiny && sprites.shiny ? sprites.shiny : sprites.normal;
 
   const adjectives = [isShiny && 'Shiny', isPerfect && 'Perfect'].filter(Boolean).join(' ');
   const title = targetName ? `${adjectives} ${targetName}`.trim() : 'Pick a target';
