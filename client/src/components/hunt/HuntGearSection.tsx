@@ -2,14 +2,13 @@
 import { useMemo, useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-import PillToggle from '@/components/PillToggle';
 import { cn } from '@/lib/utils';
 import SavePicker from '@/components/SavePicker';
 import ItemPicker from '@/components/ItemPicker';
 import type { HuntFormControl } from './types';
 import { checksForSection, SEVERITY_PILL } from './validationMapping';
 import type { ValidationReport } from '@/hooks/useHuntValidation';
-import { Section, Row } from './SectionLayout';
+import { Section, Row, MiniPills } from './SectionLayout';
 
 interface Props extends HuntFormControl {
   huntFiles: { roms: any[] };
@@ -77,7 +76,7 @@ export default function HuntGearSection({
             name="walk_dir"
             control={control}
             render={({ field }) => (
-              <PillToggle
+              <MiniPills
                 options={[
                   { value: 'ns', label: 'N / S' },
                   { value: 'ew', label: 'E / W' },

@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
-import PillToggle from '@/components/PillToggle';
 import { is3DSGame } from './constants';
 import type { HuntFormControl } from './types';
-import { Section } from './SectionLayout';
+import { Section, Row, MiniPills, type MiniPillOption } from './SectionLayout';
 
 export type HuntPreset = 'shiny' | 'perfect' | 'competitive' | 'custom';
 
@@ -11,10 +10,10 @@ interface Props extends HuntFormControl {
   onPresetChange: (p: HuntPreset) => void;
 }
 
-const OPTIONS = [
-  { value: 'shiny', label: '✨ Shiny' },
-  { value: 'perfect', label: '★ Perfect' },
-  { value: 'competitive', label: 'Competitive', disabled: true },
+const OPTIONS: MiniPillOption[] = [
+  { value: 'shiny', label: '✨ Shiny', variant: 'primary' },
+  { value: 'perfect', label: '★ Perfect', variant: 'amber' },
+  { value: 'competitive', label: 'Comp', disabled: true },
   { value: 'custom', label: 'Custom' },
 ];
 
@@ -37,16 +36,17 @@ export default function HuntPresetPicker({ watch, setValue, preset, onPresetChan
     applyPreset(next, is3DS, setValue);
   }
 
+  const sub =
+    preset === 'shiny' ? 'Shiny-only: DVs/IVs unrestricted where possible' :
+    preset === 'perfect' ? 'Best shiny: maxed DVs / all 31 IVs' :
+    preset === 'custom' ? 'Every field editable — edit anything to activate' :
+    'Quick setup for common hunts';
+
   return (
-    <Section title="Preset" hint="Quick setups for common hunts">
-      <div className="py-2">
-        <PillToggle options={OPTIONS} value={preset} onChange={onChange} />
-        <div className="text-[10px] text-muted-foreground/60 mt-1.5">
-          {preset === 'shiny' && 'Shiny-only: Gen 1/2 locks Def/Spd/Spc = 10, Atk open. Gen 6/7 ignores IVs.'}
-          {preset === 'perfect' && 'Best shiny: Gen 1/2 Atk 15 · Def/Spd/Spc 10. Gen 6/7 all IVs 31.'}
-          {preset === 'custom' && 'Every field editable. Edit anything elsewhere and this preset activates.'}
-        </div>
-      </div>
+    <Section title="Preset" hint="Quick setup for common hunts">
+      <Row label="Choose a starting point" sub={sub}>
+        <MiniPills options={OPTIONS} value={preset} onChange={onChange} />
+      </Row>
     </Section>
   );
 }

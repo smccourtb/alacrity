@@ -1,17 +1,17 @@
 // client/src/components/hunt/HuntConditionsSection.tsx
+// Matches mockup at .superpowers/brainstorm/.../full-options.html
+// Uses SectionLayout primitives (Section / Row / MiniPills / IvBox / IvLabel).
 import { Controller } from 'react-hook-form';
-import { GenderIcon } from '@/components/icons';
 import FilterDropdown from '@/components/FilterDropdown';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
-import PillToggle from '@/components/PillToggle';
 import type { HuntFormControl } from './types';
 import { is3DSGame, NATURES, IV_STATS, SHINY_ATK_VALUES } from './constants';
 import type { HuntPreset } from './HuntPresetPicker';
 import { checksForSection, SEVERITY_PILL } from './validationMapping';
 import type { ValidationReport } from '@/hooks/useHuntValidation';
-import { Section, Row } from './SectionLayout';
+import { Section, Row, MiniPills, IvBox, IvLabel } from './SectionLayout';
 
 interface Props extends HuntFormControl {
   preset: HuntPreset;
@@ -21,25 +21,6 @@ interface Props extends HuntFormControl {
   isAlwaysMale: boolean;
   isAlwaysFemale: boolean;
   report: ValidationReport | null;
-}
-
-function IvBox({ value, state }: { value: number | string; state: 'editable' | 'locked' | 'perfect' }) {
-  return (
-    <div
-      className={cn(
-        'rounded-lg border h-9 flex items-center justify-center font-mono font-bold text-sm',
-        state === 'editable' && 'bg-muted border-border text-foreground',
-        state === 'locked' && 'bg-amber-500/10 border-amber-500/30 text-amber-700',
-        state === 'perfect' && 'bg-emerald-500/10 border-emerald-500/30 text-emerald-700',
-      )}
-    >
-      {value}
-    </div>
-  );
-}
-
-function IvLabel({ children }: { children: React.ReactNode }) {
-  return <div className="text-[9px] uppercase tracking-wider text-muted-foreground/60 font-bold mb-1 text-center">{children}</div>;
 }
 
 export default function HuntConditionsSection({
@@ -62,10 +43,29 @@ export default function HuntConditionsSection({
 
   const isShiny = watchedShiny === 1;
   const isPerfect = watchedPerfect === 1;
-  const atkLocked = isPerfect;
-  const defLocked = isShiny || isPerfect;
-  const spdLocked = isShiny || isPerfect;
-  const spcLocked = isShiny || isPerfect;
+
+  // Shiny / Perfect pill state for Gen 1/2 mapping
+  const shinyPerfectValue: string[] = [];
+  if (isShiny) shinyPerfectValue.push('shiny');
+  if (isPerfect) shinyPerfectValue.push('perfect');
+
+  const handleShinyPerfectChange = (v: string | string[]) => {
+    demoteToCustom();
+    const arr = Array.isArray(v) ? v : [v];
+    const newShiny = arr.includes('shiny') ? 1 : 0;
+    const newPerfect = arr.includes('perfect') ? 1 : 0;
+    setValue('target_shiny', newShiny);
+    setValue('target_perfect', newPerfect);
+    if (newShiny && newPerfect) {
+      setValue('min_atk', 15); setValue('min_def', 10); setValue('min_spd', 10); setValue('min_spc', 10);
+    } else if (newShiny) {
+      setValue('min_def', 10); setValue('min_spd', 10); setValue('min_spc', 10);
+    } else if (newPerfect) {
+      setValue('min_atk', 15); setValue('min_def', 15); setValue('min_spd', 15); setValue('min_spc', 15);
+    } else {
+      setValue('min_atk', 0); setValue('min_def', 0); setValue('min_spd', 0); setValue('min_spc', 0);
+    }
+  };
 
   const genderSub = isGenderless
     ? 'Genderless species — locked'
@@ -75,42 +75,55 @@ export default function HuntConditionsSection({
     watchedEncounter === 'friend_safari' ? 'Friend Safari guarantees 2 perfect IVs' :
     watchedEncounter === 'horde' ? 'Horde encounters have no guaranteed IVs' :
     watchedEncounter === 'breeding' ? 'Destiny Knot passes 5 IVs from parents' :
-    '0 = none · 3 = legendary / SOS chain';
+    'Legendary = 3, SOS = 3, Friend Safari = 2';
 
   const sectionTitle = `Target Conditions${is3DS ? ' · Gen 6/7' : ' · Gen 1/2'}`;
 
   return (
     <>
       <Section title={sectionTitle} hint="What makes a catch count">
+        {/* Gen 1/2: Shiny / Perfect pills as the leading row */}
+        {!is3DS && (
+          <Row label="Shiny / Perfect" sub="Apply DV locks automatically">
+            <MiniPills
+              multiple
+              value={shinyPerfectValue}
+              onChange={handleShinyPerfectChange}
+              options={[
+                { value: 'shiny', label: '✨ Shiny', variant: 'primary' },
+                { value: 'perfect', label: '★ Perfect', variant: 'amber' },
+              ]}
+            />
+          </Row>
+        )}
+
         {/* Gender */}
-        {hasGenderChoice ? (
+        {hasGenderChoice && (
           <Row label="Gender">
             <Controller
               name="target_gender"
               control={control}
               render={({ field }) => (
-                <PillToggle
-                  options={[
-                    { value: 'any', label: 'Any' },
-                    { value: 'male', label: 'Male', activeClassName: 'bg-sky-500/10 text-sky-600 border border-sky-500/25 shadow-sm' },
-                    { value: 'female', label: 'Female', activeClassName: 'bg-pink-500/10 text-pink-600 border border-pink-500/25 shadow-sm' },
-                  ]}
+                <MiniPills
                   value={field.value}
                   onChange={(v) => field.onChange(v)}
+                  options={[
+                    { value: 'any', label: '⚲ Any' },
+                    { value: 'male', label: '♂ Male', variant: 'blue' },
+                    { value: 'female', label: '♀ Female', variant: 'pink' },
+                  ]}
                 />
               )}
             />
           </Row>
-        ) : genderSub && (
+        )}
+        {!hasGenderChoice && genderSub && (
           <Row label="Gender" sub={genderSub}>
-            <GenderIcon
-              gender={isGenderless ? 'genderless' : isAlwaysMale ? 'male' : 'female'}
-              size="sm"
-            />
+            <span className="text-xs text-muted-foreground/60">—</span>
           </Row>
         )}
 
-        {/* Gen 6/7 extras */}
+        {/* Gen 6/7 specifics */}
         {is3DS && (
           <>
             <Row label="Nature">
@@ -138,14 +151,14 @@ export default function HuntConditionsSection({
                 name="target_ability"
                 control={control}
                 render={({ field }) => (
-                  <PillToggle
+                  <MiniPills
+                    value={field.value || '__any__'}
+                    onChange={(v) => { demoteToCustom(); field.onChange(v === '__any__' ? undefined : v); }}
                     options={[
                       { value: '__any__', label: 'Any' },
                       { value: 'normal', label: 'Normal' },
-                      { value: 'hidden', label: 'Hidden', activeClassName: 'bg-purple-500/10 text-purple-600 border border-purple-500/25 shadow-sm' },
+                      { value: 'hidden', label: 'Hidden', variant: 'purple' },
                     ]}
-                    value={field.value || '__any__'}
-                    onChange={(v) => { demoteToCustom(); field.onChange(v === '__any__' ? undefined : v); }}
                   />
                 )}
               />
@@ -160,7 +173,7 @@ export default function HuntConditionsSection({
                     type="number" min={0} max={6}
                     value={field.value ?? 0}
                     onChange={e => { demoteToCustom(); field.onChange(Math.min(6, Math.max(0, Number(e.target.value)))); }}
-                    className="w-16 h-8 text-center font-semibold font-mono"
+                    className="w-16 h-8 text-center font-semibold font-mono text-xs"
                   />
                 )}
               />
@@ -178,20 +191,20 @@ export default function HuntConditionsSection({
           </>
         )}
 
-        {/* IV / DV grid */}
+        {/* IV / DV grid — aligned to top */}
         {is3DS ? (
           <Row
             label={showCustom ? 'Min IVs' : 'IVs'}
             sub={showCustom ? 'Per-stat lower bound (0–31)' : preset === 'perfect' ? 'All 31 (preset: Perfect)' : 'No IV filter (preset: Shiny)'}
             alignTop
           >
-            <div className="grid grid-cols-6 gap-1.5 w-[300px]">
+            <div className="grid grid-cols-6 gap-1.5 w-[288px]">
               {IV_STATS.map(({ key, label }) => {
                 const locked = !showCustom;
                 const value = currentIvs[key] ?? 0;
-                const displayValue = locked && preset === 'perfect' ? 31 : locked && preset === 'shiny' ? '—' : value;
                 const state: 'editable' | 'locked' | 'perfect' =
                   !locked ? 'editable' : preset === 'perfect' ? 'perfect' : 'locked';
+                const displayValue = locked && preset === 'perfect' ? 31 : locked ? '—' : value;
                 return (
                   <div key={key}>
                     <IvLabel>{label}</IvLabel>
@@ -206,7 +219,7 @@ export default function HuntConditionsSection({
                           demoteToCustom();
                           setValue('target_ivs', { ...currentIvs, [key]: val });
                         }}
-                        className="h-9 text-center font-bold font-mono p-1 text-sm"
+                        className="h-9 text-center font-bold font-mono p-1 text-[13px]"
                       />
                     )}
                   </div>
@@ -219,19 +232,21 @@ export default function HuntConditionsSection({
             label={showCustom ? 'Min DVs' : 'DVs'}
             sub={
               showCustom ? 'Per-stat lower bound (0–15)' :
-              isShiny && isPerfect ? 'Shiny + Perfect: Atk 15 · Def/Spd/Spc 10' :
-              isShiny ? `Shiny: Def/Spd/Spc = 10, Atk ∈ {${SHINY_ATK_VALUES.join(',')}}` :
-              isPerfect ? 'Perfect: all 15' : 'No DV filter'
+              isShiny && isPerfect ? 'Shiny + Perfect: all locked' :
+              isShiny ? 'Shiny: Def/Spd/Spc locked to 10' :
+              isPerfect ? 'Perfect: all locked to 15' : 'No DV filter'
             }
             alignTop
           >
-            <div className="grid grid-cols-4 gap-1.5 w-[220px]">
+            <div className="grid grid-cols-4 gap-1.5 w-[200px]">
               {(['atk', 'def', 'spd', 'spc'] as const).map(stat => {
-                const locked = stat === 'atk' ? atkLocked : stat === 'def' ? defLocked : stat === 'spd' ? spdLocked : spcLocked;
-                const shinyAtkMode = stat === 'atk' && isShiny && !isPerfect && showCustom;
+                const atkLocked = isPerfect;
+                const nonAtkLocked = isShiny || isPerfect;
+                const locked = stat === 'atk' ? atkLocked : nonAtkLocked;
                 const lockedValue = stat === 'atk' ? 15 : isShiny ? 10 : 15;
                 const state: 'editable' | 'locked' | 'perfect' =
                   !showCustom && isPerfect ? 'perfect' : locked ? 'locked' : 'editable';
+                const shinyAtkMode = stat === 'atk' && isShiny && !isPerfect && showCustom;
 
                 return (
                   <div key={stat}>
@@ -266,7 +281,7 @@ export default function HuntConditionsSection({
                             type="number" min={0} max={15}
                             value={(f.value as number) ?? 0}
                             onChange={e => { demoteToCustom(); f.onChange(Math.min(15, Math.max(0, Number(e.target.value)))); }}
-                            className="h-9 text-center font-bold font-mono p-1 text-sm"
+                            className="h-9 text-center font-bold font-mono p-1 text-[13px]"
                           />
                         )}
                       />
@@ -277,11 +292,17 @@ export default function HuntConditionsSection({
             </div>
           </Row>
         )}
+
+        {/* Gen 6/7: Nature N/A row for visual parity with mockup */}
+        {!is3DS && (
+          <Row label="Nature" sub="Gen 3+ only — not applicable">
+            <span className="text-xs text-muted-foreground/40">—</span>
+          </Row>
+        )}
       </Section>
 
-      {/* Inline target warnings — render only if any */}
       {targetChecks.length > 0 && (
-        <div className="space-y-1">
+        <div className="space-y-1 mb-3">
           {targetChecks.map(c => (
             <div key={c.id} className={cn('rounded-md px-3 py-2 text-xs', SEVERITY_PILL[c.severity as 'error' | 'warning'])}>
               <div>{c.message}</div>

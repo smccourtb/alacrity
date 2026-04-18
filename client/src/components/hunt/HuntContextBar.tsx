@@ -1,10 +1,10 @@
 // client/src/components/hunt/HuntContextBar.tsx
 import { Controller } from 'react-hook-form';
 import FilterDropdown from '@/components/FilterDropdown';
-import PillToggle from '@/components/PillToggle';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import type { HuntFormControl } from './types';
+import { MiniPills } from './SectionLayout';
 
 interface Props extends HuntFormControl {
   gameConfigs: any[];
@@ -72,15 +72,15 @@ export default function HuntContextBar({
                 const modes: string[] = gameConfig?.supportedModes ?? [];
                 const isSupported = (m: string) => modes.length === 0 || modes.includes(m);
                 return (
-                  <PillToggle
-                    options={[
-                      { value: 'gift', label: 'Gift', disabled: !isSupported('gift') },
-                      { value: 'stationary', label: 'Static', disabled: !isSupported('stationary') },
-                      { value: 'wild', label: 'Wild', disabled: !isSupported('wild') },
-                      { value: 'egg', label: 'Egg', disabled: !isSupported('egg') },
-                    ]}
+                  <MiniPills
                     value={field.value}
                     onChange={(v) => onModeChange(v as string)}
+                    options={[
+                      { value: 'wild', label: 'Wild', disabled: !isSupported('wild') },
+                      { value: 'egg', label: 'Egg', disabled: !isSupported('egg') },
+                      { value: 'stationary', label: 'Static', disabled: !isSupported('stationary') },
+                      { value: 'gift', label: 'Gift', disabled: !isSupported('gift') },
+                    ]}
                   />
                 );
               }}
