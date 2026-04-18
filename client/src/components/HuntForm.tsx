@@ -114,8 +114,6 @@ export default function HuntForm({
           isAlwaysMale={isAlwaysMale}
           isAlwaysFemale={isAlwaysFemale}
           daycareInfo={daycareInfo}
-          validation={validationReport}
-          overrideEnabled={override}
         />
 
         <HuntAdvancedOptions

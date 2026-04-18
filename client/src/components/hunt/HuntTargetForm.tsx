@@ -9,7 +9,6 @@ import { cn } from '@/lib/utils';
 import PillToggle from '@/components/PillToggle';
 import SavePicker from '@/components/SavePicker';
 import type { HuntFormControl } from './types';
-import type { ValidationReport } from '@/hooks/useHuntValidation';
 import {
   is3DSGame, NATURES, IV_STATS, SHINY_ATK_VALUES,
   RNG_PRESETS, CONDITION_OPTIONS,
@@ -22,16 +21,12 @@ interface HuntTargetFormProps extends HuntFormControl {
   isAlwaysMale: boolean;
   isAlwaysFemale: boolean;
   daycareInfo: any;
-  validation?: ValidationReport | null;
-  overrideEnabled?: boolean;
 }
 
 export default function HuntTargetForm({
   control, watch, setValue,
   odds, hasGenderChoice, isGenderless, isAlwaysMale, isAlwaysFemale,
   daycareInfo,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  validation, overrideEnabled,
 }: HuntTargetFormProps) {
   const watchedGame = watch('game');
   const watchedHuntMode = watch('hunt_mode');
