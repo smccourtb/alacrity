@@ -1,5 +1,5 @@
 // client/src/components/hunt/HuntGearSection.tsx
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -26,7 +26,6 @@ export default function HuntGearSection({
   const watchedMode = watch('hunt_mode');
   const watchedRomPath = watch('rom_path');
   const watchedSavPath = watch('sav_path');
-  const [romPickerOpen, setRomPickerOpen] = useState(false);
 
   const romItems = useMemo(() =>
     huntFiles.roms.map(r => ({ path: r.path, name: r.name })),
@@ -87,24 +86,6 @@ export default function HuntGearSection({
             )}
           />
         </Row>
-      )}
-
-      {showAdvanced && (
-        <Row label="Override ROM" sub="Point to a different ROM file">
-          <button
-            type="button"
-            onClick={() => setRomPickerOpen(o => !o)}
-            className="text-xs text-primary font-semibold hover:underline"
-          >
-            {romPickerOpen ? 'Close' : 'Pick…'}
-          </button>
-        </Row>
-      )}
-
-      {showAdvanced && romPickerOpen && (
-        <div className="py-2">
-          <ItemPicker value={watchedRomPath} onChange={v => setValue('rom_path', v)} items={romItems} placeholder="ROM file" />
-        </div>
       )}
 
       {/* Save-related inline validation */}
