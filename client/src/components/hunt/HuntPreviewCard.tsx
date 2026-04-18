@@ -11,7 +11,7 @@ interface Props {
   targetLocation?: string | null;
   isShiny: boolean;
   isPerfect: boolean;
-  odds: { combos: number; total: number; odds: string };
+  odds: { combos: number; total: number; odds: string; caveats?: string[] };
   saveLabel?: string | null;
   romLabel?: string | null;
   mode: string;
@@ -111,14 +111,35 @@ export default function HuntPreviewCard({
 
       {/* Odds block */}
       <div className="text-center my-3 py-2 bg-surface-raised rounded-xl">
-        <div className={cn('font-mono font-black text-xl', odds.combos === 0 ? 'text-red-500' : 'text-emerald-600')}>
-          {odds.odds}
+        <div className="flex items-center justify-center gap-1.5">
+          <div className={cn('font-mono font-black text-xl', odds.combos === 0 ? 'text-red-500' : 'text-emerald-600')}>
+            {odds.odds}
+          </div>
+          {odds.caveats && odds.caveats.length > 0 && (
+            <span
+              className="text-[13px] text-amber-600 cursor-help"
+              title={odds.caveats.join('\n')}
+            >
+              ~
+            </span>
+          )}
         </div>
         <div className="text-[10px] uppercase tracking-[0.5px] text-muted-foreground/70 font-bold mt-0.5">
-          Odds per attempt
+          Odds per attempt{odds.caveats && odds.caveats.length > 0 ? ' · approximate' : ''}
         </div>
         {eta && <div className="text-[10px] text-muted-foreground/60 mt-1">{eta}</div>}
       </div>
+
+      {odds.caveats && odds.caveats.length > 0 && (
+        <div className="text-[10px] text-muted-foreground/70 bg-amber-500/5 border border-amber-500/20 rounded-md px-2 py-1.5 -mt-1 mb-3">
+          {odds.caveats.map((c, i) => (
+            <div key={i} className="flex gap-1.5 leading-snug">
+              <span className="text-amber-600">~</span>
+              <span>{c}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Summary rows */}
       <div className="my-3">

@@ -41,6 +41,8 @@ export interface OddsOutput {
   combos: number;
   total: number;
   odds: string;
+  /** Approximations or missing data that affect this number. Rendered as a disclaimer. */
+  caveats?: string[];
 }
 
 export function calculateOdds(opts: OddsInput): OddsOutput {
@@ -104,60 +106,82 @@ function calculateOddsGen12(opts: OddsInput): OddsOutput {
 
 // ─── Gen 6/7 ───────────────────────────────────────────────────────────────
 
+// Per-method Hidden Ability rates (Gen 6/7, Bulbapedia-sourced approximations).
+// Some values are ranges — we use the midpoint and surface a caveat so the
+// preview can mark the number as approximate.
+const HA_RATE: Record<string, { rate: number; approximate?: boolean; note?: string }> = {
+  friend_safari:    { rate: 1.0 },                                                  // 3rd slot unlocked → guaranteed
+  horde:            { rate: 0.05 },                                                  // ~1 in 20 slot-weighted
+  dexnav_chain:     { rate: 0.5, approximate: true, note: 'DexNav HA rate varies with chain length (≥40 recommended)' },
+  sos_chain:        { rate: 0.33, approximate: true, note: 'SOS HA rate scales with chain length' },
+  breeding:         { rate: 0.6, approximate: true, note: 'HA breeding depends on parent species and item' },
+  stationary:       { rate: 0 },                                                    // legendaries rarely have HA
+  default:          { rate: 0, approximate: true, note: 'Default encounter has no HA route' },
+};
+
 function calculateOdds3DS(opts: OddsInput): OddsOutput {
-  // 1. Shiny rate
+  const caveats: string[] = [];
   let p = 1;
+
+  // 1. Shiny rate
   if (opts.shiny) {
-    const base = 1 / 4096; // Gen 6+ base shiny rate
+    const base = 1 / 4096;
     p *= opts.shinyCharm ? base * 3 : base;
   }
 
   // 2. Gender rate (independent of IVs in Gen 3+)
   if (opts.gender !== 'any' && opts.genderRate !== undefined) {
     const rate = opts.genderRate;
-    if (rate === -1) {
-      // Genderless — male/female impossible
-      return { combos: 0, total: 0, odds: 'Impossible' };
-    }
+    if (rate === -1) return impossible();
     if (opts.gender === 'female') {
-      if (rate === 0) return { combos: 0, total: 0, odds: 'Impossible' };
+      if (rate === 0) return impossible();
       p *= rate / 8;
     } else if (opts.gender === 'male') {
-      if (rate === 8) return { combos: 0, total: 0, odds: 'Impossible' };
+      if (rate === 8) return impossible();
       p *= (8 - rate) / 8;
     }
   }
 
-  // 3. Nature (uniform over 25 unless Synchronize rules kick in — not modeled here)
+  // 3. Nature (uniform over 25 — Synchronize not modeled)
   if (opts.nature && opts.nature !== '__any__') {
     p *= 1 / 25;
   }
 
-  // 4. Ability filter — method-aware, rough estimates
+  // 4. Ability filter
   if (opts.ability === 'hidden') {
-    // Friend Safari ~33% HA (once unlocked); regular encounters effectively 0 via RNG
-    p *= opts.encounterType === 'friend_safari' ? 1 / 3 : 1 / 150;
+    const key = opts.encounterType && HA_RATE[opts.encounterType] ? opts.encounterType : 'default';
+    const entry = HA_RATE[key];
+    if (entry.rate === 0) return impossible();
+    p *= entry.rate;
+    if (entry.approximate && entry.note) caveats.push(entry.note);
   } else if (opts.ability === 'normal') {
-    // Assume dual-ability species: ~50% for a specific non-hidden ability.
-    // Underestimates for single-ability species (should be 100%) — acceptable
-    // without species-level ability count data at this layer.
-    p *= 1 / 2;
+    p *= 0.5;
+    caveats.push('Normal ability assumed 50% (dual-ability species); single-ability species are 100%');
   }
 
-  // 5. IV constraints under guaranteed-perfect rules
+  // 5. IV constraints
   const minIvs = opts.ivs
     ? [opts.ivs.hp, opts.ivs.atk, opts.ivs.def, opts.ivs.spa, opts.ivs.spd, opts.ivs.spe]
     : [0, 0, 0, 0, 0, 0];
   const guaranteed = Math.max(0, Math.min(6, opts.guaranteedIvs ?? 0));
   const ivProb = ivProbability(minIvs, guaranteed);
-  if (ivProb === 0) return { combos: 0, total: 0, odds: 'Impossible' };
+  if (ivProb === 0) return impossible();
   p *= ivProb;
 
-  if (p === 0) return { combos: 0, total: 0, odds: 'Impossible' };
-  if (p >= 1) return { combos: 1, total: 1, odds: '1/1' };
+  if (p === 0) return impossible();
+  if (p >= 1) return { combos: 1, total: 1, odds: '1/1', caveats: caveats.length ? caveats : undefined };
 
   const total = Math.round(1 / p);
-  return { combos: 1, total, odds: `1/${total.toLocaleString()}` };
+  return {
+    combos: 1,
+    total,
+    odds: `1/${total.toLocaleString()}`,
+    caveats: caveats.length ? caveats : undefined,
+  };
+}
+
+function impossible(): OddsOutput {
+  return { combos: 0, total: 0, odds: 'Impossible' };
 }
 
 /**
