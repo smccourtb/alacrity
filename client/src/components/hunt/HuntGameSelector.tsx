@@ -168,21 +168,23 @@ export default function HuntGameSelector({
               const modes: string[] = gameConfig?.supportedModes ?? [];
               const isSupported = (m: string) => modes.length === 0 || modes.includes(m);
               return (
-                <PillToggle
-                  options={[
-                    { value: 'gift', label: 'Gift', disabled: !isSupported('gift') },
-                    { value: 'stationary', label: 'Stationary', disabled: !isSupported('stationary') },
-                    { value: 'wild', label: 'Wild', disabled: !isSupported('wild') },
-                    { value: 'egg', label: 'Egg', disabled: !isSupported('egg') },
-                  ]}
-                  value={field.value}
-                  onChange={(v) => onModeChange(v as string)}
-                />
-                {field.value in HUNT_MODE_DESCRIPTIONS && (
-                  <div className="text-2xs text-muted-foreground/40 mt-1">
-                    {HUNT_MODE_DESCRIPTIONS[field.value as keyof typeof HUNT_MODE_DESCRIPTIONS]}
-                  </div>
-                )}
+                <>
+                  <PillToggle
+                    options={[
+                      { value: 'gift', label: 'Gift', disabled: !isSupported('gift') },
+                      { value: 'stationary', label: 'Stationary', disabled: !isSupported('stationary') },
+                      { value: 'wild', label: 'Wild', disabled: !isSupported('wild') },
+                      { value: 'egg', label: 'Egg', disabled: !isSupported('egg') },
+                    ]}
+                    value={field.value}
+                    onChange={(v) => onModeChange(v as string)}
+                  />
+                  {field.value in HUNT_MODE_DESCRIPTIONS && (
+                    <div className="text-2xs text-muted-foreground/40 mt-1">
+                      {HUNT_MODE_DESCRIPTIONS[field.value as keyof typeof HUNT_MODE_DESCRIPTIONS]}
+                    </div>
+                  )}
+                </>
               );
             }}
           />
