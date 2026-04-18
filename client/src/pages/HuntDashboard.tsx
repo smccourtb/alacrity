@@ -9,6 +9,7 @@ import HuntHistoryList from '@/components/HuntHistoryList';
 import HuntSetupTabs from '@/components/hunt/HuntSetupTabs';
 import HuntPreviewCard from '@/components/hunt/HuntPreviewCard';
 import { hasErrors } from '@/components/hunt/validationMapping';
+import { calculateOdds } from '@/components/hunt/odds';
 import { InlineEmulatorWarning } from '@/components/warnings/InlineEmulatorWarning';
 import { useHuntValidation } from '@/hooks/useHuntValidation';
 
@@ -37,91 +38,6 @@ interface HuntFormValues {
   shiny_charm: number;
   guaranteed_ivs: number;
 }
-
-const SHINY_ATK_VALUES = [2, 3, 6, 7, 10, 11, 14, 15];
-const ALL_DV = Array.from({ length: 16 }, (_, i) => i); // 0-15
-
-// Gender DV threshold from PokeAPI gender_rate
-// If Atk DV <= threshold, Pokemon is female
-function genderDvThreshold(genderRate: number | undefined): number {
-  if (genderRate === undefined) return -2;
-  const thresholds: Record<number, number> = {
-    [-1]: -2, 0: -1, 1: 1, 2: 3, 4: 7, 6: 11, 7: 13, 8: 16,
-  };
-  return thresholds[genderRate] ?? -2;
-}
-
-function calculateOdds(opts: {
-  shiny: boolean;
-  perfect: boolean;
-  gender: string;
-  genderRate: number | undefined;
-  huntMode: string;
-  minAtk: number;
-  minDef: number;
-  minSpd: number;
-  minSpc: number;
-}): { combos: number; total: number; odds: string } {
-  // Egg hunts with shiny Ditto: Def locked to 10, Spc = 2 or 10 (3 bits inherited)
-  // Only Atk (16 values) and Spd (16 values) and Spc top bit (2 values) are random
-  const isEgg = opts.huntMode === 'egg';
-  const total = isEgg ? (16 * 1 * 16 * 2) : 65536; // egg: Atk(16) × Def(1) × Spd(16) × Spc(2)
-  let validAtk = [...ALL_DV];
-  let validDef = isEgg ? [10] : [...ALL_DV];  // Ditto's Def inherited
-  let validSpd = [...ALL_DV];
-  let validSpc = isEgg ? [2, 10] : [...ALL_DV];  // Only top bit is random, bottom 3 from Ditto
-
-  // Shiny: Atk in {2,3,6,7,10,11,14,15}, Def=10, Spd=10, Spc=10
-  if (opts.shiny) {
-    validAtk = validAtk.filter(v => SHINY_ATK_VALUES.includes(v));
-    validDef = [10];
-    validSpd = [10];
-    validSpc = [10];
-  }
-
-  // Perfect: context-dependent on shiny
-  // With shiny: best shiny = Atk 15 (Def/Spd/Spc already locked to 10)
-  // Without shiny: true perfect = all 15
-  if (opts.perfect) {
-    validAtk = validAtk.filter(v => v === 15);
-    if (!opts.shiny) {
-      validDef = validDef.filter(v => v === 15);
-      validSpd = validSpd.filter(v => v === 15);
-      validSpc = validSpc.filter(v => v === 15);
-    }
-  }
-
-  // Gender filter on Atk DV
-  const threshold = genderDvThreshold(opts.genderRate);
-  if (opts.gender === 'male' && threshold >= 0) {
-    validAtk = validAtk.filter(v => v > threshold);
-  } else if (opts.gender === 'female') {
-    if (threshold < 0) {
-      validAtk = []; // impossible
-    } else if (threshold <= 15) {
-      validAtk = validAtk.filter(v => v <= threshold);
-    }
-  }
-
-  // Min DVs
-  if (opts.minAtk > 0) validAtk = validAtk.filter(v => v >= opts.minAtk);
-  if (opts.minDef > 0) validDef = validDef.filter(v => v >= opts.minDef);
-  if (opts.minSpd > 0) validSpd = validSpd.filter(v => v >= opts.minSpd);
-  if (opts.minSpc > 0) validSpc = validSpc.filter(v => v >= opts.minSpc);
-
-  const combos = validAtk.length * validDef.length * validSpd.length * validSpc.length;
-
-  let odds: string;
-  if (combos === 0) odds = 'Impossible';
-  else if (combos === total) odds = '1/1';
-  else {
-    const ratio = total / combos;
-    odds = ratio === Math.floor(ratio) ? `1/${ratio.toLocaleString()}` : `1/${ratio.toFixed(1).toLocaleString()}`;
-  }
-
-  return { combos, total, odds };
-}
-
 
 export default function HuntDashboard() {
   const [hunts, setHunts] = useState<any[]>([]);
@@ -193,17 +109,24 @@ export default function HuntDashboard() {
   const isAlwaysFemale = genderRate === 8;
   const hasGenderChoice = genderRate !== undefined && !isGenderless && !isAlwaysMale && !isAlwaysFemale;
 
-  // Live odds calculation
+  // Live odds calculation (generation-aware — see components/hunt/odds.ts)
   const odds = calculateOdds({
+    game: watchedGame,
+    huntMode: watchedHuntMode,
     shiny: watchedTargetShiny === 1,
     perfect: watchedTargetPerfect === 1,
     gender: watchedTargetGender,
     genderRate,
-    huntMode: watchedHuntMode,
     minAtk: watchedMinAtk,
     minDef: watchedMinDef,
     minSpd: watchedMinSpd,
     minSpc: watchedMinSpc,
+    nature: watch('target_nature'),
+    ability: watch('target_ability'),
+    encounterType: watch('encounter_type'),
+    ivs: watch('target_ivs'),
+    shinyCharm: watch('shiny_charm') === 1,
+    guaranteedIvs: watch('guaranteed_ivs') ?? 0,
   });
 
   // --- Validation ---
