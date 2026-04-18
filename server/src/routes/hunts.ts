@@ -100,7 +100,7 @@ function getHuntDir(hunt: any): string {
 // Method → hunt mode mapping for shiny_availability methods
 const METHOD_TO_MODE: Record<string, string> = {
   'Gift': 'gift',
-  'Stationary': 'battle',
+  'Stationary': 'stationary',
   'Fishing': 'wild',
   'Game Corner': 'gift',    // closest match — receive Pokemon
   'In-Game Trade': 'gift',  // closest match — receive Pokemon
@@ -503,7 +503,7 @@ router.get('/presets', (_req, res) => {
       game: 'Crystal',
       rom_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.gbc'),
       sav_path: join(HOME, 'pokemon', 'roms', 'Pokemon Crystal.sav'),
-      hunt_mode: 'battle',
+      hunt_mode: 'stationary',
     },
     {
       label: 'Crystal — Wild',
@@ -603,7 +603,7 @@ function spawnHuntProcesses(huntId: number, hunt: any) {
   const isEgg = hunt_mode === 'egg';
   // Crystal stationary uses shiny_hunter_crystal_stationary (Gen 2 offsets);
   // Yellow gift/stationary falls through to shiny_hunter_core (Gen 1 offsets).
-  const isCrystalStationary = hunt_mode === 'battle' && game === 'Crystal';
+  const isCrystalStationary = hunt_mode === 'stationary' && game === 'Crystal';
   const huntDir = getHuntDir(hunt);
   const logDir = join(huntDir, 'logs');
   const instances = num_instances;
@@ -651,6 +651,7 @@ router.post('/', (req, res) => {
     target_shiny, target_perfect, target_gender, min_atk, min_def, min_spd, min_spc,
     encounter_type, target_nature, target_ability, target_ivs,
     perfect_iv_count, is_shiny_locked, has_shiny_charm } = req.body;
+  const normalizedHuntMode = hunt_mode === 'battle' ? 'stationary' : hunt_mode;
 
   if (engine === 'rng') {
     // Validate encounter type against game
@@ -810,7 +811,7 @@ router.post('/', (req, res) => {
       parent_checkpoint_id)
     VALUES (?, ?, ?, ?, ?, ?, 'core', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'running', datetime('now'),
       ?)
-  `).run(target_name, target_species_id || null, game, rom_path, sav_path, instances, hunt_mode || 'gift', walk_dir || 'ns',
+  `).run(target_name, target_species_id || null, game, rom_path, sav_path, instances, normalizedHuntMode || 'gift', walk_dir || 'ns',
     target_shiny ?? 1, target_perfect ?? 0, target_gender || 'any', min_atk ?? 0, min_def ?? 0, min_spd ?? 0, min_spc ?? 0, huntDirName,
     parentCheckpointId);
 
@@ -839,7 +840,7 @@ router.post('/', (req, res) => {
 
   ntfyPush(
     `Hunt started: ${target_name}`,
-    `${game} — ${instances} instances (${hunt_mode || 'gift'} mode)`,
+    `${game} — ${instances} instances (${normalizedHuntMode || 'gift'} mode)`,
     'default',
     'pokeball',
   );
