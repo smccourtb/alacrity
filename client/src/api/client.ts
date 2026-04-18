@@ -170,6 +170,28 @@ export const api = {
     },
   },
   hunts: {
+    validate: async (input: {
+      game: string;
+      sav_path: string | null;
+      hunt_mode: 'wild' | 'stationary' | 'gift' | 'egg';
+      target_species_id: number | null;
+    }): Promise<{
+      ok: boolean;
+      checks: Array<{
+        id: 'mode_species' | 'game_species' | 'wild_location' | 'wild_encounter' | 'egg_daycare';
+        severity: 'error' | 'warning' | 'skipped';
+        message: string;
+        detail?: string;
+      }>;
+    }> => {
+      const res = await fetch(`${getBase()}/hunts/validate`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(input),
+      });
+      if (!res.ok) throw new Error(`validate failed: ${res.status}`);
+      return res.json();
+    },
     list: (opts?: { archived?: boolean }) => request<any[]>(opts?.archived ? '/hunts?archived=true' : '/hunts'),
     presets: () => request<any[]>('/hunts/presets'),
     gameConfigs: () => request<any[]>('/hunts/game-configs'),
