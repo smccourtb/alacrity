@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import db from '../db.js';
 import { paths } from '../paths.js';
@@ -466,6 +466,104 @@ router.patch('/markers/:id', (req, res) => {
   res.json({ ok: true });
 });
 
+// Writes description edits back to the region seed JSON so notes survive DB wipes.
+// Matches the sub-record inside locations[location_key][arrayKey] using natural
+// keys (item_name+method, trainer_class+trainer_name, tm_number, event_name).
+// If multiple region files exist for the same map (e.g. gen2 + gen4 HGSS), the
+// first file with a match wins. Silently fails if the seed dir is read-only.
+function persistDescriptionToSeed(type: string, id: number, description: string): void {
+  try {
+    const info = fetchSubMarkerLocator(type, id);
+    if (!info) return;
+    const { mapKey, locationKey, arrayKey, matcher } = info;
+    const files = readdirSync(paths.seedDataDir)
+      .filter(f => new RegExp(`^${mapKey}-gen\\d+\\.json$`).test(f));
+    for (const file of files) {
+      const filePath = join(paths.seedDataDir, file);
+      const raw = readFileSync(filePath, 'utf-8');
+      const data = JSON.parse(raw);
+      const loc = data?.locations?.[locationKey];
+      const arr = loc?.[arrayKey];
+      if (!Array.isArray(arr)) continue;
+      const entry = arr.find(matcher);
+      if (!entry) continue;
+      if (entry.description === description) return;
+      entry.description = description;
+      writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n', 'utf-8');
+      return;
+    }
+  } catch (err) {
+    console.warn(`[guide] Could not persist ${type}/${id} description to seed JSON: ${(err as Error).message}`);
+  }
+}
+
+type SubMarkerLocator = {
+  mapKey: string;
+  locationKey: string;
+  arrayKey: 'items' | 'trainers' | 'tms' | 'events';
+  matcher: (entry: any) => boolean;
+};
+
+function fetchSubMarkerLocator(type: string, id: number): SubMarkerLocator | null {
+  if (type === 'item' || type === 'hidden_item') {
+    const row = db.prepare(`
+      SELECT li.item_name, li.method, ml.location_key, gm.map_key
+      FROM location_items li
+      JOIN map_locations ml ON ml.id = li.location_id
+      JOIN game_maps gm ON gm.id = ml.map_id
+      WHERE li.id = ?
+    `).get(id) as { item_name: string; method: string; location_key: string; map_key: string } | undefined;
+    if (!row) return null;
+    return {
+      mapKey: row.map_key, locationKey: row.location_key, arrayKey: 'items',
+      matcher: (e: any) => e.item_name === row.item_name && e.method === row.method,
+    };
+  }
+  if (type === 'trainer') {
+    const row = db.prepare(`
+      SELECT lt.trainer_class, lt.trainer_name, ml.location_key, gm.map_key
+      FROM location_trainers lt
+      JOIN map_locations ml ON ml.id = lt.location_id
+      JOIN game_maps gm ON gm.id = ml.map_id
+      WHERE lt.id = ?
+    `).get(id) as { trainer_class: string; trainer_name: string; location_key: string; map_key: string } | undefined;
+    if (!row) return null;
+    return {
+      mapKey: row.map_key, locationKey: row.location_key, arrayKey: 'trainers',
+      matcher: (e: any) => e.trainer_class === row.trainer_class && e.trainer_name === row.trainer_name,
+    };
+  }
+  if (type === 'tm') {
+    const row = db.prepare(`
+      SELECT ltm.tm_number, ml.location_key, gm.map_key
+      FROM location_tms ltm
+      JOIN map_locations ml ON ml.id = ltm.location_id
+      JOIN game_maps gm ON gm.id = ml.map_id
+      WHERE ltm.id = ?
+    `).get(id) as { tm_number: number; location_key: string; map_key: string } | undefined;
+    if (!row) return null;
+    return {
+      mapKey: row.map_key, locationKey: row.location_key, arrayKey: 'tms',
+      matcher: (e: any) => e.tm_number === row.tm_number,
+    };
+  }
+  if (type === 'event') {
+    const row = db.prepare(`
+      SELECT le.event_name, ml.location_key, gm.map_key
+      FROM location_events le
+      JOIN map_locations ml ON ml.id = le.location_id
+      JOIN game_maps gm ON gm.id = ml.map_id
+      WHERE le.id = ?
+    `).get(id) as { event_name: string; location_key: string; map_key: string } | undefined;
+    if (!row) return null;
+    return {
+      mapKey: row.map_key, locationKey: row.location_key, arrayKey: 'events',
+      matcher: (e: any) => e.event_name === row.event_name,
+    };
+  }
+  return null;
+}
+
 // PATCH /api/guide/sub-marker/:type/:id — update description
 router.patch('/sub-marker/:type/:id', (req, res) => {
   const { type, id } = req.params;
@@ -484,7 +582,9 @@ router.patch('/sub-marker/:type/:id', (req, res) => {
   const table = TABLE_MAP[type];
   if (!table) return res.status(400).json({ error: 'invalid marker type' });
 
-  db.prepare(`UPDATE ${table} SET description = ? WHERE id = ?`).run(description, Number(id));
+  const numId = Number(id);
+  db.prepare(`UPDATE ${table} SET description = ? WHERE id = ?`).run(description, numId);
+  persistDescriptionToSeed(type, numId, description);
   res.json({ ok: true });
 });
 

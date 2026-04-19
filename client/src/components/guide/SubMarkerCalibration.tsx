@@ -2,12 +2,14 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import { api } from '@/api/client';
 import { SUB_MARKER_COLORS, type SubMarkerType } from './SubMarkerIcon';
 import FilterDropdown from '@/components/FilterDropdown';
+import InlineNotes from './InlineNotes';
 
 interface PlaceableItem {
   id: number;
   type: SubMarkerType;
   name: string;
   detail: string | null;
+  description: string;
   location_key: string;
   placed: boolean;
   markerId?: number;
@@ -60,6 +62,7 @@ export default function SubMarkerCalibration({
         const existing = existingMarkers.find(m => m.marker_type === type && m.reference_id === item.id);
         placeable.push({
           id: item.id, type, name: item.item_name, detail: item.method,
+          description: item.description || '',
           location_key: selectedLocation, placed: !!existing,
           markerId: existing?.id, x: existing?.x, y: existing?.y,
         });
@@ -68,6 +71,7 @@ export default function SubMarkerCalibration({
         const existing = existingMarkers.find(m => m.marker_type === 'trainer' && m.reference_id === t.id);
         placeable.push({
           id: t.id, type: 'trainer', name: t.trainer_name, detail: t.trainer_class,
+          description: t.description || '',
           location_key: selectedLocation, placed: !!existing,
           markerId: existing?.id, x: existing?.x, y: existing?.y,
         });
@@ -76,6 +80,7 @@ export default function SubMarkerCalibration({
         const existing = existingMarkers.find(m => m.marker_type === 'tm' && m.reference_id === tm.id);
         placeable.push({
           id: tm.id, type: 'tm', name: `${tm.tm_number} ${tm.move_name}`, detail: tm.method,
+          description: tm.description || '',
           location_key: selectedLocation, placed: !!existing,
           markerId: existing?.id, x: existing?.x, y: existing?.y,
         });
@@ -84,6 +89,7 @@ export default function SubMarkerCalibration({
         const existing = existingMarkers.find(m => m.marker_type === 'event' && m.reference_id === evt.id);
         placeable.push({
           id: evt.id, type: 'event', name: evt.event_name, detail: evt.event_type,
+          description: evt.description || '',
           location_key: selectedLocation, placed: !!existing,
           markerId: existing?.id, x: existing?.x, y: existing?.y,
         });
@@ -150,27 +156,42 @@ export default function SubMarkerCalibration({
         {filtered.map(item => {
           const isActive = activeItem?.id === item.id && activeItem?.type === item.type;
           return (
-            <button
+            <div
               key={`${item.type}-${item.id}`}
               ref={isActive ? activeCalibRef : undefined}
-              onClick={() => onSelectItem(isActive ? null : item)}
-              className={`w-full text-left flex items-center gap-2 px-3 py-1.5 text-xs border-b border-border/50 transition-colors ${
+              className={`border-b border-border/50 ${
                 isActive ? 'bg-orange-500/15 border-l-2 border-l-orange-500' :
-                item.placed ? 'opacity-50' : 'hover:bg-muted/30'
+                item.placed ? 'opacity-50' : ''
               }`}
             >
-              <span className="w-2 h-2 rounded-full shrink-0" style={{
-                background: item.placed ? '#4ade80' : isActive ? '#f97316' : SUB_MARKER_COLORS[item.type],
-              }} />
-              <span className="flex-1 min-w-0 truncate">{item.name}</span>
-              {item.detail && (
-                <span className="text-2xs text-muted-foreground">{item.detail}</span>
+              <button
+                onClick={() => onSelectItem(isActive ? null : item)}
+                className={`w-full text-left flex items-center gap-2 px-3 py-1.5 text-xs transition-colors ${
+                  isActive ? '' : 'hover:bg-muted/30'
+                }`}
+              >
+                <span className="w-2 h-2 rounded-full shrink-0" style={{
+                  background: item.placed ? '#4ade80' : isActive ? '#f97316' : SUB_MARKER_COLORS[item.type],
+                }} />
+                <span className="flex-1 min-w-0 truncate">{item.name}</span>
+                {item.detail && (
+                  <span className="text-2xs text-muted-foreground">{item.detail}</span>
+                )}
+                {item.placed && <span className="text-2xs text-green-500">✓</span>}
+                {isActive && !item.placed && (
+                  <span className="text-2xs text-orange-400">click map →</span>
+                )}
+              </button>
+              {isActive && (
+                <div className="px-3 pb-2">
+                  <InlineNotes
+                    markerType={item.type}
+                    referenceId={item.id}
+                    initialValue={item.description}
+                  />
+                </div>
               )}
-              {item.placed && <span className="text-2xs text-green-500">✓</span>}
-              {isActive && !item.placed && (
-                <span className="text-2xs text-orange-400">click map →</span>
-              )}
-            </button>
+            </div>
           );
         })}
         {selectedLocation && filtered.length === 0 && (
