@@ -3140,7 +3140,8 @@
         {
           "tm_number": 12,
           "move_name": "Sweet Scent",
-          "method": "gift"
+          "method": "gift",
+          "description": "Received from the woman behind the counter in the gate connecting Route 34 with Ilex Forest, unavailable when Ilex Forest is restless because she blocks the player's way until Celebi is summoned from the GS Ball"
         }
       ],
       "events": []
@@ -3962,7 +3963,8 @@
         {
           "tm_number": 20,
           "move_name": "Endure",
-          "method": "field"
+          "method": "field",
+          "description": "B1F; in the area accessed by dropping through the northeastern hole (requires Strength)"
         }
       ],
       "events": [
@@ -6061,12 +6063,14 @@
         {
           "tm_number": 10,
           "move_name": "Hidden Power",
-          "method": "gift"
+          "method": "gift",
+          "description": "From the man in the northwestern house (requires Cut)"
         },
         {
           "tm_number": 43,
           "move_name": "Detect",
-          "method": "field"
+          "method": "field",
+          "description": "On the patch of land north of the lake, accessible when the lake is flooded (requires Surf)"
         }
       ],
       "events": [
@@ -7164,7 +7168,8 @@
         {
           "tm_number": 24,
           "move_name": "DragonBreath",
-          "method": "gift"
+          "method": "gift",
+          "description": "Gift from Clair after obtaining the Rising Badge"
         }
       ],
       "events": [
@@ -9669,7 +9674,8 @@
         {
           "tm_number": 50,
           "move_name": "Nightmare",
-          "method": "gift"
+          "method": "gift",
+          "description": "From the man standing by the small pond after delivering him a Spearow from his friend on Route 35"
         }
       ],
       "events": []
@@ -10896,7 +10902,8 @@
         {
           "tm_number": 5,
           "move_name": "Roar",
-          "method": "gift"
+          "method": "gift",
+          "description": "From the man on the ledge on the northern side of the route (requires Cut)"
         }
       ],
       "events": []
@@ -12028,7 +12035,8 @@
         {
           "tm_number": 39,
           "move_name": "Swift",
-          "method": "gift"
+          "method": "gift",
+          "description": "B1F, west of the ladder from 1F"
         }
       ],
       "events": []
@@ -12774,7 +12782,8 @@
         {
           "tm_number": 18,
           "move_name": "Rain Dance",
-          "method": "field"
+          "method": "field",
+          "description": "B2F, on the lowest floor (requires Surf and Strength)"
         }
       ],
       "events": []
@@ -13468,7 +13477,8 @@
         {
           "tm_number": 2,
           "move_name": "Headbutt",
-          "method": "gift"
+          "method": "gift",
+          "description": "Given by a man atop the ledge southeast of the pond"
         }
       ],
       "events": []
@@ -14241,7 +14251,8 @@
         {
           "tm_number": 4,
           "move_name": "Rollout",
-          "method": "field"
+          "method": "field",
+          "description": "In the southern part of the grass patch"
         }
       ],
       "events": [
@@ -14984,7 +14995,8 @@
         {
           "tm_number": 28,
           "move_name": "Dig",
-          "method": "field"
+          "method": "field",
+          "description": "Behind the fence, in the southwest"
         }
       ],
       "events": []
@@ -15564,7 +15576,8 @@
         {
           "tm_number": 8,
           "move_name": "Rock Smash",
-          "method": "gift"
+          "method": "gift",
+          "description": "From the man near the Sudowoodo as a reward for getting rid of it"
         }
       ],
       "events": []
@@ -17655,7 +17668,8 @@
         {
           "tm_number": 13,
           "move_name": "Snore",
-          "method": "gift"
+          "method": "gift",
+          "description": "From the farm owner for healing Miltank"
         }
       ],
       "events": []
@@ -19913,7 +19927,8 @@
         {
           "tm_number": 40,
           "move_name": "Defense Curl",
-          "method": "field"
+          "method": "field",
+          "description": "In the center, on the L-shaped raised section"
         }
       ],
       "events": [
@@ -20672,7 +20687,8 @@
         {
           "tm_number": 36,
           "move_name": "Sludge Bomb",
-          "method": "gift"
+          "method": "gift",
+          "description": "Given by the guard in the toll building after defeating Team Rocket"
         }
       ],
       "events": []
@@ -21574,7 +21590,8 @@
         {
           "tm_number": 44,
           "move_name": "Rest",
-          "method": "field"
+          "method": "field",
+          "description": "B2F, bottom right"
         }
       ],
       "events": []
@@ -22875,7 +22892,8 @@
         {
           "tm_number": 13,
           "move_name": "Snore",
-          "method": "gift"
+          "method": "gift",
+          "description": "Near the entrance separating the Route 45 side from the Route 31 side"
         }
       ],
       "events": []
@@ -23716,12 +23734,14 @@
         {
           "tm_number": 22,
           "move_name": "SolarBeam",
-          "method": "field"
+          "method": "field",
+          "description": "On an isolated area of land south of the bridge (requires Surf and Whirlpool)"
         },
         {
           "tm_number": 37,
           "move_name": "Sandstorm",
-          "method": "gift"
+          "method": "gift",
+          "description": "From a woman in the house east of the Tohjo Falls if the player's lead Pokémon has high enough friendship"
         }
       ],
       "events": []
@@ -25393,7 +25413,8 @@
         {
           "tm_number": 26,
           "move_name": "Earthquake",
-          "method": "field"
+          "method": "field",
+          "description": "On the northwest ledge"
         }
       ],
       "events": []
@@ -25764,7 +25785,8 @@
         {
           "tm_number": 47,
           "move_name": "Steel Wing",
-          "method": "gift"
+          "method": "gift",
+          "description": "From the celebrity in her house (requires Cut)"
         }
       ],
       "events": []

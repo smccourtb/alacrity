@@ -316,7 +316,10 @@
           "flag_index": 34,
           "flag_source": "event",
           "progression_order": 1,
-          "games": ["red", "blue"]
+          "games": [
+            "red",
+            "blue"
+          ]
         },
         {
           "event_name": "Receive Pokedex",
@@ -332,7 +335,9 @@
           "description": "Prof. Oak's Pikachu escapes the lab and becomes your starter Pokemon — it follows you on the overworld",
           "species_id": 25,
           "progression_order": 1,
-          "games": ["yellow"]
+          "games": [
+            "yellow"
+          ]
         }
       ]
     },
@@ -579,7 +584,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "Reward for defeating Brock"
         }
       ],
       "events": [
@@ -1774,7 +1780,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "Reward for defeating Misty"
         },
         {
           "tm_number": "TM28",
@@ -3299,7 +3306,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "Reward for defeating Erika"
         },
         {
           "tm_number": "TM02",
@@ -5538,7 +5546,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "Reward for defeating Sabrina"
         },
         {
           "tm_number": "TM09",
@@ -6712,7 +6721,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "Reward for defeating Blaine"
         },
         {
           "tm_number": "TM35",
@@ -9861,7 +9871,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "On the second-highest plateau in the north area of the route, east of the eastern Mt. Moon entrance"
         }
       ],
       "events": [
@@ -12431,7 +12442,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "In the southwest corner of the route"
         }
       ],
       "events": []
@@ -15261,7 +15273,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "On the island southeast of the Lavender gate (requires Surf)"
         },
         {
           "tm_number": "TM39",
@@ -17068,7 +17081,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "In the northwest area of the route (requires Cut)"
         }
       ],
       "events": []
@@ -20107,7 +20121,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "In the southeast area of the facility"
         }
       ],
       "events": [
@@ -22087,7 +22102,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "Southwest of the Black Belt"
         },
         {
           "tm_number": "TM17",
@@ -22096,7 +22112,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "In the northeast area of the floor"
         },
         {
           "tm_number": "TM43",
@@ -22105,7 +22122,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "In the north area of the floor"
         },
         {
           "tm_number": "TM47",
@@ -22114,7 +22132,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "In the northwest area of the floor"
         }
       ],
       "events": [
@@ -23068,7 +23087,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "Area 2, southwest of the rest house"
         }
       ],
       "events": []
@@ -23107,7 +23127,8 @@
           "flag_source": "event",
           "games": [
             "red"
-          ]
+          ],
+          "description": "Reward for defeating Brock"
         }
       ],
       "events": [
@@ -23158,7 +23179,8 @@
           "flag_source": "event",
           "games": [
             "red"
-          ]
+          ],
+          "description": "Reward for defeating Misty"
         }
       ],
       "events": [
@@ -23268,7 +23290,8 @@
           "flag_source": "event",
           "games": [
             "red"
-          ]
+          ],
+          "description": "Reward for defeating Erika"
         }
       ],
       "events": [
@@ -23386,7 +23409,8 @@
           "flag_source": "event",
           "games": [
             "red"
-          ]
+          ],
+          "description": "Reward for defeating Sabrina"
         }
       ],
       "events": [
@@ -23445,7 +23469,8 @@
           "flag_source": "event",
           "games": [
             "red"
-          ]
+          ],
+          "description": "Reward for defeating Blaine"
         }
       ],
       "events": [
@@ -23877,7 +23902,8 @@
           "flag_source": "event",
           "games": [
             "red"
-          ]
+          ],
+          "description": "Reward for defeating Giovanni"
         },
         {
           "tm_number": "TM27",
@@ -23886,7 +23912,8 @@
           "games": [
             "blue",
             "yellow"
-          ]
+          ],
+          "description": "Reward for defeating Giovanni"
         }
       ],
       "events": [
