@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
+import { Pencil } from 'lucide-react';
 import { api } from '@/api/client';
 
 interface InlineNotesProps {
   markerType: string;
   referenceId: number;
   initialValue: string;
+  onSaved?: (value: string) => void;
 }
 
-export default function InlineNotes({ markerType, referenceId, initialValue }: InlineNotesProps) {
+export default function InlineNotes({ markerType, referenceId, initialValue, onSaved }: InlineNotesProps) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(initialValue);
   const [saved, setSaved] = useState(initialValue);
@@ -33,6 +35,7 @@ export default function InlineNotes({ markerType, referenceId, initialValue }: I
       setSaved(trimmed);
       setValue(trimmed);
       api.guide.updateSubMarkerDescription(markerType, referenceId, trimmed);
+      onSaved?.(trimmed);
     }
   }
 
@@ -66,9 +69,10 @@ export default function InlineNotes({ markerType, referenceId, initialValue }: I
     return (
       <button
         onClick={() => setEditing(true)}
-        className="text-sm text-muted-foreground mt-0.5 text-left hover:text-foreground transition-colors cursor-text w-full"
+        className="group flex items-start gap-1.5 text-sm text-muted-foreground mt-0.5 text-left hover:text-foreground transition-colors cursor-text w-full"
       >
-        {saved}
+        <span className="flex-1">{saved}</span>
+        <Pencil className="w-3 h-3 opacity-0 group-hover:opacity-60 transition-opacity shrink-0 mt-0.5" />
       </button>
     );
   }
@@ -76,8 +80,9 @@ export default function InlineNotes({ markerType, referenceId, initialValue }: I
   return (
     <button
       onClick={() => setEditing(true)}
-      className="text-sm text-muted-foreground/40 mt-0.5 hover:text-muted-foreground transition-colors cursor-text"
+      className="flex items-center gap-1.5 text-sm text-muted-foreground/40 mt-0.5 hover:text-muted-foreground transition-colors cursor-text"
     >
+      <Pencil className="w-3 h-3" />
       Add note...
     </button>
   );

@@ -418,6 +418,13 @@ router.get('/markers/:mapKey', (req, res) => {
         WHEN 'event' THEN le.flag_index
       END as flag_index,
       CASE mp.marker_type
+        WHEN 'item' THEN li.description
+        WHEN 'hidden_item' THEN li.description
+        WHEN 'trainer' THEN lt.description
+        WHEN 'tm' THEN ltm.description
+        WHEN 'event' THEN le.description
+      END as description,
+      CASE mp.marker_type
         WHEN 'item' THEN li.location_id
         WHEN 'hidden_item' THEN li.location_id
         WHEN 'trainer' THEN lt.location_id

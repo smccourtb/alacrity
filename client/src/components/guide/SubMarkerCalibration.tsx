@@ -188,6 +188,13 @@ export default function SubMarkerCalibration({
                     markerType={item.type}
                     referenceId={item.id}
                     initialValue={item.description}
+                    onSaved={(value) => {
+                      setItems(prev => prev.map(p =>
+                        p.id === item.id && p.type === item.type
+                          ? { ...p, description: value }
+                          : p
+                      ));
+                    }}
                   />
                 </div>
               )}

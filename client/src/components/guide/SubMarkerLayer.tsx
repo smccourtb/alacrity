@@ -12,6 +12,7 @@ export interface SubMarkerData {
   y: number;
   name: string;
   detail: string | null;
+  description: string | null;
   flag_index: number | null;
   location_id: number | null;
   location_key: string | null;
@@ -72,8 +73,13 @@ export default function SubMarkerLayer({
             icon={icon}
             eventHandlers={{ click: () => onMarkerClick(m) }}
           >
-            <Tooltip direction="top" offset={[0, -6]}>
-              <span>{m.name}{isCompleted ? ' ✓' : ''}</span>
+            <Tooltip direction="top" offset={[0, -6]} opacity={1}>
+              <div className="max-w-[240px]">
+                <div className="font-medium">{m.name}{isCompleted ? ' ✓' : ''}</div>
+                {m.description && (
+                  <div className="text-xs opacity-80 whitespace-normal mt-0.5">{m.description}</div>
+                )}
+              </div>
             </Tooltip>
           </Marker>
         );
