@@ -3,46 +3,6 @@ import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { paths } from '../paths.js';
 
-// Gym and building locations that may not be in the initial seed — insert if missing
-const SUPPLEMENTAL_LOCATIONS: Array<{ map_key: string; key: string; name: string; x: number; y: number; type: string; order: number }> = [
-  // Kanto gyms & buildings
-  { map_key: 'kanto', key: 'pewter-gym',    name: 'Pewter City Gym',    x: 0.2486, y: 0.3591, type: 'building', order: 51 },
-  { map_key: 'kanto', key: 'cerulean-gym',  name: 'Cerulean City Gym',  x: 0.6354, y: 0.2486, type: 'building', order: 52 },
-  { map_key: 'kanto', key: 'vermilion-gym', name: 'Vermilion City Gym', x: 0.6354, y: 0.5801, type: 'building', order: 53 },
-  { map_key: 'kanto', key: 'celadon-gym',   name: 'Celadon City Gym',   x: 0.4696, y: 0.4420, type: 'building', order: 54 },
-  { map_key: 'kanto', key: 'fuchsia-gym',   name: 'Fuchsia City Gym',   x: 0.5525, y: 0.7735, type: 'building', order: 55 },
-  { map_key: 'kanto', key: 'saffron-gym',   name: 'Saffron City Gym',   x: 0.6354, y: 0.4420, type: 'building', order: 56 },
-  { map_key: 'kanto', key: 'cinnabar-gym',  name: 'Cinnabar Island Gym',x: 0.2486, y: 0.9116, type: 'building', order: 57 },
-  { map_key: 'kanto', key: 'silph-co',      name: 'Silph Co.',          x: 0.6354, y: 0.4420, type: 'building', order: 58 },
-  { map_key: 'kanto', key: 'rocket-hideout',name: 'Rocket Hideout',     x: 0.4696, y: 0.4420, type: 'building', order: 59 },
-  { map_key: 'kanto', key: 'fighting-dojo', name: 'Fighting Dojo',      x: 0.6354, y: 0.4420, type: 'building', order: 60 },
-  // Johto gyms & key buildings
-  { map_key: 'johto', key: 'violet-gym',      name: 'Violet City Gym',      x: 0.72, y: 0.22, type: 'building', order: 61 },
-  { map_key: 'johto', key: 'azalea-gym',      name: 'Azalea Town Gym',      x: 0.42, y: 0.42, type: 'building', order: 62 },
-  { map_key: 'johto', key: 'goldenrod-gym',   name: 'Goldenrod City Gym',   x: 0.38, y: 0.30, type: 'building', order: 63 },
-  { map_key: 'johto', key: 'ecruteak-gym',    name: 'Ecruteak City Gym',    x: 0.24, y: 0.22, type: 'building', order: 64 },
-  { map_key: 'johto', key: 'cianwood-gym',    name: 'Cianwood City Gym',    x: 0.05, y: 0.55, type: 'building', order: 65 },
-  { map_key: 'johto', key: 'olivine-gym',     name: 'Olivine City Gym',     x: 0.12, y: 0.38, type: 'building', order: 66 },
-  { map_key: 'johto', key: 'mahogany-gym',    name: 'Mahogany Town Gym',    x: 0.50, y: 0.22, type: 'building', order: 67 },
-  { map_key: 'johto', key: 'blackthorn-gym',  name: 'Blackthorn City Gym',  x: 0.72, y: 0.22, type: 'building', order: 68 },
-  { map_key: 'johto', key: 'team-rocket-hq',  name: 'Team Rocket HQ',       x: 0.38, y: 0.30, type: 'building', order: 69 },
-];
-
-function ensureSupplementalLocations(): void {
-  const insertLoc = db.prepare(`
-    INSERT OR IGNORE INTO map_locations (map_id, location_key, display_name, x, y, location_type, progression_order)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `);
-  for (const loc of SUPPLEMENTAL_LOCATIONS) {
-    const map = db.prepare('SELECT id FROM game_maps WHERE map_key = ?').get(loc.map_key) as { id: number } | undefined;
-    if (!map) continue;
-    const existing = db.prepare('SELECT id FROM map_locations WHERE location_key = ?').get(loc.key);
-    if (!existing) {
-      insertLoc.run(map.id, loc.key, loc.name, loc.x, loc.y, loc.type, loc.order);
-    }
-  }
-}
-
 function buildLocationMap(mapKey: string): Map<string, number> {
   const rows = db.prepare(`
     SELECT ml.id, ml.location_key FROM map_locations ml
@@ -355,9 +315,6 @@ export function seedRegionData(): void {
       UNIQUE(map_key, marker_type, reference_id, game_override)
     )
   `);
-
-  // Ensure supplemental gym/building locations exist before inserting detail data
-  ensureSupplementalLocations();
 
   const regionFiles = discoverRegionFiles();
   if (regionFiles.length === 0) {

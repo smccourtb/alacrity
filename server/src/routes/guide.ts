@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import db from '../db.js';
 import { paths } from '../paths.js';
@@ -53,14 +53,44 @@ router.get('/locations/:mapKey', (req, res) => {
   res.json(locations);
 });
 
+// Writes calibrated x/y back to the source seed JSON so they survive DB wipes.
+// In packaged mode the seed dir is read-only and the write fails silently — the
+// DB update is still authoritative at runtime.
+function persistLocationToSeed(mapKey: string, locationKey: string, x: number, y: number): void {
+  try {
+    const filePath = join(paths.seedDataDir, `${mapKey}-locations.json`);
+    if (!existsSync(filePath)) return;
+    const raw = readFileSync(filePath, 'utf-8');
+    const escapedKey = locationKey.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    const pattern = new RegExp(
+      `("key"\\s*:\\s*"${escapedKey}"[^}]*?"x"\\s*:\\s*)-?[\\d.]+([^}]*?"y"\\s*:\\s*)-?[\\d.]+`
+    );
+    if (!pattern.test(raw)) return;
+    const updated = raw.replace(pattern, `$1${x.toFixed(4)}$2${y.toFixed(4)}`);
+    if (updated !== raw) writeFileSync(filePath, updated, 'utf-8');
+  } catch (err) {
+    console.warn(`[guide] Could not persist ${mapKey}/${locationKey} to seed JSON: ${(err as Error).message}`);
+  }
+}
+
 // PATCH /api/guide/locations/:id — update location marker position
 router.patch('/locations/:id', (req, res) => {
   const { x, y } = req.body;
   if (typeof x !== 'number' || typeof y !== 'number') {
     return res.status(400).json({ error: 'x and y must be numbers' });
   }
-  const result = db.prepare('UPDATE map_locations SET x = ?, y = ? WHERE id = ?').run(x, y, Number(req.params.id));
+  const id = Number(req.params.id);
+  const result = db.prepare('UPDATE map_locations SET x = ?, y = ? WHERE id = ?').run(x, y, id);
   if (result.changes === 0) return res.status(404).json({ error: 'Location not found' });
+
+  const loc = db.prepare(`
+    SELECT ml.location_key, gm.map_key
+    FROM map_locations ml
+    JOIN game_maps gm ON gm.id = ml.map_id
+    WHERE ml.id = ?
+  `).get(id) as { location_key: string; map_key: string } | undefined;
+  if (loc) persistLocationToSeed(loc.map_key, loc.location_key, x, y);
+
   res.json({ ok: true });
 });
 

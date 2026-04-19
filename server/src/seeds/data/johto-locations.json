@@ -60,6 +60,16 @@
     { "key": "route-28", "name": "Route 28", "x": 0.0700, "y": 0.0900, "type": "route", "order": 50 },
 
     { "key": "indigo-plateau-gsc", "name": "Indigo Plateau", "x": 0.5300, "y": 0.2800, "type": "building", "order": 51 },
-    { "key": "victory-road-gsc", "name": "Victory Road", "x": 0.5300, "y": 0.3200, "type": "cave", "order": 52 }
+    { "key": "victory-road-gsc", "name": "Victory Road", "x": 0.5300, "y": 0.3200, "type": "cave", "order": 52 },
+
+    { "key": "violet-gym",     "name": "Violet City Gym",    "x": 0.7200, "y": 0.2200, "type": "building", "order": 61 },
+    { "key": "azalea-gym",     "name": "Azalea Town Gym",    "x": 0.4200, "y": 0.4200, "type": "building", "order": 62 },
+    { "key": "goldenrod-gym",  "name": "Goldenrod City Gym", "x": 0.3800, "y": 0.3000, "type": "building", "order": 63 },
+    { "key": "ecruteak-gym",   "name": "Ecruteak City Gym",  "x": 0.2400, "y": 0.2200, "type": "building", "order": 64 },
+    { "key": "cianwood-gym",   "name": "Cianwood City Gym",  "x": 0.0500, "y": 0.5500, "type": "building", "order": 65 },
+    { "key": "olivine-gym",    "name": "Olivine City Gym",   "x": 0.1200, "y": 0.3800, "type": "building", "order": 66 },
+    { "key": "mahogany-gym",   "name": "Mahogany Town Gym",  "x": 0.5000, "y": 0.2200, "type": "building", "order": 67 },
+    { "key": "blackthorn-gym", "name": "Blackthorn City Gym","x": 0.7200, "y": 0.2200, "type": "building", "order": 68 },
+    { "key": "team-rocket-hq", "name": "Team Rocket HQ",     "x": 0.3800, "y": 0.3000, "type": "building", "order": 69 }
   ]
 }
