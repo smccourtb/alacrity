@@ -4,7 +4,7 @@ interface Props {
 
 export function AlphaLens({ entries }: Props) {
   const hasAlpha = entries.some(
-    e => (e.is_alpha === 1 || e.is_alpha === true) && e.origin_game === 'legends-arceus',
+    e => (e.is_alpha === 1 || e.is_alpha === true) && e.origin_game === 'Legends Arceus',
   );
   if (!hasAlpha) return null;
   return (

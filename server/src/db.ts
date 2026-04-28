@@ -313,6 +313,15 @@ if (!allTables) {
 
 }
 
+// Ensure the Legends Z-A row exists in game_versions even on databases that
+// pre-date its addition to legality-game-versions.json. seedLegality() early-
+// returns when ball_permit is already populated, so re-seeding on existing DBs
+// would otherwise miss new entries. Idempotent INSERT OR IGNORE.
+db.exec(`
+  INSERT OR IGNORE INTO game_versions (id, name, generation, origin_mark, max_species_id, sort_order)
+  VALUES (52, 'Legends Z-A', 9, 'Lumiose', 1025, 40)
+`);
+
 // Gen 8/9 manual-entry attributes
 const cmCols = (db.prepare("PRAGMA table_info('collection_manual')").all() as any[]).map(c => c.name);
 const cmColNames = new Set(cmCols);

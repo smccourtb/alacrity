@@ -140,6 +140,7 @@ export const GAME_TO_ORIGIN: Record<string, string> = {
   'Brilliant Diamond': 'BDSP', 'Shining Pearl': 'BDSP',
   'Legends Arceus': 'Hisui',
   Scarlet: 'Paldea', Violet: 'Paldea',
+  'Legends Z-A': 'Lumiose',
 };
 
 export interface FilterState {

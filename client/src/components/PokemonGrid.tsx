@@ -19,6 +19,7 @@ const GAME_TO_MARK: Record<string, string> = {
   'Brilliant Diamond': 'BDSP', 'Shining Pearl': 'BDSP',
   'Legends Arceus': 'Hisui',
   Scarlet: 'Paldea', Violet: 'Paldea',
+  'Legends Z-A': 'Lumiose',
 };
 
 function getBestNatures(species: any): string[] {
@@ -177,7 +178,7 @@ export default function PokemonGrid({ species, collection, itemCaughtMap, shinyM
                 const teraType = (allEntries.find((e: any) => e.tera_type)?.tera_type as string | undefined) ?? null;
                 const teraColor = teraType ? (teraPalette[teraType] ?? teraPalette[teraType.toLowerCase()] ?? null) : null;
                 const hasAlpha = allEntries.some((e: any) =>
-                  (e.is_alpha === 1 || e.is_alpha === true) && e.origin_game === 'legends-arceus'
+                  (e.is_alpha === 1 || e.is_alpha === true) && e.origin_game === 'Legends Arceus'
                 );
                 const lensData = {
                   ribbonCount: ribbonSet.size,
