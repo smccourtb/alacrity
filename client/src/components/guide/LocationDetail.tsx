@@ -49,12 +49,29 @@ function subMarkerTab(type: string | undefined): string {
   return 'pokemon';
 }
 
+interface ShopInventoryItem {
+  item_name: string;
+  price: number | null;
+  badge_gate: number;
+  games: string[] | null;
+  sprite_path?: string;
+}
+
+interface Shop {
+  id: number;
+  shop_name: string;
+  x: number | null;
+  y: number | null;
+  inventory: ShopInventoryItem[];
+}
+
 interface LocationDetailData {
   items: any[];
   trainers: any[];
   tms: any[];
   events: any[];
   encounters: any[];
+  shops?: Shop[];
   wiki_prose: string | null;
   wiki_callouts: Array<{ type: string; text: string }>;
 }
@@ -191,7 +208,7 @@ function mergeEncounters(encounters: any[]): Record<string, MergedEncounter[]> {
     const method = enc.method || 'other';
     if (!byMethod[method]) byMethod[method] = new Map();
     const bucket = byMethod[method];
-    const merged = bucket.get(enc.species_id) ?? {
+    const merged: MergedEncounter = bucket.get(enc.species_id) ?? {
       species_id: enc.species_id,
       species_name: enc.species_name,
       sprite_url: enc.sprite_url,
@@ -959,7 +976,7 @@ export function LocationDetail({
                         {shop.shop_name}
                       </div>
                       <ul className="divide-y divide-border/50">
-                        {shop.inventory.map((inv, idx) => (
+                        {shop.inventory.map((inv: ShopInventoryItem, idx: number) => (
                           <li key={`${shop.id}-${idx}`} className="flex items-center gap-2 px-3 py-1.5 text-sm">
                             {(inv as any).sprite_path && (
                               <img

@@ -67,7 +67,7 @@ export default function SubMarkerCalibration({
     if (onLocationKeyChange) onLocationKeyChange(key);
     else setInternalLocation(key);
   };
-  const activeCalibRef = useRef<HTMLButtonElement>(null);
+  const activeCalibRef = useRef<HTMLDivElement>(null);
   const [items, setItems] = useState<PlaceableItem[]>([]);
   const [filter, setFilter] = useState<SubMarkerType | 'all'>('all');
 
@@ -126,7 +126,7 @@ export default function SubMarkerCalibration({
           detail: `${shop.inventory?.length ?? 0} items`,
           description: '',
           location_key: selectedLocation, placed,
-          x: placed ? shop.x : undefined, y: placed ? shop.y : undefined,
+          x: placed ? (shop.x ?? undefined) : undefined, y: placed ? (shop.y ?? undefined) : undefined,
           inventory: shop.inventory ?? [],
         });
       }
