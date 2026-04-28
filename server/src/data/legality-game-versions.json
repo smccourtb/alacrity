@@ -37,5 +37,6 @@
   { "id": 47, "name": "Legends Arceus", "generation": 8, "origin_mark": "Hisui", "max_species_id": 905, "sort_order": 36 },
   { "id": 50, "name": "Scarlet", "generation": 9, "origin_mark": "Paldea", "max_species_id": 1025, "sort_order": 37 },
   { "id": 51, "name": "Violet", "generation": 9, "origin_mark": "Paldea", "max_species_id": 1025, "sort_order": 38 },
+  { "id": 52, "name": "Legends Z-A", "generation": 9, "origin_mark": "Lumiose", "max_species_id": 1025, "sort_order": 40 },
   { "id": 34, "name": "Pokemon GO", "generation": 0, "origin_mark": "GO", "max_species_id": 1025, "sort_order": 39 }
 ]

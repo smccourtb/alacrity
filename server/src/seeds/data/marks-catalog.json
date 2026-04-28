@@ -1,0 +1,623 @@
+[
+  {
+    "name": "Dawn Mark",
+    "category": "Time",
+    "title_suffix": "the Early Riser",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon encountered during morning"
+  },
+  {
+    "name": "Dusk Mark",
+    "category": "Time",
+    "title_suffix": "the Dozy",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon caught during the evening"
+  },
+  {
+    "name": "Lunchtime Mark",
+    "category": "Time",
+    "title_suffix": "the Peckish",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon caught during the afternoon"
+  },
+  {
+    "name": "Sleepy-Time Mark",
+    "category": "Time",
+    "title_suffix": "the Sleepy",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon caught during night"
+  },
+  {
+    "name": "Blizzard Mark",
+    "category": "Weather",
+    "title_suffix": "the Shivering",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon encountered during a blizzard"
+  },
+  {
+    "name": "Cloudy Mark",
+    "category": "Weather",
+    "title_suffix": "the Cloud Watcher",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon encountered during cloudy weather"
+  },
+  {
+    "name": "Dry Mark",
+    "category": "Weather",
+    "title_suffix": "the Parched",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only obtainable in Sword and Shield during harsh sunlight weather"
+  },
+  {
+    "name": "Misty Mark",
+    "category": "Weather",
+    "title_suffix": "the Mist Drifter",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only obtainable in Kitakami by climbing the cliffs bordering the region, or flying out-of-bounds extremely high above the map"
+  },
+  {
+    "name": "Rainy Mark",
+    "category": "Weather",
+    "title_suffix": "the Sodden",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon encountered during rain"
+  },
+  {
+    "name": "Sandstorm Mark",
+    "category": "Weather",
+    "title_suffix": "the Sandswept",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon encountered during a sandstorm"
+  },
+  {
+    "name": "Snowy Mark",
+    "category": "Weather",
+    "title_suffix": "the Snow Frolicker",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon encountered during snow"
+  },
+  {
+    "name": "Stormy Mark",
+    "category": "Weather",
+    "title_suffix": "the Thunderstruck",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon encountered during a thunderstorm"
+  },
+  {
+    "name": "Absent-Minded Mark",
+    "category": "Personality",
+    "title_suffix": "the Spacey",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Angry Mark",
+    "category": "Personality",
+    "title_suffix": "the Furious",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Calmness Mark",
+    "category": "Personality",
+    "title_suffix": "the Serene",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Charismatic Mark",
+    "category": "Personality",
+    "title_suffix": "the Radiant",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Crafty Mark",
+    "category": "Personality",
+    "title_suffix": "the Opportunist",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Excited Mark",
+    "category": "Personality",
+    "title_suffix": "the Giddy",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Ferocious Mark",
+    "category": "Personality",
+    "title_suffix": "the Rampaging",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Flustered Mark",
+    "category": "Personality",
+    "title_suffix": "the Easily Flustered",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Humble Mark",
+    "category": "Personality",
+    "title_suffix": "the Humble",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Intellectual Mark",
+    "category": "Personality",
+    "title_suffix": "the Scholar",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Intense Mark",
+    "category": "Personality",
+    "title_suffix": "the Feisty",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Jittery Mark",
+    "category": "Personality",
+    "title_suffix": "the Anxious",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Joyful Mark",
+    "category": "Personality",
+    "title_suffix": "the Joyful",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Kindly Mark",
+    "category": "Personality",
+    "title_suffix": "the Kindhearted",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Peeved Mark",
+    "category": "Personality",
+    "title_suffix": "the Grumpy",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Prideful Mark",
+    "category": "Personality",
+    "title_suffix": "the Arrogant",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Pumped-Up Mark",
+    "category": "Personality",
+    "title_suffix": "the Driven",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Rowdy Mark",
+    "category": "Personality",
+    "title_suffix": "the Rowdy",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Scowling Mark",
+    "category": "Personality",
+    "title_suffix": "the Stern",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Slump Mark",
+    "category": "Personality",
+    "title_suffix": "the Worn-Out",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Smiley Mark",
+    "category": "Personality",
+    "title_suffix": "the Beaming",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Teary Mark",
+    "category": "Personality",
+    "title_suffix": "the Teary-Eyed",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Thorny Mark",
+    "category": "Personality",
+    "title_suffix": "the Pompous",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Unsure Mark",
+    "category": "Personality",
+    "title_suffix": "the Reluctant",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Upbeat Mark",
+    "category": "Personality",
+    "title_suffix": "the Chipper",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Vigor Mark",
+    "category": "Personality",
+    "title_suffix": "the Lively",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Zero Energy Mark",
+    "category": "Personality",
+    "title_suffix": "the Apathetic",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Zoned-Out Mark",
+    "category": "Personality",
+    "title_suffix": "the Daydreamer",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Curry Mark",
+    "category": "Rare",
+    "title_suffix": "the Curry Connoisseur",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only obtainable in Sword and Shield via Curry"
+  },
+  {
+    "name": "Destiny Mark",
+    "category": "Rare",
+    "title_suffix": "the Chosen One",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on wild encounter Pokémon encountered on the date registered as the player's birthday"
+  },
+  {
+    "name": "Fishing Mark",
+    "category": "Rare",
+    "title_suffix": "the Catch of the Day",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only obtainable in Sword and Shield via fishing"
+  },
+  {
+    "name": "Gourmand Mark",
+    "category": "Rare",
+    "title_suffix": "the Gourmet",
+    "games": [
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Chance to be granted to party Pokémon after making a sandwich or buying food from shops"
+  },
+  {
+    "name": "Itemfinder Mark",
+    "category": "Rare",
+    "title_suffix": "the Treasure Hunter",
+    "games": [
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Chance to be granted to the lead Pokémon in the player's party when an item is picked up."
+  },
+  {
+    "name": "Jumbo Mark",
+    "category": "Rare",
+    "title_suffix": "the Great",
+    "games": [
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Show a Pokémon with a Scale of 255 to the Hiker near the Mesagoza (West) Pokémon Center"
+  },
+  {
+    "name": "Mini Mark",
+    "category": "Rare",
+    "title_suffix": "the Teeny",
+    "games": [
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Show a Pokémon with a Scale of 0 to the Hiker near the Mesagoza (West) Pokémon Center"
+  },
+  {
+    "name": "Partner Mark",
+    "category": "Rare",
+    "title_suffix": "the Reliable Partner",
+    "games": [
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Chance to be granted to party Pokémon every 10000 player steps, if the Pokémon has friendship of 200+"
+  },
+  {
+    "name": "Rare Mark",
+    "category": "Rare",
+    "title_suffix": "the Recluse",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Uncommon Mark",
+    "category": "Rare",
+    "title_suffix": "the Sociable",
+    "games": [
+      "sword",
+      "shield",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Only found on wild encounter Pokémon"
+  },
+  {
+    "name": "Alpha Mark",
+    "category": "Mightiest",
+    "title_suffix": "the Former Alpha",
+    "games": [
+      "legends-arceus",
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Transfer an alpha Pokémon from Legends: Arceus via HOME"
+  },
+  {
+    "name": "Mightiest Mark",
+    "category": "Mightiest",
+    "title_suffix": "the Unrivaled",
+    "games": [
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on Pokémon caught in 7★ Tera Raid Battles via Poké Portal News events Granted to certain Pokémon that defeat special 7★ raid challenges"
+  },
+  {
+    "name": "Titan Mark",
+    "category": "Mightiest",
+    "title_suffix": "the Former Titan",
+    "games": [
+      "scarlet",
+      "violet"
+    ],
+    "how_to_obtain": "Found on former Titan Pokémon that reappear after obtaining their Titan Badge"
+  }
+]

@@ -586,10 +586,92 @@ export function resolveCollection(scope?: ResolveScope): CollectionEntry[] {
     WHERE (sf.format = 'bank' OR sf.source IN ('pksm', 'bank'))
   `;
 
+  // Manual entries (collection_manual) — synthesized into the same SightingRow
+  // shape so dex/lens/chip consumers see them alongside save/bank sightings.
+  // snapshot_data is built from the manual columns so the existing snap-based
+  // mapper in usePokedexFilters surfaces tera_type/is_alpha/is_mega/etc.
+  let manualQuery = `
+    SELECT
+      cm.identity_id,
+      COALESCE(pi.fingerprint, '') as fingerprint,
+      COALESCE(pi.gen, 0) as gen,
+      cm.species_id,
+      cm.level,
+      NULL as box_slot,
+      cm.created_at,
+      cm.origin_game as game,
+      NULL as checkpoint_id,
+      NULL as bank_file_id,
+      NULL as playthrough_id,
+      NULL as save_file_id,
+      NULL as save_filename,
+      NULL as save_file_path,
+      cm.is_shiny, cm.gender, cm.nature, cm.ability, cm.ball, cm.origin_game,
+      cm.nickname, cm.ot_name, cm.ot_tid, cm.form_id, cm.ribbons, cm.marks,
+      cm.ivs, cm.evs, cm.moves, cm.notes, cm.caught_date,
+      cm.tera_type, cm.is_alpha, cm.is_mega
+    FROM collection_manual cm
+    LEFT JOIN pokemon_identity pi ON pi.id = cm.identity_id
+  `;
+  const manualParams: Array<string | number> = [];
+  if (scope?.game) {
+    manualQuery += ' WHERE cm.origin_game = ?';
+    manualParams.push(scope.game);
+  }
+
   // Run queries separately to avoid parameter mismatch (bankQuery has no placeholders)
   const checkpointSightings = db.prepare(checkpointQuery + ' ORDER BY s.created_at DESC').all(...params) as SightingRow[];
   const bankSightings = db.prepare(bankQuery + ' ORDER BY s.created_at DESC').all() as SightingRow[];
-  const allSightings = [...checkpointSightings, ...bankSightings].sort(
+  const manualRows = db.prepare(manualQuery + ' ORDER BY cm.created_at DESC').all(...manualParams) as Array<{
+    identity_id: number | null; fingerprint: string; gen: number;
+    species_id: number; level: number | null; box_slot: null; created_at: string;
+    game: string | null; checkpoint_id: null; bank_file_id: null;
+    playthrough_id: null; save_file_id: null; save_filename: null; save_file_path: null;
+    is_shiny: number; gender: string | null; nature: string | null;
+    ability: string | null; ball: string | null; origin_game: string | null;
+    nickname: string | null; ot_name: string | null; ot_tid: number | null;
+    form_id: number | null; ribbons: string | null; marks: string | null;
+    ivs: string | null; evs: string | null; moves: string | null;
+    notes: string | null; caught_date: string | null;
+    tera_type: string | null; is_alpha: number; is_mega: number;
+  }>;
+  // Manual rows without an identity get a synthetic negative id so the dedup
+  // map keeps each one separate.
+  let synthId = -1;
+  const manualSightings: SightingRow[] = manualRows.map(r => {
+    const snapshot_data = JSON.stringify({
+      is_shiny: !!r.is_shiny,
+      origin_game: r.origin_game,
+      ball: r.ball, nature: r.nature, ability: r.ability,
+      gender: r.gender, nickname: r.nickname,
+      ot_name: r.ot_name, ot_tid: r.ot_tid,
+      form: r.form_id,
+      ribbons: r.ribbons ?? '[]', marks: r.marks ?? '[]',
+      ivs: r.ivs, evs: r.evs, moves: r.moves,
+      notes: r.notes, caught_date: r.caught_date,
+      tera_type: r.tera_type, is_alpha: !!r.is_alpha, is_mega: !!r.is_mega,
+      level: r.level,
+    });
+    return {
+      identity_id: r.identity_id ?? synthId--,
+      fingerprint: r.fingerprint,
+      gen: r.gen,
+      species_id: r.species_id,
+      level: r.level,
+      box_slot: null,
+      snapshot_data,
+      checkpoint_id: null,
+      bank_file_id: null,
+      created_at: r.created_at,
+      game: r.game,
+      playthrough_id: null,
+      save_file_id: null,
+      save_filename: null,
+      save_file_path: null,
+    };
+  });
+
+  const allSightings = [...checkpointSightings, ...bankSightings, ...manualSightings].sort(
     (a, b) => (b.created_at > a.created_at ? 1 : b.created_at < a.created_at ? -1 : 0),
   );
 

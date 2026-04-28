@@ -1,0 +1,536 @@
+[
+  {
+    "name": "Golbat"
+  },
+  {
+    "name": "Parasect"
+  },
+  {
+    "name": "Alakazam"
+  },
+  {
+    "name": "Graveler"
+  },
+  {
+    "name": "Rapidash"
+  },
+  {
+    "name": "Scyther"
+  },
+  {
+    "name": "Magikarp"
+  },
+  {
+    "name": "Gyarados"
+  },
+  {
+    "name": "Snorlax"
+  },
+  {
+    "name": "Heracross"
+  },
+  {
+    "name": "Stantler"
+  },
+  {
+    "name": "Blissey"
+  },
+  {
+    "name": "Infernape"
+  },
+  {
+    "name": "Staravia"
+  },
+  {
+    "name": "Bibarel"
+  },
+  {
+    "name": "Kricketune"
+  },
+  {
+    "name": "Luxio"
+  },
+  {
+    "name": "Floatzel"
+  },
+  {
+    "name": "Lopunny"
+  },
+  {
+    "name": "Raichu"
+  },
+  {
+    "name": "Onix"
+  },
+  {
+    "name": "Rhyhorn"
+  },
+  {
+    "name": "Ursaring"
+  },
+  {
+    "name": "Whiscash"
+  },
+  {
+    "name": "Torterra"
+  },
+  {
+    "name": "Roserade"
+  },
+  {
+    "name": "Vespiquen"
+  },
+  {
+    "name": "Pachirisu"
+  },
+  {
+    "name": "Honchkrow"
+  },
+  {
+    "name": "Skuntank"
+  },
+  {
+    "name": "Hippowdon"
+  },
+  {
+    "name": "Toxicroak"
+  },
+  {
+    "name": "Carnivine"
+  },
+  {
+    "name": "Lickilicky"
+  },
+  {
+    "name": "Tangrowth"
+  },
+  {
+    "name": "Yanmega"
+  },
+  {
+    "name": "Sliggoo"
+  },
+  {
+    "name": "Ninetales"
+  },
+  {
+    "name": "Golduck"
+  },
+  {
+    "name": "Machoke"
+  },
+  {
+    "name": "Tentacruel"
+  },
+  {
+    "name": "Chansey"
+  },
+  {
+    "name": "Qwilfish"
+  },
+  {
+    "name": "Octillery"
+  },
+  {
+    "name": "Mantine"
+  },
+  {
+    "name": "Walrein"
+  },
+  {
+    "name": "Empoleon"
+  },
+  {
+    "name": "Mothim"
+  },
+  {
+    "name": "Gastrodon"
+  },
+  {
+    "name": "Ambipom"
+  },
+  {
+    "name": "Purugly"
+  },
+  {
+    "name": "Drapion"
+  },
+  {
+    "name": "Lumineon"
+  },
+  {
+    "name": "Dusknoir"
+  },
+  {
+    "name": "Clefable"
+  },
+  {
+    "name": "Golem"
+  },
+  {
+    "name": "Crobat"
+  },
+  {
+    "name": "Gligar"
+  },
+  {
+    "name": "Steelix"
+  },
+  {
+    "name": "Luxray"
+  },
+  {
+    "name": "Mismagius"
+  },
+  {
+    "name": "Bronzong"
+  },
+  {
+    "name": "Gabite"
+  },
+  {
+    "name": "Rhyperior"
+  },
+  {
+    "name": "Electivire"
+  },
+  {
+    "name": "Gliscor"
+  },
+  {
+    "name": "Probopass"
+  },
+  {
+    "name": "Goodra"
+  },
+  {
+    "name": "Machamp"
+  },
+  {
+    "name": "Electabuzz"
+  },
+  {
+    "name": "Sneasel"
+  },
+  {
+    "name": "Swinub"
+  },
+  {
+    "name": "Piloswine"
+  },
+  {
+    "name": "Gardevoir"
+  },
+  {
+    "name": "Chimecho"
+  },
+  {
+    "name": "Glalie"
+  },
+  {
+    "name": "Garchomp"
+  },
+  {
+    "name": "Lucario"
+  },
+  {
+    "name": "Abomasnow"
+  },
+  {
+    "name": "Mamoswine"
+  },
+  {
+    "name": "Gallade"
+  },
+  {
+    "name": "Froslass"
+  },
+  {
+    "name": "Zoroark"
+  },
+  {
+    "name": "Overqwil"
+  },
+  {
+    "name": "Kakuna"
+  },
+  {
+    "name": "Beedrill"
+  },
+  {
+    "name": "Pidgey"
+  },
+  {
+    "name": "Pidgeot"
+  },
+  {
+    "name": "Arbok"
+  },
+  {
+    "name": "Pikachu"
+  },
+  {
+    "name": "Clefairy"
+  },
+  {
+    "name": "Bellsprout"
+  },
+  {
+    "name": "Weepinbell"
+  },
+  {
+    "name": "Slowbro"
+  },
+  {
+    "name": "Staryu"
+  },
+  {
+    "name": "Spinarak"
+  },
+  {
+    "name": "Ampharos"
+  },
+  {
+    "name": "Houndoom"
+  },
+  {
+    "name": "Mawile"
+  },
+  {
+    "name": "Manectric"
+  },
+  {
+    "name": "Sharpedo"
+  },
+  {
+    "name": "Camerupt"
+  },
+  {
+    "name": "Banette"
+  },
+  {
+    "name": "Salamence"
+  },
+  {
+    "name": "Patrat"
+  },
+  {
+    "name": "Watchog"
+  },
+  {
+    "name": "Pansage"
+  },
+  {
+    "name": "Pansear"
+  },
+  {
+    "name": "Panpour"
+  },
+  {
+    "name": "Excadrill"
+  },
+  {
+    "name": "Whirlipede"
+  },
+  {
+    "name": "Krokorok"
+  },
+  {
+    "name": "Trubbish"
+  },
+  {
+    "name": "Garbodor"
+  },
+  {
+    "name": "Fletchling"
+  },
+  {
+    "name": "Fletchinder"
+  },
+  {
+    "name": "Litleo"
+  },
+  {
+    "name": "Pyroar"
+  },
+  {
+    "name": "Flabébé"
+  },
+  {
+    "name": "Furfrou"
+  },
+  {
+    "name": "Meowstic"
+  },
+  {
+    "name": "Spritzee"
+  },
+  {
+    "name": "Swirlix"
+  },
+  {
+    "name": "Binacle"
+  },
+  {
+    "name": "Clawitzer"
+  },
+  {
+    "name": "Trevenant"
+  },
+  {
+    "name": "Gourgeist"
+  },
+  {
+    "name": "Avalugg"
+  },
+  {
+    "name": "Victreebel"
+  },
+  {
+    "name": "Gengar"
+  },
+  {
+    "name": "Kangaskhan"
+  },
+  {
+    "name": "Starmie"
+  },
+  {
+    "name": "Pinsir"
+  },
+  {
+    "name": "Vaporeon"
+  },
+  {
+    "name": "Jolteon"
+  },
+  {
+    "name": "Flareon"
+  },
+  {
+    "name": "Dragonite"
+  },
+  {
+    "name": "Ariados"
+  },
+  {
+    "name": "Delibird"
+  },
+  {
+    "name": "Skarmory"
+  },
+  {
+    "name": "Tyranitar"
+  },
+  {
+    "name": "Sableye"
+  },
+  {
+    "name": "Aggron"
+  },
+  {
+    "name": "Medicham"
+  },
+  {
+    "name": "Altaria"
+  },
+  {
+    "name": "Absol"
+  },
+  {
+    "name": "Metagross"
+  },
+  {
+    "name": "Leafeon"
+  },
+  {
+    "name": "Glaceon"
+  },
+  {
+    "name": "Simisage"
+  },
+  {
+    "name": "Simisear"
+  },
+  {
+    "name": "Simipour"
+  },
+  {
+    "name": "Scolipede"
+  },
+  {
+    "name": "Krookodile"
+  },
+  {
+    "name": "Scrafty"
+  },
+  {
+    "name": "Vanilluxe"
+  },
+  {
+    "name": "Eelektross"
+  },
+  {
+    "name": "Chandelure"
+  },
+  {
+    "name": "Stunfisk"
+  },
+  {
+    "name": "Diggersby"
+  },
+  {
+    "name": "Talonflame"
+  },
+  {
+    "name": "Vivillon"
+  },
+  {
+    "name": "Florges"
+  },
+  {
+    "name": "Gogoat"
+  },
+  {
+    "name": "Pangoro"
+  },
+  {
+    "name": "Aegislash"
+  },
+  {
+    "name": "Malamar"
+  },
+  {
+    "name": "Barbaracle"
+  },
+  {
+    "name": "Dragalge"
+  },
+  {
+    "name": "Heliolisk"
+  },
+  {
+    "name": "Sylveon"
+  },
+  {
+    "name": "Hawlucha"
+  },
+  {
+    "name": "Dedenne"
+  },
+  {
+    "name": "Carbink"
+  },
+  {
+    "name": "Klefki"
+  },
+  {
+    "name": "Noivern"
+  },
+  {
+    "name": "Drampa"
+  },
+  {
+    "name": "Falinks"
+  }
+]

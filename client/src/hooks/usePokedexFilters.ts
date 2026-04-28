@@ -115,7 +115,10 @@ export function usePokedexFilters() {
             nickname: snap.nickname ?? null,
             ot_name: snap.ot_name ?? e.ot_name ?? null,
             ot_tid: snap.ot_tid ?? e.ot_tid ?? null,
-            source: e.checkpoint_id ? 'save' : (e.bank_file_id ? 'bank' : 'save'),
+            tera_type: snap.tera_type ?? null,
+            is_alpha: snap.is_alpha ?? false,
+            is_mega: snap.is_mega ?? false,
+            source: e.checkpoint_id ? 'save' : (e.bank_file_id ? 'bank' : 'manual'),
           };
         });
         setCollection(mapped);

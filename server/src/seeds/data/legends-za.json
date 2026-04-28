@@ -1,0 +1,1390 @@
+{
+  "dex": [
+    {
+      "species_id": 152,
+      "dex_number": 1,
+      "name": "chikorita"
+    },
+    {
+      "species_id": 153,
+      "dex_number": 2,
+      "name": "bayleef"
+    },
+    {
+      "species_id": 154,
+      "dex_number": 3,
+      "name": "meganium"
+    },
+    {
+      "species_id": 498,
+      "dex_number": 4,
+      "name": "tepig"
+    },
+    {
+      "species_id": 499,
+      "dex_number": 5,
+      "name": "pignite"
+    },
+    {
+      "species_id": 500,
+      "dex_number": 6,
+      "name": "emboar"
+    },
+    {
+      "species_id": 158,
+      "dex_number": 7,
+      "name": "totodile"
+    },
+    {
+      "species_id": 159,
+      "dex_number": 8,
+      "name": "croconaw"
+    },
+    {
+      "species_id": 160,
+      "dex_number": 9,
+      "name": "feraligatr"
+    },
+    {
+      "species_id": 661,
+      "dex_number": 10,
+      "name": "fletchling"
+    },
+    {
+      "species_id": 662,
+      "dex_number": 11,
+      "name": "fletchinder"
+    },
+    {
+      "species_id": 663,
+      "dex_number": 12,
+      "name": "talonflame"
+    },
+    {
+      "species_id": 659,
+      "dex_number": 13,
+      "name": "bunnelby"
+    },
+    {
+      "species_id": 660,
+      "dex_number": 14,
+      "name": "diggersby"
+    },
+    {
+      "species_id": 664,
+      "dex_number": 15,
+      "name": "scatterbug"
+    },
+    {
+      "species_id": 665,
+      "dex_number": 16,
+      "name": "spewpa"
+    },
+    {
+      "species_id": 666,
+      "dex_number": 17,
+      "name": "vivillon"
+    },
+    {
+      "species_id": 13,
+      "dex_number": 18,
+      "name": "weedle"
+    },
+    {
+      "species_id": 14,
+      "dex_number": 19,
+      "name": "kakuna"
+    },
+    {
+      "species_id": 15,
+      "dex_number": 20,
+      "name": "beedrill"
+    },
+    {
+      "species_id": 16,
+      "dex_number": 21,
+      "name": "pidgey"
+    },
+    {
+      "species_id": 17,
+      "dex_number": 22,
+      "name": "pidgeotto"
+    },
+    {
+      "species_id": 18,
+      "dex_number": 23,
+      "name": "pidgeot"
+    },
+    {
+      "species_id": 179,
+      "dex_number": 24,
+      "name": "mareep"
+    },
+    {
+      "species_id": 180,
+      "dex_number": 25,
+      "name": "flaaffy"
+    },
+    {
+      "species_id": 181,
+      "dex_number": 26,
+      "name": "ampharos"
+    },
+    {
+      "species_id": 504,
+      "dex_number": 27,
+      "name": "patrat"
+    },
+    {
+      "species_id": 505,
+      "dex_number": 28,
+      "name": "watchog"
+    },
+    {
+      "species_id": 406,
+      "dex_number": 29,
+      "name": "budew"
+    },
+    {
+      "species_id": 315,
+      "dex_number": 30,
+      "name": "roselia"
+    },
+    {
+      "species_id": 407,
+      "dex_number": 31,
+      "name": "roserade"
+    },
+    {
+      "species_id": 129,
+      "dex_number": 32,
+      "name": "magikarp"
+    },
+    {
+      "species_id": 130,
+      "dex_number": 33,
+      "name": "gyarados"
+    },
+    {
+      "species_id": 688,
+      "dex_number": 34,
+      "name": "binacle"
+    },
+    {
+      "species_id": 689,
+      "dex_number": 35,
+      "name": "barbaracle"
+    },
+    {
+      "species_id": 120,
+      "dex_number": 36,
+      "name": "staryu"
+    },
+    {
+      "species_id": 121,
+      "dex_number": 37,
+      "name": "starmie"
+    },
+    {
+      "species_id": 669,
+      "dex_number": 38,
+      "name": "flabebe"
+    },
+    {
+      "species_id": 670,
+      "dex_number": 39,
+      "name": "floette"
+    },
+    {
+      "species_id": 671,
+      "dex_number": 40,
+      "name": "florges"
+    },
+    {
+      "species_id": 672,
+      "dex_number": 41,
+      "name": "skiddo"
+    },
+    {
+      "species_id": 673,
+      "dex_number": 42,
+      "name": "gogoat"
+    },
+    {
+      "species_id": 677,
+      "dex_number": 43,
+      "name": "espurr"
+    },
+    {
+      "species_id": 678,
+      "dex_number": 44,
+      "name": "meowstic"
+    },
+    {
+      "species_id": 667,
+      "dex_number": 45,
+      "name": "litleo"
+    },
+    {
+      "species_id": 668,
+      "dex_number": 46,
+      "name": "pyroar"
+    },
+    {
+      "species_id": 674,
+      "dex_number": 47,
+      "name": "pancham"
+    },
+    {
+      "species_id": 675,
+      "dex_number": 48,
+      "name": "pangoro"
+    },
+    {
+      "species_id": 568,
+      "dex_number": 49,
+      "name": "trubbish"
+    },
+    {
+      "species_id": 569,
+      "dex_number": 50,
+      "name": "garbodor"
+    },
+    {
+      "species_id": 702,
+      "dex_number": 51,
+      "name": "dedenne"
+    },
+    {
+      "species_id": 172,
+      "dex_number": 52,
+      "name": "pichu"
+    },
+    {
+      "species_id": 25,
+      "dex_number": 53,
+      "name": "pikachu"
+    },
+    {
+      "species_id": 26,
+      "dex_number": 54,
+      "name": "raichu"
+    },
+    {
+      "species_id": 173,
+      "dex_number": 55,
+      "name": "cleffa"
+    },
+    {
+      "species_id": 35,
+      "dex_number": 56,
+      "name": "clefairy"
+    },
+    {
+      "species_id": 36,
+      "dex_number": 57,
+      "name": "clefable"
+    },
+    {
+      "species_id": 167,
+      "dex_number": 58,
+      "name": "spinarak"
+    },
+    {
+      "species_id": 168,
+      "dex_number": 59,
+      "name": "ariados"
+    },
+    {
+      "species_id": 23,
+      "dex_number": 60,
+      "name": "ekans"
+    },
+    {
+      "species_id": 24,
+      "dex_number": 61,
+      "name": "arbok"
+    },
+    {
+      "species_id": 63,
+      "dex_number": 62,
+      "name": "abra"
+    },
+    {
+      "species_id": 64,
+      "dex_number": 63,
+      "name": "kadabra"
+    },
+    {
+      "species_id": 65,
+      "dex_number": 64,
+      "name": "alakazam"
+    },
+    {
+      "species_id": 92,
+      "dex_number": 65,
+      "name": "gastly"
+    },
+    {
+      "species_id": 93,
+      "dex_number": 66,
+      "name": "haunter"
+    },
+    {
+      "species_id": 94,
+      "dex_number": 67,
+      "name": "gengar"
+    },
+    {
+      "species_id": 543,
+      "dex_number": 68,
+      "name": "venipede"
+    },
+    {
+      "species_id": 544,
+      "dex_number": 69,
+      "name": "whirlipede"
+    },
+    {
+      "species_id": 545,
+      "dex_number": 70,
+      "name": "scolipede"
+    },
+    {
+      "species_id": 679,
+      "dex_number": 71,
+      "name": "honedge"
+    },
+    {
+      "species_id": 680,
+      "dex_number": 72,
+      "name": "doublade"
+    },
+    {
+      "species_id": 681,
+      "dex_number": 73,
+      "name": "aegislash"
+    },
+    {
+      "species_id": 69,
+      "dex_number": 74,
+      "name": "bellsprout"
+    },
+    {
+      "species_id": 70,
+      "dex_number": 75,
+      "name": "weepinbell"
+    },
+    {
+      "species_id": 71,
+      "dex_number": 76,
+      "name": "victreebel"
+    },
+    {
+      "species_id": 511,
+      "dex_number": 77,
+      "name": "pansage"
+    },
+    {
+      "species_id": 512,
+      "dex_number": 78,
+      "name": "simisage"
+    },
+    {
+      "species_id": 513,
+      "dex_number": 79,
+      "name": "pansear"
+    },
+    {
+      "species_id": 514,
+      "dex_number": 80,
+      "name": "simisear"
+    },
+    {
+      "species_id": 515,
+      "dex_number": 81,
+      "name": "panpour"
+    },
+    {
+      "species_id": 516,
+      "dex_number": 82,
+      "name": "simipour"
+    },
+    {
+      "species_id": 307,
+      "dex_number": 83,
+      "name": "meditite"
+    },
+    {
+      "species_id": 308,
+      "dex_number": 84,
+      "name": "medicham"
+    },
+    {
+      "species_id": 309,
+      "dex_number": 85,
+      "name": "electrike"
+    },
+    {
+      "species_id": 310,
+      "dex_number": 86,
+      "name": "manectric"
+    },
+    {
+      "species_id": 280,
+      "dex_number": 87,
+      "name": "ralts"
+    },
+    {
+      "species_id": 281,
+      "dex_number": 88,
+      "name": "kirlia"
+    },
+    {
+      "species_id": 282,
+      "dex_number": 89,
+      "name": "gardevoir"
+    },
+    {
+      "species_id": 475,
+      "dex_number": 90,
+      "name": "gallade"
+    },
+    {
+      "species_id": 228,
+      "dex_number": 91,
+      "name": "houndour"
+    },
+    {
+      "species_id": 229,
+      "dex_number": 92,
+      "name": "houndoom"
+    },
+    {
+      "species_id": 333,
+      "dex_number": 93,
+      "name": "swablu"
+    },
+    {
+      "species_id": 334,
+      "dex_number": 94,
+      "name": "altaria"
+    },
+    {
+      "species_id": 531,
+      "dex_number": 95,
+      "name": "audino"
+    },
+    {
+      "species_id": 682,
+      "dex_number": 96,
+      "name": "spritzee"
+    },
+    {
+      "species_id": 683,
+      "dex_number": 97,
+      "name": "aromatisse"
+    },
+    {
+      "species_id": 684,
+      "dex_number": 98,
+      "name": "swirlix"
+    },
+    {
+      "species_id": 685,
+      "dex_number": 99,
+      "name": "slurpuff"
+    },
+    {
+      "species_id": 133,
+      "dex_number": 100,
+      "name": "eevee"
+    },
+    {
+      "species_id": 134,
+      "dex_number": 101,
+      "name": "vaporeon"
+    },
+    {
+      "species_id": 135,
+      "dex_number": 102,
+      "name": "jolteon"
+    },
+    {
+      "species_id": 136,
+      "dex_number": 103,
+      "name": "flareon"
+    },
+    {
+      "species_id": 196,
+      "dex_number": 104,
+      "name": "espeon"
+    },
+    {
+      "species_id": 197,
+      "dex_number": 105,
+      "name": "umbreon"
+    },
+    {
+      "species_id": 470,
+      "dex_number": 106,
+      "name": "leafeon"
+    },
+    {
+      "species_id": 471,
+      "dex_number": 107,
+      "name": "glaceon"
+    },
+    {
+      "species_id": 700,
+      "dex_number": 108,
+      "name": "sylveon"
+    },
+    {
+      "species_id": 427,
+      "dex_number": 109,
+      "name": "buneary"
+    },
+    {
+      "species_id": 428,
+      "dex_number": 110,
+      "name": "lopunny"
+    },
+    {
+      "species_id": 353,
+      "dex_number": 111,
+      "name": "shuppet"
+    },
+    {
+      "species_id": 354,
+      "dex_number": 112,
+      "name": "banette"
+    },
+    {
+      "species_id": 582,
+      "dex_number": 113,
+      "name": "vanillite"
+    },
+    {
+      "species_id": 583,
+      "dex_number": 114,
+      "name": "vanillish"
+    },
+    {
+      "species_id": 584,
+      "dex_number": 115,
+      "name": "vanilluxe"
+    },
+    {
+      "species_id": 322,
+      "dex_number": 116,
+      "name": "numel"
+    },
+    {
+      "species_id": 323,
+      "dex_number": 117,
+      "name": "camerupt"
+    },
+    {
+      "species_id": 449,
+      "dex_number": 118,
+      "name": "hippopotas"
+    },
+    {
+      "species_id": 450,
+      "dex_number": 119,
+      "name": "hippowdon"
+    },
+    {
+      "species_id": 529,
+      "dex_number": 120,
+      "name": "drilbur"
+    },
+    {
+      "species_id": 530,
+      "dex_number": 121,
+      "name": "excadrill"
+    },
+    {
+      "species_id": 551,
+      "dex_number": 122,
+      "name": "sandile"
+    },
+    {
+      "species_id": 552,
+      "dex_number": 123,
+      "name": "krokorok"
+    },
+    {
+      "species_id": 553,
+      "dex_number": 124,
+      "name": "krookodile"
+    },
+    {
+      "species_id": 66,
+      "dex_number": 125,
+      "name": "machop"
+    },
+    {
+      "species_id": 67,
+      "dex_number": 126,
+      "name": "machoke"
+    },
+    {
+      "species_id": 68,
+      "dex_number": 127,
+      "name": "machamp"
+    },
+    {
+      "species_id": 443,
+      "dex_number": 128,
+      "name": "gible"
+    },
+    {
+      "species_id": 444,
+      "dex_number": 129,
+      "name": "gabite"
+    },
+    {
+      "species_id": 445,
+      "dex_number": 130,
+      "name": "garchomp"
+    },
+    {
+      "species_id": 703,
+      "dex_number": 131,
+      "name": "carbink"
+    },
+    {
+      "species_id": 302,
+      "dex_number": 132,
+      "name": "sableye"
+    },
+    {
+      "species_id": 303,
+      "dex_number": 133,
+      "name": "mawile"
+    },
+    {
+      "species_id": 359,
+      "dex_number": 134,
+      "name": "absol"
+    },
+    {
+      "species_id": 447,
+      "dex_number": 135,
+      "name": "riolu"
+    },
+    {
+      "species_id": 448,
+      "dex_number": 136,
+      "name": "lucario"
+    },
+    {
+      "species_id": 79,
+      "dex_number": 137,
+      "name": "slowpoke"
+    },
+    {
+      "species_id": 80,
+      "dex_number": 138,
+      "name": "slowbro"
+    },
+    {
+      "species_id": 199,
+      "dex_number": 139,
+      "name": "slowking"
+    },
+    {
+      "species_id": 318,
+      "dex_number": 140,
+      "name": "carvanha"
+    },
+    {
+      "species_id": 319,
+      "dex_number": 141,
+      "name": "sharpedo"
+    },
+    {
+      "species_id": 602,
+      "dex_number": 142,
+      "name": "tynamo"
+    },
+    {
+      "species_id": 603,
+      "dex_number": 143,
+      "name": "eelektrik"
+    },
+    {
+      "species_id": 604,
+      "dex_number": 144,
+      "name": "eelektross"
+    },
+    {
+      "species_id": 147,
+      "dex_number": 145,
+      "name": "dratini"
+    },
+    {
+      "species_id": 148,
+      "dex_number": 146,
+      "name": "dragonair"
+    },
+    {
+      "species_id": 149,
+      "dex_number": 147,
+      "name": "dragonite"
+    },
+    {
+      "species_id": 1,
+      "dex_number": 148,
+      "name": "bulbasaur"
+    },
+    {
+      "species_id": 2,
+      "dex_number": 149,
+      "name": "ivysaur"
+    },
+    {
+      "species_id": 3,
+      "dex_number": 150,
+      "name": "venusaur"
+    },
+    {
+      "species_id": 4,
+      "dex_number": 151,
+      "name": "charmander"
+    },
+    {
+      "species_id": 5,
+      "dex_number": 152,
+      "name": "charmeleon"
+    },
+    {
+      "species_id": 6,
+      "dex_number": 153,
+      "name": "charizard"
+    },
+    {
+      "species_id": 7,
+      "dex_number": 154,
+      "name": "squirtle"
+    },
+    {
+      "species_id": 8,
+      "dex_number": 155,
+      "name": "wartortle"
+    },
+    {
+      "species_id": 9,
+      "dex_number": 156,
+      "name": "blastoise"
+    },
+    {
+      "species_id": 618,
+      "dex_number": 157,
+      "name": "stunfisk"
+    },
+    {
+      "species_id": 676,
+      "dex_number": 158,
+      "name": "furfrou"
+    },
+    {
+      "species_id": 686,
+      "dex_number": 159,
+      "name": "inkay"
+    },
+    {
+      "species_id": 687,
+      "dex_number": 160,
+      "name": "malamar"
+    },
+    {
+      "species_id": 690,
+      "dex_number": 161,
+      "name": "skrelp"
+    },
+    {
+      "species_id": 691,
+      "dex_number": 162,
+      "name": "dragalge"
+    },
+    {
+      "species_id": 692,
+      "dex_number": 163,
+      "name": "clauncher"
+    },
+    {
+      "species_id": 693,
+      "dex_number": 164,
+      "name": "clawitzer"
+    },
+    {
+      "species_id": 704,
+      "dex_number": 165,
+      "name": "goomy"
+    },
+    {
+      "species_id": 705,
+      "dex_number": 166,
+      "name": "sliggoo"
+    },
+    {
+      "species_id": 706,
+      "dex_number": 167,
+      "name": "goodra"
+    },
+    {
+      "species_id": 225,
+      "dex_number": 168,
+      "name": "delibird"
+    },
+    {
+      "species_id": 361,
+      "dex_number": 169,
+      "name": "snorunt"
+    },
+    {
+      "species_id": 362,
+      "dex_number": 170,
+      "name": "glalie"
+    },
+    {
+      "species_id": 478,
+      "dex_number": 171,
+      "name": "froslass"
+    },
+    {
+      "species_id": 459,
+      "dex_number": 172,
+      "name": "snover"
+    },
+    {
+      "species_id": 460,
+      "dex_number": 173,
+      "name": "abomasnow"
+    },
+    {
+      "species_id": 712,
+      "dex_number": 174,
+      "name": "bergmite"
+    },
+    {
+      "species_id": 713,
+      "dex_number": 175,
+      "name": "avalugg"
+    },
+    {
+      "species_id": 123,
+      "dex_number": 176,
+      "name": "scyther"
+    },
+    {
+      "species_id": 212,
+      "dex_number": 177,
+      "name": "scizor"
+    },
+    {
+      "species_id": 127,
+      "dex_number": 178,
+      "name": "pinsir"
+    },
+    {
+      "species_id": 214,
+      "dex_number": 179,
+      "name": "heracross"
+    },
+    {
+      "species_id": 587,
+      "dex_number": 180,
+      "name": "emolga"
+    },
+    {
+      "species_id": 701,
+      "dex_number": 181,
+      "name": "hawlucha"
+    },
+    {
+      "species_id": 708,
+      "dex_number": 182,
+      "name": "phantump"
+    },
+    {
+      "species_id": 709,
+      "dex_number": 183,
+      "name": "trevenant"
+    },
+    {
+      "species_id": 559,
+      "dex_number": 184,
+      "name": "scraggy"
+    },
+    {
+      "species_id": 560,
+      "dex_number": 185,
+      "name": "scrafty"
+    },
+    {
+      "species_id": 714,
+      "dex_number": 186,
+      "name": "noibat"
+    },
+    {
+      "species_id": 715,
+      "dex_number": 187,
+      "name": "noivern"
+    },
+    {
+      "species_id": 707,
+      "dex_number": 188,
+      "name": "klefki"
+    },
+    {
+      "species_id": 607,
+      "dex_number": 189,
+      "name": "litwick"
+    },
+    {
+      "species_id": 608,
+      "dex_number": 190,
+      "name": "lampent"
+    },
+    {
+      "species_id": 609,
+      "dex_number": 191,
+      "name": "chandelure"
+    },
+    {
+      "species_id": 142,
+      "dex_number": 192,
+      "name": "aerodactyl"
+    },
+    {
+      "species_id": 696,
+      "dex_number": 193,
+      "name": "tyrunt"
+    },
+    {
+      "species_id": 697,
+      "dex_number": 194,
+      "name": "tyrantrum"
+    },
+    {
+      "species_id": 698,
+      "dex_number": 195,
+      "name": "amaura"
+    },
+    {
+      "species_id": 699,
+      "dex_number": 196,
+      "name": "aurorus"
+    },
+    {
+      "species_id": 95,
+      "dex_number": 197,
+      "name": "onix"
+    },
+    {
+      "species_id": 208,
+      "dex_number": 198,
+      "name": "steelix"
+    },
+    {
+      "species_id": 304,
+      "dex_number": 199,
+      "name": "aron"
+    },
+    {
+      "species_id": 305,
+      "dex_number": 200,
+      "name": "lairon"
+    },
+    {
+      "species_id": 306,
+      "dex_number": 201,
+      "name": "aggron"
+    },
+    {
+      "species_id": 694,
+      "dex_number": 202,
+      "name": "helioptile"
+    },
+    {
+      "species_id": 695,
+      "dex_number": 203,
+      "name": "heliolisk"
+    },
+    {
+      "species_id": 710,
+      "dex_number": 204,
+      "name": "pumpkaboo"
+    },
+    {
+      "species_id": 711,
+      "dex_number": 205,
+      "name": "gourgeist"
+    },
+    {
+      "species_id": 246,
+      "dex_number": 206,
+      "name": "larvitar"
+    },
+    {
+      "species_id": 247,
+      "dex_number": 207,
+      "name": "pupitar"
+    },
+    {
+      "species_id": 248,
+      "dex_number": 208,
+      "name": "tyranitar"
+    },
+    {
+      "species_id": 656,
+      "dex_number": 209,
+      "name": "froakie"
+    },
+    {
+      "species_id": 657,
+      "dex_number": 210,
+      "name": "frogadier"
+    },
+    {
+      "species_id": 658,
+      "dex_number": 211,
+      "name": "greninja"
+    },
+    {
+      "species_id": 870,
+      "dex_number": 212,
+      "name": "falinks"
+    },
+    {
+      "species_id": 650,
+      "dex_number": 213,
+      "name": "chespin"
+    },
+    {
+      "species_id": 651,
+      "dex_number": 214,
+      "name": "quilladin"
+    },
+    {
+      "species_id": 652,
+      "dex_number": 215,
+      "name": "chesnaught"
+    },
+    {
+      "species_id": 227,
+      "dex_number": 216,
+      "name": "skarmory"
+    },
+    {
+      "species_id": 653,
+      "dex_number": 217,
+      "name": "fennekin"
+    },
+    {
+      "species_id": 654,
+      "dex_number": 218,
+      "name": "braixen"
+    },
+    {
+      "species_id": 655,
+      "dex_number": 219,
+      "name": "delphox"
+    },
+    {
+      "species_id": 371,
+      "dex_number": 220,
+      "name": "bagon"
+    },
+    {
+      "species_id": 372,
+      "dex_number": 221,
+      "name": "shelgon"
+    },
+    {
+      "species_id": 373,
+      "dex_number": 222,
+      "name": "salamence"
+    },
+    {
+      "species_id": 115,
+      "dex_number": 223,
+      "name": "kangaskhan"
+    },
+    {
+      "species_id": 780,
+      "dex_number": 224,
+      "name": "drampa"
+    },
+    {
+      "species_id": 374,
+      "dex_number": 225,
+      "name": "beldum"
+    },
+    {
+      "species_id": 375,
+      "dex_number": 226,
+      "name": "metang"
+    },
+    {
+      "species_id": 376,
+      "dex_number": 227,
+      "name": "metagross"
+    },
+    {
+      "species_id": 716,
+      "dex_number": 228,
+      "name": "xerneas"
+    },
+    {
+      "species_id": 717,
+      "dex_number": 229,
+      "name": "yveltal"
+    },
+    {
+      "species_id": 718,
+      "dex_number": 230,
+      "name": "zygarde"
+    },
+    {
+      "species_id": 719,
+      "dex_number": 231,
+      "name": "diancie"
+    },
+    {
+      "species_id": 150,
+      "dex_number": 232,
+      "name": "mewtwo"
+    }
+  ],
+  "new_megas": [
+    {
+      "species_id": 36,
+      "name": "Clefable",
+      "form_name": "Mega Clefable"
+    },
+    {
+      "species_id": 71,
+      "name": "Victreebel",
+      "form_name": "Mega Victreebel"
+    },
+    {
+      "species_id": 121,
+      "name": "Starmie",
+      "form_name": "Mega Starmie"
+    },
+    {
+      "species_id": 149,
+      "name": "Dragonite",
+      "form_name": "Mega Dragonite"
+    },
+    {
+      "species_id": 154,
+      "name": "Meganium",
+      "form_name": "Mega Meganium"
+    },
+    {
+      "species_id": 160,
+      "name": "Feraligatr",
+      "form_name": "Mega Feraligatr"
+    },
+    {
+      "species_id": 227,
+      "name": "Skarmory",
+      "form_name": "Mega Skarmory"
+    },
+    {
+      "species_id": 478,
+      "name": "Froslass",
+      "form_name": "Mega Froslass"
+    },
+    {
+      "species_id": 500,
+      "name": "Emboar",
+      "form_name": "Mega Emboar"
+    },
+    {
+      "species_id": 530,
+      "name": "Excadrill",
+      "form_name": "Mega Excadrill"
+    },
+    {
+      "species_id": 545,
+      "name": "Scolipede",
+      "form_name": "Mega Scolipede"
+    },
+    {
+      "species_id": 560,
+      "name": "Scrafty",
+      "form_name": "Mega Scrafty"
+    },
+    {
+      "species_id": 604,
+      "name": "Eelektross",
+      "form_name": "Mega Eelektross"
+    },
+    {
+      "species_id": 609,
+      "name": "Chandelure",
+      "form_name": "Mega Chandelure"
+    },
+    {
+      "species_id": 652,
+      "name": "Chesnaught",
+      "form_name": "Mega Chesnaught"
+    },
+    {
+      "species_id": 655,
+      "name": "Delphox",
+      "form_name": "Mega Delphox"
+    },
+    {
+      "species_id": 658,
+      "name": "Greninja",
+      "form_name": "Mega Greninja"
+    },
+    {
+      "species_id": 668,
+      "name": "Pyroar",
+      "form_name": "Mega Pyroar"
+    },
+    {
+      "species_id": 670,
+      "name": "Floette",
+      "form_name": "Mega Floette"
+    },
+    {
+      "species_id": 687,
+      "name": "Malamar",
+      "form_name": "Mega Malamar"
+    },
+    {
+      "species_id": 689,
+      "name": "Barbaracle",
+      "form_name": "Mega Barbaracle"
+    },
+    {
+      "species_id": 691,
+      "name": "Dragalge",
+      "form_name": "Mega Dragalge"
+    },
+    {
+      "species_id": 701,
+      "name": "Hawlucha",
+      "form_name": "Mega Hawlucha"
+    },
+    {
+      "species_id": 718,
+      "name": "Zygarde",
+      "form_name": "Mega Zygarde"
+    },
+    {
+      "species_id": 780,
+      "name": "Drampa",
+      "form_name": "Mega Drampa"
+    },
+    {
+      "species_id": 870,
+      "name": "Falinks",
+      "form_name": "Mega Falinks"
+    },
+    {
+      "species_id": 26,
+      "name": "Raichu",
+      "form_name": "Mega Raichu"
+    },
+    {
+      "species_id": 358,
+      "name": "Chimecho",
+      "form_name": "Mega Chimecho"
+    },
+    {
+      "species_id": 359,
+      "name": "Absol",
+      "form_name": "Mega Absol"
+    },
+    {
+      "species_id": 398,
+      "name": "Staraptor",
+      "form_name": "Mega Staraptor"
+    },
+    {
+      "species_id": 445,
+      "name": "Garchomp",
+      "form_name": "Mega Garchomp"
+    },
+    {
+      "species_id": 448,
+      "name": "Lucario",
+      "form_name": "Mega Lucario"
+    },
+    {
+      "species_id": 485,
+      "name": "Heatran",
+      "form_name": "Mega Heatran"
+    },
+    {
+      "species_id": 491,
+      "name": "Darkrai",
+      "form_name": "Mega Darkrai"
+    },
+    {
+      "species_id": 623,
+      "name": "Golurk",
+      "form_name": "Mega Golurk"
+    },
+    {
+      "species_id": 678,
+      "name": "Meowstic",
+      "form_name": "Mega Meowstic"
+    },
+    {
+      "species_id": 740,
+      "name": "Crabominable",
+      "form_name": "Mega Crabominable"
+    },
+    {
+      "species_id": 768,
+      "name": "Golisopod",
+      "form_name": "Mega Golisopod"
+    },
+    {
+      "species_id": 801,
+      "name": "Magearna",
+      "form_name": "Mega Magearna"
+    },
+    {
+      "species_id": 807,
+      "name": "Zeraora",
+      "form_name": "Mega Zeraora"
+    },
+    {
+      "species_id": 952,
+      "name": "Scovillain",
+      "form_name": "Mega Scovillain"
+    },
+    {
+      "species_id": 970,
+      "name": "Glimmora",
+      "form_name": "Mega Glimmora"
+    },
+    {
+      "species_id": 978,
+      "name": "Tatsugiri",
+      "form_name": "Mega Tatsugiri"
+    },
+    {
+      "species_id": 998,
+      "name": "Baxcalibur",
+      "form_name": "Mega Baxcalibur"
+    }
+  ],
+  "origin_mark": {
+    "source_url": "https://bulbapedia.bulbagarden.net/wiki/Special:Filepath/Z-A%20icon.png",
+    "saved": true
+  }
+}

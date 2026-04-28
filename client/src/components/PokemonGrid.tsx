@@ -3,6 +3,7 @@ import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import PokemonCard from './PokemonCard';
 import { useSpritePrefs } from '@/hooks/useSpritePrefs';
 import type { PokemonStyle } from '@/components/Sprite';
+import { api } from '@/api/client';
 
 // Map game name → origin mark. Multiple games share the same mark.
 const GAME_TO_MARK: Record<string, string> = {
@@ -18,6 +19,7 @@ const GAME_TO_MARK: Record<string, string> = {
   'Brilliant Diamond': 'BDSP', 'Shining Pearl': 'BDSP',
   'Legends Arceus': 'Hisui',
   Scarlet: 'Paldea', Violet: 'Paldea',
+  'Legends Z-A': 'Lumiose',
 };
 
 function getBestNatures(species: any): string[] {
@@ -54,6 +56,23 @@ export default function PokemonGrid({ species, collection, itemCaughtMap, shinyM
   const [cols, setCols] = useState(10);
   const { style, boxEverywhere } = useSpritePrefs();
   const listStyle: PokemonStyle = boxEverywhere ? 'box' : style;
+
+  const [teraPalette, setTeraPalette] = useState<Record<string, string>>({});
+  useEffect(() => {
+    let cancelled = false;
+    api.reference.teraTypes().then(types => {
+      if (cancelled) return;
+      const palette: Record<string, string> = {};
+      for (const t of types) {
+        palette[t.key] = t.color;
+        palette[t.key.toLowerCase()] = t.color;
+        palette[t.name] = t.color;
+        palette[t.name.toLowerCase()] = t.color;
+      }
+      setTeraPalette(palette);
+    }).catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     function updateCols() {
@@ -156,6 +175,11 @@ export default function PokemonGrid({ species, collection, itemCaughtMap, shinyM
                   e.iv_sp_attack === 31 && e.iv_sp_defense === 31 && e.iv_speed === 31
                 );
                 const genders = new Set(allEntries.map((e: any) => e.gender).filter(Boolean));
+                const teraType = (allEntries.find((e: any) => e.tera_type)?.tera_type as string | undefined) ?? null;
+                const teraColor = teraType ? (teraPalette[teraType] ?? teraPalette[teraType.toLowerCase()] ?? null) : null;
+                const hasAlpha = allEntries.some((e: any) =>
+                  (e.is_alpha === 1 || e.is_alpha === true) && e.origin_game === 'Legends Arceus'
+                );
                 const lensData = {
                   ribbonCount: ribbonSet.size,
                   markCount: markSet.size,
@@ -173,6 +197,10 @@ export default function PokemonGrid({ species, collection, itemCaughtMap, shinyM
                   abilityCount: allAbilities.size,
                   totalAbilities,
                   hasPerfect,
+                  entries: allEntries,
+                  teraType,
+                  teraColor,
+                  hasAlpha,
                 };
 
                 return (

@@ -1,6 +1,8 @@
 import { TYPE_COLORS } from '@/lib/pokemon-constants';
 import { BallIcon, ShinyIcon, GenderIcon, OriginMark } from '@/components/icons';
 import { Sprite, type PokemonStyle } from '@/components/Sprite';
+import { TeraLens } from '@/components/pokedex/lenses/TeraLens';
+import { AlphaLens } from '@/components/pokedex/lenses/AlphaLens';
 
 interface Props {
   species: any;
@@ -22,6 +24,10 @@ interface Props {
     abilityCount: number;
     totalAbilities: number;
     hasPerfect: boolean;
+    entries?: any[];
+    teraType?: string | null;
+    teraColor?: string | null;
+    hasAlpha?: boolean;
   };
   formName?: string;
   formCategory?: string;
@@ -58,6 +64,13 @@ export default function PokemonCard({ species, caught, shinyCaught, shinyMode, b
       className={`relative bg-white rounded-lg ${cardShadow} overflow-hidden cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-md`}
       onClick={onClick}
     >
+      {lens === 'tera' && lensData?.entries && (
+        <TeraLens speciesId={species.id} entries={lensData.entries} />
+      )}
+      {lens === 'alpha' && lensData?.entries && (
+        <AlphaLens entries={lensData.entries} />
+      )}
+
       {/* Form count badge for national mode */}
       {(() => {
         if (formName || !species.forms) return null;
@@ -158,6 +171,26 @@ export default function PokemonCard({ species, caught, shinyCaught, shinyMode, b
         {formName && formName !== 'Standard' && (
           <div className="text-2xs font-semibold text-muted-foreground/60 truncate -mt-0.5">
             {formName}
+          </div>
+        )}
+
+        {/* Tera/Alpha chips — supplemental, render in all lens modes when caught */}
+        {isCaught && (lensData?.teraType || lensData?.hasAlpha) && (
+          <div className="flex justify-center gap-1 mt-1 flex-wrap">
+            {lensData?.teraType && (
+              <span
+                className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-2xs font-semibold text-white"
+                style={{ backgroundColor: lensData.teraColor ?? '#444' }}
+                title={`Tera ${lensData.teraType}`}
+              >
+                Tera {lensData.teraType}
+              </span>
+            )}
+            {lensData?.hasAlpha && (
+              <span className="inline-flex items-center rounded-full bg-amber-500 px-2 py-0.5 text-2xs font-bold text-white" title="Alpha (Legends Arceus)">
+                α Alpha
+              </span>
+            )}
           </div>
         )}
 

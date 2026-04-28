@@ -1,0 +1,28 @@
+{
+  "past": [
+    { "id": 984, "name": "great-tusk",       "parent": "donphan" },
+    { "id": 985, "name": "scream-tail",      "parent": "jigglypuff" },
+    { "id": 986, "name": "brute-bonnet",     "parent": "amoonguss" },
+    { "id": 987, "name": "flutter-mane",     "parent": "misdreavus" },
+    { "id": 988, "name": "slither-wing",     "parent": "volcarona" },
+    { "id": 989, "name": "sandy-shocks",     "parent": "magneton" },
+    { "id": 1005,"name": "roaring-moon",     "parent": "salamence" },
+    { "id": 1007,"name": "koraidon",         "parent": null },
+    { "id": 1009,"name": "walking-wake",     "parent": "suicune" },
+    { "id": 1020,"name": "gouging-fire",     "parent": "entei" },
+    { "id": 1021,"name": "raging-bolt",      "parent": "raikou" }
+  ],
+  "future": [
+    { "id": 990, "name": "iron-treads",      "parent": "donphan" },
+    { "id": 991, "name": "iron-bundle",      "parent": "delibird" },
+    { "id": 992, "name": "iron-hands",       "parent": "hariyama" },
+    { "id": 993, "name": "iron-jugulis",     "parent": "hydreigon" },
+    { "id": 994, "name": "iron-moth",        "parent": "volcarona" },
+    { "id": 995, "name": "iron-thorns",      "parent": "tyranitar" },
+    { "id": 1006,"name": "iron-valiant",     "parent": "gardevoir-gallade" },
+    { "id": 1008,"name": "miraidon",         "parent": null },
+    { "id": 1010,"name": "iron-leaves",      "parent": "virizion" },
+    { "id": 1022,"name": "iron-boulder",     "parent": "terrakion" },
+    { "id": 1023,"name": "iron-crown",       "parent": "cobalion" }
+  ]
+}

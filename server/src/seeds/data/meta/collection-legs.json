@@ -4,8 +4,9 @@
   { "key": "pentagon", "label": "Pentagon", "origin_mark": "⬠", "games": ["x", "y", "omega-ruby", "alpha-sapphire"], "leg_order": 3, "status": "upcoming" },
   { "key": "clover", "label": "Clover", "origin_mark": "☘", "games": ["sun", "moon", "ultra-sun", "ultra-moon"], "leg_order": 4, "status": "upcoming" },
   { "key": "letsgo", "label": "Let's Go", "origin_mark": "LG", "games": ["lets-go-pikachu", "lets-go-eevee"], "leg_order": 5, "status": "upcoming" },
-  { "key": "galar", "label": "Galar", "origin_mark": "⊕", "games": ["sword", "shield"], "leg_order": 6, "status": "upcoming" },
-  { "key": "sinnoh-remake", "label": "Sinnoh (BDSP)", "origin_mark": "💎", "games": ["brilliant-diamond", "shining-pearl"], "leg_order": 7, "status": "upcoming" },
-  { "key": "hisui", "label": "Hisui", "origin_mark": "⭐", "games": ["legends-arceus"], "leg_order": 8, "status": "upcoming" },
-  { "key": "paldea", "label": "Paldea", "origin_mark": "★", "games": ["scarlet", "violet"], "leg_order": 9, "status": "upcoming" }
+  { "key": "galar", "label": "Galar", "origin_mark": "⊕", "games": ["sword", "shield"], "leg_order": 6, "status": "active" },
+  { "key": "sinnoh-remake", "label": "Sinnoh (BDSP)", "origin_mark": "💎", "games": ["brilliant-diamond", "shining-pearl"], "leg_order": 7, "status": "active" },
+  { "key": "hisui", "label": "Hisui", "origin_mark": "⭐", "games": ["legends-arceus"], "leg_order": 8, "status": "active" },
+  { "key": "paldea", "label": "Paldea", "origin_mark": "★", "games": ["scarlet", "violet"], "leg_order": 9, "status": "active" },
+  { "key": "lumiose", "label": "Lumiose (Legends Z-A)", "origin_mark": "Lumiose", "games": ["legends-z-a"], "leg_order": 10, "status": "active" }
 ]
