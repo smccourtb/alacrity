@@ -19,6 +19,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { TypePill, BallIcon, ShinyIcon, GamePill, ItemIcon } from '@/components/icons';
+import { Sprite, type PokemonStyle } from '@/components/Sprite';
+import { useSpritePrefs } from '@/hooks/useSpritePrefs';
 
 interface Props {
   species: any[];
@@ -44,6 +46,8 @@ function IvCell({ value }: { value: number | null | undefined }) {
 
 
 export default function PokemonTable({ species, collection, caughtIds, shinyCaughtIds, shinyMode, onSelect }: Props) {
+  const { style, boxEverywhere } = useSpritePrefs();
+  const listStyle: PokemonStyle = boxEverywhere ? 'box' : style;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     nature: false,
@@ -103,15 +107,16 @@ export default function PokemonTable({ species, collection, caughtIds, shinyCaug
       enableHiding: false,
       cell: ({ row }) => {
         const s = row.original;
-        const url = shinyMode ? s.shiny_sprite_url : s.sprite_url;
         return (
           <div className="w-8 h-8 flex items-center justify-center">
-            <img
-              src={url}
+            <Sprite
+              kind="pokemon"
+              id={s.id}
+              shiny={shinyMode}
+              style={listStyle}
+              size={32}
               alt={s.name}
-              className="w-8 h-8 [image-rendering:pixelated]"
-              style={!s.isCaught ? { filter: 'brightness(0)', opacity: 0.3 } : undefined}
-              loading="lazy"
+              className={`w-8 h-8${!s.isCaught ? ' [filter:brightness(0)] opacity-30' : ''}`}
             />
           </div>
         );
@@ -194,7 +199,7 @@ export default function PokemonTable({ species, collection, caughtIds, shinyCaug
     { accessorKey: 'level', header: 'Lv', size: 40, cell: ({ getValue }) => <span className="text-sm font-mono">{(getValue() as any) || '—'}</span> },
     { accessorKey: 'held_item', header: 'Item', size: 80, cell: ({ getValue }) => { const item = getValue() as string; return item ? <ItemIcon name={item} size="sm" showLabel /> : <span className="text-muted-foreground/20">—</span>; } },
     { accessorKey: 'source_save', header: 'Source', size: 100, cell: ({ getValue }) => <span className="text-xs text-muted-foreground truncate max-w-[90px] block">{(getValue() as string) || '—'}</span> },
-  ], [shinyMode]);
+  ], [shinyMode, listStyle]);
 
   const table = useReactTable({
     data,

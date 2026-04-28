@@ -4,13 +4,16 @@
  * Gen 3: Fetches C header files and parses #define FLAG_NAME 0xNNN syntax.
  *
  * Usage: npx tsx src/scripts/generate-flag-defs.ts [game]
- *   game: red (default), yellow, crystal, emerald, firered
+ *   game: red (default), blue, yellow, gold, silver, crystal, emerald, firered
+ *
+ * Note: Blue shares pokered's event constants; Silver shares pokegold's.
+ * The build flags differ but the event_flags.asm files are byte-identical.
  */
 
 import { writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
-type Game = 'red' | 'yellow' | 'crystal' | 'emerald' | 'firered';
+type Game = 'red' | 'blue' | 'yellow' | 'gold' | 'silver' | 'crystal' | 'emerald' | 'firered';
 
 const GAME_SOURCES: Record<Game, { url: string; output: string; format: 'asm' | 'c_header' }> = {
   red: {
@@ -18,9 +21,26 @@ const GAME_SOURCES: Record<Game, { url: string; output: string; format: 'asm' | 
     output: 'red.json',
     format: 'asm',
   },
+  blue: {
+    // Pokeblue shares pokered's event_constants.asm — byte-identical at build.
+    url: 'https://raw.githubusercontent.com/pret/pokered/master/constants/event_constants.asm',
+    output: 'blue.json',
+    format: 'asm',
+  },
   yellow: {
     url: 'https://raw.githubusercontent.com/pret/pokeyellow/master/constants/event_constants.asm',
     output: 'yellow.json',
+    format: 'asm',
+  },
+  gold: {
+    url: 'https://raw.githubusercontent.com/pret/pokegold/master/constants/event_flags.asm',
+    output: 'gold.json',
+    format: 'asm',
+  },
+  silver: {
+    // Pokesilver shares pokegold's event_flags.asm.
+    url: 'https://raw.githubusercontent.com/pret/pokegold/master/constants/event_flags.asm',
+    output: 'silver.json',
     format: 'asm',
   },
   crystal: {
@@ -40,9 +60,10 @@ const GAME_SOURCES: Record<Game, { url: string; output: string; format: 'asm' | 
   },
 };
 
+const VALID_GAMES = ['red', 'blue', 'yellow', 'gold', 'silver', 'crystal', 'emerald', 'firered'];
 const gameArg = process.argv[2] ?? 'red';
-if (!['red', 'yellow', 'crystal', 'emerald', 'firered'].includes(gameArg)) {
-  console.error(`Unknown game: ${gameArg}. Valid options: red, yellow, crystal, emerald, firered`);
+if (!VALID_GAMES.includes(gameArg)) {
+  console.error(`Unknown game: ${gameArg}. Valid options: ${VALID_GAMES.join(', ')}`);
   process.exit(1);
 }
 const GAME = gameArg as Game;

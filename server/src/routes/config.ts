@@ -17,6 +17,8 @@ router.put('/', (req, res) => {
     'ntfyServer',
     'ntfyTopic',
     'welcomeDismissed',
+    'pokedexSpriteStyle',
+    'boxIconEverywhere',
   ] as const;
 
   const partial: Record<string, unknown> = {};

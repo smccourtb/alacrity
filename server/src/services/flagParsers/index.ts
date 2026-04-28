@@ -63,6 +63,15 @@ function reconstructGen3Save(saveBuffer: Buffer): Buffer {
 }
 
 const flagDefCache = new Map<string, FlagDefinition[]>();
+const engineFlagDefCache = new Map<string, EngineFlagDef[]>();
+
+interface EngineFlagDef {
+  name: string;
+  synthetic_index: number;
+  sram_offset: number;
+  bit: number;
+  wField: string;
+}
 
 export function loadFlagDefinitions(game: string): FlagDefinition[] {
   if (flagDefCache.has(game)) return flagDefCache.get(game)!;
@@ -72,6 +81,19 @@ export function loadFlagDefinitions(game: string): FlagDefinition[] {
     flagDefCache.set(game, defs);
     return defs;
   } catch {
+    return [];
+  }
+}
+
+function loadEngineFlagDefinitions(game: string): EngineFlagDef[] {
+  if (engineFlagDefCache.has(game)) return engineFlagDefCache.get(game)!;
+  try {
+    const raw = readFileSync(join(flagsDir, `${game}-engine.json`), 'utf-8');
+    const defs: EngineFlagDef[] = JSON.parse(raw);
+    engineFlagDefCache.set(game, defs);
+    return defs;
+  } catch {
+    engineFlagDefCache.set(game, []);
     return [];
   }
 }
@@ -99,6 +121,26 @@ export function parseEventFlags(game: string, saveBuffer: Buffer): SaveFlagRepor
     location_key: def.location_key,
     set: readFlag(flagBuffer, config.offset, def.index),
   }));
+
+  // Engine flags live in `wEngineBuffer`-style fields scattered across save
+  // memory (wPokegearFlags, wStatusFlags, wDayCareMan, etc). Each entry's
+  // sram_offset + bit is precomputed in `<game>-engine.json` by
+  // `generate-engine-flag-defs.ts` from pret/ram/wram.asm. Synthetic indices
+  // start at 4096 — well above the max event flag — so they coexist with
+  // event flags in the same FlagResult[] / location_*.flag_index space.
+  const engineDefs = loadEngineFlagDefinitions(game);
+  for (const ed of engineDefs) {
+    const off = ed.sram_offset;
+    if (off >= flagBuffer.length) continue;
+    const set = (flagBuffer[off] & (1 << ed.bit)) !== 0;
+    results.push({
+      index: ed.synthetic_index,
+      name: ed.name,
+      category: 'engine',
+      location_key: undefined,
+      set,
+    });
+  }
 
   return buildFlagReport(game, results);
 }

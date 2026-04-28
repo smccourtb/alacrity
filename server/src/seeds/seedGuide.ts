@@ -11,30 +11,42 @@ function loadJson(filename: string) {
 }
 
 export function seedGameMaps(): void {
-  const existing = db.prepare('SELECT COUNT(*) as count FROM game_maps').get() as { count: number };
-  if (existing.count > 0) {
-    console.log(`game_maps already seeded (${existing.count} maps). Skipping.`);
-    return;
-  }
-
   console.log('Seeding game maps and locations...');
 
-  const insertMap = db.prepare(`
+  // Upsert game_maps by map_key (UNIQUE). Preserves id across boots.
+  const upsertMap = db.prepare(`
     INSERT INTO game_maps (map_key, display_name, image_path, width, height, games)
     VALUES (?, ?, ?, ?, ?, ?)
+    ON CONFLICT(map_key) DO UPDATE SET
+      display_name = excluded.display_name,
+      image_path = excluded.image_path,
+      width = excluded.width,
+      height = excluded.height,
+      games = excluded.games
   `);
-  const insertLocation = db.prepare(`
+  const getMapId = db.prepare('SELECT id FROM game_maps WHERE map_key = ?');
+
+  // Upsert locations. COALESCE on x/y preserves user-moved pin positions
+  // when the JSON hasn't been re-persisted (UI edits call persistLocationToSeed,
+  // so the JSON mirrors user state — but COALESCE keeps DB wins as a safety net
+  // against accidental JSON resets).
+  const upsertLocation = db.prepare(`
     INSERT INTO map_locations (map_id, location_key, display_name, x, y, location_type, progression_order)
     VALUES (?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(map_id, location_key) DO UPDATE SET
+      display_name = excluded.display_name,
+      x = excluded.x,
+      y = excluded.y,
+      location_type = excluded.location_type,
+      progression_order = excluded.progression_order
   `);
 
-  // Load and seed each map region
   const mapFiles = ['kanto-locations.json', 'johto-locations.json'];
 
-  const insertAll = db.transaction(() => {
+  const runAll = db.transaction(() => {
     for (const file of mapFiles) {
       const data = loadJson(file);
-      const mapResult = insertMap.run(
+      upsertMap.run(
         data.map.map_key,
         data.map.display_name,
         data.map.image_path,
@@ -42,15 +54,16 @@ export function seedGameMaps(): void {
         data.map.height,
         JSON.stringify(data.map.games)
       );
-      const mapId = mapResult.lastInsertRowid;
+      const row = getMapId.get(data.map.map_key) as { id: number };
+      const mapId = row.id;
 
       for (const loc of data.locations) {
-        insertLocation.run(mapId, loc.key, loc.name, loc.x, loc.y, loc.type, loc.order);
+        upsertLocation.run(mapId, loc.key, loc.name, loc.x, loc.y, loc.type, loc.order);
       }
-      console.log(`  Seeded ${data.map.display_name} map with ${data.locations.length} locations.`);
+      console.log(`  Upserted ${data.map.display_name} map with ${data.locations.length} locations.`);
     }
   });
-  insertAll();
+  runAll();
 }
 
 export function seedGuide(): void {

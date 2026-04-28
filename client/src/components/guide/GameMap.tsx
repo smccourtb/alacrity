@@ -2,6 +2,7 @@ import { MapContainer, ImageOverlay, useMap, useMapEvents } from "react-leaflet"
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
+import type { MutableRefObject } from 'react';
 
 interface GameMapProps {
   imagePath: string;
@@ -11,6 +12,7 @@ interface GameMapProps {
   selectedLocation?: { x: number; y: number } | null;
   onMapClick?: (pixel: { x: number; y: number }) => void;
   onZoomChange?: (zoom: number) => void;
+  mapHandleRef?: MutableRefObject<L.Map | null>;
 }
 
 function MapClickHandler({ onClick }: { onClick: (pixel: { x: number; y: number }) => void }) {
@@ -43,10 +45,24 @@ function FlyToLocation({
 }) {
   const map = useMap();
   useEffect(() => {
-    if (location) {
-      map.flyTo([-location.y, location.x], 1, { duration: 0.5 });
+    if (!location) return;
+    // Pan only when already zoomed in; otherwise a single smooth flyTo to a
+    // modest zoom level. Using flyTo with a large zoom delta makes Leaflet
+    // do an awkward pan-then-zoom two-step.
+    const current = map.getZoom();
+    const target = Math.max(current, 0);
+    if (target === current) {
+      map.panTo([-location.y, location.x], { duration: 0.4, easeLinearity: 0.25 });
+    } else {
+      map.flyTo([-location.y, location.x], target, { duration: 0.6, easeLinearity: 0.5 });
     }
   }, [map, location]);
+  return null;
+}
+
+function RefCapture({ target }: { target: MutableRefObject<L.Map | null> }) {
+  const map = useMap();
+  useEffect(() => { target.current = map; return () => { target.current = null; }; }, [map, target]);
   return null;
 }
 
@@ -87,6 +103,7 @@ export default function GameMap({
   selectedLocation,
   onMapClick,
   onZoomChange,
+  mapHandleRef,
 }: GameMapProps) {
   // CRS.Simple: lat increases upward, but image y increases downward.
   // Use negative lat so image pixel (x, y) maps to Leaflet [-y, x].
@@ -119,6 +136,7 @@ export default function GameMap({
       />
       {onMapClick && <MapClickHandler onClick={onMapClick} />}
       {onZoomChange && <ZoomTracker onChange={onZoomChange} />}
+      {mapHandleRef && <RefCapture target={mapHandleRef} />}
       {children}
     </MapContainer>
   );

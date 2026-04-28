@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { api } from '@/api/client';
 import { surfacedChecks, hasErrors } from './validationMapping';
 import type { ValidationReport } from '@/hooks/useHuntValidation';
+import DaycarePreview from './DaycarePreview';
 
 interface Props {
   targetName: string | null;
@@ -29,6 +30,8 @@ interface Props {
   onOverrideChange: (next: boolean) => void;
   onStart: () => void;
   startDisabled: boolean;
+  /** Gen 2 daycare snapshot, only meaningful for egg hunts. */
+  daycareInfo?: any;
 }
 
 const MODE_LABEL: Record<string, string> = {
@@ -105,6 +108,7 @@ export default function HuntPreviewCard({
   report, loading,
   override, onOverrideChange,
   onStart, startDisabled,
+  daycareInfo,
 }: Props) {
   const checks = surfacedChecks(report);
   const errored = hasErrors(report);
@@ -144,7 +148,13 @@ export default function HuntPreviewCard({
         )}
       </div>
 
-      {targetLocations.length > 0 && (
+      {mode === 'egg' && daycareInfo?.active && (
+        <div className="mt-2">
+          <DaycarePreview info={daycareInfo} />
+        </div>
+      )}
+
+      {mode !== 'egg' && targetLocations.length > 0 && (
         <div className="mt-2 px-2 py-1.5 bg-muted/50 rounded-md">
           <div className="text-[9px] uppercase tracking-[0.5px] text-muted-foreground/70 font-bold mb-1">
             Found at

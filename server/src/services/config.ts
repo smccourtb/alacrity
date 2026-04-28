@@ -20,6 +20,8 @@ export interface AlacrityConfig {
   importSources: string[];
   ntfyServer: string;
   ntfyTopic: string;
+  pokedexSpriteStyle: string;
+  boxIconEverywhere: boolean;
 }
 
 const DEFAULTS: Omit<AlacrityConfig, 'ntfyTopic'> = {
@@ -30,6 +32,8 @@ const DEFAULTS: Omit<AlacrityConfig, 'ntfyTopic'> = {
   biosDir: '$DATA/bios',
   importSources: [],
   ntfyServer: 'https://ntfy.sh',
+  pokedexSpriteStyle: 'home',
+  boxIconEverywhere: true,
 };
 
 function generateDefaultNtfyTopic(): string {
@@ -64,6 +68,8 @@ function load(): AlacrityConfig {
       importSources: parsed.importSources ?? DEFAULTS.importSources,
       ntfyServer: parsed.ntfyServer ?? DEFAULTS.ntfyServer,
       ntfyTopic: parsed.ntfyTopic ?? generateDefaultNtfyTopic(),
+      pokedexSpriteStyle: parsed.pokedexSpriteStyle ?? DEFAULTS.pokedexSpriteStyle,
+      boxIconEverywhere: parsed.boxIconEverywhere ?? DEFAULTS.boxIconEverywhere,
     };
 
     // Persist any filled-in defaults back to disk so the file is always complete.

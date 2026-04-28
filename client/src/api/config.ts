@@ -14,6 +14,8 @@ export interface AlacrityConfig {
   importSources: string[];
   ntfyServer: string;
   ntfyTopic: string;
+  pokedexSpriteStyle: string;
+  boxIconEverywhere: boolean;
 }
 
 export const configApi = {

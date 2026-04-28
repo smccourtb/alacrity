@@ -20,7 +20,7 @@ interface LogEntry {
 function dvColor(value: number): string {
   if (value === 15) return 'text-green-400';
   if (value >= 13) return 'text-green-400/80';
-  if (value >= 7) return 'text-[#888]';
+  if (value >= 7) return 'text-[#bdbdbd]';
   if (value >= 1) return 'text-red-400/70';
   return 'text-red-400';
 }
@@ -183,16 +183,16 @@ export default function HuntLog({ logs }: { logs: string[] }) {
       <div className="bg-[#1a1a22] rounded-2xl overflow-hidden">
         {/* Header with search */}
         <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.04]">
-          <span className="text-2xs text-[#555] uppercase tracking-widest font-medium">Live Feed</span>
+          <span className="text-2xs text-[#aaa] uppercase tracking-widest font-medium">Live Feed</span>
           <div className="relative">
             <Input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search..."
-              className="h-6 w-36 font-mono bg-white/[0.04] rounded-lg px-3 text-[#888] placeholder:text-[#444] focus-visible:ring-1 focus-visible:ring-white/10"
+              className="h-6 w-36 font-mono bg-white/[0.04] rounded-lg px-3 text-[#bdbdbd] placeholder:text-[#777] focus-visible:ring-1 focus-visible:ring-white/10"
             />
             {search && (
-              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-2xs text-[#555]">
+              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-2xs text-[#aaa]">
                 {attemptEntries.length}
               </span>
             )}
@@ -200,7 +200,7 @@ export default function HuntLog({ logs }: { logs: string[] }) {
         </div>
 
         {/* Column header */}
-        <div className="font-mono text-2xs text-[#444] px-4 py-1.5 flex select-none">
+        <div className="font-mono text-2xs text-[#d0d0d0] px-4 py-1.5 flex select-none">
           <span className="w-[4ch] text-right shrink-0">Inst</span>
           <span className="w-[7ch] text-center shrink-0 ml-2">Time</span>
           <span className="w-[7ch] text-right shrink-0 ml-2">Att#</span>
@@ -218,21 +218,21 @@ export default function HuntLog({ logs }: { logs: string[] }) {
           className="px-3 pb-3 max-h-80 overflow-y-auto font-mono text-[10.5px] leading-[1.8]"
         >
           {filtered.length === 0 && (
-            <div className="text-[#555] text-center py-8">
+            <div className="text-[#aaa] text-center py-8">
               {search ? 'No matching logs' : 'Waiting for logs...'}
             </div>
           )}
           {filtered.map((entry, i) => {
             if (entry.isHeader) {
               return (
-                <div key={i} className="text-[#333] text-2xs px-1">
+                <div key={i} className="text-[#bdbdbd] text-2xs px-1">
                   {entry.raw}
                 </div>
               );
             }
             if (entry.isSkip) {
               return (
-                <div key={i} className="text-[#333] text-2xs px-1 italic">
+                <div key={i} className="text-[#bdbdbd] text-2xs px-1 italic">
                   [{entry.instance ? `#${entry.instance}` : ''}] {entry.raw.replace(/^\[#\d+\]\s*/, '').replace(/^\d{2}:\d{2}:\d{2}\s*/, '')}
                 </div>
               );
@@ -246,16 +246,16 @@ export default function HuntLog({ logs }: { logs: string[] }) {
 
             return (
               <div key={i} className={`flex ${rowClass} hover:bg-white/[0.02]`}>
-                <span className={`w-[4ch] text-right shrink-0 ${isShiny ? 'text-yellow-500' : 'text-[#555]'}`}>
+                <span className={`w-[4ch] text-right shrink-0 ${isShiny ? 'text-yellow-500' : 'text-[#aaa]'}`}>
                   {entry.instance ? `#${entry.instance}` : ''}
                 </span>
-                <span className={`w-[7ch] text-center shrink-0 ml-2 ${isShiny ? 'text-yellow-500' : 'text-[#383838]'}`}>
+                <span className={`w-[7ch] text-center shrink-0 ml-2 ${isShiny ? 'text-yellow-500' : 'text-[#d0d0d0]'}`}>
                   {entry.timestamp}
                 </span>
-                <span className={`w-[7ch] text-right shrink-0 ml-2 ${isShiny ? 'text-yellow-500 font-bold' : 'text-[#999]'}`}>
+                <span className={`w-[7ch] text-right shrink-0 ml-2 ${isShiny ? 'text-yellow-500 font-bold' : 'text-[#d0d0d0]'}`}>
                   {entry.attempt.toLocaleString()}
                 </span>
-                <span className={`w-[10ch] shrink-0 ml-3 truncate ${isShiny ? 'text-yellow-500 font-bold' : 'text-[#777]'}`}>
+                <span className={`w-[10ch] shrink-0 ml-3 truncate ${isShiny ? 'text-yellow-500 font-bold' : 'text-[#cfcfcf]'}`}>
                   {entry.isShiny && (entry.isBestShiny ? '** ' : '* ')}{entry.pokemon}
                 </span>
                 <span className={`w-[4ch] text-right shrink-0 ml-2 ${isShiny ? 'text-yellow-500 font-bold' : dvColor(entry.atk)}`}>

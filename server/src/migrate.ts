@@ -291,4 +291,111 @@ export function runMigrations(db: Database) {
       );
     }
   }
+
+  // 2026-04-19: Switch species sprite URLs from remote CDN to bundled local paths.
+  // One-shot: guards on a known row so re-runs are no-ops.
+  try {
+    const sampleRemote = db.prepare('SELECT sprite_url FROM species WHERE id=1').get() as any;
+    if (sampleRemote?.sprite_url?.startsWith('http')) {
+      db.exec(`
+        UPDATE species SET sprite_url = '/sprites/pokemon/home/' || id || '.png';
+        UPDATE species SET shiny_sprite_url = '/sprites/pokemon/home/shiny/' || id || '.png';
+      `);
+      const formsExists = db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='species_forms'").get();
+      if (formsExists) {
+        db.exec(`
+          UPDATE species_forms
+            SET sprite_url = '/sprites/pokemon/home/' || COALESCE(pokeapi_id, species_id) || '.png'
+            WHERE sprite_url LIKE 'http%';
+          UPDATE species_forms
+            SET shiny_sprite_url = '/sprites/pokemon/home/shiny/' || COALESCE(pokeapi_id, species_id) || '.png'
+            WHERE shiny_sprite_url LIKE 'http%';
+        `);
+      }
+      console.log('[migrate] rewrote species sprite URLs to local paths');
+    }
+  } catch (err) {
+    console.warn('[migrate] species sprite URL rewrite failed:', err);
+  }
+
+  // Add sprite_kind column to custom_markers (T8: sprite override for custom markers).
+  // The existing `icon` column is repurposed as sprite_ref (item name or pokemon id)
+  // and sprite_kind ('item' | 'pokemon' | null) disambiguates.
+  const markerColumns = (db.prepare('PRAGMA table_info(custom_markers)').all() as any[]).map((c: any) => c.name);
+  if (!markerColumns.includes('sprite_kind')) {
+    try { db.exec('ALTER TABLE custom_markers ADD COLUMN sprite_kind TEXT'); } catch {}
+  }
+
+  // natural_id (UUID) for custom_markers — enables JSON round-trip across DB
+  // wipes since AUTOINCREMENT ids are volatile.
+  const cmColumns = (db.prepare('PRAGMA table_info(custom_markers)').all() as any[]).map((c: any) => c.name);
+  if (!cmColumns.includes('natural_id')) {
+    try { db.exec('ALTER TABLE custom_markers ADD COLUMN natural_id TEXT'); } catch {}
+    try {
+      const rows = db.prepare('SELECT id FROM custom_markers WHERE natural_id IS NULL').all() as { id: number }[];
+      const update = db.prepare('UPDATE custom_markers SET natural_id = ? WHERE id = ?');
+      for (const r of rows) update.run(crypto.randomUUID(), r.id);
+      if (rows.length) console.log(`[migrate] backfilled ${rows.length} custom_markers with natural_id`);
+    } catch (err) {
+      console.warn('[migrate] backfilling custom_markers.natural_id failed:', err);
+    }
+  }
+  // Ensure the partial unique index exists on both fresh and migrated DBs.
+  try { db.exec('CREATE UNIQUE INDEX IF NOT EXISTS idx_custom_markers_natural_id ON custom_markers(natural_id) WHERE natural_id IS NOT NULL'); } catch {}
+
+  // Per-row sprite override for seeded sub-markers (trainers/items/TMs/events).
+  // Seeded data stays clean; user overrides layer on top via this table.
+  try {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS sub_marker_overrides (
+        sub_marker_type TEXT NOT NULL,
+        reference_id INTEGER NOT NULL,
+        sprite_kind TEXT NOT NULL,
+        sprite_ref TEXT NOT NULL,
+        created_at TEXT DEFAULT (datetime('now')),
+        PRIMARY KEY (sub_marker_type, reference_id)
+      );
+    `);
+  } catch {}
+
+  // Items table (T3: custom-map-markers sprite picker). Idempotent.
+  try {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS items (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL UNIQUE,
+        display_name TEXT NOT NULL,
+        category TEXT NOT NULL,
+        generation INTEGER,
+        sprite_path TEXT,
+        short_effect TEXT,
+        cost INTEGER
+      );
+      CREATE INDEX IF NOT EXISTS idx_items_category ON items(category);
+      CREATE INDEX IF NOT EXISTS idx_items_generation ON items(generation);
+    `);
+  } catch {}
+
+  // Shop inventory tables (guide-data-hydration Phase 1 Task 12). Idempotent.
+  try {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS location_shops (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        location_id INTEGER NOT NULL REFERENCES map_locations(id),
+        shop_name TEXT NOT NULL,
+        x REAL,
+        y REAL,
+        UNIQUE(location_id, shop_name)
+      );
+      CREATE TABLE IF NOT EXISTS location_shop_inventory (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        shop_id INTEGER NOT NULL REFERENCES location_shops(id) ON DELETE CASCADE,
+        item_name TEXT NOT NULL,
+        price INTEGER,
+        badge_gate INTEGER DEFAULT 0,
+        games TEXT
+      );
+      CREATE INDEX IF NOT EXISTS idx_shop_inventory_shop ON location_shop_inventory(shop_id);
+    `);
+  } catch {}
 }

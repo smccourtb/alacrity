@@ -40,6 +40,7 @@ const { default: huntsRouter } = await import('./routes/hunts.js');
 const { default: syncRouter } = await import('./routes/sync.js');
 const { default: encountersRouter } = await import('./routes/encounters.js');
 const { default: movesRouter } = await import('./routes/moves.js');
+const { default: itemsRouter } = await import('./routes/items.js');
 const { default: guideRouter } = await import('./routes/guide.js');
 const { default: playthroughsRouter } = await import('./routes/playthroughs.js');
 const { default: specimensRouter } = await import('./routes/specimens.js');
@@ -58,6 +59,7 @@ const { seedShinyAvailability } = await import('./shiny-availability.js');
 const { seedGuide } = await import('./seeds/seedGuide.js');
 const { seedRibbons, seedMarks, seedBalls, seedForms, seedShinyMethods, seedLegality } = await import('./seed-reference.js');
 const { seedNatures } = await import('./seedNatures.js');
+const { seedItems } = await import('./seedItems.js');
 const { backfillHatchCounters } = await import('./backfillHatchCounters.js');
 const { seedLookupTables } = await import('./seed-moves.js');
 const { syncSaves } = await import('./services/syncSaves.js');
@@ -104,6 +106,10 @@ seedLegality(db);
 db.exec('PRAGMA foreign_keys = ON');
 seedForms(db).catch(err => console.error('seedForms failed:', err));
 seedNatures().catch(err => console.error('seedNatures failed:', err));
+seedItems(db).catch(err => console.error('seedItems failed:', err));
+import('./seeds/seedHuntSetupHints.js')
+  .then(({ seedHuntSetupHints }) => seedHuntSetupHints())
+  .catch(err => console.error('seedHuntSetupHints failed:', err));
 backfillHatchCounters().catch(err => console.error('backfillHatchCounters failed:', err));
 // Ensure move/ability lookup tables are populated before syncing saves
 db.exec('CREATE TABLE IF NOT EXISTS move_names (id INTEGER PRIMARY KEY, name TEXT NOT NULL)');
@@ -180,6 +186,7 @@ app.use('/api/hunts', huntsRouter);
 app.use('/api/3ds', syncRouter);
 app.use('/api/encounters', encountersRouter);
 app.use('/api/moves', movesRouter);
+app.use('/api/items', itemsRouter);
 app.use('/api/guide', guideRouter);
 app.use('/api/playthroughs', playthroughsRouter);
 app.use('/api/specimens', specimensRouter);

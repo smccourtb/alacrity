@@ -108,6 +108,23 @@ try { db.exec("ALTER TABLE specimen_targets ADD COLUMN is_manual INTEGER NOT NUL
 try { db.exec("ALTER TABLE specimen_targets ADD COLUMN dismissed INTEGER NOT NULL DEFAULT 0"); } catch {}
 try { db.exec("ALTER TABLE specimen_targets ADD COLUMN manual_override INTEGER NOT NULL DEFAULT 0"); } catch {}
 
+// Paired marker support
+try { db.exec('ALTER TABLE custom_markers ADD COLUMN paired_marker_id INTEGER REFERENCES custom_markers(id) ON DELETE SET NULL'); } catch {}
+
+// Older dev DBs created `natural_id` as a plain TEXT column with a partial unique
+// index (`WHERE natural_id IS NOT NULL`). SQLite's ON CONFLICT(natural_id) upsert
+// won't bind to a partial index, crashing the seeder on boot. Replace with a full
+// unique index (schema.sql already defines it as UNIQUE for fresh installs).
+try {
+  const idx = db.prepare(
+    "SELECT sql FROM sqlite_master WHERE type='index' AND name='idx_custom_markers_natural_id'"
+  ).get() as { sql: string } | undefined;
+  if (idx?.sql && idx.sql.includes('WHERE')) {
+    db.exec('DROP INDEX idx_custom_markers_natural_id');
+    db.exec('CREATE UNIQUE INDEX idx_custom_markers_natural_id ON custom_markers(natural_id)');
+  }
+} catch {}
+
 // Migrate: add x/y position + flag columns for sub-marker system
 for (const table of ['location_trainers', 'location_items', 'location_tms', 'location_events']) {
   const cols = (db.prepare(`PRAGMA table_info(${table})`).all() as any[]).map((c: any) => c.name);
@@ -225,6 +242,42 @@ const collectionViewMatch = schema.match(/CREATE VIEW IF NOT EXISTS collection[\
 if (collectionViewMatch) {
   try { db.exec(collectionViewMatch[0]); } catch {}
 }
+
+// Marker cluster tables
+try {
+  db.exec(`
+    DROP TABLE IF EXISTS marker_clusters;
+    CREATE TABLE IF NOT EXISTS marker_clusters (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      map_key TEXT NOT NULL,
+      kind TEXT NOT NULL CHECK(kind IN ('proximity','location_aggregate')),
+      scope_location_id INTEGER REFERENCES map_locations(id) ON DELETE CASCADE,
+      x REAL,
+      y REAL,
+      primary_marker_type TEXT NOT NULL,
+      primary_reference_id INTEGER NOT NULL,
+      hide_members INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_marker_clusters_map ON marker_clusters(map_key);
+    -- NOTE: UNIQUE(marker_type, reference_id) is intentionally global (no map_key).
+    -- A sub-marker can belong to at most one cluster across all maps. The split
+    -- table uses the same (marker_type, reference_id) identity, so this invariant
+    -- must hold for auto-cluster dedup to work correctly.
+    CREATE TABLE IF NOT EXISTS marker_cluster_members (
+      cluster_id INTEGER NOT NULL REFERENCES marker_clusters(id) ON DELETE CASCADE,
+      marker_type TEXT NOT NULL,
+      reference_id INTEGER NOT NULL,
+      UNIQUE(marker_type, reference_id)
+    );
+    CREATE INDEX IF NOT EXISTS idx_marker_cluster_members_cluster ON marker_cluster_members(cluster_id);
+    CREATE TABLE IF NOT EXISTS marker_cluster_splits (
+      marker_type TEXT NOT NULL,
+      reference_id INTEGER NOT NULL,
+      PRIMARY KEY (marker_type, reference_id)
+    );
+  `);
+} catch {}
 
 // Migrate: create collection_manual table
 const allTables = db.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name='collection_manual'`).get();

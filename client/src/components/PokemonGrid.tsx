@@ -1,6 +1,8 @@
 import { useRef, useMemo, useState, useEffect } from 'react';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import PokemonCard from './PokemonCard';
+import { useSpritePrefs } from '@/hooks/useSpritePrefs';
+import type { PokemonStyle } from '@/components/Sprite';
 
 // Map game name → origin mark. Multiple games share the same mark.
 const GAME_TO_MARK: Record<string, string> = {
@@ -50,6 +52,8 @@ interface Props {
 export default function PokemonGrid({ species, collection, itemCaughtMap, shinyMode, onSelect, lens }: Props) {
   const parentRef = useRef<HTMLDivElement>(null);
   const [cols, setCols] = useState(10);
+  const { style, boxEverywhere } = useSpritePrefs();
+  const listStyle: PokemonStyle = boxEverywhere ? 'box' : style;
 
   useEffect(() => {
     function updateCols() {
@@ -188,6 +192,7 @@ export default function PokemonGrid({ species, collection, itemCaughtMap, shinyM
                     lensData={lensData}
                     formName={isFormItem ? s._formName : undefined}
                     formCategory={isFormItem ? s._formCategory : undefined}
+                    spriteStyle={listStyle}
                     onClick={() => onSelect(s)}
                   />
                 );

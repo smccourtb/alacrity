@@ -8,6 +8,8 @@ import CompletionChips from './CompletionChips';
 import EntrySidebar from './EntrySidebar';
 import EntryDetail from './EntryDetail';
 import GameInfo from '../GameInfo';
+import { Sprite } from '@/components/Sprite';
+import { useSpritePrefs } from '@/hooks/useSpritePrefs';
 
 function capitalize(s: string) {
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
@@ -28,6 +30,7 @@ export default function SpeciesDetail({ species, onClose, onSave }: Props) {
   const [completion, setCompletion] = useState<any>(null);
   const [shinyMethods, setShinyMethods] = useState<any[]>([]);
   const [forms, setForms] = useState<any[]>([]);
+  const { style } = useSpritePrefs();
 
   const loadEntries = () => {
     // Fetch collection entries (from saves) and manual entries, merge both
@@ -134,8 +137,8 @@ export default function SpeciesDetail({ species, onClose, onSave }: Props) {
       {/* Header: sprites + species info */}
       <div className="flex items-start gap-4 mb-3">
         <div className="flex gap-2">
-          <img src={species.sprite_url} alt={species.name} className="w-20 h-20 [image-rendering:pixelated]" />
-          <img src={species.shiny_sprite_url} alt={`${species.name} shiny`} className="w-20 h-20 [image-rendering:pixelated]" />
+          <Sprite kind="pokemon" id={species.id} style={style} size={80} alt={species.name} className="w-20 h-20" />
+          <Sprite kind="pokemon" id={species.id} shiny style={style} size={80} alt={`${species.name} shiny`} className="w-20 h-20" />
         </div>
         <div className="flex-1">
           <h3 className="text-lg font-extrabold capitalize">#{species.id} {species.name}</h3>

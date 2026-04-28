@@ -12,6 +12,9 @@ export type CheckId =
   | 'game_species'
   | 'wild_location'
   | 'wild_encounter'
+  | 'fishing_location'
+  | 'fishing_encounter'
+  | 'fishing_rod'
   | 'egg_daycare'
   | 'stationary_location'
   | 'stationary_party';
@@ -87,6 +90,10 @@ function speciesNameOrId(species_id: number): string {
 
 function ruleGameSpecies(input: ValidationInput): CheckResult | null {
   if (input.target_species_id == null) return null;
+  // Egg hunts can target species not natively in the game — parents may be
+  // bred from / traded over from another title (e.g. Squirtle in Crystal via
+  // a Gen 1 trade-up). Parent compatibility is enforced by ruleEggDaycare.
+  if (input.hunt_mode === 'egg') return null;
 
   const row = db.prepare(`
     SELECT EXISTS(
@@ -105,34 +112,60 @@ function ruleGameSpecies(input: ValidationInput): CheckResult | null {
   };
 }
 
-const GIFT_EVENT_TYPES = ['gift_pokemon', 'trade'];
-const STATIONARY_EVENT_TYPES = ['static_pokemon', 'legendary'];
+// map_encounters.method values that belong to each hunt mode. PokeAPI's
+// 'special' is a catch-all (starters, Game Corner prizes, Snorlax, Mewtwo,
+// fossil revivals, in-game trades), so it lands in BOTH gift and stationary
+// buckets — better to over-allow than block a legitimate hunt with a
+// false-positive error.
+const MODE_ENCOUNTER_METHODS: Record<HuntMode, string[]> = {
+  wild: ['grass', 'cave', 'surf', 'rock-smash', 'headbutt', 'contest'],
+  fishing: ['old-rod', 'good-rod', 'super-rod'],
+  gift: ['gift', 'special'],
+  stationary: ['static', 'special'],
+  egg: [],
+};
+
+const MODE_EVENT_TYPES: Record<HuntMode, string[]> = {
+  wild: [],
+  fishing: [],
+  gift: ['gift', 'gift_pokemon', 'trade'],
+  stationary: ['static_pokemon', 'legendary', 'story'],
+  egg: [],
+};
+
+function existsForMode(game: string, speciesId: number, mode: HuntMode): boolean {
+  const methods = MODE_ENCOUNTER_METHODS[mode];
+  const events = MODE_EVENT_TYPES[mode];
+
+  if (methods.length) {
+    const ph = methods.map(() => '?').join(',');
+    const row = db.prepare(
+      `SELECT EXISTS(SELECT 1 FROM map_encounters
+         WHERE game = ? COLLATE NOCASE AND species_id = ? AND method IN (${ph})) AS f`,
+    ).get(game, speciesId, ...methods) as { f: number };
+    if (row.f) return true;
+  }
+
+  if (events.length) {
+    const ph = events.map(() => '?').join(',');
+    const row = db.prepare(
+      `SELECT EXISTS(SELECT 1 FROM location_events
+         WHERE game = ? COLLATE NOCASE AND species_id = ? AND event_type IN (${ph})) AS f`,
+    ).get(game, speciesId, ...events) as { f: number };
+    if (row.f) return true;
+  }
+
+  return false;
+}
 
 function ruleModeSpecies(input: ValidationInput): CheckResult | null {
   if (input.target_species_id == null) return null;
 
-  const id = input.target_species_id;
-  let found = false;
+  // Egg-mode species filter handled by ruleEggTarget / ruleEggDaycare, which
+  // know about breedability + parent compatibility. Let this rule pass.
+  if (input.hunt_mode === 'egg') return null;
 
-  if (input.hunt_mode === 'wild') {
-    const row = db.prepare(
-      'SELECT EXISTS(SELECT 1 FROM map_encounters WHERE game = ? COLLATE NOCASE AND species_id = ?) AS f'
-    ).get(input.game, id) as { f: number };
-    found = !!row.f;
-  } else if (input.hunt_mode === 'gift' || input.hunt_mode === 'stationary') {
-    const types = input.hunt_mode === 'gift' ? GIFT_EVENT_TYPES : STATIONARY_EVENT_TYPES;
-    const placeholders = types.map(() => '?').join(',');
-    const row = db.prepare(
-      `SELECT EXISTS(SELECT 1 FROM location_events WHERE game = ? COLLATE NOCASE AND species_id = ? AND event_type IN (${placeholders})) AS f`
-    ).get(input.game, id, ...types) as { f: number };
-    found = !!row.f;
-  } else if (input.hunt_mode === 'egg') {
-    // Egg-mode species filter handled by ruleEggTarget / ruleEggDaycare, which
-    // know about breedability + parent compatibility. Let this rule pass.
-    found = true;
-  }
-
-  if (found) return null;
+  if (existsForMode(input.game, input.target_species_id, input.hunt_mode)) return null;
 
   const modeLabel: Record<HuntMode, string> = {
     wild: 'wild encounters',
@@ -144,7 +177,7 @@ function ruleModeSpecies(input: ValidationInput): CheckResult | null {
   return {
     id: 'mode_species',
     severity: 'error',
-    message: `${speciesNameOrId(id)} can't be obtained via ${modeLabel[input.hunt_mode]} in ${input.game}.`,
+    message: `${speciesNameOrId(input.target_species_id)} can't be obtained via ${modeLabel[input.hunt_mode]} in ${input.game}.`,
   };
 }
 
@@ -165,38 +198,64 @@ function locationNameForKey(currentLocationKey: string): string {
   return row?.display_name ?? currentLocationKey;
 }
 
-function ruleWildLocation(input: ValidationInput, ctx: SaveContext): CheckResult | null {
-  if (input.hunt_mode !== 'wild') return null;
+/**
+ * Generic location/encounter validator for the two save-position-dependent
+ * modes (wild + fishing). Each mode emits its own check ids so the UI can
+ * label them correctly.
+ */
+function locationCheckIds(mode: HuntMode): { loc: CheckId; enc: CheckId } {
+  if (mode === 'fishing') return { loc: 'fishing_location', enc: 'fishing_encounter' };
+  return { loc: 'wild_location', enc: 'wild_encounter' };
+}
+
+function ruleEncounterLocation(input: ValidationInput, ctx: SaveContext): CheckResult | null {
+  if (input.hunt_mode !== 'wild' && input.hunt_mode !== 'fishing') return null;
+  const { loc } = locationCheckIds(input.hunt_mode);
+  const isFishing = input.hunt_mode === 'fishing';
+  const modeWord = isFishing ? 'fishing' : 'wild';
+
   if (!ctx.worldState) {
-    return { id: 'wild_location', severity: 'skipped', message: 'Load a save to validate location.' };
+    return {
+      id: loc,
+      severity: 'error',
+      message: 'Load a save to validate location.',
+      detail: `${modeWord[0].toUpperCase()}${modeWord.slice(1)} hunts use the save's current map to verify encounters — pick a save file first.`,
+    };
   }
   const locId = locationIdForKey(ctx.worldState.currentLocationKey, input.game);
   if (locId == null) {
     return {
-      id: 'wild_location',
+      id: loc,
       severity: 'warning',
       message: `Couldn't resolve current location ("${ctx.worldState.currentLocationKey || 'unknown'}").`,
     };
   }
+  const methods = MODE_ENCOUNTER_METHODS[input.hunt_mode];
+  const ph = methods.map(() => '?').join(',');
   const row = db.prepare(
-    'SELECT EXISTS(SELECT 1 FROM map_encounters WHERE location_id = ? AND game = ? COLLATE NOCASE) AS f'
-  ).get(locId, input.game) as { f: number };
+    `SELECT EXISTS(SELECT 1 FROM map_encounters
+       WHERE location_id = ? AND game = ? COLLATE NOCASE AND method IN (${ph})) AS f`,
+  ).get(locId, input.game, ...methods) as { f: number };
   if (row.f) return null;
+
   return {
-    id: 'wild_location',
+    id: loc,
     severity: 'error',
-    message: `No wild encounters at ${locationNameForKey(ctx.worldState.currentLocationKey)}.`,
-    detail: 'Move to a route with grass, cave, or water tiles before starting the hunt.',
+    message: `No ${modeWord} encounters at ${locationNameForKey(ctx.worldState.currentLocationKey)}.`,
+    detail: isFishing
+      ? 'Stand next to fishable water (Safari Zone, Dragon\'s Den, etc.) and save before starting.'
+      : 'Move to a route with grass, cave, or water tiles before starting the hunt.',
   };
 }
 
-function ruleWildEncounter(input: ValidationInput, ctx: SaveContext): CheckResult | null {
-  if (input.hunt_mode !== 'wild') return null;
+function ruleEncounterMatch(input: ValidationInput, ctx: SaveContext): CheckResult | null {
+  if (input.hunt_mode !== 'wild' && input.hunt_mode !== 'fishing') return null;
   if (input.target_species_id == null) return null;
   const gen = gameGen(input.game);
+  const { enc } = locationCheckIds(input.hunt_mode);
   if (gen >= 3) {
     return {
-      id: 'wild_encounter',
+      id: enc,
       severity: 'skipped',
       message: `Encounter data not yet available for ${input.game}.`,
     };
@@ -204,15 +263,57 @@ function ruleWildEncounter(input: ValidationInput, ctx: SaveContext): CheckResul
   if (!ctx.worldState) return null;
   const locId = locationIdForKey(ctx.worldState.currentLocationKey, input.game);
   if (locId == null) return null;
+  const methods = MODE_ENCOUNTER_METHODS[input.hunt_mode];
+  const ph = methods.map(() => '?').join(',');
   const row = db.prepare(
-    'SELECT EXISTS(SELECT 1 FROM map_encounters WHERE location_id = ? AND game = ? COLLATE NOCASE AND species_id = ?) AS f'
-  ).get(locId, input.game, input.target_species_id) as { f: number };
+    `SELECT EXISTS(SELECT 1 FROM map_encounters
+       WHERE location_id = ? AND game = ? COLLATE NOCASE AND species_id = ? AND method IN (${ph})) AS f`,
+  ).get(locId, input.game, input.target_species_id, ...methods) as { f: number };
   if (row.f) return null;
+
+  // Where DOES this species appear in this mode? Surface a hint so the user
+  // knows where to walk to.
+  const spotsRows = db.prepare(
+    `SELECT DISTINCT ml.display_name
+       FROM map_encounters me
+       JOIN map_locations ml ON ml.id = me.location_id
+      WHERE me.game = ? COLLATE NOCASE AND me.species_id = ? AND me.method IN (${ph})
+      ORDER BY ml.display_name LIMIT 4`,
+  ).all(input.game, input.target_species_id, ...methods) as Array<{ display_name: string }>;
+  const spots = spotsRows.map(r => r.display_name).join(', ');
+  const modeWord = input.hunt_mode === 'fishing' ? 'via fishing' : 'in the wild';
+
   return {
-    id: 'wild_encounter',
+    id: enc,
+    severity: 'error',
+    message: `${speciesNameOrId(input.target_species_id)} doesn't appear ${modeWord} at ${locationNameForKey(ctx.worldState.currentLocationKey)}.`,
+    detail: spots
+      ? `Try: ${spots}.`
+      : 'Move to a route this species appears at before starting.',
+  };
+}
+
+function ruleFishingRod(input: ValidationInput, ctx: SaveContext): CheckResult | null {
+  if (input.hunt_mode !== 'fishing') return null;
+  if (input.target_species_id == null) return null;
+  if (!ctx.worldState) return null;
+  const locId = locationIdForKey(ctx.worldState.currentLocationKey, input.game);
+  if (locId == null) return null;
+  const rodRows = db.prepare(
+    `SELECT DISTINCT method FROM map_encounters
+      WHERE location_id = ? AND game = ? COLLATE NOCASE AND species_id = ?
+        AND method IN ('old-rod','good-rod','super-rod')`,
+  ).all(locId, input.game, input.target_species_id) as Array<{ method: string }>;
+  if (rodRows.length === 0) return null; // ruleEncounterMatch handled the "wrong spot" error
+  const required = rodRows.map(r => r.method).sort().reverse(); // super-rod first
+  const pretty = required.map(r =>
+    r === 'super-rod' ? 'Super Rod' : r === 'good-rod' ? 'Good Rod' : 'Old Rod'
+  );
+  return {
+    id: 'fishing_rod',
     severity: 'warning',
-    message: `${speciesNameOrId(input.target_species_id)} doesn't appear at ${locationNameForKey(ctx.worldState.currentLocationKey)}.`,
-    detail: 'Encounter data may be incomplete — proceed with caution or move to a known route for this species.',
+    message: `Requires ${pretty.join(' or ')}.`,
+    detail: 'Make sure the rod is in your bag before saving — the script can\'t cast without it.',
   };
 }
 
@@ -224,6 +325,9 @@ interface DaycareInfo {
   parents?: DaycareParent[];
   parent1?: DaycareParent | null;
   parent2?: DaycareParent | null;
+  // Gen 2 parser uses mon1/mon2 — keep both shapes supported.
+  mon1?: DaycareParent | null;
+  mon2?: DaycareParent | null;
 }
 
 function parentEggGroups(p: DaycareParent | null | undefined): string[] {
@@ -278,7 +382,12 @@ function ruleEggTarget(input: ValidationInput): CheckResult | null {
 function ruleEggDaycare(input: ValidationInput, ctx: SaveContext): CheckResult | null {
   if (input.hunt_mode !== 'egg') return null;
   if (!ctx.worldState && !ctx.daycare) {
-    return { id: 'egg_daycare', severity: 'skipped', message: 'Load a save to validate daycare.' };
+    return {
+      id: 'egg_daycare',
+      severity: 'error',
+      message: 'Load a save to validate the daycare.',
+      detail: 'Egg hunts read the daycare directly from the save — pick a save file first.',
+    };
   }
   const gen = gameGen(input.game);
   if (gen >= 3 && !ctx.daycare) {
@@ -290,8 +399,10 @@ function ruleEggDaycare(input: ValidationInput, ctx: SaveContext): CheckResult |
   }
 
   const dc = (ctx.daycare ?? {}) as DaycareInfo;
-  const parents: DaycareParent[] = dc.parents
-    ?? [dc.parent1 ?? null, dc.parent2 ?? null].filter(Boolean) as DaycareParent[];
+  const parents: DaycareParent[] = (
+    dc.parents
+      ?? [dc.parent1 ?? dc.mon1 ?? null, dc.parent2 ?? dc.mon2 ?? null]
+  ).filter(Boolean) as DaycareParent[];
 
   if (parents.length < 2) {
     return {
@@ -339,7 +450,12 @@ function ruleEggDaycare(input: ValidationInput, ctx: SaveContext): CheckResult |
 function ruleStationaryLocation(input: ValidationInput, ctx: SaveContext): CheckResult | null {
   if (input.hunt_mode !== 'stationary') return null;
   if (!ctx.worldState) {
-    return { id: 'stationary_location', severity: 'skipped', message: 'Load a save to validate position.' };
+    return {
+      id: 'stationary_location',
+      severity: 'error',
+      message: 'Load a save to validate position.',
+      detail: 'Stationary hunts need the save standing on the encounter tile — pick a save file first.',
+    };
   }
   if (input.target_species_id == null) return null;
 
@@ -415,10 +531,12 @@ export async function validateHuntConfig(input: ValidationInput): Promise<Valida
     }
   }
 
-  const wl = ruleWildLocation(input, ctx);
+  const wl = ruleEncounterLocation(input, ctx);
   if (wl) checks.push(wl);
-  const we = ruleWildEncounter(input, ctx);
+  const we = ruleEncounterMatch(input, ctx);
   if (we) checks.push(we);
+  const fr = ruleFishingRod(input, ctx);
+  if (fr) checks.push(fr);
   const et = ruleEggTarget(input);
   if (et) checks.push(et);
   const ed = ruleEggDaycare(input, ctx);

@@ -222,6 +222,24 @@ function linkByGameOnly(saveFileId: number, game: string, rawGame: string): Link
 export function autoLinkSave(saveFileId: number, filePath: string, rawGame: string): LinkageResult {
   // Normalize game name to lowercase to match guide conventions
   const game = rawGame.toLowerCase();
+
+  // Short-circuit: a save_file should map to at most one checkpoint. Without
+  // this guard each rescan/sync inserted a fresh row, producing the 5–7×
+  // duplicates seen in the Play view.
+  const existing = db.prepare(
+    'SELECT id, playthrough_id FROM checkpoints WHERE save_file_id = ? ORDER BY id ASC LIMIT 1'
+  ).get(saveFileId) as { id: number; playthrough_id: number } | undefined;
+  if (existing) {
+    return {
+      playthrough_id: existing.playthrough_id,
+      checkpoint_id: existing.id,
+      is_new_playthrough: false,
+      is_new_checkpoint: false,
+      needs_confirmation: false,
+      label: null,
+    };
+  }
+
   let worldState: SaveWorldState | null = null;
   try {
     worldState = parseWorldState(filePath, game);

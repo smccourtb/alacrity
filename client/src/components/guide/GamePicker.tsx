@@ -1,5 +1,15 @@
-import { Gamepad2Icon } from 'lucide-react';
 import FilterDropdown, { type FilterOption } from '@/components/FilterDropdown';
+import { GAME_ACCENTS, normalizeGameName } from '@/lib/game-constants';
+
+function GameDot({ game }: { game: string }) {
+  const color = GAME_ACCENTS[normalizeGameName(game)] ?? '#888';
+  return (
+    <span
+      className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
+      style={{ backgroundColor: color }}
+    />
+  );
+}
 
 const GAME_GROUPS = [
   { label: 'Gen 1', games: [
@@ -49,7 +59,7 @@ const ALL_OPTIONS: FilterOption[] = GAME_GROUPS.flatMap(g =>
     value: game.value,
     label: game.label,
     group: g.label,
-    icon: <Gamepad2Icon className="w-3.5 h-3.5 text-muted-foreground" />,
+    icon: <GameDot game={game.label} />,
   }))
 );
 
@@ -61,7 +71,7 @@ interface GamePickerProps {
 export default function GamePicker({ value, onChange }: GamePickerProps) {
   return (
     <FilterDropdown
-      label="Select a game"
+      label="Game"
       options={ALL_OPTIONS}
       selected={value ? [value] : []}
       onChange={(sel) => {

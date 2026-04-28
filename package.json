@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": ["client", "server"],
+  "scripts": {
+    "fetch-sprites": "bun run scripts/fetch-sprites.ts"
+  },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.10.1"
+    "@tauri-apps/cli": "^2.10.1",
+    "sharp": "^0.34.5"
   }
 }

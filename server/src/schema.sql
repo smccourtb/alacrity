@@ -278,6 +278,9 @@ CREATE TABLE IF NOT EXISTS custom_markers (
   y REAL NOT NULL,
   color TEXT,
   icon TEXT,
+  sprite_kind TEXT,
+  natural_id TEXT UNIQUE,
+  paired_marker_id INTEGER REFERENCES custom_markers(id) ON DELETE SET NULL,
   created_at TEXT DEFAULT (datetime('now'))
 );
 
@@ -325,6 +328,10 @@ CREATE TABLE IF NOT EXISTS checkpoints (
   created_at TEXT DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_checkpoints_playthrough ON checkpoints(playthrough_id);
+-- One checkpoint per save_file. autoLinkSave dedupes in app code, but enforce
+-- the invariant at the schema level so a future code path can't silently
+-- repopulate the duplicates we cleaned up.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_checkpoints_save_file_unique ON checkpoints(save_file_id);
 
 CREATE TABLE IF NOT EXISTS origin_requirements (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -388,6 +395,22 @@ CREATE TABLE IF NOT EXISTS specimen_progress (
   notes TEXT,
   UNIQUE(target_id)
 );
+
+-- Visual setup hints shown in the hunt config card. Most-specific row wins:
+-- (game, mode, species_id) beats (game, mode, NULL). Generic row covers
+-- common cases like "egg → stand by the daycare man on Route 34" once per
+-- game; species-specific rows override for gifts/stationary that need it.
+CREATE TABLE IF NOT EXISTS hunt_setup_hints (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  game TEXT NOT NULL,
+  mode TEXT NOT NULL,
+  species_id INTEGER REFERENCES species(id),
+  image_path TEXT NOT NULL,
+  caption TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_hunt_setup_hints
+  ON hunt_setup_hints(game, mode, COALESCE(species_id, 0));
 
 CREATE TABLE IF NOT EXISTS playthrough_goals (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -685,6 +708,19 @@ CREATE TABLE IF NOT EXISTS location_events (
 CREATE INDEX IF NOT EXISTS idx_location_events_loc ON location_events(location_id);
 CREATE INDEX IF NOT EXISTS idx_location_events_game ON location_events(game);
 
+CREATE TABLE IF NOT EXISTS items (
+  id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE,
+  display_name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  generation INTEGER,
+  sprite_path TEXT,
+  short_effect TEXT,
+  cost INTEGER
+);
+CREATE INDEX IF NOT EXISTS idx_items_category ON items(category);
+CREATE INDEX IF NOT EXISTS idx_items_generation ON items(generation);
+
 CREATE TABLE IF NOT EXISTS marker_positions (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   map_key TEXT NOT NULL,
@@ -695,3 +731,71 @@ CREATE TABLE IF NOT EXISTS marker_positions (
   game_override TEXT,
   UNIQUE(map_key, marker_type, reference_id, game_override)
 );
+-- SQLite treats NULLs as distinct in UNIQUE, so the composite UNIQUE above lets
+-- rows with NULL game_override duplicate. Partial index enforces uniqueness for
+-- the common "no game override" case.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_marker_positions_null_override
+  ON marker_positions(map_key, marker_type, reference_id)
+  WHERE game_override IS NULL;
+
+CREATE TABLE IF NOT EXISTS sub_marker_overrides (
+  sub_marker_type TEXT NOT NULL,
+  reference_id INTEGER NOT NULL,
+  sprite_kind TEXT NOT NULL,
+  sprite_ref TEXT NOT NULL,
+  created_at TEXT DEFAULT (datetime('now')),
+  PRIMARY KEY (sub_marker_type, reference_id)
+);
+
+CREATE TABLE IF NOT EXISTS marker_clusters (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  map_key TEXT NOT NULL,
+  kind TEXT NOT NULL CHECK(kind IN ('proximity','location_aggregate')),
+  scope_location_id INTEGER REFERENCES map_locations(id) ON DELETE CASCADE,
+  x REAL,
+  y REAL,
+  primary_marker_type TEXT NOT NULL,
+  primary_reference_id INTEGER NOT NULL,
+  hide_members INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_marker_clusters_map ON marker_clusters(map_key);
+
+-- NOTE: UNIQUE(marker_type, reference_id) is intentionally global (no map_key).
+-- A sub-marker can belong to at most one cluster across all maps. The split
+-- table uses the same (marker_type, reference_id) identity, so this invariant
+-- must hold for auto-cluster dedup to work correctly.
+CREATE TABLE IF NOT EXISTS marker_cluster_members (
+  cluster_id INTEGER NOT NULL REFERENCES marker_clusters(id) ON DELETE CASCADE,
+  marker_type TEXT NOT NULL,
+  reference_id INTEGER NOT NULL,
+  UNIQUE(marker_type, reference_id)
+);
+CREATE INDEX IF NOT EXISTS idx_marker_cluster_members_cluster ON marker_cluster_members(cluster_id);
+
+CREATE TABLE IF NOT EXISTS marker_cluster_splits (
+  marker_type TEXT NOT NULL,
+  reference_id INTEGER NOT NULL,
+  PRIMARY KEY (marker_type, reference_id)
+);
+
+CREATE TABLE IF NOT EXISTS location_shops (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  location_id INTEGER NOT NULL REFERENCES map_locations(id),
+  shop_name TEXT NOT NULL,
+  x REAL,
+  y REAL,
+  UNIQUE(location_id, shop_name)
+);
+CREATE TABLE IF NOT EXISTS location_shop_inventory (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  shop_id INTEGER NOT NULL REFERENCES location_shops(id) ON DELETE CASCADE,
+  item_name TEXT NOT NULL,
+  price INTEGER,
+  badge_gate INTEGER DEFAULT 0,
+  games TEXT,
+  -- Free-form context shown alongside the item (e.g. Mom's Savings unlock
+  -- thresholds like "After ¥4,000 saved"). Nullable.
+  notes TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_shop_inventory_shop ON location_shop_inventory(shop_id);

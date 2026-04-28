@@ -1,6 +1,6 @@
 import L from 'leaflet';
 
-export type SubMarkerType = 'item' | 'hidden_item' | 'trainer' | 'tm' | 'event';
+export type SubMarkerType = 'item' | 'hidden_item' | 'trainer' | 'tm' | 'event' | 'shop';
 
 const SUB_SHAPES: Record<SubMarkerType, (fill: string) => string> = {
   item: (fill) =>
@@ -14,6 +14,9 @@ const SUB_SHAPES: Record<SubMarkerType, (fill: string) => string> = {
      <text x="8" y="10.5" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="bold" font-family="system-ui">TM</text>`,
   event: (fill) =>
     `<polygon points="8,1.5 9.8,5.8 14.5,5.8 10.7,8.7 12.2,13.5 8,10.8 3.8,13.5 5.3,8.7 1.5,5.8 6.2,5.8" fill="${fill}" stroke="#fff" stroke-width="0.8"/>`,
+  shop: (fill) =>
+    `<path d="M3 6 L3 13 L13 13 L13 6 Z M3 6 L4.5 3 L11.5 3 L13 6 Z" fill="${fill}" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+     <text x="8" y="11" text-anchor="middle" font-size="4.2" fill="#fff" font-weight="bold" font-family="system-ui">$</text>`,
 };
 
 export const SUB_MARKER_COLORS: Record<SubMarkerType, string> = {
@@ -22,6 +25,7 @@ export const SUB_MARKER_COLORS: Record<SubMarkerType, string> = {
   trainer: '#60a5fa',
   tm: '#a78bfa',
   event: '#34d399',
+  shop: '#16a34a',
 };
 
 const COMPLETED_COLOR = '#4ade80';

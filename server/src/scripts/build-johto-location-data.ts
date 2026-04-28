@@ -72,6 +72,18 @@ const JOHTO_LOCATIONS = [
   "whirl-islands", "mt-mortar", "ice-path", "dark-cave",
   "dragons-den", "tohjo-falls", "victory-road-gsc", "mt-silver",
   "indigo-plateau-gsc", "goldenrod-game-corner",
+
+  // ── Kanto-on-Johto (GSC) — items + events scraped from Bulbapedia ────────
+  "pallet-town", "viridian-city", "pewter-city", "cerulean-city",
+  "vermilion-city", "lavender-town", "celadon-city", "saffron-city",
+  "fuchsia-city", "cinnabar-island",
+  "route-1", "route-2-south", "route-3", "route-4", "route-5",
+  "route-6", "route-7", "route-8", "route-9", "route-10",
+  "route-11", "route-12", "route-13", "route-14", "route-15",
+  "route-16", "route-17", "route-18", "route-19", "route-20",
+  "route-21", "route-22", "route-23", "route-24", "route-25",
+  "mt-moon", "rock-tunnel", "digletts-cave", "seafoam-islands",
+  "cerulean-cave", "power-plant", "silph-co", "fighting-dojo",
 ];
 
 // ── Curated gym TMs ──

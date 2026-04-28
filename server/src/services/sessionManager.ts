@@ -8,7 +8,7 @@ import { autoLinkSave } from './autoLinkage.js';
 import { createHash } from 'crypto';
 import { DiscoveredSave } from './saveDiscovery.js';
 import { getSystemForGame } from './emulatorConfigs.js';
-import { bridgeSaveIn, hasSaveBridgeChanged, type SaveBridge } from './saveBridge3ds.js';
+import { bridgeSaveIn, hasSaveBridgeChanged, restoreSaveBridge, type SaveBridge } from './saveBridge3ds.js';
 
 const SESSIONS_DIR = join(paths.dataDir, 'sessions');
 
@@ -102,7 +102,7 @@ export function createSession(
   }
 
   if (is3ds) {
-    const bridge = bridgeSaveIn(tempDir, save.filePath, save.game);
+    const bridge = bridgeSaveIn(tempDir, save.filePath, save.game, id);
     if (bridge) {
       saveBridge = bridge;
       savDst = bridge.savBinPath;
@@ -135,7 +135,10 @@ export function createSession(
     ...process.env,
     DISPLAY: process.env.DISPLAY || ':0',
   };
-  if (saveBridge) {
+  // Only set XDG_DATA_HOME when the bridge is the temp-dir variant (Linux).
+  // Real-dir bridges (macOS/Windows) leave dataDir empty because Qt ignores
+  // XDG on those platforms — the save was written into Azahar's actual dir.
+  if (saveBridge && saveBridge.dataDir) {
     spawnEnv.XDG_DATA_HOME = saveBridge.dataDir;
   }
 
@@ -256,6 +259,14 @@ export function resolveSession(
 export function cleanupSession(id: string) {
   const session = sessions.get(id);
   if (!session) return;
+  // Restore any files we displaced in Azahar's real data dir. Must run AFTER
+  // resolveSession copies the modified save out, since the modified save
+  // lives at savBridge.savBinPath (which we're about to overwrite).
+  if (session.saveBridge) {
+    try { restoreSaveBridge(session.saveBridge); } catch (err) {
+      console.error(`[session ${id}] restore bridge failed:`, err);
+    }
+  }
   try { rmSync(session.tempDir, { recursive: true, force: true }); } catch {}
   sessions.delete(id);
 }

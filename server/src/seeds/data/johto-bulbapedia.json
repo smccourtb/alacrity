@@ -2153,5 +2153,467 @@
         "description": "Abra, Ekans/Sandshrew, Dratini available"
       }
     ]
+  },
+  "pallet-town": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "viridian-city": {
+    "items": [],
+    "tms": [
+      {
+        "tm_number": 42,
+        "move_name": "Dream Eater",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "pewter-city": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "cerulean-city": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "vermilion-city": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "lavender-town": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "celadon-city": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "saffron-city": {
+    "items": [
+      {
+        "item_name": "Up-Grade",
+        "method": "gift",
+        "description": "Received from the guard"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "fuchsia-city": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "cinnabar-island": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-1": {
+    "items": [
+      {
+        "item_name": "Bitter Berry",
+        "method": "field",
+        "description": "South of the first ledge on the west side of the route (daily)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-2-south": {
+    "items": [
+      {
+        "item_name": "Dire Hit",
+        "method": "field",
+        "description": "Near south opening of tree maze"
+      },
+      {
+        "item_name": "Full Heal",
+        "method": "hidden",
+        "description": "In the tree maze, in the space northeast of the Max Potion (hidden)"
+      },
+      {
+        "item_name": "Full Restore",
+        "method": "hidden",
+        "description": "In the tree maze, on the top left tree of the second cluster (hidden)"
+      },
+      {
+        "item_name": "Max Ether",
+        "method": "hidden",
+        "description": "In the tree maze, four trees east of the Max Potion (hidden)"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "field",
+        "description": "Near north opening of tree maze"
+      },
+      {
+        "item_name": "PSNCureBerry",
+        "method": "field",
+        "description": "Middle of the tree maze, in the northeast"
+      },
+      {
+        "item_name": "Revive",
+        "method": "hidden",
+        "description": "In the tree maze, at the bottom right corner (hidden)"
+      },
+      {
+        "item_name": "Carbos",
+        "method": "field",
+        "description": "Northeast of Diglett's Cave"
+      },
+      {
+        "item_name": "Elixir",
+        "method": "field",
+        "description": "Southernmost point of the eastern section"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "gift",
+        "description": "Obtained from the man in the first house south of Diglett's Cave"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-3": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-4": {
+    "items": [
+      {
+        "item_name": "HP Up",
+        "method": "field",
+        "description": "On the highest plateau"
+      },
+      {
+        "item_name": "Ultra Ball",
+        "method": "hidden",
+        "description": "Northeast of Picnicker Hope (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-5": {
+    "items": [
+      {
+        "item_name": "Cleanse Tag",
+        "method": "gift",
+        "description": "From the old woman in the former Pokemon Day Care building"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-6": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-7": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-8": {
+    "items": [
+      {
+        "item_name": "PRZCureBerry",
+        "method": "field",
+        "description": "Northwest of the east terminal (daily)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-9": {
+    "items": [
+      {
+        "item_name": "Ether",
+        "method": "hidden",
+        "description": "In leftmost of four trees (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-10": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-11": {
+    "items": [
+      {
+        "item_name": "Berry",
+        "method": "gift",
+        "description": "From the Berry tree in the northeast corner of the route (daily)"
+      },
+      {
+        "item_name": "Revive",
+        "method": "hidden",
+        "description": "In the tree south of the Berry tree (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-12": {
+    "items": [
+      {
+        "item_name": "Super Rod",
+        "method": "gift",
+        "description": "From the Fishing Guru's younger brother"
+      },
+      {
+        "item_name": "Elixir",
+        "method": "hidden",
+        "description": "On the island southeast of the Lavender gate (requires Surf) (hidden)"
+      },
+      {
+        "item_name": "Calcium",
+        "method": "field",
+        "description": "In the forested area near Route 13 (requires Cut)"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "field",
+        "description": "In the former grassy area location just north of Route 13 (requires Cut and Surf)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-13": {
+    "items": [
+      {
+        "item_name": "Calcium",
+        "method": "hidden",
+        "description": "Right of the Trainer Tips sign (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-14": {
+    "items": [
+      {
+        "item_name": "Gold Berry",
+        "method": "gift",
+        "description": "Held by Aeroy, an Aerodactyl the player receives in a trade (requires Cut)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-15": {
+    "items": [
+      {
+        "item_name": "PP Up",
+        "method": "field",
+        "description": "Western portion of the northern half (requires Cut)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-16": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-17": {
+    "items": [
+      {
+        "item_name": "Max Ether",
+        "method": "hidden",
+        "description": "In the northeastern patch of grass (hidden)"
+      },
+      {
+        "item_name": "Max Elixer",
+        "method": "hidden",
+        "description": "Left side of the fence on the south end of the Cycling Road (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "route-18": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-19": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-20": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-21": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-22": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-23": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-24": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "route-25": {
+    "items": [
+      {
+        "item_name": "Potion",
+        "method": "hidden",
+        "description": "In the lone western tree (hidden)"
+      },
+      {
+        "item_name": "Protein",
+        "method": "field",
+        "description": "Northeast corner of the tree maze (requires Cut)"
+      },
+      {
+        "item_name": "Nugget",
+        "method": "field",
+        "description": "From Ace Trainer/Ace Trainer Kevin before battling him"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "mt-moon": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "rock-tunnel": {
+    "items": [
+      {
+        "item_name": "Elixer",
+        "method": "field",
+        "description": "1F, southwest"
+      },
+      {
+        "item_name": "X Defend",
+        "method": "hidden",
+        "description": "1F, east of TM47 (hidden)"
+      },
+      {
+        "item_name": "X Accuracy",
+        "method": "hidden",
+        "description": "1F, northeast (hidden)"
+      },
+      {
+        "item_name": "Max Potion",
+        "method": "hidden",
+        "description": "B1F, northwest of PP Up (hidden)"
+      },
+      {
+        "item_name": "PP Up",
+        "method": "field",
+        "description": "B1F, west"
+      },
+      {
+        "item_name": "Revive",
+        "method": "field",
+        "description": "B1F, north"
+      },
+      {
+        "item_name": "Iron",
+        "method": "field",
+        "description": "B1F, south"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 47,
+        "move_name": "Steel Wing",
+        "method": "field"
+      }
+    ],
+    "events": []
+  },
+  "digletts-cave": {
+    "items": [
+      {
+        "item_name": "Max Revive",
+        "method": "hidden",
+        "description": "On a rock near the northern side (hidden)"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "seafoam-islands": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "cerulean-cave": {
+    "items": [],
+    "tms": [],
+    "events": []
+  },
+  "power-plant": {
+    "items": [
+      {
+        "item_name": "Metal Coat",
+        "method": "gift",
+        "description": "Held by Maggie, a Magneton the player receives in a trade"
+      }
+    ],
+    "tms": [
+      {
+        "tm_number": 7,
+        "move_name": "Zap Cannon",
+        "method": "gift"
+      }
+    ],
+    "events": []
+  },
+  "silph-co": {
+    "items": [
+      {
+        "item_name": "Up-Grade",
+        "method": "gift",
+        "description": "Received from the guard"
+      }
+    ],
+    "tms": [],
+    "events": []
+  },
+  "fighting-dojo": {
+    "items": [
+      {
+        "item_name": "Focus Band",
+        "method": "field",
+        "description": "Between two statues at the back of the Dojo"
+      }
+    ],
+    "tms": [],
+    "events": []
   }
 }

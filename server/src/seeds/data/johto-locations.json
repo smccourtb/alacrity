@@ -5,71 +5,964 @@
     "image_path": "/maps/johto.png",
     "width": 16384,
     "height": 8192,
-    "games": ["gold", "silver", "crystal"]
+    "games": [
+      "gold",
+      "silver",
+      "crystal"
+    ]
   },
   "locations": [
-    { "key": "new-bark-town", "name": "New Bark Town", "x": 0.4200, "y": 0.4300, "type": "city", "order": 1 },
-    { "key": "route-29", "name": "Route 29", "x": 0.3800, "y": 0.4300, "type": "route", "order": 2 },
-    { "key": "cherrygrove-city", "name": "Cherrygrove City", "x": 0.3400, "y": 0.4300, "type": "city", "order": 3 },
-    { "key": "route-30", "name": "Route 30", "x": 0.3400, "y": 0.3800, "type": "route", "order": 4 },
-    { "key": "route-31", "name": "Route 31", "x": 0.3100, "y": 0.3200, "type": "route", "order": 5 },
-    { "key": "violet-city", "name": "Violet City", "x": 0.3250, "y": 0.2500, "type": "city", "order": 6 },
-    { "key": "sprout-tower", "name": "Sprout Tower", "x": 0.3250, "y": 0.2200, "type": "building", "order": 7 },
-    { "key": "route-32", "name": "Route 32", "x": 0.3250, "y": 0.3200, "type": "route", "order": 8 },
-    { "key": "ruins-of-alph", "name": "Ruins of Alph", "x": 0.3000, "y": 0.3000, "type": "cave", "order": 9 },
-    { "key": "union-cave", "name": "Union Cave", "x": 0.2900, "y": 0.3700, "type": "cave", "order": 10 },
-    { "key": "route-33", "name": "Route 33", "x": 0.2600, "y": 0.4000, "type": "route", "order": 11 },
-    { "key": "azalea-town", "name": "Azalea Town", "x": 0.2350, "y": 0.4300, "type": "city", "order": 12 },
-    { "key": "slowpoke-well", "name": "Slowpoke Well", "x": 0.2200, "y": 0.4500, "type": "cave", "order": 13 },
-    { "key": "ilex-forest", "name": "Ilex Forest", "x": 0.2100, "y": 0.4100, "type": "cave", "order": 14 },
-    { "key": "route-34", "name": "Route 34", "x": 0.2700, "y": 0.3300, "type": "route", "order": 15 },
-    { "key": "goldenrod-city", "name": "Goldenrod City", "x": 0.2750, "y": 0.2700, "type": "city", "order": 16 },
-    { "key": "goldenrod-game-corner", "name": "Goldenrod Game Corner", "x": 0.2850, "y": 0.2700, "type": "building", "order": 17 },
-    { "key": "radio-tower", "name": "Radio Tower", "x": 0.2650, "y": 0.2700, "type": "building", "order": 18 },
-    { "key": "route-35", "name": "Route 35", "x": 0.2750, "y": 0.2300, "type": "route", "order": 19 },
-    { "key": "national-park", "name": "National Park", "x": 0.2500, "y": 0.2000, "type": "building", "order": 20 },
-    { "key": "route-36", "name": "Route 36", "x": 0.2300, "y": 0.2200, "type": "route", "order": 21 },
-    { "key": "route-37", "name": "Route 37", "x": 0.2100, "y": 0.2000, "type": "route", "order": 22 },
-    { "key": "ecruteak-city", "name": "Ecruteak City", "x": 0.2050, "y": 0.1700, "type": "city", "order": 23 },
-    { "key": "burned-tower", "name": "Burned Tower", "x": 0.1950, "y": 0.1600, "type": "building", "order": 24 },
-    { "key": "tin-tower", "name": "Tin Tower", "x": 0.2150, "y": 0.1500, "type": "building", "order": 25 },
-    { "key": "route-38", "name": "Route 38", "x": 0.1700, "y": 0.2200, "type": "route", "order": 26 },
-    { "key": "route-39", "name": "Route 39", "x": 0.1400, "y": 0.2700, "type": "route", "order": 27 },
-    { "key": "olivine-city", "name": "Olivine City", "x": 0.1350, "y": 0.3200, "type": "city", "order": 28 },
-    { "key": "olivine-lighthouse", "name": "Olivine Lighthouse", "x": 0.1450, "y": 0.3200, "type": "building", "order": 29 },
-    { "key": "route-40", "name": "Route 40", "x": 0.1100, "y": 0.3800, "type": "water", "order": 30 },
-    { "key": "route-41", "name": "Route 41", "x": 0.0900, "y": 0.4400, "type": "water", "order": 31 },
-    { "key": "whirl-islands", "name": "Whirl Islands", "x": 0.1000, "y": 0.4100, "type": "cave", "order": 32 },
-    { "key": "cianwood-city", "name": "Cianwood City", "x": 0.0650, "y": 0.5700, "type": "city", "order": 33 },
-    { "key": "route-42", "name": "Route 42", "x": 0.2800, "y": 0.1700, "type": "route", "order": 34 },
-    { "key": "mt-mortar", "name": "Mt. Mortar", "x": 0.2600, "y": 0.1700, "type": "cave", "order": 35 },
-    { "key": "mahogany-town", "name": "Mahogany Town", "x": 0.3550, "y": 0.1700, "type": "city", "order": 36 },
-    { "key": "route-43", "name": "Route 43", "x": 0.3550, "y": 0.1200, "type": "route", "order": 37 },
-    { "key": "lake-of-rage", "name": "Lake of Rage", "x": 0.3550, "y": 0.0700, "type": "water", "order": 38 },
-    { "key": "route-44", "name": "Route 44", "x": 0.3900, "y": 0.1700, "type": "route", "order": 39 },
-    { "key": "ice-path", "name": "Ice Path", "x": 0.4100, "y": 0.1500, "type": "cave", "order": 40 },
-    { "key": "blackthorn-city", "name": "Blackthorn City", "x": 0.4200, "y": 0.1200, "type": "city", "order": 41 },
-    { "key": "dragons-den", "name": "Dragon's Den", "x": 0.4300, "y": 0.1300, "type": "cave", "order": 42 },
-    { "key": "route-45", "name": "Route 45", "x": 0.4200, "y": 0.2200, "type": "route", "order": 43 },
-    { "key": "route-46", "name": "Route 46", "x": 0.4200, "y": 0.3200, "type": "route", "order": 44 },
-    { "key": "dark-cave", "name": "Dark Cave", "x": 0.3700, "y": 0.3000, "type": "cave", "order": 45 },
-    { "key": "route-27", "name": "Route 27", "x": 0.4700, "y": 0.4300, "type": "route", "order": 46 },
-    { "key": "tohjo-falls", "name": "Tohjo Falls", "x": 0.4900, "y": 0.4300, "type": "cave", "order": 47 },
-    { "key": "route-26", "name": "Route 26", "x": 0.5100, "y": 0.3500, "type": "route", "order": 48 },
-    { "key": "mt-silver", "name": "Mt. Silver", "x": 0.0450, "y": 0.0800, "type": "cave", "order": 49 },
-    { "key": "route-28", "name": "Route 28", "x": 0.0700, "y": 0.0900, "type": "route", "order": 50 },
-
-    { "key": "indigo-plateau-gsc", "name": "Indigo Plateau", "x": 0.5300, "y": 0.2800, "type": "building", "order": 51 },
-    { "key": "victory-road-gsc", "name": "Victory Road", "x": 0.5300, "y": 0.3200, "type": "cave", "order": 52 },
-
-    { "key": "violet-gym",     "name": "Violet City Gym",    "x": 0.7200, "y": 0.2200, "type": "building", "order": 61 },
-    { "key": "azalea-gym",     "name": "Azalea Town Gym",    "x": 0.4200, "y": 0.4200, "type": "building", "order": 62 },
-    { "key": "goldenrod-gym",  "name": "Goldenrod City Gym", "x": 0.3800, "y": 0.3000, "type": "building", "order": 63 },
-    { "key": "ecruteak-gym",   "name": "Ecruteak City Gym",  "x": 0.2400, "y": 0.2200, "type": "building", "order": 64 },
-    { "key": "cianwood-gym",   "name": "Cianwood City Gym",  "x": 0.0500, "y": 0.5500, "type": "building", "order": 65 },
-    { "key": "olivine-gym",    "name": "Olivine City Gym",   "x": 0.1200, "y": 0.3800, "type": "building", "order": 66 },
-    { "key": "mahogany-gym",   "name": "Mahogany Town Gym",  "x": 0.5000, "y": 0.2200, "type": "building", "order": 67 },
-    { "key": "blackthorn-gym", "name": "Blackthorn City Gym","x": 0.7200, "y": 0.2200, "type": "building", "order": 68 },
-    { "key": "team-rocket-hq", "name": "Team Rocket HQ",     "x": 0.3800, "y": 0.3000, "type": "building", "order": 69 }
+    {
+      "key": "new-bark-town",
+      "name": "New Bark Town",
+      "x": 0.4458,
+      "y": 0.6542,
+      "type": "city",
+      "order": 1
+    },
+    {
+      "key": "route-29",
+      "name": "Route 29",
+      "x": 0.4053,
+      "y": 0.6582,
+      "type": "route",
+      "order": 2
+    },
+    {
+      "key": "cherrygrove-city",
+      "name": "Cherrygrove City",
+      "x": 0.3608,
+      "y": 0.6532,
+      "type": "city",
+      "order": 3
+    },
+    {
+      "key": "route-30",
+      "name": "Route 30",
+      "x": 0.3589,
+      "y": 0.5745,
+      "type": "route",
+      "order": 4
+    },
+    {
+      "key": "route-31",
+      "name": "Route 31",
+      "x": 0.3492,
+      "y": 0.512,
+      "type": "route",
+      "order": 5
+    },
+    {
+      "key": "violet-city",
+      "name": "Violet City",
+      "x": 0.3118,
+      "y": 0.5,
+      "type": "city",
+      "order": 6
+    },
+    {
+      "key": "sprout-tower",
+      "name": "Sprout Tower",
+      "x": 0.3218,
+      "y": 0.5801,
+      "type": "building",
+      "order": 7
+    },
+    {
+      "key": "route-32",
+      "name": "Route 32",
+      "x": 0.2991,
+      "y": 0.6201,
+      "type": "route",
+      "order": 8
+    },
+    {
+      "key": "ruins-of-alph",
+      "name": "Ruins of Alph",
+      "x": 0.2725,
+      "y": 0.5395,
+      "type": "cave",
+      "order": 9
+    },
+    {
+      "key": "union-cave",
+      "name": "Union Cave",
+      "x": 0.3193,
+      "y": 0.7354,
+      "type": "cave",
+      "order": 10
+    },
+    {
+      "key": "route-33",
+      "name": "Route 33",
+      "x": 0.3004,
+      "y": 0.7332,
+      "type": "route",
+      "order": 11
+    },
+    {
+      "key": "azalea-town",
+      "name": "Azalea Town",
+      "x": 0.27,
+      "y": 0.7314,
+      "type": "city",
+      "order": 12
+    },
+    {
+      "key": "slowpoke-well",
+      "name": "Slowpoke Well",
+      "x": 0.2776,
+      "y": 0.6743,
+      "type": "cave",
+      "order": 13
+    },
+    {
+      "key": "ilex-forest",
+      "name": "Ilex Forest",
+      "x": 0.251,
+      "y": 0.7924,
+      "type": "cave",
+      "order": 14
+    },
+    {
+      "key": "route-34",
+      "name": "Route 34",
+      "x": 0.2422,
+      "y": 0.6826,
+      "type": "route",
+      "order": 15
+    },
+    {
+      "key": "goldenrod-city",
+      "name": "Goldenrod City",
+      "x": 0.2417,
+      "y": 0.6094,
+      "type": "city",
+      "order": 16
+    },
+    {
+      "key": "goldenrod-game-corner",
+      "name": "Goldenrod Game Corner",
+      "x": 0.2367,
+      "y": 0.6047,
+      "type": "building",
+      "order": 17
+    },
+    {
+      "key": "radio-tower",
+      "name": "Radio Tower",
+      "x": 0.2061,
+      "y": 0.6006,
+      "type": "building",
+      "order": 18
+    },
+    {
+      "key": "route-35",
+      "name": "Route 35",
+      "x": 0.2393,
+      "y": 0.5288,
+      "type": "route",
+      "order": 19
+    },
+    {
+      "key": "national-park",
+      "name": "National Park",
+      "x": 0.1216,
+      "y": 0.4688,
+      "type": "building",
+      "order": 20
+    },
+    {
+      "key": "route-36",
+      "name": "Route 36",
+      "x": 0.2607,
+      "y": 0.4844,
+      "type": "route",
+      "order": 21
+    },
+    {
+      "key": "route-37",
+      "name": "Route 37",
+      "x": 0.2622,
+      "y": 0.4473,
+      "type": "route",
+      "order": 22
+    },
+    {
+      "key": "ecruteak-city",
+      "name": "Ecruteak City",
+      "x": 0.2598,
+      "y": 0.3955,
+      "type": "city",
+      "order": 23
+    },
+    {
+      "key": "burned-tower",
+      "name": "Burned Tower",
+      "x": 0.2361,
+      "y": 0.3281,
+      "type": "building",
+      "order": 24
+    },
+    {
+      "key": "tin-tower",
+      "name": "Tin Tower",
+      "x": 0.293,
+      "y": 0.2212,
+      "type": "building",
+      "order": 25
+    },
+    {
+      "key": "route-38",
+      "name": "Route 38",
+      "x": 0.2196,
+      "y": 0.3909,
+      "type": "route",
+      "order": 26
+    },
+    {
+      "key": "route-39",
+      "name": "Route 39",
+      "x": 0.1919,
+      "y": 0.416,
+      "type": "route",
+      "order": 27
+    },
+    {
+      "key": "olivine-city",
+      "name": "Olivine City",
+      "x": 0.1899,
+      "y": 0.4824,
+      "type": "city",
+      "order": 28
+    },
+    {
+      "key": "olivine-lighthouse",
+      "name": "Olivine Lighthouse",
+      "x": 0.1592,
+      "y": 0.3145,
+      "type": "building",
+      "order": 29
+    },
+    {
+      "key": "route-40",
+      "name": "Route 40",
+      "x": 0.1641,
+      "y": 0.543,
+      "type": "water",
+      "order": 30
+    },
+    {
+      "key": "route-41",
+      "name": "Route 41",
+      "x": 0.1382,
+      "y": 0.6055,
+      "type": "water",
+      "order": 31
+    },
+    {
+      "key": "whirl-islands",
+      "name": "Whirl Islands",
+      "x": 0.1509,
+      "y": 0.707,
+      "type": "cave",
+      "order": 32
+    },
+    {
+      "key": "cianwood-city",
+      "name": "Cianwood City",
+      "x": 0.1113,
+      "y": 0.6152,
+      "type": "city",
+      "order": 33
+    },
+    {
+      "key": "route-42",
+      "name": "Route 42",
+      "x": 0.3081,
+      "y": 0.415,
+      "type": "route",
+      "order": 34
+    },
+    {
+      "key": "mt-mortar",
+      "name": "Mt. Mortar",
+      "x": 0.1226,
+      "y": 0.2822,
+      "type": "cave",
+      "order": 35
+    },
+    {
+      "key": "mahogany-town",
+      "name": "Mahogany Town",
+      "x": 0.3511,
+      "y": 0.4092,
+      "type": "city",
+      "order": 36
+    },
+    {
+      "key": "route-43",
+      "name": "Route 43",
+      "x": 0.3496,
+      "y": 0.3604,
+      "type": "route",
+      "order": 37
+    },
+    {
+      "key": "lake-of-rage",
+      "name": "Lake of Rage",
+      "x": 0.353,
+      "y": 0.2529,
+      "type": "water",
+      "order": 38
+    },
+    {
+      "key": "route-44",
+      "name": "Route 44",
+      "x": 0.3882,
+      "y": 0.4053,
+      "type": "route",
+      "order": 39
+    },
+    {
+      "key": "ice-path",
+      "name": "Ice Path",
+      "x": 0.4604,
+      "y": 0.2607,
+      "type": "cave",
+      "order": 40
+    },
+    {
+      "key": "blackthorn-city",
+      "name": "Blackthorn City",
+      "x": 0.4341,
+      "y": 0.3994,
+      "type": "city",
+      "order": 41
+    },
+    {
+      "key": "dragons-den",
+      "name": "Dragon's Den",
+      "x": 0.4971,
+      "y": 0.542,
+      "type": "cave",
+      "order": 42
+    },
+    {
+      "key": "route-45",
+      "name": "Route 45",
+      "x": 0.4263,
+      "y": 0.5039,
+      "type": "route",
+      "order": 43
+    },
+    {
+      "key": "route-46",
+      "name": "Route 46",
+      "x": 0.4116,
+      "y": 0.5869,
+      "type": "route",
+      "order": 44
+    },
+    {
+      "key": "dark-cave",
+      "name": "Dark Cave",
+      "x": 0.3901,
+      "y": 0.4927,
+      "type": "cave",
+      "order": 45
+    },
+    {
+      "key": "route-27",
+      "name": "Route 27",
+      "x": 0.5029,
+      "y": 0.6572,
+      "type": "route",
+      "order": 46
+    },
+    {
+      "key": "tohjo-falls",
+      "name": "Tohjo Falls",
+      "x": 0.4824,
+      "y": 0.6201,
+      "type": "cave",
+      "order": 47
+    },
+    {
+      "key": "route-26",
+      "name": "Route 26",
+      "x": 0.543,
+      "y": 0.5439,
+      "type": "route",
+      "order": 48
+    },
+    {
+      "key": "mt-silver",
+      "name": "Mt. Silver",
+      "x": 0.5137,
+      "y": 0.1328,
+      "type": "cave",
+      "order": 49
+    },
+    {
+      "key": "route-28",
+      "name": "Route 28",
+      "x": 0.4966,
+      "y": 0.4629,
+      "type": "route",
+      "order": 50
+    },
+    {
+      "key": "indigo-plateau-gsc",
+      "name": "Indigo Plateau",
+      "x": 0.5425,
+      "y": 0.3398,
+      "type": "building",
+      "order": 51
+    },
+    {
+      "key": "victory-road-gsc",
+      "name": "Victory Road",
+      "x": 0.5225,
+      "y": 0.374,
+      "type": "cave",
+      "order": 52
+    },
+    {
+      "key": "violet-gym",
+      "name": "Violet City Gym",
+      "x": 0.3364,
+      "y": 0.4824,
+      "type": "building",
+      "order": 61
+    },
+    {
+      "key": "azalea-gym",
+      "name": "Azalea Town Gym",
+      "x": 0.2798,
+      "y": 0.7607,
+      "type": "building",
+      "order": 62
+    },
+    {
+      "key": "goldenrod-gym",
+      "name": "Goldenrod City Gym",
+      "x": 0.2179,
+      "y": 0.5393,
+      "type": "building",
+      "order": 63
+    },
+    {
+      "key": "ecruteak-gym",
+      "name": "Ecruteak City Gym",
+      "x": 0.2468,
+      "y": 0.4399,
+      "type": "building",
+      "order": 64
+    },
+    {
+      "key": "cianwood-gym",
+      "name": "Cianwood City Gym",
+      "x": 0.0928,
+      "y": 0.6387,
+      "type": "building",
+      "order": 65
+    },
+    {
+      "key": "olivine-gym",
+      "name": "Olivine City Gym",
+      "x": 0.1763,
+      "y": 0.4121,
+      "type": "building",
+      "order": 66
+    },
+    {
+      "key": "mahogany-gym",
+      "name": "Mahogany Town Gym",
+      "x": 0.3501,
+      "y": 0.4492,
+      "type": "building",
+      "order": 67
+    },
+    {
+      "key": "blackthorn-gym",
+      "name": "Blackthorn City Gym",
+      "x": 0.444,
+      "y": 0.4614,
+      "type": "building",
+      "order": 68
+    },
+    {
+      "key": "team-rocket-hq",
+      "name": "Team Rocket HQ",
+      "x": 0.3789,
+      "y": 0.3145,
+      "type": "building",
+      "order": 69
+    },
+    {
+      "key": "pallet-town",
+      "name": "Pallet Town",
+      "x": 0.6115,
+      "y": 0.8163,
+      "type": "city",
+      "order": 101
+    },
+    {
+      "key": "route-1",
+      "name": "Route 1",
+      "x": 0.6115,
+      "y": 0.7749,
+      "type": "route",
+      "order": 102
+    },
+    {
+      "key": "viridian-city",
+      "name": "Viridian City",
+      "x": 0.6115,
+      "y": 0.7127,
+      "type": "city",
+      "order": 103
+    },
+    {
+      "key": "route-2-south",
+      "name": "Route 2 (South)",
+      "x": 0.6115,
+      "y": 0.6505,
+      "type": "route",
+      "order": 104
+    },
+    {
+      "key": "viridian-forest",
+      "name": "Viridian Forest",
+      "x": 0.6115,
+      "y": 0.5781,
+      "type": "cave",
+      "order": 105
+    },
+    {
+      "key": "route-2-north",
+      "name": "Route 2 (North)",
+      "x": 0.6115,
+      "y": 0.5263,
+      "type": "route",
+      "order": 106
+    },
+    {
+      "key": "pewter-city",
+      "name": "Pewter City",
+      "x": 0.6115,
+      "y": 0.4641,
+      "type": "city",
+      "order": 107
+    },
+    {
+      "key": "route-3",
+      "name": "Route 3",
+      "x": 0.6806,
+      "y": 0.4434,
+      "type": "route",
+      "order": 108
+    },
+    {
+      "key": "mt-moon",
+      "name": "Mt. Moon",
+      "x": 0.7358,
+      "y": 0.4227,
+      "type": "cave",
+      "order": 109
+    },
+    {
+      "key": "route-4",
+      "name": "Route 4",
+      "x": 0.7773,
+      "y": 0.4019,
+      "type": "route",
+      "order": 110
+    },
+    {
+      "key": "cerulean-city",
+      "name": "Cerulean City",
+      "x": 0.8049,
+      "y": 0.3812,
+      "type": "city",
+      "order": 111
+    },
+    {
+      "key": "route-24",
+      "name": "Route 24 (Nugget Bridge)",
+      "x": 0.8049,
+      "y": 0.319,
+      "type": "route",
+      "order": 112
+    },
+    {
+      "key": "route-25",
+      "name": "Route 25",
+      "x": 0.8602,
+      "y": 0.2776,
+      "type": "route",
+      "order": 113
+    },
+    {
+      "key": "route-5",
+      "name": "Route 5",
+      "x": 0.8049,
+      "y": 0.4434,
+      "type": "route",
+      "order": 114
+    },
+    {
+      "key": "route-6",
+      "name": "Route 6",
+      "x": 0.8049,
+      "y": 0.5884,
+      "type": "route",
+      "order": 115
+    },
+    {
+      "key": "vermilion-city",
+      "name": "Vermilion City",
+      "x": 0.8049,
+      "y": 0.6298,
+      "type": "city",
+      "order": 116
+    },
+    {
+      "key": "ss-anne",
+      "name": "S.S. Anne",
+      "x": 0.8464,
+      "y": 0.6505,
+      "type": "building",
+      "order": 117
+    },
+    {
+      "key": "route-11",
+      "name": "Route 11",
+      "x": 0.8602,
+      "y": 0.6091,
+      "type": "route",
+      "order": 118
+    },
+    {
+      "key": "digletts-cave",
+      "name": "Diglett's Cave",
+      "x": 0.9016,
+      "y": 0.5884,
+      "type": "cave",
+      "order": 119
+    },
+    {
+      "key": "route-9",
+      "name": "Route 9",
+      "x": 0.8602,
+      "y": 0.3812,
+      "type": "route",
+      "order": 120
+    },
+    {
+      "key": "rock-tunnel",
+      "name": "Rock Tunnel",
+      "x": 0.9155,
+      "y": 0.4227,
+      "type": "cave",
+      "order": 121
+    },
+    {
+      "key": "route-10",
+      "name": "Route 10",
+      "x": 0.9155,
+      "y": 0.4848,
+      "type": "route",
+      "order": 122
+    },
+    {
+      "key": "lavender-town",
+      "name": "Lavender Town",
+      "x": 0.9155,
+      "y": 0.5263,
+      "type": "city",
+      "order": 123
+    },
+    {
+      "key": "pokemon-tower",
+      "name": "Pokemon Tower",
+      "x": 0.9265,
+      "y": 0.5263,
+      "type": "building",
+      "order": 124
+    },
+    {
+      "key": "route-8",
+      "name": "Route 8",
+      "x": 0.8602,
+      "y": 0.5263,
+      "type": "route",
+      "order": 125
+    },
+    {
+      "key": "route-7",
+      "name": "Route 7",
+      "x": 0.7633,
+      "y": 0.4936,
+      "type": "route",
+      "order": 126
+    },
+    {
+      "key": "celadon-city",
+      "name": "Celadon City",
+      "x": 0.7221,
+      "y": 0.5263,
+      "type": "city",
+      "order": 127
+    },
+    {
+      "key": "saffron-city",
+      "name": "Saffron City",
+      "x": 0.8049,
+      "y": 0.5263,
+      "type": "city",
+      "order": 128
+    },
+    {
+      "key": "route-12",
+      "name": "Route 12",
+      "x": 0.9155,
+      "y": 0.6298,
+      "type": "route",
+      "order": 129
+    },
+    {
+      "key": "route-13",
+      "name": "Route 13",
+      "x": 0.8878,
+      "y": 0.7127,
+      "type": "route",
+      "order": 130
+    },
+    {
+      "key": "route-14",
+      "name": "Route 14",
+      "x": 0.8602,
+      "y": 0.7542,
+      "type": "route",
+      "order": 131
+    },
+    {
+      "key": "route-15",
+      "name": "Route 15",
+      "x": 0.8188,
+      "y": 0.7749,
+      "type": "route",
+      "order": 132
+    },
+    {
+      "key": "fuchsia-city",
+      "name": "Fuchsia City",
+      "x": 0.7635,
+      "y": 0.7749,
+      "type": "city",
+      "order": 133
+    },
+    {
+      "key": "safari-zone",
+      "name": "Safari Zone",
+      "x": 0.7635,
+      "y": 0.7334,
+      "type": "building",
+      "order": 134
+    },
+    {
+      "key": "route-16",
+      "name": "Route 16 (Cycling Road North)",
+      "x": 0.653,
+      "y": 0.5263,
+      "type": "route",
+      "order": 135
+    },
+    {
+      "key": "route-17",
+      "name": "Route 17 (Cycling Road)",
+      "x": 0.6392,
+      "y": 0.6505,
+      "type": "route",
+      "order": 136
+    },
+    {
+      "key": "route-18",
+      "name": "Route 18",
+      "x": 0.6806,
+      "y": 0.7749,
+      "type": "route",
+      "order": 137
+    },
+    {
+      "key": "route-19",
+      "name": "Route 19",
+      "x": 0.7635,
+      "y": 0.8371,
+      "type": "water",
+      "order": 138
+    },
+    {
+      "key": "route-20",
+      "name": "Route 20",
+      "x": 0.6806,
+      "y": 0.8785,
+      "type": "water",
+      "order": 139
+    },
+    {
+      "key": "seafoam-islands",
+      "name": "Seafoam Islands",
+      "x": 0.653,
+      "y": 0.8785,
+      "type": "cave",
+      "order": 140
+    },
+    {
+      "key": "cinnabar-island",
+      "name": "Cinnabar Island",
+      "x": 0.6115,
+      "y": 0.8785,
+      "type": "city",
+      "order": 141
+    },
+    {
+      "key": "pokemon-mansion",
+      "name": "Pokemon Mansion",
+      "x": 0.6005,
+      "y": 0.8681,
+      "type": "building",
+      "order": 142
+    },
+    {
+      "key": "route-21",
+      "name": "Route 21",
+      "x": 0.6115,
+      "y": 0.8536,
+      "type": "water",
+      "order": 143
+    },
+    {
+      "key": "power-plant",
+      "name": "Power Plant",
+      "x": 0.9431,
+      "y": 0.4019,
+      "type": "building",
+      "order": 144
+    },
+    {
+      "key": "route-22",
+      "name": "Route 22",
+      "x": 0.5563,
+      "y": 0.7127,
+      "type": "route",
+      "order": 145
+    },
+    {
+      "key": "route-23",
+      "name": "Route 23 (Victory Road Approach)",
+      "x": 0.5425,
+      "y": 0.5677,
+      "type": "route",
+      "order": 146
+    },
+    {
+      "key": "cerulean-cave",
+      "name": "Cerulean Cave",
+      "x": 0.7911,
+      "y": 0.3398,
+      "type": "cave",
+      "order": 149
+    },
+    {
+      "key": "viridian-gym",
+      "name": "Viridian City Gym",
+      "x": 0.6032,
+      "y": 0.7231,
+      "type": "building",
+      "order": 150
+    },
+    {
+      "key": "pewter-gym",
+      "name": "Pewter City Gym",
+      "x": 0.6115,
+      "y": 0.4641,
+      "type": "building",
+      "order": 151
+    },
+    {
+      "key": "cerulean-gym",
+      "name": "Cerulean City Gym",
+      "x": 0.8049,
+      "y": 0.3812,
+      "type": "building",
+      "order": 152
+    },
+    {
+      "key": "vermilion-gym",
+      "name": "Vermilion City Gym",
+      "x": 0.8049,
+      "y": 0.6298,
+      "type": "building",
+      "order": 153
+    },
+    {
+      "key": "celadon-gym",
+      "name": "Celadon City Gym",
+      "x": 0.7221,
+      "y": 0.5263,
+      "type": "building",
+      "order": 154
+    },
+    {
+      "key": "fuchsia-gym",
+      "name": "Fuchsia City Gym",
+      "x": 0.7635,
+      "y": 0.7749,
+      "type": "building",
+      "order": 155
+    },
+    {
+      "key": "saffron-gym",
+      "name": "Saffron City Gym",
+      "x": 0.8049,
+      "y": 0.5263,
+      "type": "building",
+      "order": 156
+    },
+    {
+      "key": "cinnabar-gym",
+      "name": "Cinnabar Island Gym",
+      "x": 0.6115,
+      "y": 0.8785,
+      "type": "building",
+      "order": 157
+    },
+    {
+      "key": "silph-co",
+      "name": "Silph Co.",
+      "x": 0.8049,
+      "y": 0.5263,
+      "type": "building",
+      "order": 158
+    },
+    {
+      "key": "rocket-hideout",
+      "name": "Rocket Hideout",
+      "x": 0.7221,
+      "y": 0.5263,
+      "type": "building",
+      "order": 159
+    },
+    {
+      "key": "fighting-dojo",
+      "name": "Fighting Dojo",
+      "x": 0.8049,
+      "y": 0.5263,
+      "type": "building",
+      "order": 160
+    }
   ]
 }

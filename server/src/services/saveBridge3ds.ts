@@ -1,5 +1,6 @@
-import { mkdirSync, copyFileSync, writeFileSync, existsSync } from 'fs';
+import { mkdirSync, copyFileSync, writeFileSync, existsSync, rmSync } from 'fs';
 import { join, dirname } from 'path';
+import { homedir } from 'os';
 import { checksumFile } from './sessionManager.js';
 import type { EmulatorConfig } from './emulatorConfigs.js';
 
@@ -8,9 +9,30 @@ import type { EmulatorConfig } from './emulatorConfigs.js';
 // ---------------------------------------------------------------------------
 
 export interface SaveBridge {
+  /** Path to set as XDG_DATA_HOME. Empty string when bridging into Azahar's
+   *  real data dir directly (macOS/Windows — Qt ignores XDG there). */
   dataDir: string;
   savBinPath: string;
   originalChecksum: string;
+  /** Files we displaced when writing into Azahar's real data dir, to be
+   *  restored on session cleanup. Empty/absent in temp-dir mode. */
+  backups?: Array<{ path: string; backup: string | null }>;
+}
+
+/**
+ * Where Azahar actually reads/writes its own data on this platform.
+ * Linux honours XDG_DATA_HOME, so callers can override by setting that env
+ * var; macOS and Windows use fixed Qt-standard locations.
+ */
+export function getRealAzaharDataDir(): string {
+  if (process.platform === 'darwin') {
+    return join(homedir(), 'Library', 'Application Support', 'Azahar');
+  }
+  if (process.platform === 'win32') {
+    return join(process.env.APPDATA || join(homedir(), 'AppData', 'Roaming'), 'Azahar');
+  }
+  const xdg = process.env.XDG_DATA_HOME || join(homedir(), '.local', 'share');
+  return join(xdg, 'azahar-emu');
 }
 
 // ---------------------------------------------------------------------------
@@ -68,27 +90,60 @@ export function bridgeSaveIn(
   tempDir: string,
   savePath: string,
   game: string,
+  sessionId?: string,
 ): SaveBridge | null {
   const titleIdLow = TITLE_ID_LOW[game];
   if (!titleIdLow) return null;
 
+  // Linux: write into a temp dir and point Azahar at it via XDG_DATA_HOME.
+  // The user's real Azahar data dir is left untouched.
+  // macOS/Windows: Qt ignores XDG_DATA_HOME, so we bridge directly into
+  // Azahar's real data dir, backing up any files we displace.
+  const useRealDir = process.platform !== 'linux';
+
   const zeros = '00000000000000000000000000000000';
-  const dataDir = join(tempDir, 'azahar-data');
+  let dataDir: string;
+  let savRoot: string;
+  if (useRealDir) {
+    dataDir = '';
+    // Azahar's macOS/Windows layout omits the `azahar-emu` subdir that the
+    // Linux XDG path expects.
+    savRoot = getRealAzaharDataDir();
+  } else {
+    dataDir = join(tempDir, 'azahar-data');
+    savRoot = join(dataDir, 'azahar-emu');
+  }
+
   const savDir = join(
-    dataDir,
-    'azahar-emu', 'sdmc', 'Nintendo 3DS',
+    savRoot,
+    'sdmc', 'Nintendo 3DS',
     zeros, zeros,
     'title', TITLE_ID_HIGH, titleIdLow,
     'data', '00000001',
   );
-  mkdirSync(savDir, { recursive: true });
-
   const savBinPath = join(savDir, 'main');
-  copyFileSync(savePath, savBinPath);
-
   // Azahar requires a 16-byte metadata file alongside the save directory.
   // Without it, the emulator ignores the save and creates a fresh one.
   const metadataPath = join(dirname(savDir), '00000001.metadata');
+
+  let backups: SaveBridge['backups'];
+  if (useRealDir) {
+    backups = [];
+    const tag = sessionId ?? `${Date.now()}`;
+    for (const p of [savBinPath, metadataPath]) {
+      if (existsSync(p)) {
+        const bak = `${p}.alacrity-bak.${tag}`;
+        copyFileSync(p, bak);
+        backups.push({ path: p, backup: bak });
+      } else {
+        backups.push({ path: p, backup: null });
+      }
+    }
+  }
+
+  mkdirSync(savDir, { recursive: true });
+  copyFileSync(savePath, savBinPath);
+
   const metadata = Buffer.alloc(16);
   metadata.writeUInt32LE(0x00040000, 0); // constant observed from Azahar
   metadata.writeUInt32LE(0x00000001, 4);
@@ -98,7 +153,29 @@ export function bridgeSaveIn(
 
   const originalChecksum = checksumFile(savBinPath);
 
-  return { dataDir, savBinPath, originalChecksum };
+  return { dataDir, savBinPath, originalChecksum, backups };
+}
+
+/**
+ * Undo a real-dir bridge by restoring whatever was at the bridged paths
+ * before the session started. No-op for temp-dir bridges. Should be called
+ * AFTER the modified save has been copied back to its real destination.
+ */
+export function restoreSaveBridge(bridge: SaveBridge): void {
+  if (!bridge.backups || bridge.backups.length === 0) return;
+  for (const { path, backup } of bridge.backups) {
+    try {
+      if (backup && existsSync(backup)) {
+        copyFileSync(backup, path);
+        rmSync(backup);
+      }
+      // If backup is null, the file didn't exist before the session.
+      // Leave whatever Azahar wrote — deleting it would lose any progress
+      // the user made on a title they're starting fresh in Azahar.
+    } catch (err) {
+      console.error('[saveBridge3ds] Failed to restore backup', path, err);
+    }
+  }
 }
 
 /**

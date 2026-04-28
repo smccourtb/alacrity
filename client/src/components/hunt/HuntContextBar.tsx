@@ -1,6 +1,7 @@
 // client/src/components/hunt/HuntContextBar.tsx
 import { Controller } from 'react-hook-form';
 import FilterDropdown from '@/components/FilterDropdown';
+import GamePicker from '@/components/guide/GamePicker';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import type { HuntFormControl } from './types';
@@ -43,22 +44,25 @@ export default function HuntContextBar({
   return (
     <div className="bg-card rounded-[14px] shadow-soft border-l-[3px] border-l-primary overflow-hidden mb-3">
       <div className="px-3.5 py-2.5 flex items-center gap-3 flex-wrap">
-      {/* Game */}
+      {/* Game — shared GamePicker (Gen-grouped, colored dots, searchable).
+          GamePicker uses lowercase keys; hunts API uses capitalized keys.
+          Normalize at the boundary so downstream code is unchanged. */}
       <div className="flex flex-col">
         <ContextLabel>Game</ContextLabel>
         <Controller
           name="game"
           control={control}
-          render={({ field }) => (
-            <FilterDropdown
-              label="Select a game"
-              options={gameConfigs.map((g: any) => ({ value: g.game, label: g.game }))}
-              selected={field.value ? [field.value] : []}
-              onChange={(sel) => onGameChange(sel[0] ?? '')}
-              multiSelect={false}
-              searchable
-            />
-          )}
+          render={({ field }) => {
+            const lowerToConfig: Record<string, string> = Object.fromEntries(
+              gameConfigs.map((g: any) => [String(g.game).toLowerCase(), g.game])
+            );
+            return (
+              <GamePicker
+                value={field.value ? String(field.value).toLowerCase() : ''}
+                onChange={(g) => onGameChange(lowerToConfig[g] ?? g)}
+              />
+            );
+          }}
         />
       </div>
 

@@ -6,9 +6,11 @@ interface PokemonSearchProps {
   game: string;
   onSelect: (speciesId: number, speciesName: string) => void;
   onClear: () => void;
+  /** Bump this number from the parent to clear the input + selected pill. */
+  clearSignal?: number;
 }
 
-export default function PokemonSearch({ game, onSelect, onClear }: PokemonSearchProps) {
+export default function PokemonSearch({ game, onSelect, onClear, clearSignal }: PokemonSearchProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
@@ -43,6 +45,16 @@ export default function PokemonSearch({ game, onSelect, onClear }: PokemonSearch
     setQuery('');
     onClear();
   }, [game]);
+
+  // External clear trigger — bumping clearSignal from the parent resets state.
+  // Skip the initial render (clearSignal undefined/unset).
+  useEffect(() => {
+    if (clearSignal == null) return;
+    setSelected(null);
+    setQuery('');
+    setResults([]);
+    setOpen(false);
+  }, [clearSignal]);
 
   function handleSelect(species: any) {
     setSelected(species);

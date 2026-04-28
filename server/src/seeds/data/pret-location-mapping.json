@@ -1,0 +1,2747 @@
+{
+  "_comment": "Maps pret map-filename (CamelCase, no .asm extension) to our (map_key, location_key). One pret file → one location. Multi-floor/multi-part locations (e.g., SilphCo1F..11F → silph-co) are all folded into the same location_key. Unmapped entries are intentional (interior NPC houses, gates, etc. that we don't track as separate locations).",
+  "pokered": {
+    "PalletTown": {
+      "map_key": "kanto",
+      "location_key": "pallet-town"
+    },
+    "ViridianCity": {
+      "map_key": "kanto",
+      "location_key": "viridian-city"
+    },
+    "ViridianGym": {
+      "map_key": "kanto",
+      "location_key": "viridian-gym"
+    },
+    "ViridianForest": {
+      "map_key": "kanto",
+      "location_key": "viridian-forest"
+    },
+    "PewterCity": {
+      "map_key": "kanto",
+      "location_key": "pewter-city"
+    },
+    "PewterGym": {
+      "map_key": "kanto",
+      "location_key": "pewter-gym"
+    },
+    "MtMoon1F": {
+      "map_key": "kanto",
+      "location_key": "mt-moon"
+    },
+    "MtMoonB1F": {
+      "map_key": "kanto",
+      "location_key": "mt-moon"
+    },
+    "MtMoonB2F": {
+      "map_key": "kanto",
+      "location_key": "mt-moon"
+    },
+    "CeruleanCity": {
+      "map_key": "kanto",
+      "location_key": "cerulean-city"
+    },
+    "CeruleanCity_2": {
+      "map_key": "kanto",
+      "location_key": "cerulean-city"
+    },
+    "CeruleanGym": {
+      "map_key": "kanto",
+      "location_key": "cerulean-gym"
+    },
+    "CeruleanCave1F": {
+      "map_key": "kanto",
+      "location_key": "cerulean-cave"
+    },
+    "CeruleanCave2F": {
+      "map_key": "kanto",
+      "location_key": "cerulean-cave"
+    },
+    "CeruleanCaveB1F": {
+      "map_key": "kanto",
+      "location_key": "cerulean-cave"
+    },
+    "VermilionCity": {
+      "map_key": "kanto",
+      "location_key": "vermilion-city"
+    },
+    "VermilionGym": {
+      "map_key": "kanto",
+      "location_key": "vermilion-gym"
+    },
+    "SSAnne1F": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnne1FRooms": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnne2F": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnne2FRooms": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnne3F": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneB1F": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneB1FRooms": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneBow": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneCaptainsRoom": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneKitchen": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "RockTunnel1F": {
+      "map_key": "kanto",
+      "location_key": "rock-tunnel"
+    },
+    "RockTunnelB1F": {
+      "map_key": "kanto",
+      "location_key": "rock-tunnel"
+    },
+    "LavenderTown": {
+      "map_key": "kanto",
+      "location_key": "lavender-town"
+    },
+    "PokemonTower1F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower2F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower3F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower4F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower5F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower6F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower7F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "CeladonCity": {
+      "map_key": "kanto",
+      "location_key": "celadon-city"
+    },
+    "CeladonGym": {
+      "map_key": "kanto",
+      "location_key": "celadon-gym"
+    },
+    "GameCorner": {
+      "map_key": "kanto",
+      "location_key": "celadon-city"
+    },
+    "GameCornerPrizeRoom": {
+      "map_key": "kanto",
+      "location_key": "celadon-city"
+    },
+    "RocketHideoutB1F": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "RocketHideoutB2F": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "RocketHideoutB3F": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "RocketHideoutB4F": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "RocketHideoutElevator": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "SaffronCity": {
+      "map_key": "kanto",
+      "location_key": "saffron-city"
+    },
+    "SaffronGym": {
+      "map_key": "kanto",
+      "location_key": "saffron-gym"
+    },
+    "FightingDojo": {
+      "map_key": "kanto",
+      "location_key": "fighting-dojo"
+    },
+    "SilphCo1F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo2F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo3F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo4F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo5F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo6F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo7F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo8F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo9F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo10F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo11F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCoElevator": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "FuchsiaCity": {
+      "map_key": "kanto",
+      "location_key": "fuchsia-city"
+    },
+    "FuchsiaGym": {
+      "map_key": "kanto",
+      "location_key": "fuchsia-gym"
+    },
+    "SafariZoneCenter": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneCenterRestHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneEast": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneEastRestHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneGate": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneNorth": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneNorthRestHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneSecretHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneWest": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneWestRestHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "WardensHouse": {
+      "map_key": "kanto",
+      "location_key": "fuchsia-city"
+    },
+    "CinnabarIsland": {
+      "map_key": "kanto",
+      "location_key": "cinnabar-island"
+    },
+    "CinnabarGym": {
+      "map_key": "kanto",
+      "location_key": "cinnabar-gym"
+    },
+    "PokemonMansion1F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-mansion"
+    },
+    "PokemonMansion2F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-mansion"
+    },
+    "PokemonMansion3F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-mansion"
+    },
+    "PokemonMansionB1F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-mansion"
+    },
+    "SeafoamIslands1F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "SeafoamIslandsB1F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "SeafoamIslandsB2F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "SeafoamIslandsB3F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "SeafoamIslandsB4F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "PowerPlant": {
+      "map_key": "kanto",
+      "location_key": "power-plant"
+    },
+    "IndigoPlateau": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "IndigoPlateauLobby": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "LoreleisRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "BrunosRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "AgathasRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "LancesRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "ChampionsRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "HallOfFame": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "VictoryRoad1F": {
+      "map_key": "kanto",
+      "location_key": "victory-road"
+    },
+    "VictoryRoad2F": {
+      "map_key": "kanto",
+      "location_key": "victory-road"
+    },
+    "VictoryRoad3F": {
+      "map_key": "kanto",
+      "location_key": "victory-road"
+    },
+    "DiglettsCave": {
+      "map_key": "kanto",
+      "location_key": "digletts-cave"
+    },
+    "DiglettsCaveRoute2": {
+      "map_key": "kanto",
+      "location_key": "digletts-cave"
+    },
+    "DiglettsCaveRoute11": {
+      "map_key": "kanto",
+      "location_key": "digletts-cave"
+    },
+    "Route1": {
+      "map_key": "kanto",
+      "location_key": "route-1"
+    },
+    "Route2": {
+      "map_key": "kanto",
+      "location_key": "route-2-south"
+    },
+    "Route3": {
+      "map_key": "kanto",
+      "location_key": "route-3"
+    },
+    "Route4": {
+      "map_key": "kanto",
+      "location_key": "route-4"
+    },
+    "Route5": {
+      "map_key": "kanto",
+      "location_key": "route-5"
+    },
+    "Route6": {
+      "map_key": "kanto",
+      "location_key": "route-6"
+    },
+    "Route7": {
+      "map_key": "kanto",
+      "location_key": "route-7"
+    },
+    "Route8": {
+      "map_key": "kanto",
+      "location_key": "route-8"
+    },
+    "Route9": {
+      "map_key": "kanto",
+      "location_key": "route-9"
+    },
+    "Route10": {
+      "map_key": "kanto",
+      "location_key": "route-10"
+    },
+    "Route11": {
+      "map_key": "kanto",
+      "location_key": "route-11"
+    },
+    "Route12": {
+      "map_key": "kanto",
+      "location_key": "route-12"
+    },
+    "Route13": {
+      "map_key": "kanto",
+      "location_key": "route-13"
+    },
+    "Route14": {
+      "map_key": "kanto",
+      "location_key": "route-14"
+    },
+    "Route15": {
+      "map_key": "kanto",
+      "location_key": "route-15"
+    },
+    "Route16": {
+      "map_key": "kanto",
+      "location_key": "route-16"
+    },
+    "Route17": {
+      "map_key": "kanto",
+      "location_key": "route-17"
+    },
+    "Route18": {
+      "map_key": "kanto",
+      "location_key": "route-18"
+    },
+    "Route19": {
+      "map_key": "kanto",
+      "location_key": "route-19"
+    },
+    "Route20": {
+      "map_key": "kanto",
+      "location_key": "route-20"
+    },
+    "Route21": {
+      "map_key": "kanto",
+      "location_key": "route-21"
+    },
+    "Route22": {
+      "map_key": "kanto",
+      "location_key": "route-22"
+    },
+    "Route23": {
+      "map_key": "kanto",
+      "location_key": "route-23"
+    },
+    "Route24": {
+      "map_key": "kanto",
+      "location_key": "route-24"
+    },
+    "Route25": {
+      "map_key": "kanto",
+      "location_key": "route-25"
+    }
+  },
+  "pokeyellow": {
+    "PalletTown": {
+      "map_key": "kanto",
+      "location_key": "pallet-town"
+    },
+    "ViridianCity": {
+      "map_key": "kanto",
+      "location_key": "viridian-city"
+    },
+    "ViridianGym": {
+      "map_key": "kanto",
+      "location_key": "viridian-gym"
+    },
+    "ViridianForest": {
+      "map_key": "kanto",
+      "location_key": "viridian-forest"
+    },
+    "PewterCity": {
+      "map_key": "kanto",
+      "location_key": "pewter-city"
+    },
+    "PewterGym": {
+      "map_key": "kanto",
+      "location_key": "pewter-gym"
+    },
+    "MtMoon1F": {
+      "map_key": "kanto",
+      "location_key": "mt-moon"
+    },
+    "MtMoonB1F": {
+      "map_key": "kanto",
+      "location_key": "mt-moon"
+    },
+    "MtMoonB2F": {
+      "map_key": "kanto",
+      "location_key": "mt-moon"
+    },
+    "CeruleanCity": {
+      "map_key": "kanto",
+      "location_key": "cerulean-city"
+    },
+    "CeruleanGym": {
+      "map_key": "kanto",
+      "location_key": "cerulean-gym"
+    },
+    "CeruleanCave1F": {
+      "map_key": "kanto",
+      "location_key": "cerulean-cave"
+    },
+    "CeruleanCave2F": {
+      "map_key": "kanto",
+      "location_key": "cerulean-cave"
+    },
+    "CeruleanCaveB1F": {
+      "map_key": "kanto",
+      "location_key": "cerulean-cave"
+    },
+    "VermilionCity": {
+      "map_key": "kanto",
+      "location_key": "vermilion-city"
+    },
+    "VermilionGym": {
+      "map_key": "kanto",
+      "location_key": "vermilion-gym"
+    },
+    "SSAnne1F": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnne1FRooms": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnne2F": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnne2FRooms": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnne3F": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneB1F": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneB1FRooms": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneBow": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneCaptainsRoom": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "SSAnneKitchen": {
+      "map_key": "kanto",
+      "location_key": "ss-anne"
+    },
+    "RockTunnel1F": {
+      "map_key": "kanto",
+      "location_key": "rock-tunnel"
+    },
+    "RockTunnelB1F": {
+      "map_key": "kanto",
+      "location_key": "rock-tunnel"
+    },
+    "LavenderTown": {
+      "map_key": "kanto",
+      "location_key": "lavender-town"
+    },
+    "PokemonTower1F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower2F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower3F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower4F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower5F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower6F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "PokemonTower7F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-tower"
+    },
+    "CeladonCity": {
+      "map_key": "kanto",
+      "location_key": "celadon-city"
+    },
+    "CeladonGym": {
+      "map_key": "kanto",
+      "location_key": "celadon-gym"
+    },
+    "GameCorner": {
+      "map_key": "kanto",
+      "location_key": "celadon-city"
+    },
+    "GameCornerPrizeRoom": {
+      "map_key": "kanto",
+      "location_key": "celadon-city"
+    },
+    "RocketHideoutB1F": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "RocketHideoutB2F": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "RocketHideoutB3F": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "RocketHideoutB4F": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "RocketHideoutElevator": {
+      "map_key": "kanto",
+      "location_key": "rocket-hideout"
+    },
+    "SaffronCity": {
+      "map_key": "kanto",
+      "location_key": "saffron-city"
+    },
+    "SaffronGym": {
+      "map_key": "kanto",
+      "location_key": "saffron-gym"
+    },
+    "FightingDojo": {
+      "map_key": "kanto",
+      "location_key": "fighting-dojo"
+    },
+    "SilphCo1F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo2F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo3F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo4F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo5F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo6F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo7F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo8F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo9F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo10F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCo11F": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "SilphCoElevator": {
+      "map_key": "kanto",
+      "location_key": "silph-co"
+    },
+    "FuchsiaCity": {
+      "map_key": "kanto",
+      "location_key": "fuchsia-city"
+    },
+    "FuchsiaGym": {
+      "map_key": "kanto",
+      "location_key": "fuchsia-gym"
+    },
+    "SafariZoneCenter": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneCenterRestHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneEast": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneEastRestHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneGate": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneNorth": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneNorthRestHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneSecretHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneWest": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "SafariZoneWestRestHouse": {
+      "map_key": "kanto",
+      "location_key": "safari-zone"
+    },
+    "WardensHouse": {
+      "map_key": "kanto",
+      "location_key": "fuchsia-city"
+    },
+    "CinnabarIsland": {
+      "map_key": "kanto",
+      "location_key": "cinnabar-island"
+    },
+    "CinnabarGym": {
+      "map_key": "kanto",
+      "location_key": "cinnabar-gym"
+    },
+    "PokemonMansion1F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-mansion"
+    },
+    "PokemonMansion2F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-mansion"
+    },
+    "PokemonMansion3F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-mansion"
+    },
+    "PokemonMansionB1F": {
+      "map_key": "kanto",
+      "location_key": "pokemon-mansion"
+    },
+    "SeafoamIslands1F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "SeafoamIslandsB1F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "SeafoamIslandsB2F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "SeafoamIslandsB3F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "SeafoamIslandsB4F": {
+      "map_key": "kanto",
+      "location_key": "seafoam-islands"
+    },
+    "PowerPlant": {
+      "map_key": "kanto",
+      "location_key": "power-plant"
+    },
+    "IndigoPlateau": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "IndigoPlateauLobby": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "LoreleisRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "BrunosRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "AgathasRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "LancesRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "ChampionsRoom": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "HallOfFame": {
+      "map_key": "kanto",
+      "location_key": "indigo-plateau"
+    },
+    "VictoryRoad1F": {
+      "map_key": "kanto",
+      "location_key": "victory-road"
+    },
+    "VictoryRoad2F": {
+      "map_key": "kanto",
+      "location_key": "victory-road"
+    },
+    "VictoryRoad3F": {
+      "map_key": "kanto",
+      "location_key": "victory-road"
+    },
+    "DiglettsCave": {
+      "map_key": "kanto",
+      "location_key": "digletts-cave"
+    },
+    "DiglettsCaveRoute2": {
+      "map_key": "kanto",
+      "location_key": "digletts-cave"
+    },
+    "DiglettsCaveRoute11": {
+      "map_key": "kanto",
+      "location_key": "digletts-cave"
+    },
+    "Route1": {
+      "map_key": "kanto",
+      "location_key": "route-1"
+    },
+    "Route2": {
+      "map_key": "kanto",
+      "location_key": "route-2-south"
+    },
+    "Route3": {
+      "map_key": "kanto",
+      "location_key": "route-3"
+    },
+    "Route4": {
+      "map_key": "kanto",
+      "location_key": "route-4"
+    },
+    "Route5": {
+      "map_key": "kanto",
+      "location_key": "route-5"
+    },
+    "Route6": {
+      "map_key": "kanto",
+      "location_key": "route-6"
+    },
+    "Route7": {
+      "map_key": "kanto",
+      "location_key": "route-7"
+    },
+    "Route8": {
+      "map_key": "kanto",
+      "location_key": "route-8"
+    },
+    "Route9": {
+      "map_key": "kanto",
+      "location_key": "route-9"
+    },
+    "Route10": {
+      "map_key": "kanto",
+      "location_key": "route-10"
+    },
+    "Route11": {
+      "map_key": "kanto",
+      "location_key": "route-11"
+    },
+    "Route12": {
+      "map_key": "kanto",
+      "location_key": "route-12"
+    },
+    "Route13": {
+      "map_key": "kanto",
+      "location_key": "route-13"
+    },
+    "Route14": {
+      "map_key": "kanto",
+      "location_key": "route-14"
+    },
+    "Route15": {
+      "map_key": "kanto",
+      "location_key": "route-15"
+    },
+    "Route16": {
+      "map_key": "kanto",
+      "location_key": "route-16"
+    },
+    "Route17": {
+      "map_key": "kanto",
+      "location_key": "route-17"
+    },
+    "Route18": {
+      "map_key": "kanto",
+      "location_key": "route-18"
+    },
+    "Route19": {
+      "map_key": "kanto",
+      "location_key": "route-19"
+    },
+    "Route20": {
+      "map_key": "kanto",
+      "location_key": "route-20"
+    },
+    "Route21": {
+      "map_key": "kanto",
+      "location_key": "route-21"
+    },
+    "Route22": {
+      "map_key": "kanto",
+      "location_key": "route-22"
+    },
+    "Route23": {
+      "map_key": "kanto",
+      "location_key": "route-23"
+    },
+    "Route24": {
+      "map_key": "kanto",
+      "location_key": "route-24"
+    },
+    "Route25": {
+      "map_key": "kanto",
+      "location_key": "route-25"
+    }
+  },
+  "pokegold": {
+    "NewBarkTown": {
+      "map_key": "johto",
+      "location_key": "new-bark-town"
+    },
+    "CherrygroveCity": {
+      "map_key": "johto",
+      "location_key": "cherrygrove-city"
+    },
+    "VioletCity": {
+      "map_key": "johto",
+      "location_key": "violet-city"
+    },
+    "VioletGym": {
+      "map_key": "johto",
+      "location_key": "violet-gym"
+    },
+    "SproutTower1F": {
+      "map_key": "johto",
+      "location_key": "sprout-tower"
+    },
+    "SproutTower2F": {
+      "map_key": "johto",
+      "location_key": "sprout-tower"
+    },
+    "SproutTower3F": {
+      "map_key": "johto",
+      "location_key": "sprout-tower"
+    },
+    "UnionCave1F": {
+      "map_key": "johto",
+      "location_key": "union-cave"
+    },
+    "UnionCaveB1F": {
+      "map_key": "johto",
+      "location_key": "union-cave"
+    },
+    "UnionCaveB2F": {
+      "map_key": "johto",
+      "location_key": "union-cave"
+    },
+    "RuinsOfAlphOutside": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphResearchCenter": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphInnerChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphAerodactylChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphAerodactylItemRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphAerodactylWordRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphHoOhChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphHoOhItemRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphHoOhWordRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphKabutoChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphKabutoItemRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphKabutoWordRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphOmanyteChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphOmanyteItemRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphOmanyteWordRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "AzaleaTown": {
+      "map_key": "johto",
+      "location_key": "azalea-town"
+    },
+    "AzaleaGym": {
+      "map_key": "johto",
+      "location_key": "azalea-gym"
+    },
+    "SlowpokeWellB1F": {
+      "map_key": "johto",
+      "location_key": "slowpoke-well"
+    },
+    "SlowpokeWellB2F": {
+      "map_key": "johto",
+      "location_key": "slowpoke-well"
+    },
+    "IlexForest": {
+      "map_key": "johto",
+      "location_key": "ilex-forest"
+    },
+    "GoldenrodCity": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodGym": {
+      "map_key": "johto",
+      "location_key": "goldenrod-gym"
+    },
+    "GoldenrodGameCorner": {
+      "map_key": "johto",
+      "location_key": "goldenrod-game-corner"
+    },
+    "NationalPark": {
+      "map_key": "johto",
+      "location_key": "national-park"
+    },
+    "NationalParkBugContest": {
+      "map_key": "johto",
+      "location_key": "national-park"
+    },
+    "EcruteakCity": {
+      "map_key": "johto",
+      "location_key": "ecruteak-city"
+    },
+    "EcruteakGym": {
+      "map_key": "johto",
+      "location_key": "ecruteak-gym"
+    },
+    "BurnedTower1F": {
+      "map_key": "johto",
+      "location_key": "burned-tower"
+    },
+    "BurnedTowerB1F": {
+      "map_key": "johto",
+      "location_key": "burned-tower"
+    },
+    "TinTower1F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower2F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower3F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower4F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower5F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower6F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower7F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower8F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower9F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTowerRoof": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "OlivineCity": {
+      "map_key": "johto",
+      "location_key": "olivine-city"
+    },
+    "OlivineGym": {
+      "map_key": "johto",
+      "location_key": "olivine-gym"
+    },
+    "OlivineLighthouse1F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse2F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse3F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse4F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse5F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse6F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "CianwoodCity": {
+      "map_key": "johto",
+      "location_key": "cianwood-city"
+    },
+    "CianwoodGym": {
+      "map_key": "johto",
+      "location_key": "cianwood-gym"
+    },
+    "MahoganyTown": {
+      "map_key": "johto",
+      "location_key": "mahogany-town"
+    },
+    "MahoganyGym": {
+      "map_key": "johto",
+      "location_key": "mahogany-gym"
+    },
+    "TeamRocketBaseB1F": {
+      "map_key": "johto",
+      "location_key": "team-rocket-hq"
+    },
+    "TeamRocketBaseB2F": {
+      "map_key": "johto",
+      "location_key": "team-rocket-hq"
+    },
+    "TeamRocketBaseB3F": {
+      "map_key": "johto",
+      "location_key": "team-rocket-hq"
+    },
+    "LakeOfRage": {
+      "map_key": "johto",
+      "location_key": "lake-of-rage"
+    },
+    "RadioTower1F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "RadioTower2F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "RadioTower3F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "RadioTower4F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "RadioTower5F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "BlackthornCity": {
+      "map_key": "johto",
+      "location_key": "blackthorn-city"
+    },
+    "BlackthornGym1F": {
+      "map_key": "johto",
+      "location_key": "blackthorn-gym"
+    },
+    "BlackthornGym2F": {
+      "map_key": "johto",
+      "location_key": "blackthorn-gym"
+    },
+    "DragonsDen1F": {
+      "map_key": "johto",
+      "location_key": "dragons-den"
+    },
+    "DragonsDenB1F": {
+      "map_key": "johto",
+      "location_key": "dragons-den"
+    },
+    "IcePath1F": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "IcePathB1F": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "IcePathB2FBlackthornSide": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "IcePathB2FMahoganySide": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "IcePathB3F": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "DarkCaveBlackthornEntrance": {
+      "map_key": "johto",
+      "location_key": "dark-cave"
+    },
+    "DarkCaveVioletEntrance": {
+      "map_key": "johto",
+      "location_key": "dark-cave"
+    },
+    "MountMortar1FOutside": {
+      "map_key": "johto",
+      "location_key": "mt-mortar"
+    },
+    "MountMortar1FInside": {
+      "map_key": "johto",
+      "location_key": "mt-mortar"
+    },
+    "MountMortar2FInside": {
+      "map_key": "johto",
+      "location_key": "mt-mortar"
+    },
+    "MountMortarB1F": {
+      "map_key": "johto",
+      "location_key": "mt-mortar"
+    },
+    "WhirlIslandNW": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandNE": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandSW": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandSE": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandB1F": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandB2F": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandCave": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandLugiaChamber": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "TohjoFalls": {
+      "map_key": "johto",
+      "location_key": "tohjo-falls"
+    },
+    "SilverCaveOutside": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "SilverCaveRoom1": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "SilverCaveRoom2": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "SilverCaveRoom3": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "SilverCaveItemRooms": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "VictoryRoad": {
+      "map_key": "johto",
+      "location_key": "victory-road-gsc"
+    },
+    "IndigoPlateauPokecenter1F": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "WillsRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "KogasRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "BrunosRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "KarensRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "LancesRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "HallOfFame": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "Route26": {
+      "map_key": "johto",
+      "location_key": "route-26"
+    },
+    "Route27": {
+      "map_key": "johto",
+      "location_key": "route-27"
+    },
+    "Route28": {
+      "map_key": "johto",
+      "location_key": "route-28"
+    },
+    "Route29": {
+      "map_key": "johto",
+      "location_key": "route-29"
+    },
+    "Route30": {
+      "map_key": "johto",
+      "location_key": "route-30"
+    },
+    "Route31": {
+      "map_key": "johto",
+      "location_key": "route-31"
+    },
+    "Route32": {
+      "map_key": "johto",
+      "location_key": "route-32"
+    },
+    "Route33": {
+      "map_key": "johto",
+      "location_key": "route-33"
+    },
+    "Route34": {
+      "map_key": "johto",
+      "location_key": "route-34"
+    },
+    "Route35": {
+      "map_key": "johto",
+      "location_key": "route-35"
+    },
+    "Route36": {
+      "map_key": "johto",
+      "location_key": "route-36"
+    },
+    "Route37": {
+      "map_key": "johto",
+      "location_key": "route-37"
+    },
+    "Route38": {
+      "map_key": "johto",
+      "location_key": "route-38"
+    },
+    "Route39": {
+      "map_key": "johto",
+      "location_key": "route-39"
+    },
+    "Route40": {
+      "map_key": "johto",
+      "location_key": "route-40"
+    },
+    "Route41": {
+      "map_key": "johto",
+      "location_key": "route-41"
+    },
+    "Route42": {
+      "map_key": "johto",
+      "location_key": "route-42"
+    },
+    "Route43": {
+      "map_key": "johto",
+      "location_key": "route-43"
+    },
+    "Route44": {
+      "map_key": "johto",
+      "location_key": "route-44"
+    },
+    "Route45": {
+      "map_key": "johto",
+      "location_key": "route-45"
+    },
+    "Route46": {
+      "map_key": "johto",
+      "location_key": "route-46"
+    },
+    "AzaleaMart": {
+      "map_key": "johto",
+      "location_key": "azalea-town"
+    },
+    "BlackthornMart": {
+      "map_key": "johto",
+      "location_key": "blackthorn-city"
+    },
+    "CeladonDeptStore1F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore2F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore3F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore4F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore5F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore6F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStoreElevator": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeruleanMart": {
+      "map_key": "johto",
+      "location_key": "cerulean-city"
+    },
+    "CherrygroveMart": {
+      "map_key": "johto",
+      "location_key": "cherrygrove-city"
+    },
+    "CianwoodPharmacy": {
+      "map_key": "johto",
+      "location_key": "cianwood-city"
+    },
+    "EcruteakMart": {
+      "map_key": "johto",
+      "location_key": "ecruteak-city"
+    },
+    "FuchsiaMart": {
+      "map_key": "johto",
+      "location_key": "fuchsia-city"
+    },
+    "GoldenrodDeptStore1F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore2F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore3F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore4F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore5F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore6F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStoreB1F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStoreElevator": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStoreRoof": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodUnderground": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodUndergroundSwitchRoomEntrances": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodUndergroundWarehouse": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "LavenderMart": {
+      "map_key": "johto",
+      "location_key": "lavender-town"
+    },
+    "MahoganyMart1F": {
+      "map_key": "johto",
+      "location_key": "mahogany-town"
+    },
+    "MountMoonGiftShop": {
+      "map_key": "johto",
+      "location_key": "mt-moon"
+    },
+    "OlivineMart": {
+      "map_key": "johto",
+      "location_key": "olivine-city"
+    },
+    "PewterMart": {
+      "map_key": "johto",
+      "location_key": "pewter-city"
+    },
+    "SaffronMart": {
+      "map_key": "johto",
+      "location_key": "saffron-city"
+    },
+    "VermilionMart": {
+      "map_key": "johto",
+      "location_key": "vermilion-city"
+    },
+    "VioletMart": {
+      "map_key": "johto",
+      "location_key": "violet-city"
+    },
+    "ViridianMart": {
+      "map_key": "johto",
+      "location_key": "viridian-city"
+    },
+    "EcruteakTinTowerEntrance": {
+      "map_key": "johto",
+      "location_key": "ecruteak-city"
+    },
+    "PalletTown": {
+      "map_key": "johto",
+      "location_key": "pallet-town"
+    },
+    "ViridianCity": {
+      "map_key": "johto",
+      "location_key": "viridian-city"
+    },
+    "ViridianGym": {
+      "map_key": "johto",
+      "location_key": "viridian-gym"
+    },
+    "PewterCity": {
+      "map_key": "johto",
+      "location_key": "pewter-city"
+    },
+    "PewterGym": {
+      "map_key": "johto",
+      "location_key": "pewter-gym"
+    },
+    "CeruleanCity": {
+      "map_key": "johto",
+      "location_key": "cerulean-city"
+    },
+    "CeruleanGym": {
+      "map_key": "johto",
+      "location_key": "cerulean-gym"
+    },
+    "VermilionCity": {
+      "map_key": "johto",
+      "location_key": "vermilion-city"
+    },
+    "VermilionGym": {
+      "map_key": "johto",
+      "location_key": "vermilion-gym"
+    },
+    "VermilionPort": {
+      "map_key": "johto",
+      "location_key": "vermilion-city"
+    },
+    "LavenderTown": {
+      "map_key": "johto",
+      "location_key": "lavender-town"
+    },
+    "CeladonCity": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonGym": {
+      "map_key": "johto",
+      "location_key": "celadon-gym"
+    },
+    "SaffronCity": {
+      "map_key": "johto",
+      "location_key": "saffron-city"
+    },
+    "SaffronGym": {
+      "map_key": "johto",
+      "location_key": "saffron-gym"
+    },
+    "FuchsiaCity": {
+      "map_key": "johto",
+      "location_key": "fuchsia-city"
+    },
+    "FuchsiaGym": {
+      "map_key": "johto",
+      "location_key": "fuchsia-gym"
+    },
+    "CinnabarIsland": {
+      "map_key": "johto",
+      "location_key": "cinnabar-island"
+    },
+    "SeafoamGym": {
+      "map_key": "johto",
+      "location_key": "cinnabar-gym"
+    },
+    "Route1": {
+      "map_key": "johto",
+      "location_key": "route-1"
+    },
+    "Route2": {
+      "map_key": "johto",
+      "location_key": "route-2-south"
+    },
+    "Route3": {
+      "map_key": "johto",
+      "location_key": "route-3"
+    },
+    "Route4": {
+      "map_key": "johto",
+      "location_key": "route-4"
+    },
+    "Route5": {
+      "map_key": "johto",
+      "location_key": "route-5"
+    },
+    "Route6": {
+      "map_key": "johto",
+      "location_key": "route-6"
+    },
+    "Route7": {
+      "map_key": "johto",
+      "location_key": "route-7"
+    },
+    "Route8": {
+      "map_key": "johto",
+      "location_key": "route-8"
+    },
+    "Route9": {
+      "map_key": "johto",
+      "location_key": "route-9"
+    },
+    "Route10North": {
+      "map_key": "johto",
+      "location_key": "route-10"
+    },
+    "Route10South": {
+      "map_key": "johto",
+      "location_key": "route-10"
+    },
+    "Route11": {
+      "map_key": "johto",
+      "location_key": "route-11"
+    },
+    "Route12": {
+      "map_key": "johto",
+      "location_key": "route-12"
+    },
+    "Route13": {
+      "map_key": "johto",
+      "location_key": "route-13"
+    },
+    "Route14": {
+      "map_key": "johto",
+      "location_key": "route-14"
+    },
+    "Route15": {
+      "map_key": "johto",
+      "location_key": "route-15"
+    },
+    "Route16": {
+      "map_key": "johto",
+      "location_key": "route-16"
+    },
+    "Route17": {
+      "map_key": "johto",
+      "location_key": "route-17"
+    },
+    "Route18": {
+      "map_key": "johto",
+      "location_key": "route-18"
+    },
+    "Route19": {
+      "map_key": "johto",
+      "location_key": "route-19"
+    },
+    "Route20": {
+      "map_key": "johto",
+      "location_key": "route-20"
+    },
+    "Route21": {
+      "map_key": "johto",
+      "location_key": "route-21"
+    },
+    "Route22": {
+      "map_key": "johto",
+      "location_key": "route-22"
+    },
+    "Route23": {
+      "map_key": "johto",
+      "location_key": "route-23"
+    },
+    "Route24": {
+      "map_key": "johto",
+      "location_key": "route-24"
+    },
+    "Route25": {
+      "map_key": "johto",
+      "location_key": "route-25"
+    },
+    "DiglettsCave": {
+      "map_key": "johto",
+      "location_key": "digletts-cave"
+    },
+    "PowerPlant": {
+      "map_key": "johto",
+      "location_key": "power-plant"
+    },
+    "RockTunnel1F": {
+      "map_key": "johto",
+      "location_key": "rock-tunnel"
+    },
+    "RockTunnelB1F": {
+      "map_key": "johto",
+      "location_key": "rock-tunnel"
+    },
+    "SilphCo1F": {
+      "map_key": "johto",
+      "location_key": "silph-co"
+    },
+    "UndergroundPath": {
+      "map_key": "johto",
+      "location_key": "route-5"
+    },
+    "FightingDojo": {
+      "map_key": "johto",
+      "location_key": "fighting-dojo"
+    }
+  },
+  "pokecrystal": {
+    "NewBarkTown": {
+      "map_key": "johto",
+      "location_key": "new-bark-town"
+    },
+    "CherrygroveCity": {
+      "map_key": "johto",
+      "location_key": "cherrygrove-city"
+    },
+    "VioletCity": {
+      "map_key": "johto",
+      "location_key": "violet-city"
+    },
+    "VioletGym": {
+      "map_key": "johto",
+      "location_key": "violet-gym"
+    },
+    "SproutTower1F": {
+      "map_key": "johto",
+      "location_key": "sprout-tower"
+    },
+    "SproutTower2F": {
+      "map_key": "johto",
+      "location_key": "sprout-tower"
+    },
+    "SproutTower3F": {
+      "map_key": "johto",
+      "location_key": "sprout-tower"
+    },
+    "UnionCave1F": {
+      "map_key": "johto",
+      "location_key": "union-cave"
+    },
+    "UnionCaveB1F": {
+      "map_key": "johto",
+      "location_key": "union-cave"
+    },
+    "UnionCaveB2F": {
+      "map_key": "johto",
+      "location_key": "union-cave"
+    },
+    "RuinsOfAlphOutside": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphResearchCenter": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphInnerChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphAerodactylChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphAerodactylItemRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphAerodactylWordRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphHoOhChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphHoOhItemRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphHoOhWordRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphKabutoChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphKabutoItemRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphKabutoWordRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphOmanyteChamber": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphOmanyteItemRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "RuinsOfAlphOmanyteWordRoom": {
+      "map_key": "johto",
+      "location_key": "ruins-of-alph"
+    },
+    "AzaleaTown": {
+      "map_key": "johto",
+      "location_key": "azalea-town"
+    },
+    "AzaleaGym": {
+      "map_key": "johto",
+      "location_key": "azalea-gym"
+    },
+    "SlowpokeWellB1F": {
+      "map_key": "johto",
+      "location_key": "slowpoke-well"
+    },
+    "SlowpokeWellB2F": {
+      "map_key": "johto",
+      "location_key": "slowpoke-well"
+    },
+    "IlexForest": {
+      "map_key": "johto",
+      "location_key": "ilex-forest"
+    },
+    "GoldenrodCity": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodGym": {
+      "map_key": "johto",
+      "location_key": "goldenrod-gym"
+    },
+    "GoldenrodGameCorner": {
+      "map_key": "johto",
+      "location_key": "goldenrod-game-corner"
+    },
+    "NationalPark": {
+      "map_key": "johto",
+      "location_key": "national-park"
+    },
+    "NationalParkBugContest": {
+      "map_key": "johto",
+      "location_key": "national-park"
+    },
+    "EcruteakCity": {
+      "map_key": "johto",
+      "location_key": "ecruteak-city"
+    },
+    "EcruteakGym": {
+      "map_key": "johto",
+      "location_key": "ecruteak-gym"
+    },
+    "BurnedTower1F": {
+      "map_key": "johto",
+      "location_key": "burned-tower"
+    },
+    "BurnedTowerB1F": {
+      "map_key": "johto",
+      "location_key": "burned-tower"
+    },
+    "TinTower1F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower2F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower3F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower4F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower5F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower6F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower7F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower8F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTower9F": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "TinTowerRoof": {
+      "map_key": "johto",
+      "location_key": "tin-tower"
+    },
+    "OlivineCity": {
+      "map_key": "johto",
+      "location_key": "olivine-city"
+    },
+    "OlivineGym": {
+      "map_key": "johto",
+      "location_key": "olivine-gym"
+    },
+    "OlivineLighthouse1F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse2F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse3F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse4F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse5F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "OlivineLighthouse6F": {
+      "map_key": "johto",
+      "location_key": "olivine-lighthouse"
+    },
+    "CianwoodCity": {
+      "map_key": "johto",
+      "location_key": "cianwood-city"
+    },
+    "CianwoodGym": {
+      "map_key": "johto",
+      "location_key": "cianwood-gym"
+    },
+    "MahoganyTown": {
+      "map_key": "johto",
+      "location_key": "mahogany-town"
+    },
+    "MahoganyGym": {
+      "map_key": "johto",
+      "location_key": "mahogany-gym"
+    },
+    "TeamRocketBaseB1F": {
+      "map_key": "johto",
+      "location_key": "team-rocket-hq"
+    },
+    "TeamRocketBaseB2F": {
+      "map_key": "johto",
+      "location_key": "team-rocket-hq"
+    },
+    "TeamRocketBaseB3F": {
+      "map_key": "johto",
+      "location_key": "team-rocket-hq"
+    },
+    "LakeOfRage": {
+      "map_key": "johto",
+      "location_key": "lake-of-rage"
+    },
+    "RadioTower1F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "RadioTower2F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "RadioTower3F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "RadioTower4F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "RadioTower5F": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "BlackthornCity": {
+      "map_key": "johto",
+      "location_key": "blackthorn-city"
+    },
+    "BlackthornGym1F": {
+      "map_key": "johto",
+      "location_key": "blackthorn-gym"
+    },
+    "BlackthornGym2F": {
+      "map_key": "johto",
+      "location_key": "blackthorn-gym"
+    },
+    "DragonsDen1F": {
+      "map_key": "johto",
+      "location_key": "dragons-den"
+    },
+    "DragonsDenB1F": {
+      "map_key": "johto",
+      "location_key": "dragons-den"
+    },
+    "DragonShrine": {
+      "map_key": "johto",
+      "location_key": "dragons-den"
+    },
+    "IcePath1F": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "IcePathB1F": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "IcePathB2FBlackthornSide": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "IcePathB2FMahoganySide": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "IcePathB3F": {
+      "map_key": "johto",
+      "location_key": "ice-path"
+    },
+    "DarkCaveBlackthornEntrance": {
+      "map_key": "johto",
+      "location_key": "dark-cave"
+    },
+    "DarkCaveVioletEntrance": {
+      "map_key": "johto",
+      "location_key": "dark-cave"
+    },
+    "MountMortar1FOutside": {
+      "map_key": "johto",
+      "location_key": "mt-mortar"
+    },
+    "MountMortar1FInside": {
+      "map_key": "johto",
+      "location_key": "mt-mortar"
+    },
+    "MountMortar2FInside": {
+      "map_key": "johto",
+      "location_key": "mt-mortar"
+    },
+    "MountMortarB1F": {
+      "map_key": "johto",
+      "location_key": "mt-mortar"
+    },
+    "WhirlIslandNW": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandNE": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandSW": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandSE": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandB1F": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandB2F": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandCave": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "WhirlIslandLugiaChamber": {
+      "map_key": "johto",
+      "location_key": "whirl-islands"
+    },
+    "TohjoFalls": {
+      "map_key": "johto",
+      "location_key": "tohjo-falls"
+    },
+    "SilverCaveOutside": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "SilverCaveRoom1": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "SilverCaveRoom2": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "SilverCaveRoom3": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "SilverCaveItemRooms": {
+      "map_key": "johto",
+      "location_key": "mt-silver"
+    },
+    "VictoryRoad": {
+      "map_key": "johto",
+      "location_key": "victory-road-gsc"
+    },
+    "IndigoPlateauPokecenter1F": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "WillsRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "KogasRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "BrunosRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "KarensRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "LancesRoom": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "HallOfFame": {
+      "map_key": "johto",
+      "location_key": "indigo-plateau-gsc"
+    },
+    "Route26": {
+      "map_key": "johto",
+      "location_key": "route-26"
+    },
+    "Route27": {
+      "map_key": "johto",
+      "location_key": "route-27"
+    },
+    "Route28": {
+      "map_key": "johto",
+      "location_key": "route-28"
+    },
+    "Route29": {
+      "map_key": "johto",
+      "location_key": "route-29"
+    },
+    "Route30": {
+      "map_key": "johto",
+      "location_key": "route-30"
+    },
+    "Route31": {
+      "map_key": "johto",
+      "location_key": "route-31"
+    },
+    "Route32": {
+      "map_key": "johto",
+      "location_key": "route-32"
+    },
+    "Route33": {
+      "map_key": "johto",
+      "location_key": "route-33"
+    },
+    "Route34": {
+      "map_key": "johto",
+      "location_key": "route-34"
+    },
+    "Route35": {
+      "map_key": "johto",
+      "location_key": "route-35"
+    },
+    "Route36": {
+      "map_key": "johto",
+      "location_key": "route-36"
+    },
+    "Route37": {
+      "map_key": "johto",
+      "location_key": "route-37"
+    },
+    "Route38": {
+      "map_key": "johto",
+      "location_key": "route-38"
+    },
+    "Route39": {
+      "map_key": "johto",
+      "location_key": "route-39"
+    },
+    "Route40": {
+      "map_key": "johto",
+      "location_key": "route-40"
+    },
+    "Route41": {
+      "map_key": "johto",
+      "location_key": "route-41"
+    },
+    "Route42": {
+      "map_key": "johto",
+      "location_key": "route-42"
+    },
+    "Route43": {
+      "map_key": "johto",
+      "location_key": "route-43"
+    },
+    "Route44": {
+      "map_key": "johto",
+      "location_key": "route-44"
+    },
+    "Route45": {
+      "map_key": "johto",
+      "location_key": "route-45"
+    },
+    "Route46": {
+      "map_key": "johto",
+      "location_key": "route-46"
+    },
+    "AzaleaMart": {
+      "map_key": "johto",
+      "location_key": "azalea-town"
+    },
+    "BlackthornMart": {
+      "map_key": "johto",
+      "location_key": "blackthorn-city"
+    },
+    "CeladonDeptStore1F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore2F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore3F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore4F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore5F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStore6F": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonDeptStoreElevator": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeruleanMart": {
+      "map_key": "johto",
+      "location_key": "cerulean-city"
+    },
+    "CherrygroveMart": {
+      "map_key": "johto",
+      "location_key": "cherrygrove-city"
+    },
+    "CianwoodPharmacy": {
+      "map_key": "johto",
+      "location_key": "cianwood-city"
+    },
+    "EcruteakMart": {
+      "map_key": "johto",
+      "location_key": "ecruteak-city"
+    },
+    "FuchsiaMart": {
+      "map_key": "johto",
+      "location_key": "fuchsia-city"
+    },
+    "GoldenrodDeptStore1F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore2F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore3F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore4F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore5F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStore6F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStoreB1F": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStoreElevator": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodDeptStoreRoof": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodUnderground": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodUndergroundSwitchRoomEntrances": {
+      "map_key": "johto",
+      "location_key": "goldenrod-city"
+    },
+    "GoldenrodUndergroundWarehouse": {
+      "map_key": "johto",
+      "location_key": "radio-tower"
+    },
+    "LavenderMart": {
+      "map_key": "johto",
+      "location_key": "lavender-town"
+    },
+    "MahoganyMart1F": {
+      "map_key": "johto",
+      "location_key": "mahogany-town"
+    },
+    "MountMoonGiftShop": {
+      "map_key": "johto",
+      "location_key": "mt-moon"
+    },
+    "OlivineMart": {
+      "map_key": "johto",
+      "location_key": "olivine-city"
+    },
+    "PewterMart": {
+      "map_key": "johto",
+      "location_key": "pewter-city"
+    },
+    "SaffronMart": {
+      "map_key": "johto",
+      "location_key": "saffron-city"
+    },
+    "VermilionMart": {
+      "map_key": "johto",
+      "location_key": "vermilion-city"
+    },
+    "VioletMart": {
+      "map_key": "johto",
+      "location_key": "violet-city"
+    },
+    "ViridianMart": {
+      "map_key": "johto",
+      "location_key": "viridian-city"
+    },
+    "EcruteakTinTowerEntrance": {
+      "map_key": "johto",
+      "location_key": "ecruteak-city"
+    },
+    "PalletTown": {
+      "map_key": "johto",
+      "location_key": "pallet-town"
+    },
+    "ViridianCity": {
+      "map_key": "johto",
+      "location_key": "viridian-city"
+    },
+    "ViridianGym": {
+      "map_key": "johto",
+      "location_key": "viridian-gym"
+    },
+    "PewterCity": {
+      "map_key": "johto",
+      "location_key": "pewter-city"
+    },
+    "PewterGym": {
+      "map_key": "johto",
+      "location_key": "pewter-gym"
+    },
+    "CeruleanCity": {
+      "map_key": "johto",
+      "location_key": "cerulean-city"
+    },
+    "CeruleanGym": {
+      "map_key": "johto",
+      "location_key": "cerulean-gym"
+    },
+    "VermilionCity": {
+      "map_key": "johto",
+      "location_key": "vermilion-city"
+    },
+    "VermilionGym": {
+      "map_key": "johto",
+      "location_key": "vermilion-gym"
+    },
+    "VermilionPort": {
+      "map_key": "johto",
+      "location_key": "vermilion-city"
+    },
+    "LavenderTown": {
+      "map_key": "johto",
+      "location_key": "lavender-town"
+    },
+    "CeladonCity": {
+      "map_key": "johto",
+      "location_key": "celadon-city"
+    },
+    "CeladonGym": {
+      "map_key": "johto",
+      "location_key": "celadon-gym"
+    },
+    "SaffronCity": {
+      "map_key": "johto",
+      "location_key": "saffron-city"
+    },
+    "SaffronGym": {
+      "map_key": "johto",
+      "location_key": "saffron-gym"
+    },
+    "FuchsiaCity": {
+      "map_key": "johto",
+      "location_key": "fuchsia-city"
+    },
+    "FuchsiaGym": {
+      "map_key": "johto",
+      "location_key": "fuchsia-gym"
+    },
+    "CinnabarIsland": {
+      "map_key": "johto",
+      "location_key": "cinnabar-island"
+    },
+    "SeafoamGym": {
+      "map_key": "johto",
+      "location_key": "cinnabar-gym"
+    },
+    "Route1": {
+      "map_key": "johto",
+      "location_key": "route-1"
+    },
+    "Route2": {
+      "map_key": "johto",
+      "location_key": "route-2-south"
+    },
+    "Route3": {
+      "map_key": "johto",
+      "location_key": "route-3"
+    },
+    "Route4": {
+      "map_key": "johto",
+      "location_key": "route-4"
+    },
+    "Route5": {
+      "map_key": "johto",
+      "location_key": "route-5"
+    },
+    "Route6": {
+      "map_key": "johto",
+      "location_key": "route-6"
+    },
+    "Route7": {
+      "map_key": "johto",
+      "location_key": "route-7"
+    },
+    "Route8": {
+      "map_key": "johto",
+      "location_key": "route-8"
+    },
+    "Route9": {
+      "map_key": "johto",
+      "location_key": "route-9"
+    },
+    "Route10North": {
+      "map_key": "johto",
+      "location_key": "route-10"
+    },
+    "Route10South": {
+      "map_key": "johto",
+      "location_key": "route-10"
+    },
+    "Route11": {
+      "map_key": "johto",
+      "location_key": "route-11"
+    },
+    "Route12": {
+      "map_key": "johto",
+      "location_key": "route-12"
+    },
+    "Route13": {
+      "map_key": "johto",
+      "location_key": "route-13"
+    },
+    "Route14": {
+      "map_key": "johto",
+      "location_key": "route-14"
+    },
+    "Route15": {
+      "map_key": "johto",
+      "location_key": "route-15"
+    },
+    "Route16": {
+      "map_key": "johto",
+      "location_key": "route-16"
+    },
+    "Route17": {
+      "map_key": "johto",
+      "location_key": "route-17"
+    },
+    "Route18": {
+      "map_key": "johto",
+      "location_key": "route-18"
+    },
+    "Route19": {
+      "map_key": "johto",
+      "location_key": "route-19"
+    },
+    "Route20": {
+      "map_key": "johto",
+      "location_key": "route-20"
+    },
+    "Route21": {
+      "map_key": "johto",
+      "location_key": "route-21"
+    },
+    "Route22": {
+      "map_key": "johto",
+      "location_key": "route-22"
+    },
+    "Route23": {
+      "map_key": "johto",
+      "location_key": "route-23"
+    },
+    "Route24": {
+      "map_key": "johto",
+      "location_key": "route-24"
+    },
+    "Route25": {
+      "map_key": "johto",
+      "location_key": "route-25"
+    },
+    "DiglettsCave": {
+      "map_key": "johto",
+      "location_key": "digletts-cave"
+    },
+    "PowerPlant": {
+      "map_key": "johto",
+      "location_key": "power-plant"
+    },
+    "RockTunnel1F": {
+      "map_key": "johto",
+      "location_key": "rock-tunnel"
+    },
+    "RockTunnelB1F": {
+      "map_key": "johto",
+      "location_key": "rock-tunnel"
+    },
+    "SilphCo1F": {
+      "map_key": "johto",
+      "location_key": "silph-co"
+    },
+    "UndergroundPath": {
+      "map_key": "johto",
+      "location_key": "route-5"
+    },
+    "FightingDojo": {
+      "map_key": "johto",
+      "location_key": "fighting-dojo"
+    }
+  }
+}

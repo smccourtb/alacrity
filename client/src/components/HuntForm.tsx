@@ -6,6 +6,7 @@ import HuntContextBar from '@/components/hunt/HuntContextBar';
 import HuntPresetPicker, { type HuntPreset } from '@/components/hunt/HuntPresetPicker';
 import HuntConditionsSection from '@/components/hunt/HuntConditionsSection';
 import HuntGearSection from '@/components/hunt/HuntGearSection';
+import SetupHintCard from '@/components/hunt/SetupHintCard';
 import type { HuntFormValues } from '@/components/hunt/types';
 import type { ValidationReport } from '@/hooks/useHuntValidation';
 
@@ -119,6 +120,12 @@ export default function HuntForm({
         showAdvanced={showAdvanced}
         setShowAdvanced={setShowAdvanced}
         report={validationReport ?? null}
+      />
+
+      <SetupHintCard
+        game={watch('game')}
+        mode={watch('hunt_mode')}
+        speciesId={watch('target_species_id')}
       />
     </form>
   );

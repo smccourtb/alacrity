@@ -3,6 +3,13 @@ name = "alacrity"
 version = "0.1.0"
 edition = "2021"
 
+# Override the binary name so macOS shows "Alacrity" (title-cased) in cmd+tab
+# / dock / activity monitor. Without this, the process name follows the crate
+# name (lowercase) since `tauri dev` runs the bare binary rather than a bundle.
+[[bin]]
+name = "Alacrity"
+path = "src/main.rs"
+
 [dependencies]
 tauri = { version = "2", features = ["tray-icon"] }
 tauri-plugin-shell = "2"

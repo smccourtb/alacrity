@@ -1,8 +1,11 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
+import { MapPinPlus, ImageIcon } from 'lucide-react';
 import { api } from '@/api/client';
 import { SUB_MARKER_COLORS, type SubMarkerType } from './SubMarkerIcon';
 import FilterDropdown from '@/components/FilterDropdown';
 import InlineNotes from './InlineNotes';
+import ItemPickerModal from './ItemPickerModal';
+import { prettifyMarkerDetail } from '@/lib/marker-labels';
 
 interface PlaceableItem {
   id: number;
@@ -15,6 +18,9 @@ interface PlaceableItem {
   markerId?: number;
   x?: number;
   y?: number;
+  // Shops expose their inventory here so the sidebar can preview items/prices
+  // without forcing the user to click away from calibration.
+  inventory?: Array<{ item_name: string; price: number | null; badge_gate: number; sprite_path?: string | null; notes?: string | null }>;
 }
 
 interface SubMarkerCalibrationProps {
@@ -29,6 +35,11 @@ interface SubMarkerCalibrationProps {
   onSelectItem: (item: PlaceableItem | null) => void;
   selectedLocationKey?: string;
   onLocationKeyChange?: (key: string) => void;
+  creatingCustom?: boolean;
+  onStartCreateCustom?: () => void;
+  onOverridesChanged?: () => void;
+  placingLocationPin?: boolean;
+  onStartNewLocationPin?: () => void;
 }
 
 export type { PlaceableItem };
@@ -37,7 +48,19 @@ export default function SubMarkerCalibration({
   mapKey, game, locations, existingMarkers, onClose,
   mapWidth, mapHeight, activeItem, onSelectItem,
   selectedLocationKey, onLocationKeyChange,
+  creatingCustom, onStartCreateCustom,
+  onOverridesChanged, placingLocationPin, onStartNewLocationPin,
 }: SubMarkerCalibrationProps) {
+  const [pickerFor, setPickerFor] = useState<{ type: string; referenceId: number } | null>(null);
+  const overridesByKey = useMemo(() => {
+    const m = new Map<string, { kind: 'item' | 'pokemon'; ref: string }>();
+    for (const em of existingMarkers ?? []) {
+      if ((em.sprite_kind === 'item' || em.sprite_kind === 'pokemon') && em.sprite_ref) {
+        m.set(`${em.marker_type}:${em.reference_id}`, { kind: em.sprite_kind, ref: em.sprite_ref });
+      }
+    }
+    return m;
+  }, [existingMarkers]);
   const [internalLocation, setInternalLocation] = useState<string>('');
   const selectedLocation = selectedLocationKey ?? internalLocation;
   const setSelectedLocation = (key: string) => {
@@ -94,6 +117,19 @@ export default function SubMarkerCalibration({
           markerId: existing?.id, x: existing?.x, y: existing?.y,
         });
       }
+      // Shops store their x/y directly on location_shops rather than in
+      // marker_positions, so "placed" is derived from the shop row itself.
+      for (const shop of data.shops ?? []) {
+        const placed = shop.x != null && shop.y != null;
+        placeable.push({
+          id: shop.id, type: 'shop', name: shop.shop_name,
+          detail: `${shop.inventory?.length ?? 0} items`,
+          description: '',
+          location_key: selectedLocation, placed,
+          x: placed ? shop.x : undefined, y: placed ? shop.y : undefined,
+          inventory: shop.inventory ?? [],
+        });
+      }
 
       setItems(placeable);
     });
@@ -126,24 +162,40 @@ export default function SubMarkerCalibration({
           <button onClick={onClose} className="text-xs text-muted-foreground hover:text-foreground">Close</button>
         </div>
 
-        <div className="mb-2">
-          <FilterDropdown
-            label="Select location..."
-            options={locations.map((l: any) => ({ value: l.location_key, label: l.display_name }))}
-            selected={selectedLocation ? [selectedLocation] : []}
-            onChange={(sel) => { setSelectedLocation(sel[0] ?? ''); onSelectItem(null); }}
-            multiSelect={false}
-          />
+        <div className="mb-2 flex items-center gap-2">
+          <div className="flex-1 min-w-0">
+            <FilterDropdown
+              label="Select location..."
+              options={locations.map((l: any) => ({ value: l.location_key, label: l.display_name }))}
+              selected={selectedLocation ? [selectedLocation] : []}
+              onChange={(sel) => { setSelectedLocation(sel[0] ?? ''); onSelectItem(null); }}
+              multiSelect={false}
+            />
+          </div>
+          {onStartCreateCustom && (
+            <button
+              type="button"
+              onClick={onStartCreateCustom}
+              title={creatingCustom ? 'Click map to place custom marker…' : 'Add pin'}
+              className={`shrink-0 p-1.5 rounded-md border transition-colors ${
+                creatingCustom
+                  ? 'bg-primary text-primary-foreground border-primary animate-pulse'
+                  : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted/50'
+              }`}
+            >
+              <MapPinPlus className="w-4 h-4" />
+            </button>
+          )}
         </div>
 
         <div className="flex items-center gap-1 flex-wrap">
-          {(['all', 'item', 'hidden_item', 'trainer', 'tm', 'event'] as const).map(t => (
+          {(['all', 'item', 'hidden_item', 'trainer', 'tm', 'event', 'shop'] as const).map(t => (
             <button
               key={t}
               onClick={() => setFilter(t)}
               className={`text-2xs px-1.5 py-0.5 rounded ${filter === t ? 'bg-primary/20 text-primary' : 'text-muted-foreground'}`}
             >
-              {t === 'all' ? 'All' : t === 'hidden_item' ? 'Hidden' : t.charAt(0).toUpperCase() + t.slice(1)}
+              {t === 'all' ? 'All' : t === 'hidden_item' ? 'Hidden' : t === 'shop' ? 'Shops' : t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
           ))}
           {items.length > 0 && (
@@ -175,15 +227,43 @@ export default function SubMarkerCalibration({
                 }} />
                 <span className="flex-1 min-w-0 truncate">{item.name}</span>
                 {item.detail && (
-                  <span className="text-2xs text-muted-foreground">{item.detail}</span>
+                  <span className="text-2xs text-muted-foreground">{prettifyMarkerDetail(item.detail)}</span>
                 )}
                 {item.placed && <span className="text-2xs text-green-500">✓</span>}
                 {isActive && !item.placed && (
                   <span className="text-2xs text-orange-400">click map →</span>
                 )}
               </button>
+              {isActive && item.type === 'shop' && item.inventory && item.inventory.length > 0 && (
+                <ul className="px-3 pb-1.5 text-2xs text-muted-foreground divide-y divide-border/40">
+                  {item.inventory.map((inv, idx) => (
+                    <li key={`${item.id}-inv-${idx}`} className="flex items-center gap-2 py-1">
+                      {inv.sprite_path && (
+                        <img
+                          src={inv.sprite_path}
+                          alt=""
+                          className="w-4 h-4 shrink-0 object-contain"
+                          style={{ imageRendering: 'pixelated' }}
+                        />
+                      )}
+                      <span className="flex-1">
+                        <span>{inv.item_name}</span>
+                        {inv.badge_gate > 0 && (
+                          <span className="ml-1 text-[9px] text-orange-400/80">· Badge {inv.badge_gate}</span>
+                        )}
+                        {inv.notes && (
+                          <div className="text-[9px] opacity-60 leading-tight">{inv.notes}</div>
+                        )}
+                      </span>
+                      {inv.price != null && (
+                        <span className="tabular-nums">¥{inv.price.toLocaleString()}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
               {isActive && (
-                <div className="px-3 pb-2">
+                <div className="px-3 pb-2 space-y-1.5">
                   <InlineNotes
                     markerType={item.type}
                     referenceId={item.id}
@@ -196,6 +276,61 @@ export default function SubMarkerCalibration({
                       ));
                     }}
                   />
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xs text-muted-foreground">Icon:</span>
+                    {overridesByKey.has(`${item.type}:${item.id}`) ? (
+                      <>
+                        {(() => {
+                          const o = overridesByKey.get(`${item.type}:${item.id}`)!;
+                          return (
+                            <img
+                              src={`/sprites/${o.kind === 'pokemon' ? 'pokemon' : 'items'}/${o.ref}`}
+                              alt=""
+                              className="w-5 h-5"
+                              style={{ imageRendering: 'pixelated' }}
+                            />
+                          );
+                        })()}
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            await api.guide.clearSubMarkerOverride(item.type, item.id);
+                            onOverridesChanged?.();
+                          }}
+                          className="text-2xs text-muted-foreground hover:text-foreground px-1"
+                        >
+                          Clear
+                        </button>
+                      </>
+                    ) : null}
+                    <button
+                      type="button"
+                      onClick={() => setPickerFor({ type: item.type, referenceId: item.id })}
+                      className="flex items-center gap-1 text-2xs text-muted-foreground hover:text-foreground px-1.5 py-0.5 rounded hover:bg-muted"
+                    >
+                      <ImageIcon className="w-3 h-3" />
+                      {overridesByKey.has(`${item.type}:${item.id}`) ? 'Change' : 'Set icon'}
+                    </button>
+                  </div>
+                  {item.placed && (
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        const table =
+                          item.type === 'item' || item.type === 'hidden_item' ? 'items'
+                          : item.type === 'trainer' ? 'trainers'
+                          : item.type === 'tm' ? 'tms'
+                          : item.type === 'event' ? 'events'
+                          : null;
+                        if (!table) return;
+                        await api.guide.clearSubMarkerPosition(table, item.id);
+                        onOverridesChanged?.();
+                      }}
+                      className="text-2xs text-red-400 hover:text-red-300 px-1.5 py-0.5 rounded hover:bg-red-500/10"
+                    >
+                      Unplace
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -222,6 +357,21 @@ export default function SubMarkerCalibration({
           Export JSON
         </button>
       </div>
+      {pickerFor && (
+        <ItemPickerModal
+          onClose={() => setPickerFor(null)}
+          onPick={async (picked) => {
+            await api.guide.setSubMarkerOverride({
+              sub_marker_type: pickerFor.type,
+              reference_id: pickerFor.referenceId,
+              sprite_kind: picked.sprite_kind,
+              sprite_ref: picked.sprite_ref,
+            });
+            setPickerFor(null);
+            onOverridesChanged?.();
+          }}
+        />
+      )}
     </div>
   );
 }

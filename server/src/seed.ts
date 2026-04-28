@@ -49,8 +49,6 @@ async function seedPokemon(id: number) {
     const isBaby = species.is_baby ? 1 : 0;
     const eggGroups: string[] = (species.egg_groups ?? []).map((g: any) => g.name);
 
-    const spriteBase = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
-
     db.prepare(`
       INSERT OR REPLACE INTO species (
         id, name, type1, type2, ability1, ability2, hidden_ability,
@@ -61,7 +59,7 @@ async function seedPokemon(id: number) {
     `).run(
       id, pokemon.name, types[0], types[1] || null,
       abilities[0] || null, abilities[1] || null, hiddenAbility,
-      `${spriteBase}/${id}.png`, `${spriteBase}/shiny/${id}.png`,
+      `/sprites/pokemon/home/${id}.png`, `/sprites/pokemon/home/shiny/${id}.png`,
       statMap['hp'], statMap['attack'], statMap['defense'],
       statMap['special-attack'], statMap['special-defense'], statMap['speed'],
       gen, genderRate, growthRate, hatchCounter, isBaby

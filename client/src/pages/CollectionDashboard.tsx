@@ -116,7 +116,7 @@ function GapRow({
 }) {
   const spriteUrl =
     gap.sprite_url ||
-    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${gap.species_id}.png`;
+    `/sprites/pokemon/home/${gap.species_id}.png`;
 
   return (
     <button

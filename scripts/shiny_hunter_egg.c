@@ -132,6 +132,7 @@ static int env_int(const char* name, int def) {
 static int want_shiny = 1, want_perfect = 0;
 static int want_gender = 0, gender_threshold = -2;
 static int min_atk_dv = 0, min_def_dv = 0, min_spd_dv = 0, min_spc_dv = 0;
+static int exact_atk = 0;
 
 static void load_conditions(void) {
     want_shiny = env_int("TARGET_SHINY", 1);
@@ -140,6 +141,7 @@ static void load_conditions(void) {
     min_def_dv = env_int("MIN_DEF", 0);
     min_spd_dv = env_int("MIN_SPD", 0);
     min_spc_dv = env_int("MIN_SPC", 0);
+    exact_atk = env_int("EXACT_ATK", 0);
     gender_threshold = env_int("GENDER_THRESHOLD", -2);
     const char* g = getenv("TARGET_GENDER");
     if (g && strcasecmp(g, "male") == 0) want_gender = 1;
@@ -148,7 +150,10 @@ static void load_conditions(void) {
 }
 
 static int matches_conditions(int atk, int def, int spd, int spc) {
-    if (atk < min_atk_dv || def < min_def_dv || spd < min_spd_dv || spc < min_spc_dv) return 0;
+    if (exact_atk && min_atk_dv > 0) {
+        if (atk != min_atk_dv) return 0;
+    } else if (atk < min_atk_dv) return 0;
+    if (def < min_def_dv || spd < min_spd_dv || spc < min_spc_dv) return 0;
     if (want_shiny && !(is_shiny_atk(atk) && def == 10 && spd == 10 && spc == 10)) return 0;
     if (want_perfect) {
         if (want_shiny) { if (atk != 15) return 0; }

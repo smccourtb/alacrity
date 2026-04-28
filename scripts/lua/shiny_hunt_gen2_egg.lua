@@ -28,6 +28,7 @@ local minAtk = tonumber(os.getenv("MIN_ATK") or "0")
 local minDef = tonumber(os.getenv("MIN_DEF") or "0")
 local minSpd = tonumber(os.getenv("MIN_SPD") or "0")
 local minSpc = tonumber(os.getenv("MIN_SPC") or "0")
+local exactAtk = tonumber(os.getenv("EXACT_ATK") or "0") == 1
 
 local logPath = os.getenv("MGBA_LOG_FILE")
 local logFile = logPath and io.open(logPath, "a") or nil
@@ -95,7 +96,10 @@ local function isShinyDVs(atk, def, spd, spc)
 end
 
 local function matchesConditions(atk, def, spd, spc)
-    if atk < minAtk or def < minDef or spd < minSpd or spc < minSpc then return false end
+    if exactAtk and minAtk > 0 then
+        if atk ~= minAtk then return false end
+    elseif atk < minAtk then return false end
+    if def < minDef or spd < minSpd or spc < minSpc then return false end
     if wantShiny and not isShinyDVs(atk, def, spd, spc) then return false end
     if wantPerfect then
         if wantShiny then

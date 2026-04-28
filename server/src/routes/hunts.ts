@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { spawn, execSync } from 'child_process';
 import { registerProcess } from '../services/processRegistry.js';
 import { join } from 'path';
-import { readdirSync, readFileSync, watch, existsSync, mkdirSync, symlinkSync, copyFileSync, statSync, rmSync, writeFileSync, utimesSync, type FSWatcher } from 'fs';
+import { readdirSync, readFileSync, existsSync, mkdirSync, symlinkSync, copyFileSync, statSync, rmSync, writeFileSync, utimesSync } from 'fs';
+import { getOrStartHuntLogTail, stopHuntLogTail } from '../services/huntLogTail.js';
 import { basename, extname } from 'path';
 import db from '../db.js';
 import { paths } from '../paths.js';
@@ -301,7 +302,6 @@ function genderDvThreshold(genderRate: number): number {
 }
 
 const notifiedHits = new Set<string>();
-const activeWatchers = new Map<number, FSWatcher[]>(); // huntId → FSWatcher instances
 
 function killHuntProcesses(huntId: number) {
   const hunt = db.prepare('SELECT hunt_dir FROM hunts WHERE id = ?').get(huntId) as any;
@@ -325,13 +325,7 @@ function cleanupNonHitInstances(hunt: any, hitInstances: Set<string>) {
 }
 
 function stopHuntWatcher(huntId: number) {
-  const watchers = activeWatchers.get(huntId);
-  if (watchers) {
-    for (const w of watchers) {
-      try { w.close(); } catch {}
-    }
-    activeWatchers.delete(huntId);
-  }
+  stopHuntLogTail(huntId);
 }
 
 // Write the archive bundle for a hit instance: base.sav + shiny.ss1 + manifest.json
@@ -438,18 +432,44 @@ function scanLogsForHits(hunt: any): { instances: { file: string; attempts: numb
 
   const logFiles = readdirSync(logDir).filter(f => f.endsWith('.log'));
   let totalAttempts = 0;
-  const hits: { instance: string; attempts: number; details: string }[] = [];
+  // Collect every candidate hit alongside its log mtime; we'll pick the
+  // single earliest one below. Parallel instances frequently race past
+  // detection in the same tick — without this, all racers get stored in
+  // hit_details and the UI shows 10+ "hits" for what's really one win.
+  const candidates: Array<{
+    instance: string;
+    attempts: number;
+    details: string;
+    mtime: number;
+  }> = [];
   const instances = logFiles.map(f => {
-    const content = readFileSync(join(logDir, f), 'utf-8');
+    const fullPath = join(logDir, f);
+    const content = readFileSync(fullPath, 'utf-8');
     const lines = content.split('\n').filter(l => l.includes('Attempt') || l.match(/^[\d:]+ Egg \d+:/));
     const hitLines = content.split('\n').filter(l => l.includes('!!!'));
     const instAttempts = lines.length;
     totalAttempts += instAttempts;
-    for (const h of hitLines) {
-      if (h.trim()) hits.push({ instance: f.replace('.log', '').replace('instance_', '#'), attempts: instAttempts, details: h.trim() });
+    if (hitLines.length > 0) {
+      const mtime = statSync(fullPath).mtimeMs;
+      const first = hitLines.find(l => l.trim());
+      if (first) {
+        candidates.push({
+          instance: f.replace('.log', '').replace('instance_', '#'),
+          attempts: instAttempts,
+          details: first.trim(),
+          mtime,
+        });
+      }
     }
     return { file: f, attempts: instAttempts, hit: hitLines.length > 0 };
   });
+
+  // Winner = earliest mtime. The rest were simultaneous races and shouldn't
+  // be surfaced as separate hits.
+  candidates.sort((a, b) => a.mtime - b.mtime);
+  const hits = candidates.length
+    ? [{ instance: candidates[0].instance, attempts: candidates[0].attempts, details: candidates[0].details }]
+    : [];
 
   return { instances, totalAttempts, hits };
 }
@@ -458,45 +478,30 @@ function startHuntWatcher(huntId: number, targetName: string, hunt: any) {
   const logDir = join(getHuntDir(hunt), 'logs');
   if (!existsSync(logDir)) return;
 
-  stopHuntWatcher(huntId);
+  // Re-use the per-hunt tail manager. It polls FDs once per 500ms with
+  // positional reads (no whole-file rescans) and fans out to both the SSE
+  // stream and our hit listener — a single poll instead of one per file
+  // per concern.
+  const tail = getOrStartHuntLogTail(huntId, logDir);
 
-  const logFiles = readdirSync(logDir).filter(f => f.endsWith('.log'));
-  const watchers: FSWatcher[] = [];
+  // Hit detection: each !!! line triggers a scan that writes total_attempts
+  // and (if status==='running') resolves the hunt. scanLogsForHits already
+  // dedupes to the chronologically earliest hit, so racing instances are
+  // collapsed to the single winner.
+  tail.onHit(() => {
+    try {
+      const cur = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId) as any;
+      if (!cur || cur.status !== 'running') {
+        stopHuntWatcher(huntId);
+        return;
+      }
+      const { hits, totalAttempts } = scanLogsForHits(cur);
+      db.prepare('UPDATE hunts SET total_attempts = ? WHERE id = ?').run(totalAttempts, huntId);
+      if (hits.length > 0) handleHuntHit(huntId, targetName, hits);
+    } catch {}
+  });
 
-  for (const f of logFiles) {
-    const filePath = join(logDir, f);
-    let lastSize = existsSync(filePath) ? readFileSync(filePath, 'utf-8').length : 0;
-
-    // fs.watch is kqueue/inotify-backed — event-driven, no polling interval.
-    // Replaces an earlier watchFile(interval: 2000) that was lagging badly
-    // inside the compiled Bun sidecar, holding hit detection several seconds
-    // behind the actual log write.
-    const w = watch(filePath, () => {
-      try {
-        const hunt = db.prepare('SELECT * FROM hunts WHERE id = ?').get(huntId) as any;
-        if (!hunt || hunt.status !== 'running') {
-          stopHuntWatcher(huntId);
-          return;
-        }
-
-        const content = readFileSync(filePath, 'utf-8');
-        const newContent = content.slice(lastSize);
-        lastSize = content.length;
-
-        if (newContent.includes('!!!')) {
-          const { hits, totalAttempts } = scanLogsForHits(hunt);
-          db.prepare('UPDATE hunts SET total_attempts = ? WHERE id = ?').run(totalAttempts, huntId);
-          if (hits.length > 0) {
-            handleHuntHit(huntId, targetName, hits);
-          }
-        }
-      } catch {}
-    });
-    watchers.push(w);
-  }
-
-  activeWatchers.set(huntId, watchers);
-  console.log(`[hunt ${huntId}] Watching ${watchers.length} log files for shiny hits`);
+  console.log(`[hunt ${huntId}] Tail manager started (poll 500ms, FD-based)`);
 }
 
 async function ntfyPush(title: string, message: string, priority = 'default', tags = 'pokemon') {
@@ -811,6 +816,25 @@ router.post('/validate', async (req, res) => {
   }
 });
 
+router.get('/setup-hint', (req, res) => {
+  const game = String(req.query.game ?? '').toLowerCase();
+  const mode = String(req.query.mode ?? '');
+  const speciesId = req.query.species_id != null ? Number(req.query.species_id) : null;
+  if (!game || !mode) return res.status(400).json({ error: 'game and mode required' });
+
+  // Prefer the species-specific row, fall back to the game+mode generic.
+  const row = db.prepare(
+    `SELECT image_path, caption FROM hunt_setup_hints
+      WHERE game = ? COLLATE NOCASE AND mode = ?
+        AND (species_id = ? OR species_id IS NULL)
+      ORDER BY species_id IS NULL ASC
+      LIMIT 1`,
+  ).get(game, mode, speciesId) as { image_path: string; caption: string | null } | undefined;
+
+  if (!row) return res.json({ hint: null });
+  res.json({ hint: { image_path: row.image_path, caption: row.caption } });
+});
+
 router.get("/encounter-types/:game", (req, res) => {
   try {
     const types = getEncounterTypes(req.params.game);
@@ -837,6 +861,15 @@ function spawnHuntProcesses(huntId: number, hunt: any) {
     if (species) genderThreshold = genderDvThreshold(species.gender_rate);
   }
 
+  // Shiny + a specific Atk DV picked from the dropdown means "exactly this
+  // value", not "at least this". The other DVs stay as min thresholds since
+  // they're raw numeric inputs in the UI.
+  const SHINY_ATK_VALUES = new Set([2, 3, 6, 7, 10, 11, 14, 15]);
+  const exactAtk =
+    (hunt.target_shiny ?? 0) === 1 &&
+    (hunt.min_atk ?? 0) > 0 &&
+    SHINY_ATK_VALUES.has(hunt.min_atk);
+
   const conditionEnv = {
     TARGET_SHINY: String(hunt.target_shiny ?? 1),
     TARGET_PERFECT: String(hunt.target_perfect ?? 0),
@@ -846,6 +879,7 @@ function spawnHuntProcesses(huntId: number, hunt: any) {
     MIN_DEF: String(hunt.min_def ?? 0),
     MIN_SPD: String(hunt.min_spd ?? 0),
     MIN_SPC: String(hunt.min_spc ?? 0),
+    EXACT_ATK: exactAtk ? '1' : '0',
   };
 
   const binary = isEgg ? EGG_HUNTER
@@ -1596,9 +1630,6 @@ router.get('/:id/stream', (req, res) => {
     Connection: 'keep-alive',
   });
 
-  const watchers: FSWatcher[] = [];
-  const logDir = join(getHuntDir(hunt), 'logs');
-
   // RNG hunts don't use log files — skip straight to orchestrator listener
   if (hunt.engine === 'rng') {
     const orchestrator = activeRNGHunts.get(hunt.id);
@@ -1614,52 +1645,24 @@ router.get('/:id/stream', (req, res) => {
     return;
   }
 
+  const logDir = join(getHuntDir(hunt), 'logs');
   if (!existsSync(logDir)) { res.end(); return; }
 
-  const logFiles = readdirSync(logDir).filter(f => f.endsWith('.log'));
+  // Subscribe to the per-hunt tail manager. One poll, one set of FDs,
+  // shared across all SSE clients + the hit watcher.
+  const tail = getOrStartHuntLogTail(hunt.id, logDir);
 
-  // Send recent logs on connect (last 5 lines per instance)
-  for (const f of logFiles) {
-    const filePath = join(logDir, f);
-    if (!existsSync(filePath)) continue;
-    try {
-      const content = readFileSync(filePath, 'utf-8');
-      const lines = content.trim().split('\n').slice(-5);
-      const inst = f.replace('.log', '').replace('instance_', '#');
-      for (const line of lines) {
-        if (line) res.write(`data: ${JSON.stringify({ instance: f, message: `[${inst}] ${line}` })}\n\n`);
-      }
-    } catch {}
+  function emit(events: Array<{ file: string; instance: string; lines: string[] }>) {
+    // Coalesced frame — one SSE message carries every newly-arrived line
+    // across all instances for this poll tick. Cuts frame count vs. the
+    // prior "one frame per line" approach.
+    res.write(`data: ${JSON.stringify({ type: 'tail', events })}\n\n`);
   }
 
-  for (const f of logFiles) {
-    const filePath = join(logDir, f);
-    let lastSize = existsSync(filePath) ? readFileSync(filePath, 'utf-8').length : 0;
-    const inst = f.replace('.log', '').replace('instance_', '#');
+  const sub = tail.subscribe(emit);
+  if (sub.initial.length > 0) emit(sub.initial);
 
-    // Event-driven fs.watch — replaces watchFile(interval: 1000) which was
-    // batching log lines for seconds at a time inside the compiled sidecar.
-    const w = watch(filePath, () => {
-      try {
-        const content = readFileSync(filePath, 'utf-8');
-        const newContent = content.slice(lastSize);
-        lastSize = content.length;
-        if (newContent.trim()) {
-          const lines = newContent.trim().split('\n');
-          for (const line of lines) {
-            res.write(`data: ${JSON.stringify({ instance: f, message: `[${inst}] ${line}` })}\n\n`);
-          }
-        }
-      } catch {}
-    });
-    watchers.push(w);
-  }
-
-  req.on('close', () => {
-    for (const w of watchers) {
-      try { w.close(); } catch {}
-    }
-  });
+  req.on('close', () => sub.unsubscribe());
 });
 
 export default router;

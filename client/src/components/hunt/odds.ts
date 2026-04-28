@@ -95,7 +95,12 @@ function calculateOddsGen12(opts: OddsInput): OddsOutput {
     }
   }
 
-  if (opts.minAtk > 0) validAtk = validAtk.filter(v => v >= opts.minAtk);
+  // Atk in shiny mode is picked from a discrete dropdown of valid shiny DVs,
+  // so a specific value means "exactly this DV", not a floor. Other stats are
+  // raw numeric inputs that read as thresholds, so >=.
+  const atkExact = opts.shiny && opts.minAtk > 0 && SHINY_ATK_VALUES.includes(opts.minAtk);
+  if (atkExact) validAtk = validAtk.filter(v => v === opts.minAtk);
+  else if (opts.minAtk > 0) validAtk = validAtk.filter(v => v >= opts.minAtk);
   if (opts.minDef > 0) validDef = validDef.filter(v => v >= opts.minDef);
   if (opts.minSpd > 0) validSpd = validSpd.filter(v => v >= opts.minSpd);
   if (opts.minSpc > 0) validSpc = validSpc.filter(v => v >= opts.minSpc);

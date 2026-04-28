@@ -189,7 +189,7 @@ export default function Pokedex() {
             {/* Silhouetted Pikachu -- "Who's That Pokemon?" style */}
             <div className="relative mb-6">
               <img
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+                src="/sprites/pokemon/home/25.png"
                 alt=""
                 className="w-32 h-32 brightness-0 opacity-20 select-none"
                 draggable={false}

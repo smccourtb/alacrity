@@ -83,22 +83,27 @@ for (const [locKey, locData] of Object.entries(johto.locations) as [
   string,
   any,
 ][]) {
-  // Trainers
+  // Trainers — only overwrite when crystal-trainers.json actually covers this
+  // location. Otherwise preserve whatever's already in the seed (e.g., pret
+  // pulls from reseed-guide.ts for Kanto-on-Johto, which crystal-trainers.json
+  // doesn't yet know about).
   const rawTrainers = trainersByLocation[locKey] || [];
-  locData.trainers = markRematches(rawTrainers);
+  if (rawTrainers.length > 0) {
+    locData.trainers = markRematches(rawTrainers);
+  } else {
+    locData.trainers = locData.trainers || [];
+  }
   totalTrainers += locData.trainers.length;
 
-  // Items, TMs, Events from Bulbapedia
+  // Items, TMs, Events from Bulbapedia — only overwrite each field when
+  // Bulbapedia returned data; otherwise preserve the pret-extracted values.
   const bulb = bulbapedia[locKey];
-  if (bulb) {
-    locData.items = bulb.items || [];
-    locData.tms = bulb.tms || [];
-    locData.events = bulb.events || [];
-  } else {
-    locData.items = locData.items || [];
-    locData.tms = locData.tms || [];
-    locData.events = locData.events || [];
-  }
+  if (bulb && (bulb.items?.length ?? 0) > 0) locData.items = bulb.items;
+  else locData.items = locData.items || [];
+  if (bulb && (bulb.tms?.length ?? 0) > 0) locData.tms = bulb.tms;
+  else locData.tms = locData.tms || [];
+  if (bulb && (bulb.events?.length ?? 0) > 0) locData.events = bulb.events;
+  else locData.events = locData.events || [];
 
   totalItems += locData.items.length;
   totalTMs += locData.tms.length;

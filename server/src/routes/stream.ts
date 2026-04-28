@@ -335,7 +335,21 @@ router.post('/launch', (req: Request, res: Response) => {
     const args = config.args(launchRom, savePath || '');
 
     const { spawn: spawnProcess } = require('child_process');
-    const proc = spawnProcess(config.binary, args, {
+
+    // On macOS, spawning the inner Mach-O of a .app bundle directly bypasses
+    // Launch Services — the process runs but the GUI window often fails to
+    // surface/activate. Route .app launches through `open -na` so the window
+    // actually appears and takes focus. `-n` forces a new instance to match
+    // the multi-instance behavior of the direct spawn.
+    const appBundleMatch = process.platform === 'darwin'
+      ? config.binary.match(/^(.*\.app)\/Contents\/MacOS\/[^/]+$/)
+      : null;
+
+    const [bin, binArgs] = appBundleMatch
+      ? ['open', ['-na', appBundleMatch[1], '--args', ...args]]
+      : [config.binary, args];
+
+    const proc = spawnProcess(bin, binArgs, {
       env,
       stdio: 'ignore',
       detached: true,

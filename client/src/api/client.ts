@@ -44,6 +44,12 @@ export interface SubMarker {
   x: number | null;
   y: number | null;
   method: string | null;
+  paired_marker_id?: number | null;
+  paired_x?: number | null;
+  paired_y?: number | null;
+  paired_label?: string | null;
+  paired_map_key?: string | null;
+  paired_map_name?: string | null;
 }
 
 // Simple in-memory cache
@@ -194,6 +200,11 @@ export const api = {
       });
       if (!res.ok) throw new Error(`validate failed: ${res.status}`);
       return res.json();
+    },
+    setupHint: (input: { game: string; mode: string; species_id: number | null }) => {
+      const q = new URLSearchParams({ game: input.game, mode: input.mode });
+      if (input.species_id != null) q.set('species_id', String(input.species_id));
+      return request<{ hint: { image_path: string; caption: string | null } | null }>(`/hunts/setup-hint?${q}`);
     },
     list: (opts?: { archived?: boolean }) => request<any[]>(opts?.archived ? '/hunts?archived=true' : '/hunts'),
     presets: () => request<any[]>('/hunts/presets'),
@@ -391,6 +402,16 @@ export const api = {
     lookup: (names: string[]) => request<any[]>(`/moves?names=${names.join(',')}`),
     search: (q: string) => request<any[]>(`/moves/search?q=${encodeURIComponent(q)}`),
   },
+  items: {
+    list: (opts?: { category?: string; generation?: number; search?: string }) => {
+      const qs = new URLSearchParams();
+      if (opts?.category) qs.set('category', opts.category);
+      if (opts?.generation) qs.set('generation', String(opts.generation));
+      if (opts?.search) qs.set('search', opts.search);
+      const suffix = qs.toString() ? `?${qs}` : '';
+      return request<Array<{ id: number; name: string; display_name: string; category: string; generation: number | null; sprite_path: string | null }>>(`/items${suffix}`);
+    },
+  },
   guide: {
     maps: () => request<any[]>('/guide/maps'),
     map: (mapKey: string) => request<any>(`/guide/maps/${mapKey}`),
@@ -429,8 +450,15 @@ export const api = {
         body: JSON.stringify({ x, y }),
       });
     },
-    createCustomMarker(data: { map_id: number; game?: string; label: string; marker_type?: string; description?: string; x: number; y: number; color?: string; icon?: string }) {
-      return request<{ id: number }>('/guide/custom-markers', {
+    clearSubMarkerPosition(table: string, id: number) {
+      return request(`/guide/sub-markers/${table}/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ x: null, y: null }),
+      });
+    },
+    createCustomMarker(data: { map_id: number; game?: string; label: string; marker_type?: string; description?: string; x: number; y: number; color?: string; icon?: string; sprite_kind?: 'item' | 'pokemon' | null; sprite_ref?: string | null }) {
+      return request<{ id: number; natural_id?: string }>('/guide/custom-markers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -439,11 +467,47 @@ export const api = {
     deleteCustomMarker(id: number) {
       return request('/guide/custom-markers/' + id, { method: 'DELETE' });
     },
-    updateCustomMarkerPosition(id: number, x: number, y: number) {
+    updateCustomMarker(id: number, data: Partial<{ x: number; y: number; label: string; description: string; marker_type: string; color: string; icon: string; sprite_kind: 'item' | 'pokemon' | null; sprite_ref: string | null }>) {
       return request(`/guide/custom-markers/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ x, y }),
+        body: JSON.stringify(data),
+      });
+    },
+    linkCustomMarkers(id: number, partnerId: number) {
+      return request(`/guide/custom-markers/${id}/link`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ partnerId }),
+      });
+    },
+    unlinkCustomMarker(id: number) {
+      return request(`/guide/custom-markers/${id}/link`, { method: 'DELETE' });
+    },
+    createCustomMarkerPair(data: { game: string; a: { map_id: number; label: string; x: number; y: number; description?: string }; b: { map_id: number; label: string; x: number; y: number; description?: string } }) {
+      return request<{ idA: number; idB: number; naturalA?: string; naturalB?: string }>(`/guide/custom-markers/pair`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    },
+    unlinkedConnectionMarkers(game: string) {
+      return request<Array<{ id: number; label: string; map_id: number; map_key: string; map_name: string; x: number; y: number }>>(
+        `/guide/custom-markers/unlinked?game=${encodeURIComponent(game)}`
+      );
+    },
+    setSubMarkerOverride(payload: { sub_marker_type: string; reference_id: number; sprite_kind: 'item' | 'pokemon'; sprite_ref: string }) {
+      invalidateCache('/guide/markers');
+      return request<{ ok: true }>(`/guide/sub-markers/override`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    },
+    clearSubMarkerOverride(type: string, referenceId: number) {
+      invalidateCache('/guide/markers');
+      return request<{ ok: true }>(`/guide/sub-markers/override/${encodeURIComponent(type)}/${referenceId}`, {
+        method: 'DELETE',
       });
     },
     exportSubMarkers(mapKey: string) {
@@ -457,7 +521,7 @@ export const api = {
       });
     },
     markers: (mapKey: string, game?: string) =>
-      request<any[]>(`/guide/markers/${mapKey}${game ? `?game=${game}` : ''}`),
+      request<{ markers: any[]; clusters: any[] }>(`/guide/markers/${mapKey}${game ? `?game=${game}` : ''}`),
     createMarker: (data: { map_key: string; marker_type: string; reference_id: number; x: number; y: number; game_override?: string | null }) => {
       invalidateCache('/guide/markers');
       return request<{ id: number }>('/guide/markers', { method: 'POST', body: JSON.stringify(data) });
@@ -469,6 +533,11 @@ export const api = {
     deleteMarker: (id: number) => {
       invalidateCache('/guide/markers');
       return request<{ ok: boolean }>(`/guide/markers/${id}`, { method: 'DELETE' });
+    },
+    updateShopPosition: (id: number, pos: { x: number; y: number }) => {
+      invalidateCache('/guide/markers');
+      invalidateCache('/guide/location-detail');
+      return request<{ ok: boolean }>(`/guide/shops/${id}`, { method: 'PATCH', body: JSON.stringify(pos) });
     },
     updateSubMarkerDescription: (type: string, id: number, description: string) => {
       invalidateCache('/guide/location-detail');
@@ -485,6 +554,71 @@ export const api = {
         method: 'POST', body: JSON.stringify({ markers }),
       });
     },
+    createCluster(data: {
+      map_key: string;
+      kind: 'proximity' | 'location_aggregate';
+      scope_location_id?: number | null;
+      x?: number | null;
+      y?: number | null;
+      primary_marker_type: string;
+      primary_reference_id: number;
+      hide_members?: boolean;
+      members?: Array<{ marker_type: string; reference_id: number }>;
+    }) {
+      invalidateCache('/guide/markers');
+      return request<{ id: number }>('/guide/clusters', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    },
+    updateCluster(id: number, patch: Partial<{
+      x: number; y: number; hide_members: boolean;
+      primary_marker_type: string; primary_reference_id: number;
+    }>) {
+      invalidateCache('/guide/markers');
+      return request<{ ok: true }>(`/guide/clusters/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(patch),
+      });
+    },
+    deleteCluster(id: number) {
+      invalidateCache('/guide/markers');
+      return request<{ ok: true }>(`/guide/clusters/${id}`, { method: 'DELETE' });
+    },
+    addClusterMember(id: number, member: { marker_type: string; reference_id: number }) {
+      invalidateCache('/guide/markers');
+      return request<{ ok: true }>(`/guide/clusters/${id}/members`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(member),
+      });
+    },
+    removeClusterMember(id: number, member: { marker_type: string; reference_id: number }) {
+      invalidateCache('/guide/markers');
+      return request<{ ok: true }>(`/guide/clusters/${id}/members`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(member),
+      });
+    },
+    addClusterSplit(body: { map_key: string; marker_type: string; reference_id: number }) {
+      invalidateCache('/guide/markers');
+      return request<{ ok: true }>('/guide/cluster-splits', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+    },
+    removeClusterSplit(body: { map_key: string; marker_type: string; reference_id: number }) {
+      invalidateCache('/guide/markers');
+      return request<{ ok: true }>('/guide/cluster-splits', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+    },
     locationDetail: (locationId: number, game: string) =>
       request<{
         items: any[];
@@ -492,6 +626,13 @@ export const api = {
         tms: any[];
         events: any[];
         encounters: any[];
+        shops: Array<{
+          id: number;
+          shop_name: string;
+          x: number | null;
+          y: number | null;
+          inventory: Array<{ item_name: string; price: number | null; badge_gate: number; games: string[] | null }>;
+        }>;
         wiki_prose: string | null;
         wiki_callouts: Array<{ type: string; text: string }>;
       }>(`/guide/location-detail/${locationId}/${game}`),

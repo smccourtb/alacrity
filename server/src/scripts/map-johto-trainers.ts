@@ -226,17 +226,17 @@ const MAP_TO_LOCATION: Record<string, string> = {
   // Victory Road
   VictoryRoad: "victory-road-gsc",
 
-  // Team Rocket Base → mahogany-town
-  TeamRocketBaseB1F: "mahogany-town",
-  TeamRocketBaseB2F: "mahogany-town",
-  TeamRocketBaseB3F: "mahogany-town",
+  // Mahogany Rocket Hideout (underground, Gen 2)
+  TeamRocketBaseB1F: "team-rocket-hq",
+  TeamRocketBaseB2F: "team-rocket-hq",
+  TeamRocketBaseB3F: "team-rocket-hq",
 
-  // Radio Tower → goldenrod-city
-  RadioTower1F: "goldenrod-city",
-  RadioTower2F: "goldenrod-city",
-  RadioTower3F: "goldenrod-city",
-  RadioTower4F: "goldenrod-city",
-  RadioTower5F: "goldenrod-city",
+  // Radio Tower (Goldenrod takeover)
+  RadioTower1F: "radio-tower",
+  RadioTower2F: "radio-tower",
+  RadioTower3F: "radio-tower",
+  RadioTower4F: "radio-tower",
+  RadioTower5F: "radio-tower",
 
   // Goldenrod Underground
   GoldenrodUnderground: "goldenrod-city",

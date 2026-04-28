@@ -1,4 +1,4 @@
-/* @alacrity games=Yellow modes=gift,battle */
+/* @alacrity games=Yellow modes=gift,stationary */
 /*
  * Lightweight Gen 1 Shiny Hunter — uses libmgba core directly
  * No Qt, no rendering, no audio — just CPU emulation + memory reads
@@ -150,6 +150,7 @@ static int want_perfect = 0;
 static int want_gender = 0;  /* 0=any, 1=male, 2=female */
 static int gender_threshold = -2;
 static int min_atk_dv = 0, min_def_dv = 0, min_spd_dv = 0, min_spc_dv = 0;
+static int exact_atk = 0;
 
 static void load_conditions(void) {
     want_shiny = env_int("TARGET_SHINY", 1);
@@ -158,6 +159,7 @@ static void load_conditions(void) {
     min_def_dv = env_int("MIN_DEF", 0);
     min_spd_dv = env_int("MIN_SPD", 0);
     min_spc_dv = env_int("MIN_SPC", 0);
+    exact_atk = env_int("EXACT_ATK", 0);
     gender_threshold = env_int("GENDER_THRESHOLD", -2);
 
     const char* g = getenv("TARGET_GENDER");
@@ -167,8 +169,12 @@ static void load_conditions(void) {
 }
 
 static int matches_conditions(int atk, int def, int spd, int spc) {
-    /* Check minimum DVs */
-    if (atk < min_atk_dv || def < min_def_dv || spd < min_spd_dv || spc < min_spc_dv) return 0;
+    /* Check DVs — Atk uses equality when EXACT_ATK is set (shiny dropdown
+     * picks a specific value), otherwise minimum-threshold like the others. */
+    if (exact_atk && min_atk_dv > 0) {
+        if (atk != min_atk_dv) return 0;
+    } else if (atk < min_atk_dv) return 0;
+    if (def < min_def_dv || spd < min_spd_dv || spc < min_spc_dv) return 0;
 
     /* Check shiny requirement */
     if (want_shiny && !(is_shiny_atk(atk) && def == 10 && spd == 10 && spc == 10)) return 0;

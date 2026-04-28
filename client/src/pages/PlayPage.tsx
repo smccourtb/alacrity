@@ -280,16 +280,28 @@ export default function PlayPage() {
       }
       return;
     }
-    const game = node.snapshot?.game ?? '';
+    const game = normalizeGameName(node.snapshot?.game ?? '');
     const system = getSystemForGame(game);
-    if (system === 'nds' || system === '3ds' || system === 'gba') {
-      const fullName = game.startsWith('Pokemon ') ? game : `Pokemon ${game}`;
-      await api.stream.launch(fullName, node.file_path);
-    } else {
-      await api.launcher.play(String(node.save_file_id));
+    try {
+      if (system === '3ds') {
+        // Routed through /launcher/play (not /stream/launch) so the session
+        // gets a proper PlaySession with save bridging + exit tracking + the
+        // global SessionMonitor save-resolution dialog. emulatorId is pinned
+        // to azahar so it doesn't depend on the is_default_3ds DB flag.
+        await api.launcher.play(String(node.save_file_id), 'azahar');
+      } else if (system === 'nds' || system === 'gba') {
+        await api.stream.launch(`Pokemon ${game}`, node.file_path);
+      } else {
+        await api.launcher.play(String(node.save_file_id));
+      }
+      const updated = await api.launcher.sessions();
+      setSessions(updated);
+      setStreamError(null);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Unknown error';
+      console.error('Failed to launch:', e);
+      setStreamError(`Couldn't launch: ${msg}`);
     }
-    const updated = await api.launcher.sessions();
-    setSessions(updated);
   };
 
   const handleStreamPlay = async (node: CheckpointNode) => {
@@ -304,7 +316,7 @@ export default function PlayPage() {
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Unknown error';
       console.error('Failed to start stream:', e);
-      setStreamError(msg);
+      setStreamError(`Couldn't start stream: ${msg}`);
     }
   };
 
@@ -397,7 +409,7 @@ export default function PlayPage() {
 
       {streamError && (
         <div className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-          <span>Couldn't start stream: {streamError}</span>
+          <span>{streamError}</span>
           <button
             onClick={() => setStreamError(null)}
             className="ml-3 text-red-500 hover:text-red-600"

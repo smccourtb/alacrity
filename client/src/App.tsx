@@ -31,6 +31,7 @@ import Guide from './pages/Guide';
 import CollectionDashboard from './pages/CollectionDashboard';
 import Settings from './pages/Settings';
 import MobileStream from './pages/MobileStream';
+import EncountersMockup from './pages/EncountersMockup';
 import SessionMonitor from './components/launcher/SessionMonitor';
 import ActiveStreamToast from './components/launcher/ActiveStreamToast';
 import { WelcomeDialog } from '@/components/onboarding/WelcomeDialog';
@@ -155,6 +156,7 @@ export default function App() {
                     <Route path="/guide" element={<Guide />} />
                     <Route path="/collection" element={<CollectionDashboard />} />
                     <Route path="/settings" element={<Settings />} />
+                    <Route path="/dev/encounters" element={<EncountersMockup />} />
                   </Routes>
                 </main>
               </SidebarInset>

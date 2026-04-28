@@ -73,6 +73,57 @@ const LOCATION_TO_WIKI: Record<string, string> = {
   "victory-road-gsc": "Victory_Road_(Kanto)",
   "route-28": "Kanto_Route_28",
   "cherrygrove-city": "Cherrygrove_City",
+
+  // ── Kanto cities + gyms ─────────────────────────────────────────────────
+  // Cities themselves rarely have wild encounters, but Bulbapedia hosts the
+  // tables on the city page when present (e.g., headbutt trees in town).
+  "pallet-town": "Pallet_Town",
+  "viridian-city": "Viridian_City",
+  "viridian-forest": "Viridian_Forest",
+  "pewter-city": "Pewter_City",
+  "cerulean-city": "Cerulean_City",
+  "vermilion-city": "Vermilion_City",
+  "lavender-town": "Lavender_Town",
+  "celadon-city": "Celadon_City",
+  "saffron-city": "Saffron_City",
+  "fuchsia-city": "Fuchsia_City",
+  "cinnabar-island": "Cinnabar_Island",
+
+  // ── Kanto routes ────────────────────────────────────────────────────────
+  "route-1": "Kanto_Route_1",
+  "route-2-south": "Kanto_Route_2",
+  "route-2-north": "Kanto_Route_2",
+  "route-3": "Kanto_Route_3",
+  "route-4": "Kanto_Route_4",
+  "route-5": "Kanto_Route_5",
+  "route-6": "Kanto_Route_6",
+  "route-7": "Kanto_Route_7",
+  "route-8": "Kanto_Route_8",
+  "route-9": "Kanto_Route_9",
+  "route-10": "Kanto_Route_10",
+  "route-11": "Kanto_Route_11",
+  "route-12": "Kanto_Route_12",
+  "route-13": "Kanto_Route_13",
+  "route-14": "Kanto_Route_14",
+  "route-15": "Kanto_Route_15",
+  "route-16": "Kanto_Route_16",
+  "route-17": "Kanto_Route_17",
+  "route-18": "Kanto_Route_18",
+  "route-19": "Kanto_Route_19",
+  "route-20": "Kanto_Route_20",
+  "route-21": "Kanto_Route_21",
+  "route-22": "Kanto_Route_22",
+  "route-23": "Kanto_Route_23",
+  "route-24": "Kanto_Route_24",
+  "route-25": "Kanto_Route_25",
+
+  // ── Kanto dungeons ──────────────────────────────────────────────────────
+  "mt-moon": "Mt._Moon",
+  "rock-tunnel": "Rock_Tunnel",
+  "digletts-cave": "Diglett's_Cave",
+  "seafoam-islands": "Seafoam_Islands",
+  "cerulean-cave": "Cerulean_Cave",
+  "power-plant": "Kanto_Power_Plant",
 };
 
 // Skip these — no wild encounters on Bulbapedia or special cases
@@ -414,6 +465,7 @@ async function main() {
   const beforeCounts: Record<string, number> = {};
   let totalBefore = 0;
   for (const loc of Object.values(locations)) {
+    if (!loc.encounters) loc.encounters = [];
     for (const enc of loc.encounters) {
       beforeCounts[enc.method] = (beforeCounts[enc.method] || 0) + 1;
       totalBefore++;

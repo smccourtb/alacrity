@@ -72,3 +72,13 @@ src-tauri/canvas-test.png
 src-tauri/stream-*.png
 src-tauri/data/
 tools/rtc-relay/rtc-relay.exe
+.sprite-cache/
+.data-cache/
+
+# Local script backups + stray sqlite scratch files
+.backups/
+server/src/db.sqlite3
+
+# Sprites are bundled at build time via `bun run fetch-sprites` (see scripts/fetch-sprites.ts).
+# They land in client/dist/ (a Tauri resource) so the shipped app stays offline-capable.
+client/public/sprites/

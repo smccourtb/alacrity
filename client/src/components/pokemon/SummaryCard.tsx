@@ -4,6 +4,8 @@ import InlineEdit from './InlineEdit';
 import { useNavigate } from 'react-router-dom';
 import { invoke } from '@tauri-apps/api/core';
 import { MoreVertical } from 'lucide-react';
+import { Sprite, type PokemonStyle } from '@/components/Sprite';
+import { useSpritePrefs } from '@/hooks/useSpritePrefs';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,27 +17,26 @@ function capitalize(s: string) {
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
 }
 
-const GAME_SPRITE_MAP: Record<string, string> = {
-  'Red': 'versions/generation-i/red-blue',
-  'Blue': 'versions/generation-i/red-blue',
-  'Yellow': 'versions/generation-i/yellow',
-  'Gold': 'versions/generation-ii/gold',
-  'Silver': 'versions/generation-ii/silver',
-  'Crystal': 'versions/generation-ii/crystal',
-  'Ruby': 'versions/generation-iii/ruby-sapphire',
-  'Sapphire': 'versions/generation-iii/ruby-sapphire',
-  'Emerald': 'versions/generation-iii/emerald',
-  'FireRed': 'versions/generation-iii/firered-leafgreen',
-  'LeafGreen': 'versions/generation-iii/firered-leafgreen',
-  'Diamond': 'versions/generation-iv/diamond-pearl',
-  'Pearl': 'versions/generation-iv/diamond-pearl',
-  'Platinum': 'versions/generation-iv/platinum',
-  'HeartGold': 'versions/generation-iv/heartgold-soulsilver',
-  'SoulSilver': 'versions/generation-iv/heartgold-soulsilver',
-  'Black': 'versions/generation-v/black-white',
-  'White': 'versions/generation-v/black-white',
+const GAME_SPRITE_STYLE: Record<string, PokemonStyle> = {
+  'Red': 'gen1-red-blue',
+  'Blue': 'gen1-red-blue',
+  'Yellow': 'gen1-yellow',
+  'Gold': 'gen2-gold',
+  'Silver': 'gen2-silver',
+  'Crystal': 'gen2-crystal',
+  'Ruby': 'gen3-ruby-sapphire',
+  'Sapphire': 'gen3-ruby-sapphire',
+  'Emerald': 'gen3-emerald',
+  'FireRed': 'gen3-firered-leafgreen',
+  'LeafGreen': 'gen3-firered-leafgreen',
+  'Diamond': 'gen4-diamond-pearl',
+  'Pearl': 'gen4-diamond-pearl',
+  'Platinum': 'gen4-platinum',
+  'HeartGold': 'gen4-heartgold-soulsilver',
+  'SoulSilver': 'gen4-heartgold-soulsilver',
+  'Black': 'gen5-black-white',
+  'White': 'gen5-black-white',
 };
-const SPRITE_BASE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 
 // Nature stat modifiers
 const NATURE_STATS: Record<string, { plus: string; minus: string }> = {
@@ -78,6 +79,7 @@ interface Props {
 
 export default function SummaryCard({ entry, species, onUpdate, onBallClick }: Props) {
   const navigate = useNavigate();
+  const { style: prefStyle } = useSpritePrefs();
   const natureMod = NATURE_STATS[entry.nature];
   const type1Color = TYPE_COLORS[(species?.type1 ?? '').toLowerCase()] ?? '#a8a878';
 
@@ -96,14 +98,9 @@ export default function SummaryCard({ entry, species, onUpdate, onBallClick }: P
   };
   const totalEvs = Object.values(evs).reduce((a, b) => a + b, 0);
 
-  // Use game-specific sprite if available
-  const gameSpritePath = entry.origin_game && GAME_SPRITE_MAP[entry.origin_game];
-  const gameSpriteUrl = gameSpritePath
-    ? `${SPRITE_BASE}/${gameSpritePath}/${species?.id}.png`
-    : null;
-  const spriteUrl = entry.is_shiny
-    ? (entry.shiny_sprite_url || species?.shiny_sprite_url)
-    : (gameSpriteUrl || entry.sprite_url || species?.sprite_url);
+  // Use game-specific sprite if available, otherwise fall back to user pref
+  const gameStyle = entry.origin_game ? GAME_SPRITE_STYLE[entry.origin_game] : undefined;
+  const spriteStyle: PokemonStyle = gameStyle ?? prefStyle;
 
   const handleShowOnPlayPage = () => {
     if (entry.save_file_id == null) return;
@@ -132,11 +129,14 @@ export default function SummaryCard({ entry, species, onUpdate, onBallClick }: P
             className="w-20 h-20 rounded-xl flex items-center justify-center"
             style={{ background: `linear-gradient(135deg, ${type1Color}18, ${type1Color}08)` }}
           >
-            {spriteUrl && (
-              <img
-                src={spriteUrl}
-                alt=""
-                className="w-[72px] h-[72px] [image-rendering:pixelated]"
+            {species?.id != null && (
+              <Sprite
+                kind="pokemon"
+                id={species.id}
+                shiny={!!entry.is_shiny}
+                style={spriteStyle}
+                size={72}
+                className="w-[72px] h-[72px]"
               />
             )}
           </div>

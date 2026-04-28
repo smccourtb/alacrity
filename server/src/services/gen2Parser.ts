@@ -436,10 +436,18 @@ export function parseGen2Save(filePathOrBuf: string | Buffer, gameName: string):
 export interface DaycareInfo {
   active: boolean;
   eggReady: boolean;
-  mon1: { species_id: number; is_shiny: boolean; dvs: { atk: number; def: number; spd: number; spc: number } } | null;
-  mon2: { species_id: number; is_shiny: boolean; dvs: { atk: number; def: number; spd: number; spc: number } } | null;
+  mon1: DaycareMon | null;
+  mon2: DaycareMon | null;
   offspringSpeciesId: number | null;
   shinyOdds: string | null;
+}
+
+export interface DaycareMon {
+  species_id: number;
+  is_shiny: boolean;
+  level: number;
+  moves: string[];
+  dvs: { atk: number; def: number; spd: number; spc: number };
 }
 
 // Relative offsets from partyCount to daycare data (WRAM layout is contiguous)
@@ -507,31 +515,34 @@ function parseGen2Daycare(buf: Buffer, offsets: typeof CRYSTAL_OFFSETS): Daycare
     return { active: false, eggReady: false, mon1: null, mon2: null, offspringSpeciesId: null, shinyOdds: null };
   }
 
-  const mon1Species = buf[base + DC_MON1_OFFSET];
-  const mon1DV1 = buf[base + DC_MON1_OFFSET + 0x15];
-  const mon1DV2 = buf[base + DC_MON1_OFFSET + 0x16];
-  const mon1Atk = (mon1DV1 >> 4) & 0xF, mon1Def = mon1DV1 & 0xF;
-  const mon1Spd = (mon1DV2 >> 4) & 0xF, mon1Spc = mon1DV2 & 0xF;
+  // Box-mon struct fields are at fixed offsets from the species byte:
+  //   +0x02..0x05 — moves (4 bytes, GEN2_MOVES ids)
+  //   +0x15..0x16 — DVs (Atk|Def, Spd|Spc)
+  //   +0x1F     — current level
+  function readMon(monBase: number): DaycareMon | null {
+    const species = buf[monBase];
+    if (!(species > 0 && species < 252)) return null;
+    const dv1 = buf[monBase + 0x15];
+    const dv2 = buf[monBase + 0x16];
+    const atk = (dv1 >> 4) & 0xF, def = dv1 & 0xF;
+    const spd = (dv2 >> 4) & 0xF, spc = dv2 & 0xF;
+    const moves = [
+      GEN2_MOVES[buf[monBase + 0x02]],
+      GEN2_MOVES[buf[monBase + 0x03]],
+      GEN2_MOVES[buf[monBase + 0x04]],
+      GEN2_MOVES[buf[monBase + 0x05]],
+    ].filter(Boolean) as string[];
+    return {
+      species_id: species,
+      is_shiny: isShinyDVs(atk, def, spd, spc),
+      level: buf[monBase + 0x1F] || 0,
+      moves,
+      dvs: { atk, def, spd, spc },
+    };
+  }
 
-  const mon2Species = buf[base + DC_MON2_OFFSET];
-  const mon2DV1 = buf[base + DC_MON2_OFFSET + 0x15];
-  const mon2DV2 = buf[base + DC_MON2_OFFSET + 0x16];
-  const mon2Atk = (mon2DV1 >> 4) & 0xF, mon2Def = mon2DV1 & 0xF;
-  const mon2Spd = (mon2DV2 >> 4) & 0xF, mon2Spc = mon2DV2 & 0xF;
-
-  const hasMon2 = mon2Species > 0 && mon2Species < 252;
-
-  const mon1 = mon1Species > 0 && mon1Species < 252 ? {
-    species_id: mon1Species,
-    is_shiny: isShinyDVs(mon1Atk, mon1Def, mon1Spd, mon1Spc),
-    dvs: { atk: mon1Atk, def: mon1Def, spd: mon1Spd, spc: mon1Spc },
-  } : null;
-
-  const mon2Data = hasMon2 ? {
-    species_id: mon2Species,
-    is_shiny: isShinyDVs(mon2Atk, mon2Def, mon2Spd, mon2Spc),
-    dvs: { atk: mon2Atk, def: mon2Def, spd: mon2Spd, spc: mon2Spc },
-  } : null;
+  const mon1 = readMon(base + DC_MON1_OFFSET);
+  const mon2Data = readMon(base + DC_MON2_OFFSET);
 
   const offspringSpeciesId = (mon1 && mon2Data)
     ? getOffspringSpecies(mon1.species_id, mon2Data.species_id)

@@ -3,7 +3,6 @@ import pokeApi from './services/pokeApi.js';
 
 const TOTAL_POKEMON = 1025;
 const BATCH_SIZE = 10;
-const SPRITE_BASE = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon`;
 
 const COSPLAY_PIKACHU = new Set([
   'pikachu-cosplay', 'pikachu-rock-star', 'pikachu-belle',
@@ -191,8 +190,8 @@ async function seedSpeciesForms(speciesId: number): Promise<void> {
           $species_id: speciesId,
           $form_name: formName,
           $form_order: formData?.form_order ?? i,
-          $sprite_url: `${SPRITE_BASE}/${pokemonId}.png`,
-          $shiny_sprite_url: `${SPRITE_BASE}/shiny/${pokemonId}.png`,
+          $sprite_url: `/sprites/pokemon/home/${pokemonId}.png`,
+          $shiny_sprite_url: `/sprites/pokemon/home/shiny/${pokemonId}.png`,
           $pokeapi_id: pokemonId,
           $form_category: category,
           $is_battle_only: battleOnly ? 1 : 0,

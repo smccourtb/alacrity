@@ -33,7 +33,7 @@
     { "key": "lavender-town", "name": "Lavender Town", "x": 0.8564, "y": 0.4420, "type": "city", "order": 23 },
     { "key": "pokemon-tower", "name": "Pokemon Tower", "x": 0.8785, "y": 0.4420, "type": "building", "order": 24 },
     { "key": "route-8", "name": "Route 8", "x": 0.7459, "y": 0.4420, "type": "route", "order": 25 },
-    { "key": "route-7", "name": "Route 7", "x": 0.5525, "y": 0.4420, "type": "route", "order": 26 },
+    { "key": "route-7", "name": "Route 7", "x": 0.5521, "y": 0.3985, "type": "route", "order": 26 },
     { "key": "celadon-city", "name": "Celadon City", "x": 0.4696, "y": 0.4420, "type": "city", "order": 27 },
     { "key": "saffron-city", "name": "Saffron City", "x": 0.6354, "y": 0.4420, "type": "city", "order": 28 },
     { "key": "route-12", "name": "Route 12", "x": 0.8564, "y": 0.5801, "type": "route", "order": 29 },

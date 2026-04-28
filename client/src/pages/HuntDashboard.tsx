@@ -302,10 +302,27 @@ export default function HuntDashboard() {
           return;
         }
 
-        setHuntLogs(prev => ({
-          ...prev,
-          [hunt.id]: [...(prev[hunt.id] || []), data.message].slice(-500),
-        }));
+        // Coalesced tail frame: { type: 'tail', events: [{file, instance, lines: []}] }
+        if (data.type === 'tail' && Array.isArray(data.events)) {
+          const flat: string[] = [];
+          for (const ev of data.events) {
+            for (const line of ev.lines) flat.push(`[${ev.instance}] ${line}`);
+          }
+          if (flat.length === 0) return;
+          setHuntLogs(prev => ({
+            ...prev,
+            [hunt.id]: [...(prev[hunt.id] || []), ...flat].slice(-500),
+          }));
+          return;
+        }
+
+        // Backward-compat for older single-line frames.
+        if (data.message) {
+          setHuntLogs(prev => ({
+            ...prev,
+            [hunt.id]: [...(prev[hunt.id] || []), data.message].slice(-500),
+          }));
+        }
       };
 
       connectionsRef.current[hunt.id] = { es, poll };
@@ -427,6 +444,7 @@ export default function HuntDashboard() {
                   onOverrideChange={setOverride}
                   onStart={handleSubmit(startHunt)}
                   startDisabled={startDisabled}
+                  daycareInfo={daycareInfo}
                 />
               }
               running={

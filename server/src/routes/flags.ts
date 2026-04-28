@@ -1,9 +1,38 @@
 import { Router } from 'express';
 import { readFileSync } from 'fs';
 import { parseEventFlags, getFlagDefinitions } from '../services/flagParsers/index.js';
+import { decorateWithLinkedCounts } from '../services/flagParsers/types.js';
 import { extractGen1WorldState } from '../services/gen1WorldState.js';
 import { extractGen2WorldState } from '../services/gen2WorldState.js';
 import db from '../db.js';
+
+// Build a Map<location_key, flag_index[]> for a game, gathering every
+// `location_*` row where flag_index is non-null. The flag report's
+// `linked_total` / `linked_set` per location come from this — the meaningful
+// "checklist progress" the UI shows on each location panel.
+const linkedIndicesStmt = db.prepare(`
+  SELECT ml.location_key AS k, lx.flag_index AS f FROM (
+    SELECT location_id, flag_index FROM location_items WHERE game = ? AND flag_index IS NOT NULL
+    UNION ALL
+    SELECT location_id, flag_index FROM location_trainers WHERE game = ? AND flag_index IS NOT NULL
+    UNION ALL
+    SELECT location_id, flag_index FROM location_tms WHERE game = ? AND flag_index IS NOT NULL
+    UNION ALL
+    SELECT location_id, flag_index FROM location_events WHERE game = ? AND flag_index IS NOT NULL
+  ) lx
+  JOIN map_locations ml ON ml.id = lx.location_id
+`);
+
+function buildLinkedIndices(game: string): Map<string, number[]> {
+  const out = new Map<string, number[]>();
+  const rows = linkedIndicesStmt.all(game, game, game, game) as Array<{ k: string; f: number }>;
+  for (const r of rows) {
+    let arr = out.get(r.k);
+    if (!arr) { arr = []; out.set(r.k, arr); }
+    arr.push(r.f);
+  }
+  return out;
+}
 
 // Game name → generation for world state parsing
 const GAME_GEN: Record<string, number> = {
@@ -44,6 +73,7 @@ router.get('/:game/:saveFileId', (req, res) => {
   try {
     const saveBuffer = readFileSync(saveFile.file_path);
     const report = parseEventFlags(game, saveBuffer);
+    decorateWithLinkedCounts(report, buildLinkedIndices(game));
     const currentLocationKey = extractLocationKey(game, saveBuffer);
     res.json({ ...report, currentLocationKey });
   } catch (err: any) {
@@ -61,6 +91,7 @@ router.post('/parse', (req, res) => {
   try {
     const saveBuffer = readFileSync(savePath);
     const report = parseEventFlags(game, saveBuffer);
+    decorateWithLinkedCounts(report, buildLinkedIndices(game));
     res.json(report);
   } catch (err: any) {
     res.status(500).json({ error: `Failed to parse save: ${err.message}` });

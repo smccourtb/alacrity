@@ -1,0 +1,401 @@
+[
+  {
+    "name": "ENGINE_RADIO_CARD",
+    "synthetic_index": 4096,
+    "sram_offset": 9444,
+    "bit": 1,
+    "wField": "wPokegearFlags"
+  },
+  {
+    "name": "ENGINE_MAP_CARD",
+    "synthetic_index": 4097,
+    "sram_offset": 9444,
+    "bit": 0,
+    "wField": "wPokegearFlags"
+  },
+  {
+    "name": "ENGINE_PHONE_CARD",
+    "synthetic_index": 4098,
+    "sram_offset": 9444,
+    "bit": 2,
+    "wField": "wPokegearFlags"
+  },
+  {
+    "name": "ENGINE_EXPN_CARD",
+    "synthetic_index": 4099,
+    "sram_offset": 9444,
+    "bit": 3,
+    "wField": "wPokegearFlags"
+  },
+  {
+    "name": "ENGINE_POKEGEAR",
+    "synthetic_index": 4100,
+    "sram_offset": 9444,
+    "bit": 7,
+    "wField": "wPokegearFlags"
+  },
+  {
+    "name": "ENGINE_DAY_CARE_MAN_HAS_EGG",
+    "synthetic_index": 4101,
+    "sram_offset": 10428,
+    "bit": 6,
+    "wField": "wDayCareMan"
+  },
+  {
+    "name": "ENGINE_DAY_CARE_MAN_HAS_MON",
+    "synthetic_index": 4102,
+    "sram_offset": 10428,
+    "bit": 0,
+    "wField": "wDayCareMan"
+  },
+  {
+    "name": "ENGINE_DAY_CARE_LADY_HAS_MON",
+    "synthetic_index": 4103,
+    "sram_offset": 10440,
+    "bit": 0,
+    "wField": "wDayCareLady"
+  },
+  {
+    "name": "ENGINE_MOM_SAVING_MONEY",
+    "synthetic_index": 4104,
+    "sram_offset": 9185,
+    "bit": 0,
+    "wField": "wMomSavingMoney"
+  },
+  {
+    "name": "ENGINE_MOM_ACTIVE",
+    "synthetic_index": 4105,
+    "sram_offset": 9185,
+    "bit": 7,
+    "wField": "wMomSavingMoney"
+  },
+  {
+    "name": "ENGINE_POKEDEX",
+    "synthetic_index": 4107,
+    "sram_offset": 9177,
+    "bit": 0,
+    "wField": "wStatusFlags"
+  },
+  {
+    "name": "ENGINE_UNOWN_DEX",
+    "synthetic_index": 4108,
+    "sram_offset": 9177,
+    "bit": 1,
+    "wField": "wStatusFlags"
+  },
+  {
+    "name": "ENGINE_CAUGHT_POKERUS",
+    "synthetic_index": 4109,
+    "sram_offset": 9177,
+    "bit": 3,
+    "wField": "wStatusFlags"
+  },
+  {
+    "name": "ENGINE_ROCKET_SIGNAL_ON_CH20",
+    "synthetic_index": 4110,
+    "sram_offset": 9177,
+    "bit": 4,
+    "wField": "wStatusFlags"
+  },
+  {
+    "name": "ENGINE_CREDITS_SKIP",
+    "synthetic_index": 4111,
+    "sram_offset": 9177,
+    "bit": 6,
+    "wField": "wStatusFlags"
+  },
+  {
+    "name": "ENGINE_BUG_CONTEST_TIMER",
+    "synthetic_index": 4112,
+    "sram_offset": 9178,
+    "bit": 2,
+    "wField": "wStatusFlags2"
+  },
+  {
+    "name": "ENGINE_SAFARI_ZONE",
+    "synthetic_index": 4113,
+    "sram_offset": 9178,
+    "bit": 1,
+    "wField": "wStatusFlags2"
+  },
+  {
+    "name": "ENGINE_ROCKETS_IN_RADIO_TOWER",
+    "synthetic_index": 4114,
+    "sram_offset": 9178,
+    "bit": 0,
+    "wField": "wStatusFlags2"
+  },
+  {
+    "name": "ENGINE_BIKE_SHOP_CALL_ENABLED",
+    "synthetic_index": 4115,
+    "sram_offset": 9178,
+    "bit": 4,
+    "wField": "wStatusFlags2"
+  },
+  {
+    "name": "ENGINE_UNUSED_STATUSFLAGS2_5",
+    "synthetic_index": 4116,
+    "sram_offset": 9178,
+    "bit": 5,
+    "wField": "wStatusFlags2"
+  },
+  {
+    "name": "ENGINE_REACHED_GOLDENROD",
+    "synthetic_index": 4117,
+    "sram_offset": 9178,
+    "bit": 6,
+    "wField": "wStatusFlags2"
+  },
+  {
+    "name": "ENGINE_ROCKETS_IN_MAHOGANY",
+    "synthetic_index": 4118,
+    "sram_offset": 9178,
+    "bit": 7,
+    "wField": "wStatusFlags2"
+  },
+  {
+    "name": "ENGINE_STRENGTH_ACTIVE",
+    "synthetic_index": 4119,
+    "sram_offset": 10151,
+    "bit": 0,
+    "wField": "wBikeFlags"
+  },
+  {
+    "name": "ENGINE_ALWAYS_ON_BIKE",
+    "synthetic_index": 4120,
+    "sram_offset": 10151,
+    "bit": 1,
+    "wField": "wBikeFlags"
+  },
+  {
+    "name": "ENGINE_DOWNHILL",
+    "synthetic_index": 4121,
+    "sram_offset": 10151,
+    "bit": 2,
+    "wField": "wBikeFlags"
+  },
+  {
+    "name": "ENGINE_ZEPHYRBADGE",
+    "synthetic_index": 4122,
+    "sram_offset": 9188,
+    "bit": 0,
+    "wField": "wJohtoBadges"
+  },
+  {
+    "name": "ENGINE_HIVEBADGE",
+    "synthetic_index": 4123,
+    "sram_offset": 9188,
+    "bit": 1,
+    "wField": "wJohtoBadges"
+  },
+  {
+    "name": "ENGINE_PLAINBADGE",
+    "synthetic_index": 4124,
+    "sram_offset": 9188,
+    "bit": 2,
+    "wField": "wJohtoBadges"
+  },
+  {
+    "name": "ENGINE_FOGBADGE",
+    "synthetic_index": 4125,
+    "sram_offset": 9188,
+    "bit": 3,
+    "wField": "wJohtoBadges"
+  },
+  {
+    "name": "ENGINE_MINERALBADGE",
+    "synthetic_index": 4126,
+    "sram_offset": 9188,
+    "bit": 4,
+    "wField": "wJohtoBadges"
+  },
+  {
+    "name": "ENGINE_STORMBADGE",
+    "synthetic_index": 4127,
+    "sram_offset": 9188,
+    "bit": 5,
+    "wField": "wJohtoBadges"
+  },
+  {
+    "name": "ENGINE_GLACIERBADGE",
+    "synthetic_index": 4128,
+    "sram_offset": 9188,
+    "bit": 6,
+    "wField": "wJohtoBadges"
+  },
+  {
+    "name": "ENGINE_RISINGBADGE",
+    "synthetic_index": 4129,
+    "sram_offset": 9188,
+    "bit": 7,
+    "wField": "wJohtoBadges"
+  },
+  {
+    "name": "ENGINE_BOULDERBADGE",
+    "synthetic_index": 4130,
+    "sram_offset": 9189,
+    "bit": 0,
+    "wField": "wKantoBadges"
+  },
+  {
+    "name": "ENGINE_CASCADEBADGE",
+    "synthetic_index": 4131,
+    "sram_offset": 9189,
+    "bit": 1,
+    "wField": "wKantoBadges"
+  },
+  {
+    "name": "ENGINE_THUNDERBADGE",
+    "synthetic_index": 4132,
+    "sram_offset": 9189,
+    "bit": 2,
+    "wField": "wKantoBadges"
+  },
+  {
+    "name": "ENGINE_RAINBOWBADGE",
+    "synthetic_index": 4133,
+    "sram_offset": 9189,
+    "bit": 3,
+    "wField": "wKantoBadges"
+  },
+  {
+    "name": "ENGINE_SOULBADGE",
+    "synthetic_index": 4134,
+    "sram_offset": 9189,
+    "bit": 4,
+    "wField": "wKantoBadges"
+  },
+  {
+    "name": "ENGINE_MARSHBADGE",
+    "synthetic_index": 4135,
+    "sram_offset": 9189,
+    "bit": 5,
+    "wField": "wKantoBadges"
+  },
+  {
+    "name": "ENGINE_VOLCANOBADGE",
+    "synthetic_index": 4136,
+    "sram_offset": 9189,
+    "bit": 6,
+    "wField": "wKantoBadges"
+  },
+  {
+    "name": "ENGINE_EARTHBADGE",
+    "synthetic_index": 4137,
+    "sram_offset": 9189,
+    "bit": 7,
+    "wField": "wKantoBadges"
+  },
+  {
+    "name": "ENGINE_LUCKY_NUMBER_SHOW",
+    "synthetic_index": 4173,
+    "sram_offset": 10305,
+    "bit": 0,
+    "wField": "wLuckyNumberShowFlag"
+  },
+  {
+    "name": "ENGINE_UNUSED_STATUSFLAGS2_3",
+    "synthetic_index": 4174,
+    "sram_offset": 9178,
+    "bit": 3,
+    "wField": "wStatusFlags2"
+  },
+  {
+    "name": "ENGINE_KURT_MAKING_BALLS",
+    "synthetic_index": 4175,
+    "sram_offset": 10192,
+    "bit": 0,
+    "wField": "wDailyFlags1"
+  },
+  {
+    "name": "ENGINE_DAILY_BUG_CONTEST",
+    "synthetic_index": 4176,
+    "sram_offset": 10192,
+    "bit": 1,
+    "wField": "wDailyFlags1"
+  },
+  {
+    "name": "ENGINE_SWARM",
+    "synthetic_index": 4177,
+    "sram_offset": 10192,
+    "bit": 2,
+    "wField": "wDailyFlags1"
+  },
+  {
+    "name": "ENGINE_TIME_CAPSULE",
+    "synthetic_index": 4178,
+    "sram_offset": 10192,
+    "bit": 3,
+    "wField": "wDailyFlags1"
+  },
+  {
+    "name": "ENGINE_ALL_FRUIT_TREES",
+    "synthetic_index": 4179,
+    "sram_offset": 10192,
+    "bit": 4,
+    "wField": "wDailyFlags1"
+  },
+  {
+    "name": "ENGINE_GOT_SHUCKIE_TODAY",
+    "synthetic_index": 4180,
+    "sram_offset": 10192,
+    "bit": 5,
+    "wField": "wDailyFlags1"
+  },
+  {
+    "name": "ENGINE_GOLDENROD_UNDERGROUND_MERCHANT_CLOSED",
+    "synthetic_index": 4181,
+    "sram_offset": 10192,
+    "bit": 6,
+    "wField": "wDailyFlags1"
+  },
+  {
+    "name": "ENGINE_FOUGHT_IN_TRAINER_HALL_TODAY",
+    "synthetic_index": 4182,
+    "sram_offset": 10192,
+    "bit": 7,
+    "wField": "wDailyFlags1"
+  },
+  {
+    "name": "ENGINE_MT_MOON_SQUARE_CLEFAIRY",
+    "synthetic_index": 4183,
+    "sram_offset": 10193,
+    "bit": 0,
+    "wField": "wDailyFlags2"
+  },
+  {
+    "name": "ENGINE_UNION_CAVE_LAPRAS",
+    "synthetic_index": 4184,
+    "sram_offset": 10193,
+    "bit": 1,
+    "wField": "wDailyFlags2"
+  },
+  {
+    "name": "ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT",
+    "synthetic_index": 4185,
+    "sram_offset": 10193,
+    "bit": 2,
+    "wField": "wDailyFlags2"
+  },
+  {
+    "name": "ENGINE_GOLDENROD_DEPT_STORE_TM27_RETURN",
+    "synthetic_index": 4186,
+    "sram_offset": 10193,
+    "bit": 3,
+    "wField": "wDailyFlags2"
+  },
+  {
+    "name": "ENGINE_DAISYS_GROOMING",
+    "synthetic_index": 4187,
+    "sram_offset": 10193,
+    "bit": 4,
+    "wField": "wDailyFlags2"
+  },
+  {
+    "name": "ENGINE_INDIGO_PLATEAU_RIVAL_FIGHT",
+    "synthetic_index": 4188,
+    "sram_offset": 10193,
+    "bit": 5,
+    "wField": "wDailyFlags2"
+  }
+]

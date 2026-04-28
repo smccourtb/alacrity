@@ -1513,7 +1513,7 @@
         "level": 22
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "ScientistGroup",
@@ -1527,7 +1527,7 @@
         "level": 24
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "ScientistGroup",
@@ -1549,7 +1549,7 @@
         "level": 20
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "ScientistGroup",
@@ -1571,7 +1571,7 @@
         "level": 27
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "ScientistGroup",
@@ -1591,7 +1591,7 @@
         ]
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "ErikaGroup",
@@ -4853,7 +4853,7 @@
         "level": 24
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntMGroup",
@@ -4875,7 +4875,7 @@
         "level": 25
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntMGroup",
@@ -4905,7 +4905,7 @@
         "level": 23
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntMGroup",
@@ -4923,7 +4923,7 @@
         "level": 26
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntMGroup",
@@ -4949,7 +4949,7 @@
         "level": 23
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntMGroup",
@@ -4963,7 +4963,7 @@
         "level": 26
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntMGroup",
@@ -4981,7 +4981,7 @@
         "level": 26
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntMGroup",
@@ -5003,7 +5003,7 @@
         "level": 22
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntMGroup",
@@ -5115,7 +5115,7 @@
         "level": 16
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "GruntMGroup",
@@ -5129,7 +5129,7 @@
         "level": 18
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "GruntMGroup",
@@ -5151,7 +5151,7 @@
         "level": 17
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "GruntMGroup",
@@ -5169,7 +5169,7 @@
         "level": 18
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "GruntMGroup",
@@ -5187,7 +5187,7 @@
         "level": 19
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "GruntMGroup",
@@ -5209,7 +5209,7 @@
         "level": 18
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "GruntMGroup",
@@ -5319,7 +5319,7 @@
         "level": 19
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "GruntMGroup",
@@ -7607,7 +7607,7 @@
         "level": 20
       }
     ],
-    "location_key": "ruins-of-alph"
+    "location_key": null
   },
   {
     "group": "SuperNerdGroup",
@@ -9673,7 +9673,7 @@
         ]
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "ExecutiveMGroup",
@@ -9693,7 +9693,7 @@
         ]
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "ExecutiveMGroup",
@@ -9763,7 +9763,7 @@
         ]
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "ExecutiveMGroup",
@@ -9785,7 +9785,7 @@
         "level": 22
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "PsychicGroup",
@@ -11082,7 +11082,7 @@
         ]
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "ExecutiveFGroup",
@@ -11121,7 +11121,7 @@
         ]
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "SageGroup",
@@ -12432,7 +12432,7 @@
         "level": 26
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntFGroup",
@@ -12476,7 +12476,7 @@
         "level": 24
       }
     ],
-    "location_key": "goldenrod-city"
+    "location_key": "radio-tower"
   },
   {
     "group": "GruntFGroup",
@@ -12506,7 +12506,7 @@
         ]
       }
     ],
-    "location_key": "mahogany-town"
+    "location_key": "team-rocket-hq"
   },
   {
     "group": "MysticalmanGroup",

@@ -1,16 +1,25 @@
 import { useState, useRef, useEffect } from 'react';
 import { Pencil } from 'lucide-react';
 import { api } from '@/api/client';
+import RichText from './RichText';
+import RichTextToolbar from './RichTextToolbar';
 
 interface InlineNotesProps {
   markerType: string;
   referenceId: number;
   initialValue: string;
   onSaved?: (value: string) => void;
+  externalEditing?: boolean;
+  onEditingChange?: (e: boolean) => void;
 }
 
-export default function InlineNotes({ markerType, referenceId, initialValue, onSaved }: InlineNotesProps) {
-  const [editing, setEditing] = useState(false);
+export default function InlineNotes({ markerType, referenceId, initialValue, onSaved, externalEditing, onEditingChange }: InlineNotesProps) {
+  const [internalEditing, setInternalEditing] = useState(false);
+  const editing = externalEditing ?? internalEditing;
+  const setEditing = (v: boolean) => {
+    onEditingChange?.(v);
+    setInternalEditing(v);
+  };
   const [value, setValue] = useState(initialValue);
   const [saved, setSaved] = useState(initialValue);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -28,7 +37,7 @@ export default function InlineNotes({ markerType, referenceId, initialValue, onS
     }
   }, [editing]);
 
-  function handleBlur() {
+  function commit() {
     setEditing(false);
     const trimmed = value.trim();
     if (trimmed !== saved) {
@@ -48,20 +57,46 @@ export default function InlineNotes({ markerType, referenceId, initialValue, onS
 
   if (editing) {
     return (
-      <textarea
-        ref={textareaRef}
-        value={value}
-        onChange={e => {
-          setValue(e.target.value);
-          e.target.style.height = 'auto';
-          e.target.style.height = e.target.scrollHeight + 'px';
+      <div
+        className="mt-1"
+        onMouseDown={e => {
+          // Keep focus in the textarea when clicking toolbar buttons.
+          if ((e.target as HTMLElement).closest('textarea')) return;
+          e.preventDefault();
         }}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-        className="w-full text-sm text-muted-foreground bg-muted/30 px-2 py-1 resize-none outline-none focus:ring-1 focus:ring-primary/30 mt-1"
-        rows={1}
-        placeholder="Add a note..."
-      />
+      >
+        <textarea
+          ref={textareaRef}
+          value={value}
+          onChange={e => {
+            setValue(e.target.value);
+            e.target.style.height = 'auto';
+            e.target.style.height = e.target.scrollHeight + 'px';
+          }}
+          onBlur={e => {
+            // Don't commit if focus jumped into a toolbar-spawned modal (link/icon picker).
+            const next = e.relatedTarget as HTMLElement | null;
+            if (next?.closest('[data-rt-modal]')) return;
+            commit();
+          }}
+          onKeyDown={handleKeyDown}
+          className="w-full text-sm text-muted-foreground bg-muted/30 px-2 py-1 resize-none outline-none focus:ring-1 focus:ring-primary/30"
+          rows={1}
+          placeholder="Add a note..."
+        />
+        <RichTextToolbar
+          inputRef={textareaRef}
+          value={value}
+          onChange={setValue}
+          className="mt-1"
+        />
+        {value.trim() && (
+          <div className="mt-1 px-2 py-1 rounded border border-dashed border-border/60 bg-background/40">
+            <div className="text-[10px] uppercase tracking-wide text-muted-foreground/70 mb-0.5">Preview</div>
+            <RichText text={value} className="text-sm text-muted-foreground" />
+          </div>
+        )}
+      </div>
     );
   }
 
@@ -71,7 +106,7 @@ export default function InlineNotes({ markerType, referenceId, initialValue, onS
         onClick={() => setEditing(true)}
         className="group flex items-start gap-1.5 text-sm text-muted-foreground mt-0.5 text-left hover:text-foreground transition-colors cursor-text w-full"
       >
-        <span className="flex-1">{saved}</span>
+        <RichText text={saved} className="flex-1" />
         <Pencil className="w-3 h-3 opacity-0 group-hover:opacity-60 transition-opacity shrink-0 mt-0.5" />
       </button>
     );

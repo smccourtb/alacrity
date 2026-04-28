@@ -1,5 +1,6 @@
 import { TYPE_COLORS } from '@/lib/pokemon-constants';
 import { BallIcon, ShinyIcon, GenderIcon, OriginMark } from '@/components/icons';
+import { Sprite, type PokemonStyle } from '@/components/Sprite';
 
 interface Props {
   species: any;
@@ -24,14 +25,15 @@ interface Props {
   };
   formName?: string;
   formCategory?: string;
+  spriteStyle?: PokemonStyle;
   onClick: () => void;
 }
 
-export default function PokemonCard({ species, caught, shinyCaught, shinyMode, balls, isPerfect, genderRate, genders, lens, lensData, formName, formCategory, onClick }: Props) {
+export default function PokemonCard({ species, caught, shinyCaught, shinyMode, balls, isPerfect, genderRate, genders, lens, lensData, formName, formCategory, spriteStyle, onClick }: Props) {
   const isCaught = shinyMode ? shinyCaught : caught;
   const hasShinyEntry = shinyCaught;
 
-  const spriteUrl = shinyMode ? species.shiny_sprite_url : species.sprite_url;
+  const effectiveStyle: PokemonStyle = spriteStyle ?? 'box';
 
   // Type-tinted background gradient
   const type1Color = TYPE_COLORS[species.type1] || '#a8a878';
@@ -97,15 +99,14 @@ export default function PokemonCard({ species, caught, shinyCaught, shinyMode, b
                 : 'rgba(0,0,0,0.04)',
             }}
           >
-            <img
-              src={spriteUrl}
+            <Sprite
+              kind="pokemon"
+              id={species.id}
+              shiny={shinyMode}
+              style={effectiveStyle}
+              size={64}
               alt={species.name}
-              loading="lazy"
-              style={!isCaught ? { filter: 'brightness(0)', opacity: 0.8 } : undefined}
-              className="w-16 h-16 [image-rendering:pixelated]"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = shinyMode ? species.shiny_sprite_url : species.sprite_url;
-              }}
+              className={`w-16 h-16${!isCaught ? ' [filter:brightness(0)] opacity-80' : ''}`}
             />
           </div>
 

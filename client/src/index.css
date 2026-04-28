@@ -179,12 +179,41 @@
   opacity: 1;
 }
 
-/* Ensure dropdown portals render above Leaflet + sidebar (z-1000) */
+/* Ensure dropdown + tooltip portals render above Leaflet + sidebar (z-1000) */
 [data-slot="combobox-content"],
 [data-slot="select-content"],
 [data-slot="popover-content"],
+[data-slot="tooltip-content"],
 .isolate.z-50:has([data-slot="combobox-content"]),
 .isolate.z-50:has([data-slot="select-content"]),
-.isolate.z-50:has([data-slot="popover-content"]) {
+.isolate.z-50:has([data-slot="popover-content"]),
+.isolate.z-50:has([data-slot="tooltip-content"]) {
   z-index: 9999 !important;
+}
+
+/* Wide, wrapping tooltips for sub-marker pins only. Location markers keep
+   Leaflet's default nowrap so names like "Route 29" render on a single line. */
+.leaflet-tooltip.guide-marker-tooltip,
+.leaflet-tooltip-pane .guide-marker-tooltip {
+  width: max-content !important;
+  max-width: 280px !important;
+  white-space: normal !important;
+  line-height: 1.35 !important;
+}
+
+.custom-marker-sprite {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.35)) drop-shadow(0 0 0.5px rgba(0,0,0,0.5));
+  image-rendering: pixelated;
+}
+.custom-marker-sprite img {
+  /* Render at sprite's native 32x32 so pixelated scaling doesn't snap the
+     image off-center inside the marker box. */
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
 }
