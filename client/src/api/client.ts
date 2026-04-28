@@ -117,7 +117,12 @@ export const api = {
   },
   reference: {
     ribbons: () => request<any[]>('/reference/ribbons'),
-    marks: () => request<any[]>('/reference/marks'),
+    marks: (params?: { game?: string }) => {
+      const q = new URLSearchParams();
+      if (params?.game) q.set('game', params.game);
+      const qs = q.toString();
+      return request<any[]>(`/reference/marks${qs ? `?${qs}` : ''}`);
+    },
     balls: () => request<any[]>('/reference/balls'),
     forms: (params?: { species_id?: number }) => {
       const q = new URLSearchParams();
@@ -129,6 +134,11 @@ export const api = {
       if (params?.species_id) q.set('species_id', String(params.species_id));
       return request<any[]>(`/reference/shiny-methods?${q}`);
     },
+    teraTypes: () => request<{ key: string; name: string; color: string }[]>('/reference/tera-types'),
+    alphaSpecies: () => request<string[]>('/reference/alpha-species'),
+    paradoxSpecies: () => request<{ past: string[]; future: string[] }>('/reference/paradox-species'),
+    activeLegs: () => request<{ key: string; label: string; origin_mark: string | null; games: string[]; leg_order: number; status: string }[]>('/reference/active-legs'),
+    speciesInDex: (game: string) => request<{ species_id: number; dex_name: string; dex_number: number }[]>(`/reference/species-in-dex?game=${encodeURIComponent(game)}`),
   },
   legality: {
     balls: (speciesId: number) => request<{

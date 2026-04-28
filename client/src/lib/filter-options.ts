@@ -232,3 +232,9 @@ export function buildSummary(filters: FilterState, count: number, total: number,
   }
   return `${count.toLocaleString()} / ${denom.toLocaleString()} ${parts.join(' · ')}`;
 }
+
+// Boolean filter defs for the new gen 8/9 attributes. UI consumes these as
+// simple toggle filters; values are coerced to 0/1 for the backend.
+export const ALPHA_FILTER   = { key: 'is_alpha',   label: 'Alpha',   type: 'boolean' as const };
+export const MEGA_FILTER    = { key: 'is_mega',    label: 'Mega',    type: 'boolean' as const };
+export const PARADOX_FILTER = { key: 'is_paradox', label: 'Paradox', type: 'boolean' as const };
