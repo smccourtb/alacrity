@@ -173,6 +173,7 @@ export default function PokemonGrid({ species, collection, itemCaughtMap, shinyM
                   abilityCount: allAbilities.size,
                   totalAbilities,
                   hasPerfect,
+                  entries: allEntries,
                 };
 
                 return (

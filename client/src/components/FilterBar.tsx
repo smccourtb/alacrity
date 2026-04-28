@@ -8,7 +8,7 @@ import {
   type FilterState, DEFAULT_FILTERS, isFilterActive, buildSummary,
 } from '@/lib/filter-options';
 
-export type Lens = 'national' | 'origin' | 'mark' | 'ribbon' | 'ball' | 'ability' | 'iv';
+export type Lens = 'national' | 'origin' | 'mark' | 'ribbon' | 'ball' | 'ability' | 'iv' | 'tera' | 'alpha';
 
 const LENSES: { value: Lens; label: string }[] = [
   { value: 'national', label: 'National' },
@@ -18,6 +18,8 @@ const LENSES: { value: Lens; label: string }[] = [
   { value: 'origin', label: 'Origin' },
   { value: 'ability', label: 'Ability' },
   { value: 'iv', label: 'IV' },
+  { value: 'tera', label: 'Tera' },
+  { value: 'alpha', label: 'Alpha' },
 ];
 
 // Map origin value codes to representative game names for OriginMark

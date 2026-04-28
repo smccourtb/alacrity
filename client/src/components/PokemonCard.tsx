@@ -1,6 +1,8 @@
 import { TYPE_COLORS } from '@/lib/pokemon-constants';
 import { BallIcon, ShinyIcon, GenderIcon, OriginMark } from '@/components/icons';
 import { Sprite, type PokemonStyle } from '@/components/Sprite';
+import { TeraLens } from '@/components/pokedex/lenses/TeraLens';
+import { AlphaLens } from '@/components/pokedex/lenses/AlphaLens';
 
 interface Props {
   species: any;
@@ -22,6 +24,7 @@ interface Props {
     abilityCount: number;
     totalAbilities: number;
     hasPerfect: boolean;
+    entries?: any[];
   };
   formName?: string;
   formCategory?: string;
@@ -58,6 +61,13 @@ export default function PokemonCard({ species, caught, shinyCaught, shinyMode, b
       className={`relative bg-white rounded-lg ${cardShadow} overflow-hidden cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-md`}
       onClick={onClick}
     >
+      {lens === 'tera' && lensData?.entries && (
+        <TeraLens speciesId={species.id} entries={lensData.entries} />
+      )}
+      {lens === 'alpha' && lensData?.entries && (
+        <AlphaLens entries={lensData.entries} />
+      )}
+
       {/* Form count badge for national mode */}
       {(() => {
         if (formName || !species.forms) return null;
