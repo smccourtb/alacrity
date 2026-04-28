@@ -235,7 +235,8 @@ router.post('/', (req, res) => {
     iv_hp, iv_attack, iv_defense, iv_speed, iv_sp_attack, iv_sp_defense,
     ev_hp, ev_attack, ev_defense, ev_speed, ev_sp_attack, ev_sp_defense,
     move1, move2, move3, move4, notes, caught_date,
-    ribbons, marks
+    ribbons, marks,
+    tera_type, is_alpha, is_mega
   } = req.body;
 
   if (form_id) {
@@ -243,6 +244,11 @@ router.post('/', (req, res) => {
     if (!form || form.species_id !== species_id) {
       return res.status(400).json({ error: 'form_id does not belong to this species' });
     }
+  }
+
+  if (tera_type) {
+    const ok = db.prepare('SELECT 1 FROM tera_types_catalog WHERE key = ?').get(tera_type);
+    if (!ok) return res.status(400).json({ error: `Unknown tera_type: ${tera_type}` });
   }
 
   const ribbonsJson = ribbons ? JSON.stringify(ribbons) : '[]';
@@ -262,14 +268,16 @@ router.post('/', (req, res) => {
   const result = db.prepare(`
     INSERT INTO collection_manual
       (species_id, nickname, is_shiny, level, gender, nature, ability, ball,
-       origin_game, ot_name, ot_tid, form_id, ribbons, marks, ivs, evs, moves, notes, caught_date)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       origin_game, ot_name, ot_tid, form_id, ribbons, marks, ivs, evs, moves, notes, caught_date,
+       tera_type, is_alpha, is_mega)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
     species_id, nickname || null, is_shiny ? 1 : 0, level || null,
     gender || null, nature || null, ability || null, ball || null,
     origin_game || null, ot_name || null, ot_tid || null, form_id || null,
     ribbonsJson, marksJson, ivsJson, evsJson, movesJson,
-    notes || null, caught_date || null
+    notes || null, caught_date || null,
+    tera_type ?? null, is_alpha ? 1 : 0, is_mega ? 1 : 0
   );
 
   const created = db.prepare(`
@@ -290,12 +298,19 @@ router.put('/:id', (req, res) => {
 
   if (Object.keys(updates).length === 0) return res.status(400).json({ error: 'No fields to update' });
 
+  if (updates.tera_type) {
+    const ok = db.prepare('SELECT 1 FROM tera_types_catalog WHERE key = ?').get(updates.tera_type);
+    if (!ok) return res.status(400).json({ error: `Unknown tera_type: ${updates.tera_type}` });
+  }
+
   // Stringify JSON fields if they're arrays/objects
   if (Array.isArray(updates.ribbons)) updates.ribbons = JSON.stringify(updates.ribbons);
   if (Array.isArray(updates.marks)) updates.marks = JSON.stringify(updates.marks);
   if (updates.ivs && typeof updates.ivs === 'object') updates.ivs = JSON.stringify(updates.ivs);
   if (updates.evs && typeof updates.evs === 'object') updates.evs = JSON.stringify(updates.evs);
   if (Array.isArray(updates.moves)) updates.moves = JSON.stringify(updates.moves);
+  if (typeof updates.is_alpha === 'boolean') updates.is_alpha = updates.is_alpha ? 1 : 0;
+  if (typeof updates.is_mega === 'boolean') updates.is_mega = updates.is_mega ? 1 : 0;
 
   const fields = Object.keys(updates);
   const sets = fields.map(f => `${f} = ?`).join(', ');
