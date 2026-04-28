@@ -5,6 +5,8 @@ import { paths } from '../paths.js';
 import { seedOriginRequirements } from './seedOriginRequirements.js';
 import { seedCollectionLegs, seedSpecimenTargets, seedSpecimenTasks, generateAllWalkthroughs } from './seedCollectionPlanner.js';
 import { seedRegionData } from './seedRegionData.js';
+import { seedGen89Reference } from './seedGen89Reference.js';
+import { upsertCollectionLegs } from './upsertCollectionLegs.js';
 
 function loadJson(filename: string) {
   return JSON.parse(readFileSync(join(paths.seedDataDir, filename), 'utf-8'));
@@ -71,6 +73,8 @@ export function seedGuide(): void {
   seedRegionData();
   seedOriginRequirements();
   seedCollectionLegs();
+  upsertCollectionLegs();
+  seedGen89Reference();
   seedSpecimenTargets();
   seedSpecimenTasks();
   generateAllWalkthroughs();
