@@ -1,0 +1,21 @@
+[
+  { "key": "normal",   "name": "Normal",   "color": "#A8A878" },
+  { "key": "fire",     "name": "Fire",     "color": "#F08030" },
+  { "key": "water",    "name": "Water",    "color": "#6890F0" },
+  { "key": "electric", "name": "Electric", "color": "#F8D030" },
+  { "key": "grass",    "name": "Grass",    "color": "#78C850" },
+  { "key": "ice",      "name": "Ice",      "color": "#98D8D8" },
+  { "key": "fighting", "name": "Fighting", "color": "#C03028" },
+  { "key": "poison",   "name": "Poison",   "color": "#A040A0" },
+  { "key": "ground",   "name": "Ground",   "color": "#E0C068" },
+  { "key": "flying",   "name": "Flying",   "color": "#A890F0" },
+  { "key": "psychic",  "name": "Psychic",  "color": "#F85888" },
+  { "key": "bug",      "name": "Bug",      "color": "#A8B820" },
+  { "key": "rock",     "name": "Rock",     "color": "#B8A038" },
+  { "key": "ghost",    "name": "Ghost",    "color": "#705898" },
+  { "key": "dragon",   "name": "Dragon",   "color": "#7038F8" },
+  { "key": "dark",     "name": "Dark",     "color": "#705848" },
+  { "key": "steel",    "name": "Steel",    "color": "#B8B8D0" },
+  { "key": "fairy",    "name": "Fairy",    "color": "#EE99AC" },
+  { "key": "stellar",  "name": "Stellar",  "color": "#40B5A5" }
+]
