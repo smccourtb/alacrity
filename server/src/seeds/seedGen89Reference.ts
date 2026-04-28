@@ -83,14 +83,15 @@ export function seedGen89Reference(): void {
   }
 
   // 4. Z-A new megas → species_forms
-  if (za && za.new_megas) {
+  const newMegas = za?.new_megas;
+  if (newMegas) {
     const insertForm = db.prepare(`
       INSERT OR IGNORE INTO species_forms (species_id, form_name, form_order, form_category, is_battle_only, is_collectible)
       VALUES (?, ?, (SELECT COALESCE(MAX(form_order), 0) + 1 FROM species_forms WHERE species_id = ?), 'mega', 0, 1)
     `);
     let added = 0;
     db.transaction(() => {
-      for (const m of za.new_megas) {
+      for (const m of newMegas) {
         const r = insertForm.run(m.species_id, m.form_name, m.species_id);
         if (Number(r.changes) > 0) added++;
       }
