@@ -313,4 +313,33 @@ if (!allTables) {
 
 }
 
+// Gen 8/9 manual-entry attributes
+const cmCols = (db.prepare("PRAGMA table_info('collection_manual')").all() as any[]).map(c => c.name);
+const cmColNames = new Set(cmCols);
+if (!cmColNames.has('tera_type')) db.exec(`ALTER TABLE collection_manual ADD COLUMN tera_type TEXT`);
+if (!cmColNames.has('is_alpha')) db.exec(`ALTER TABLE collection_manual ADD COLUMN is_alpha INTEGER NOT NULL DEFAULT 0`);
+if (!cmColNames.has('is_mega')) db.exec(`ALTER TABLE collection_manual ADD COLUMN is_mega INTEGER NOT NULL DEFAULT 0`);
+
+// Tera types reference catalog (19 entries: 18 base + Stellar)
+db.exec(`
+  CREATE TABLE IF NOT EXISTS tera_types_catalog (
+    key TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    color TEXT NOT NULL
+  )
+`);
+
+// Per-game dex membership (replaces leaning on max_species_id, which is wrong for Galar/Hisui/Paldea since their dexes are subsets).
+db.exec(`
+  CREATE TABLE IF NOT EXISTS species_in_dex (
+    species_id INTEGER NOT NULL REFERENCES species(id),
+    game TEXT NOT NULL,
+    dex_name TEXT NOT NULL,
+    dex_number INTEGER,
+    PRIMARY KEY (species_id, game, dex_name)
+  )
+`);
+db.exec(`CREATE INDEX IF NOT EXISTS idx_species_in_dex_game ON species_in_dex(game)`);
+db.exec(`CREATE INDEX IF NOT EXISTS idx_species_in_dex_species ON species_in_dex(species_id)`);
+
 export default db;
