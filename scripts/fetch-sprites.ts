@@ -11,8 +11,16 @@
 import { mkdir, cp, readdir, copyFile, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, basename } from 'node:path';
-import { $ } from 'bun';
+import { execFileSync } from 'node:child_process';
 import sharp from 'sharp';
+
+// Run git via child_process rather than Bun.$ — `Bun.$` shells through
+// JavaScriptCore's allocator, which has been seen to panic on macOS during
+// `git pull` (`pas_segregated_page_deallocate_with_page`). execFileSync
+// avoids that path entirely. See https://github.com/oven-sh/bun/issues
+function git(args: string[], cwd?: string): void {
+  execFileSync('git', args, { cwd, stdio: 'inherit' });
+}
 
 const ROOT = join(import.meta.dir, '..');
 const OUT = join(ROOT, 'client/public/sprites');
@@ -23,16 +31,16 @@ const PKSPRITE = join(TMP, 'pokesprite');
 async function ensureRepo(url: string, dest: string, sparsePaths?: string[]) {
   if (existsSync(dest)) {
     console.log(`[fetch] ${basename(dest)} present, pulling latest`);
-    await $`git -C ${dest} pull`.quiet();
+    git(['pull'], dest);
     return;
   }
   console.log(`[fetch] cloning ${url}`);
   await mkdir(TMP, { recursive: true });
   if (sparsePaths && sparsePaths.length) {
-    await $`git clone --depth=1 --filter=blob:none --sparse ${url} ${dest}`.quiet();
-    await $`git -C ${dest} sparse-checkout set ${sparsePaths}`.quiet();
+    git(['clone', '--depth=1', '--filter=blob:none', '--sparse', url, dest]);
+    git(['sparse-checkout', 'set', ...sparsePaths], dest);
   } else {
-    await $`git clone --depth=1 ${url} ${dest}`.quiet();
+    git(['clone', '--depth=1', url, dest]);
   }
 }
 

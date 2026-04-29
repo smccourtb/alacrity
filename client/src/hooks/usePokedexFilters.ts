@@ -71,6 +71,40 @@ export function usePokedexFilters() {
     [gameVersions]
   );
 
+  // Per-game dex membership for gen 8/9 games whose regional dex is a strict
+  // subset of the national dex (Galar, BDSP, Hisui, Paldea, Lumiose). For
+  // these, max_species_id is wrong because Paldea/etc. share the global cap
+  // (1025) while the actual in-game dex is ~400. species_in_dex stores the
+  // real list per game; the filter pipeline below prefers it over max_species_id
+  // whenever an entry is loaded.
+  //
+  // Display name → slug map matches the keys species_in_dex uses (PokeAPI
+  // game slugs from gen8-9-reference.json + 'legends-z-a' for Lumiose).
+  const GAME_DISPLAY_TO_DEX_SLUG: Record<string, string> = {
+    Sword: 'sword', Shield: 'shield',
+    'Brilliant Diamond': 'brilliant-diamond', 'Shining Pearl': 'shining-pearl',
+    'Legends Arceus': 'legends-arceus',
+    Scarlet: 'scarlet', Violet: 'violet',
+    'Legends Z-A': 'legends-z-a',
+  };
+  const [dexMembership, setDexMembership] = useState<Record<string, Set<number>>>({});
+  useEffect(() => {
+    const needed = filters.games
+      .map(g => GAME_DISPLAY_TO_DEX_SLUG[g])
+      .filter((s): s is string => Boolean(s) && !(s in dexMembership));
+    if (needed.length === 0) return;
+    Promise.all(needed.map(async slug => {
+      const rows = await api.reference.speciesInDex(slug);
+      return [slug, new Set(rows.map(r => r.species_id))] as const;
+    })).then(pairs => {
+      setDexMembership(prev => {
+        const next = { ...prev };
+        for (const [slug, set] of pairs) next[slug] = set;
+        return next;
+      });
+    });
+  }, [filters.games, dexMembership]);
+
   // Persist filter state
   useEffect(() => {
     localStorage.setItem('pokedex-filters', JSON.stringify(filters));
@@ -240,6 +274,15 @@ export function usePokedexFilters() {
 
     // Game + Origin cross-check: if both active, the game must produce at least one
     // of the selected origin marks, otherwise the combo is impossible
+    // Build a per-game predicate: prefer species_in_dex membership if loaded
+    // for that game (gen 8/9), otherwise fall back to id <= max_species_id.
+    const speciesPassesGame = (item: any, game: string): boolean => {
+      const slug = GAME_DISPLAY_TO_DEX_SLUG[game];
+      const memberSet = slug ? dexMembership[slug] : undefined;
+      if (memberSet) return memberSet.has(item.id);
+      return item.id <= (gameMaxSpecies[game] ?? 9999);
+    };
+
     if (filters.games.length > 0 && filters.origins.length > 0) {
       const originSet = new Set(filters.origins);
       const compatibleGames = filters.games.filter(g => {
@@ -249,14 +292,11 @@ export function usePokedexFilters() {
       if (compatibleGames.length === 0) {
         items = []; // No game produces any of the selected origins
       } else {
-        // Narrow to species that exist in compatible games
-        const maxIds = compatibleGames.map(g => gameMaxSpecies[g] ?? 9999);
-        items = items.filter(item => maxIds.some(max => item.id <= max));
+        items = items.filter(item => compatibleGames.some(g => speciesPassesGame(item, g)));
       }
     } else if (filters.games.length > 0) {
       // Game filter only: species must exist in at least one selected game
-      const maxIds = filters.games.map(g => gameMaxSpecies[g] ?? 9999);
-      items = items.filter(item => maxIds.some(max => item.id <= max));
+      items = items.filter(item => filters.games.some(g => speciesPassesGame(item, g)));
     } else if (filters.origins.length > 0) {
       // Origin filter only: species must be within max_species_id for at least one selected origin
       const maxIds = filters.origins.map(o => originMaxSpecies[o] ?? 9999);
@@ -403,7 +443,7 @@ export function usePokedexFilters() {
     }
 
     return items;
-  }, [species, search, filters, balls, ribbons, marks, gameToOrigin, gameMaxSpecies, originMaxSpecies]);
+  }, [species, search, filters, balls, ribbons, marks, gameToOrigin, gameMaxSpecies, originMaxSpecies, dexMembership]);
 
   // Collection filters narrow what counts as "caught" — they don't hide cards.
   // An entry must pass ALL active collection filters to count as a "catch."
