@@ -1,7 +1,8 @@
 /**
- * Seeds Gen 8/9 reference tables from the JSON files produced by
- * fetch-gen8-9-reference.ts, fetch-marks-catalog.ts, fetch-za-data.ts, and
- * the hand-written tera-types.json / paradox-species.json / alpha-species.json.
+ * Seeds regional Pokédex membership and gen 8/9 reference tables from the
+ * JSON files produced by fetch-regional-dexes.ts, fetch-marks-catalog.ts,
+ * fetch-za-data.ts, and the hand-written tera-types.json /
+ * paradox-species.json / alpha-species.json.
  *
  * Idempotent.
  */
@@ -14,15 +15,15 @@ function loadJson<T>(rel: string, opts: { required: boolean } = { required: fals
   const path = join(paths.seedDataDir, rel);
   if (!existsSync(path)) {
     if (opts.required) {
-      throw new Error(`[gen8-9] required seed file missing: ${path}`);
+      throw new Error(`[regional-dexes] required seed file missing: ${path}`);
     }
-    console.warn(`  [gen8-9] missing ${rel}; skipping`);
+    console.warn(`  [regional-dexes] missing ${rel}; skipping`);
     return null;
   }
   return JSON.parse(readFileSync(path, 'utf-8')) as T;
 }
 
-export function seedGen89Reference(): void {
+export function seedRegionalDexes(): void {
   // 1. Tera types
   const teraTypes = loadJson<Array<{ key: string; name: string; color: string }>>('meta/tera-types.json', { required: true });
   if (teraTypes) {
@@ -33,9 +34,15 @@ export function seedGen89Reference(): void {
     console.log(`  Seeded ${teraTypes.length} tera types.`);
   }
 
-  // 2. species_in_dex from gen8-9-reference.json + legends-za.json
-  const ref = loadJson<Record<string, Record<string, Array<{ species_id: number; dex_number: number }>>>>('gen8-9-reference.json', { required: true });
-  const za = loadJson<{ dex: Array<{ species_id: number; dex_number: number; name: string }>; new_megas?: Array<{ species_id: number; form_name: string }> }>('legends-za.json', { required: true });
+  // 2. species_in_dex from regional-dexes.json
+  const ref = loadJson<Record<string, Record<string, Array<{ species_id: number; dex_number: number }>>>>('regional-dexes.json', { required: true });
+  const za = loadJson<{ dex?: Array<{ species_id: number; dex_number: number; name: string }>; new_megas?: Array<{ species_id: number; form_name: string }> }>('legends-za.json', { required: false });
+
+  // One-time migration: T6 seeder hardcoded Z-A under dex_name='lumiose'. The
+  // canonical PokeAPI slug is 'lumiose-city', which the unified fetcher now
+  // emits. Scrub stale rows so they don't linger after re-seed.
+  db.exec("DELETE FROM species_in_dex WHERE game='legends-z-a' AND dex_name='lumiose'");
+
   const insertDex = db.prepare(`
     INSERT OR REPLACE INTO species_in_dex (species_id, game, dex_name, dex_number) VALUES (?, ?, ?, ?)
   `);
@@ -49,12 +56,6 @@ export function seedGen89Reference(): void {
             dexRows++;
           }
         }
-      }
-    }
-    if (za && za.dex) {
-      for (const e of za.dex) {
-        insertDex.run(e.species_id, 'legends-z-a', 'lumiose', e.dex_number);
-        dexRows++;
       }
     }
   })();

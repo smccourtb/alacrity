@@ -5,7 +5,7 @@ import { paths } from '../paths.js';
 import { seedOriginRequirements } from './seedOriginRequirements.js';
 import { seedCollectionLegs, seedSpecimenTargets, seedSpecimenTasks, generateAllWalkthroughs } from './seedCollectionPlanner.js';
 import { seedRegionData } from './seedRegionData.js';
-import { seedGen89Reference } from './seedGen89Reference.js';
+import { seedRegionalDexes } from './seedRegionalDexes.js';
 import { upsertCollectionLegs } from './upsertCollectionLegs.js';
 
 function loadJson(filename: string) {
@@ -74,7 +74,7 @@ export function seedGuide(): void {
   seedOriginRequirements();
   seedCollectionLegs();
   upsertCollectionLegs();
-  seedGen89Reference();
+  seedRegionalDexes();
   seedSpecimenTargets();
   seedSpecimenTasks();
   generateAllWalkthroughs();

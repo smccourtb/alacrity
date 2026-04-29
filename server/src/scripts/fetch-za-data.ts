@@ -14,7 +14,7 @@
  *   - The plan suggested scraping Bulbapedia for the regional dex. PokeAPI
  *     already exposes the Lumiose dex as the `lumiose-city` slug (id 34) with
  *     232 entries, so we use that directly — much more reliable than parsing
- *     wikitext, and consistent with sibling fetcher fetch-gen8-9-reference.ts.
+ *     wikitext, and consistent with sibling fetcher fetch-regional-dexes.ts.
  *   - The plan's snippet referenced `sec.line`; the local WikiSection type
  *     exposes the heading as `title`. Adjusted accordingly.
  *

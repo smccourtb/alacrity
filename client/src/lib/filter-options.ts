@@ -35,9 +35,100 @@ export const GAMES_BY_GEN: Record<number, string[]> = {
   9: ['Scarlet', 'Violet'],
 };
 
-export const GAME_OPTIONS: FilterOption[] = Object.entries(GAMES_BY_GEN).flatMap(([gen, games]) =>
+// Map game display name → list of pokedex slugs in that game.
+// MUST stay in sync with server's fetch-regional-dexes.ts GAME_DEXES.
+export const GAME_DISPLAY_TO_DEXES: Record<string, string[]> = {
+  Red: ['kanto'],
+  Blue: ['kanto'],
+  Yellow: ['kanto'],
+  Gold: ['original-johto'],
+  Silver: ['original-johto'],
+  Crystal: ['original-johto'],
+  Ruby: ['hoenn'],
+  Sapphire: ['hoenn'],
+  Emerald: ['hoenn'],
+  FireRed: ['kanto'],
+  LeafGreen: ['kanto'],
+  Diamond: ['original-sinnoh'],
+  Pearl: ['original-sinnoh'],
+  Platinum: ['extended-sinnoh'],
+  HeartGold: ['updated-johto'],
+  SoulSilver: ['updated-johto'],
+  Black: ['original-unova'],
+  White: ['original-unova'],
+  'Black 2': ['updated-unova'],
+  'White 2': ['updated-unova'],
+  X: ['kalos-central', 'kalos-coastal', 'kalos-mountain'],
+  Y: ['kalos-central', 'kalos-coastal', 'kalos-mountain'],
+  'Omega Ruby': ['updated-hoenn'],
+  'Alpha Sapphire': ['updated-hoenn'],
+  Sun: ['original-alola', 'original-melemele', 'original-akala', 'original-ulaula', 'original-poni'],
+  Moon: ['original-alola', 'original-melemele', 'original-akala', 'original-ulaula', 'original-poni'],
+  'Ultra Sun': ['updated-alola', 'updated-melemele', 'updated-akala', 'updated-ulaula', 'updated-poni'],
+  'Ultra Moon': ['updated-alola', 'updated-melemele', 'updated-akala', 'updated-ulaula', 'updated-poni'],
+  "Let's Go Pikachu": ['letsgo-kanto'],
+  "Let's Go Eevee": ['letsgo-kanto'],
+  Sword: ['galar', 'isle-of-armor', 'crown-tundra'],
+  Shield: ['galar', 'isle-of-armor', 'crown-tundra'],
+  'Brilliant Diamond': ['original-sinnoh'],
+  'Shining Pearl': ['original-sinnoh'],
+  'Legends Arceus': ['hisui'],
+  Scarlet: ['paldea', 'kitakami', 'blueberry'],
+  Violet: ['paldea', 'kitakami', 'blueberry'],
+  'Legends Z-A': ['lumiose-city'],
+};
+
+export const DEX_NAME_DISPLAY: Record<string, string> = {
+  'kanto': 'Kanto',
+  'original-johto': 'Original Johto',
+  'updated-johto': 'Updated Johto',
+  'hoenn': 'Hoenn',
+  'updated-hoenn': 'Updated Hoenn',
+  'original-sinnoh': 'Original Sinnoh',
+  'extended-sinnoh': 'Extended Sinnoh',
+  'original-unova': 'Original Unova',
+  'updated-unova': 'Updated Unova',
+  'kalos-central': 'Kalos Central',
+  'kalos-coastal': 'Kalos Coastal',
+  'kalos-mountain': 'Kalos Mountain',
+  'original-alola': 'Alola',
+  'original-melemele': 'Melemele',
+  'original-akala': 'Akala',
+  'original-ulaula': "Ula'ula",
+  'original-poni': 'Poni',
+  'updated-alola': 'Alola (Ultra)',
+  'updated-melemele': 'Melemele (Ultra)',
+  'updated-akala': 'Akala (Ultra)',
+  'updated-ulaula': "Ula'ula (Ultra)",
+  'updated-poni': 'Poni (Ultra)',
+  'letsgo-kanto': "Kanto (Let's Go)",
+  'galar': 'Galar',
+  'isle-of-armor': 'Isle of Armor',
+  'crown-tundra': 'Crown Tundra',
+  'hisui': 'Hisui',
+  'paldea': 'Paldea',
+  'kitakami': 'Kitakami',
+  'blueberry': 'Blueberry',
+  'lumiose-city': 'Lumiose City',
+};
+
+const _baseGameOptions: FilterOption[] = Object.entries(GAMES_BY_GEN).flatMap(([gen, games]) =>
   games.map(game => ({ value: game, label: game, group: `Gen ${gen}` }))
 );
+
+const _subDexOptions: FilterOption[] = Object.entries(GAMES_BY_GEN).flatMap(([gen, games]) =>
+  games.flatMap(game => {
+    const dexes = GAME_DISPLAY_TO_DEXES[game];
+    if (!dexes || dexes.length <= 1) return [];
+    return dexes.map(dex => ({
+      value: `${game}:${dex}`,
+      label: `${game} · ${DEX_NAME_DISPLAY[dex] ?? dex}`,
+      group: `Gen ${gen} · ${game} sub-dexes`,
+    }));
+  })
+);
+
+export const GAME_OPTIONS: FilterOption[] = [..._baseGameOptions, ..._subDexOptions];
 
 export const FORM_OPTIONS: FilterOption[] = [
   { value: 'standard', label: 'Base' },
@@ -199,10 +290,17 @@ export function buildSummary(filters: FilterState, count: number, total: number,
   }
 
   if (filters.games.length > 0) {
+    const pretty = (v: string) => {
+      const idx = v.indexOf(':');
+      if (idx < 0) return v;
+      const game = v.slice(0, idx);
+      const dex = v.slice(idx + 1);
+      return `${game} · ${DEX_NAME_DISPLAY[dex] ?? dex}`;
+    };
     if (filters.games.length <= 2) {
-      parts.push(filters.games.join(', '));
+      parts.push(filters.games.map(pretty).join(', '));
     } else {
-      parts.push(`${filters.games[0]} +${filters.games.length - 1} games`);
+      parts.push(`${pretty(filters.games[0])} +${filters.games.length - 1} games`);
     }
   }
 

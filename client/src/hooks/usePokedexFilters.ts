@@ -10,6 +10,7 @@ import {
   ORIGIN_LEGAL_BALLS,
   BATTLE_FACILITY_BANNED,
   BATTLE_FACILITY_RIBBON_CATEGORIES,
+  GAME_DISPLAY_TO_DEXES,
   deriveGameMaps,
 } from '@/lib/filter-options';
 import { BALL_CATEGORIES } from '@/lib/ball-legality';
@@ -71,39 +72,57 @@ export function usePokedexFilters() {
     [gameVersions]
   );
 
-  // Per-game dex membership for gen 8/9 games whose regional dex is a strict
-  // subset of the national dex (Galar, BDSP, Hisui, Paldea, Lumiose). For
-  // these, max_species_id is wrong because Paldea/etc. share the global cap
-  // (1025) while the actual in-game dex is ~400. species_in_dex stores the
-  // real list per game; the filter pipeline below prefers it over max_species_id
-  // whenever an entry is loaded.
+  // Per-game dex membership. species_in_dex stores the real per-game pokedex
+  // for every mainline game; the filter pipeline below prefers it over
+  // max_species_id whenever an entry is loaded. Falls back to max_species_id
+  // for games not seeded (Colosseum/XD/GO).
   //
-  // Display name → slug map matches the keys species_in_dex uses (PokeAPI
-  // game slugs from gen8-9-reference.json + 'legends-z-a' for Lumiose).
-  const GAME_DISPLAY_TO_DEX_SLUG: Record<string, string> = {
-    Sword: 'sword', Shield: 'shield',
-    'Brilliant Diamond': 'brilliant-diamond', 'Shining Pearl': 'shining-pearl',
-    'Legends Arceus': 'legends-arceus',
-    Scarlet: 'scarlet', Violet: 'violet',
-    'Legends Z-A': 'legends-z-a',
-  };
-  const [dexMembership, setDexMembership] = useState<Record<string, Set<number>>>({});
+  // Display name → game slug, derived from the canonical GAME_DISPLAY_TO_DEXES
+  // map (slug = lowercase + spaces→hyphens). Sub-dex picks (e.g. "Scarlet:paldea")
+  // resolve to the same underlying game slug for caching.
+  const GAME_DISPLAY_TO_DEX_SLUG: Record<string, string> = useMemo(() => {
+    const out: Record<string, string> = {};
+    for (const game of Object.keys(GAME_DISPLAY_TO_DEXES)) {
+      out[game] = game.toLowerCase().replace(/\s+/g, '-');
+    }
+    return out;
+  }, []);
+
+  type DexRow = { species_id: number; dex_name: string };
+  const [dexMembership, setDexMembership] = useState<Record<string, DexRow[]>>({});
   useEffect(() => {
-    const needed = filters.games
-      .map(g => GAME_DISPLAY_TO_DEX_SLUG[g])
-      .filter((s): s is string => Boolean(s) && !(s in dexMembership));
-    if (needed.length === 0) return;
-    Promise.all(needed.map(async slug => {
+    const neededSlugs = new Set<string>();
+    for (const filterValue of filters.games) {
+      const gameDisplay = filterValue.split(':')[0];
+      const slug = GAME_DISPLAY_TO_DEX_SLUG[gameDisplay];
+      if (slug && !(slug in dexMembership)) neededSlugs.add(slug);
+    }
+    if (neededSlugs.size === 0) return;
+    Promise.all([...neededSlugs].map(async slug => {
       const rows = await api.reference.speciesInDex(slug);
-      return [slug, new Set(rows.map(r => r.species_id))] as const;
+      return [slug, rows.map(r => ({ species_id: r.species_id, dex_name: r.dex_name }))] as const;
     })).then(pairs => {
       setDexMembership(prev => {
         const next = { ...prev };
-        for (const [slug, set] of pairs) next[slug] = set;
+        for (const [slug, rows] of pairs) next[slug] = rows;
         return next;
       });
     });
-  }, [filters.games, dexMembership]);
+  }, [filters.games, dexMembership, GAME_DISPLAY_TO_DEX_SLUG]);
+
+  // Build per-game and per-(game:dex_name) species ID sets.
+  const dexSets = useMemo(() => {
+    const out: Record<string, Set<number>> = {};
+    for (const [gameSlug, rows] of Object.entries(dexMembership)) {
+      out[gameSlug] = new Set(rows.map(r => r.species_id));
+      for (const r of rows) {
+        const key = `${gameSlug}:${r.dex_name}`;
+        if (!out[key]) out[key] = new Set();
+        out[key].add(r.species_id);
+      }
+    }
+    return out;
+  }, [dexMembership]);
 
   // Persist filter state
   useEffect(() => {
@@ -275,18 +294,37 @@ export function usePokedexFilters() {
     // Game + Origin cross-check: if both active, the game must produce at least one
     // of the selected origin marks, otherwise the combo is impossible
     // Build a per-game predicate: prefer species_in_dex membership if loaded
-    // for that game (gen 8/9), otherwise fall back to id <= max_species_id.
-    const speciesPassesGame = (item: any, game: string): boolean => {
-      const slug = GAME_DISPLAY_TO_DEX_SLUG[game];
-      const memberSet = slug ? dexMembership[slug] : undefined;
+    // for that game, otherwise fall back to id <= max_species_id (covers
+    // Colosseum/XD/GO which have no regional dex on PokeAPI).
+    // filterValue may be "Game" or "Game:dex-slug".
+    const speciesPassesGame = (item: any, filterValue: string): boolean => {
+      const idx = filterValue.indexOf(':');
+      const gameDisplay = idx < 0 ? filterValue : filterValue.slice(0, idx);
+      const dexName = idx < 0 ? null : filterValue.slice(idx + 1);
+      const slug = GAME_DISPLAY_TO_DEX_SLUG[gameDisplay];
+      if (slug && dexName) {
+        const set = dexSets[`${slug}:${dexName}`];
+        if (set) return set.has(item.id);
+        // Membership not yet loaded — fall through to permissive pass so the
+        // grid doesn't visibly empty out during the async fetch.
+        return true;
+      }
+      const memberSet = slug ? dexSets[slug] : undefined;
       if (memberSet) return memberSet.has(item.id);
-      return item.id <= (gameMaxSpecies[game] ?? 9999);
+      return item.id <= (gameMaxSpecies[gameDisplay] ?? 9999);
+    };
+
+    // Resolve a filter value to its base game display name for lookups
+    // against gameToOrigin and similar maps.
+    const baseGame = (filterValue: string): string => {
+      const idx = filterValue.indexOf(':');
+      return idx < 0 ? filterValue : filterValue.slice(0, idx);
     };
 
     if (filters.games.length > 0 && filters.origins.length > 0) {
       const originSet = new Set(filters.origins);
       const compatibleGames = filters.games.filter(g => {
-        const mark = gameToOrigin[g];
+        const mark = gameToOrigin[baseGame(g)];
         return mark && originSet.has(mark);
       });
       if (compatibleGames.length === 0) {
@@ -326,7 +364,7 @@ export function usePokedexFilters() {
 
       // Game restricts which balls exist (ball.games includes the game)
       if (filters.games.length > 0 && balls.length > 0) {
-        const gameSet = new Set(filters.games);
+        const gameSet = new Set(filters.games.map(baseGame));
         const ballsInGames = new Set<string>();
         for (const ball of balls) {
           const ballGames: string[] = typeof ball.games === 'string' ? JSON.parse(ball.games) : ball.games;
@@ -434,7 +472,7 @@ export function usePokedexFilters() {
 
         // If game filter is also active, intersect: game must support marks
         if (filters.games.length > 0) {
-          const gameSet = new Set(filters.games);
+          const gameSet = new Set(filters.games.map(baseGame));
           if (![...markGames].some(g => gameSet.has(g))) {
             items = [];  // No selected game supports marks
           }
@@ -443,13 +481,14 @@ export function usePokedexFilters() {
     }
 
     return items;
-  }, [species, search, filters, balls, ribbons, marks, gameToOrigin, gameMaxSpecies, originMaxSpecies, dexMembership]);
+  }, [species, search, filters, balls, ribbons, marks, gameToOrigin, gameMaxSpecies, originMaxSpecies, dexSets, GAME_DISPLAY_TO_DEX_SLUG]);
 
   // Collection filters narrow what counts as "caught" — they don't hide cards.
   // An entry must pass ALL active collection filters to count as a "catch."
   function entryMatchesCollectionFilters(e: any): boolean {
     if (filters.games.length > 0) {
-      if (!e.origin_game || !new Set(filters.games).has(e.origin_game)) return false;
+      const gameSet = new Set(filters.games.map(g => g.split(':')[0]));
+      if (!e.origin_game || !gameSet.has(e.origin_game)) return false;
     }
     if (filters.balls.length > 0) {
       if (!e.ball || !new Set(filters.balls).has(e.ball)) return false;
