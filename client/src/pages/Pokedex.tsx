@@ -10,9 +10,7 @@ import { usePokedexFilters } from '../hooks/usePokedexFilters';
 import { useCollectionGoals } from '../hooks/useCollectionGoals';
 import { GoalManager } from '@/components/pokedex/GoalManager';
 import SourceToggleGroup from '@/components/pokedex/SourceToggleGroup';
-import { ManualEntryForm, type ManualEntryFormState } from '@/components/pokedex/ManualEntryForm';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { api } from '@/api/client';
+import ManualEntryModal from '@/components/pokedex/ManualEntryModal';
 import { Button } from '@/components/ui/button';
 
 export default function Pokedex() {
@@ -63,39 +61,7 @@ export default function Pokedex() {
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showManual, setShowManual] = useState(false);
-  const [activeLegs, setActiveLegs] = useState<Array<{ key: string; label: string; games: string[] }>>([]);
 
-  useEffect(() => {
-    api.reference.activeLegs()
-      .then((rows) => setActiveLegs(rows.map(r => ({ key: r.key, label: r.label, games: r.games }))))
-      .catch(() => setActiveLegs([]));
-  }, []);
-
-  const handleManualSubmit = useCallback(async (state: ManualEntryFormState) => {
-    await api.pokemon.create({
-      species_id: state.species_id,
-      nickname: state.nickname,
-      is_shiny: state.is_shiny,
-      level: state.level,
-      gender: state.gender,
-      nature: state.nature,
-      ability: state.ability,
-      ball: state.ball,
-      origin_game: state.origin_game || null,
-      ot_name: state.ot_name,
-      ot_tid: state.ot_tid,
-      form_id: state.form_id,
-      notes: state.notes,
-      caught_date: state.caught_date,
-      ribbons: state.ribbons,
-      marks: state.marks,
-      tera_type: state.tera_type,
-      is_alpha: state.is_alpha,
-      is_mega: state.is_mega,
-    });
-    setShowManual(false);
-    await load();
-  }, [load]);
   const handleSelect = useCallback((item: any) => {
     if (item._isFormItem) {
       const original = species.find((s: any) => s.id === item.id);
@@ -276,16 +242,14 @@ export default function Pokedex() {
           />
         )}
       </div>
-      <Dialog open={showManual} onOpenChange={setShowManual}>
-        <DialogContent className="sm:max-w-md">
-          <DialogTitle>Add Pokémon manually</DialogTitle>
-          <ManualEntryForm
-            onSubmit={handleManualSubmit}
-            onCancel={() => setShowManual(false)}
-            activeLegs={activeLegs}
-          />
-        </DialogContent>
-      </Dialog>
+      <ManualEntryModal
+        open={showManual}
+        onClose={() => setShowManual(false)}
+        onSaved={load}
+        ribbons={ribbons}
+        marks={marks}
+        balls={balls}
+      />
       <StatsDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}

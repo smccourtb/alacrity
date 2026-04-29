@@ -6,7 +6,7 @@ import { TypePill } from '@/components/icons';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import CompletionChips from './CompletionChips';
 import EntrySidebar from './EntrySidebar';
-import EntryDetail from './EntryDetail';
+import EntryEditor from './EntryEditor';
 import GameInfo from '../GameInfo';
 import { Sprite } from '@/components/Sprite';
 import { useSpritePrefs } from '@/hooks/useSpritePrefs';
@@ -210,7 +210,7 @@ export default function SpeciesDetail({ species, onClose, onSave }: Props) {
             />
             <SidebarInset className="overflow-x-hidden pl-4 !bg-transparent !shadow-none">
               {selected ? (
-                <EntryDetail
+                <EntryEditor
                   entry={selected}
                   species={species}
                   ribbons={ribbons}
